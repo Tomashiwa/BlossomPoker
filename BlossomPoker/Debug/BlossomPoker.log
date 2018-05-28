@@ -1,0 +1,14 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (CountdownPoker.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Player.cpp
+  Main.cpp
+  HandsEvaluator.cpp
+  GameManager.cpp
+  Deck.cpp
+d:\git repositories\blossompoker\blossompoker\deck.cpp(32): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Card.cpp
+  Board.cpp
+d:\git repositories\blossompoker\blossompoker\board.cpp(85): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+d:\git repositories\blossompoker\blossompoker\handsevaluator.cpp(320): warning C4715: 'HandsEvaluator::CompareHand': not all control paths return a value
+  BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.exe
+  BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.pdb (Full PDB)
