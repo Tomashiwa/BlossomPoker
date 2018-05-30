@@ -32,16 +32,31 @@ void Player::End()
 
 std::vector<BettingAction> Player::GetAvaliableActions()
 {
-	std::vector<BettingAction> AvaliableActions;
-	if (IsBroke || IsFolded || !IsBetting) return AvaliableActions;
+	std::vector<BettingAction> Actions;
+	if (IsBroke || IsFolded || !IsParticipating) return Actions;
 
-	AvaliableActions.push_back(BettingAction::Fold);
-	AvaliableActions.push_back(BettingAction::Raise);
+	Actions.push_back(BettingAction::Fold);
 
-	if (Ante < SelfBoard->GetRequiredAnte()) AvaliableActions.push_back(BettingAction::Call);
-	else AvaliableActions.push_back(BettingAction::Check);
+	if (SelfBoard->GetState() == BoardState::Preflop)
+	{
+		Actions.push_back(BettingAction::Call);
+		Actions.push_back(BettingAction::Raise);
+	}
+	else
+	{
+		if (SelfBoard->GetRequiredAnte() <= 0)
+		{
+			Actions.push_back(BettingAction::Check);
+			Actions.push_back(BettingAction::Bet);
+		}
+		else
+		{
+			Actions.push_back(BettingAction::Call);
+			Actions.push_back(BettingAction::Raise);
+		}
+	}
 
-	return AvaliableActions;
+	return Actions;
 }
 
 BettingAction Player::DetermineAction()
@@ -50,7 +65,7 @@ BettingAction Player::DetermineAction()
 	if (AvaliableActions.size() == 0) return BettingAction::NONE;
 
 	//PLACEHOLDER: ALWAYS CHECK OR CALL
-	return AvaliableActions[2];
+	return AvaliableActions[1];
 }
 
 void Player::SetBoard(Board* _Board)
@@ -112,9 +127,9 @@ void Player::SetAction(BettingAction _Action)
 	Action = _Action;
 }
 
-void Player::SetIsBetting(bool _IsBetting)
+void Player::SetIsParticipating(bool _IsParticipating)
 {
-	IsBetting = _IsBetting;
+	IsParticipating = _IsParticipating;
 }
 
 void Player::SetIsFolded(bool _IsFolded)

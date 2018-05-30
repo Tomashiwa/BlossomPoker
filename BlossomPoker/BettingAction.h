@@ -1,2 +1,2 @@
 #pragma once
-enum class BettingAction {Fold, Check, Call, Raise, NONE};
+enum class BettingAction {Fold, Check, Call, Raise, Bet, NONE};

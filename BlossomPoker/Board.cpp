@@ -48,7 +48,7 @@ void Board::StartRound()
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
 		if (!Players[Index]->GetIsBroke())
-			Players[Index]->SetIsBetting(true);
+			Players[Index]->SetIsParticipating(true);
 
 		Players[Index]->EmptyPotContributon();
 	}
@@ -97,7 +97,7 @@ void Board::EndRound()
 		if (PotWinners.size() == 1)
 		{
 			AwardPlayer(PotWinners[0], Pots[PotIndex]);
-			std::cout << "Player " << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: " << PotWinners[0]->GetStack() << ")" << std::endl;
+			std::cout << "Player " << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: $" << PotWinners[0]->GetStack() << ")" << std::endl;
 		}
 
 		else if (PotWinners.size() > 1)
@@ -107,7 +107,7 @@ void Board::EndRound()
 			for (unsigned int WinnerIndex = 0; WinnerIndex < PotWinners.size(); WinnerIndex++)
 			{
 				AwardPlayer(PotWinners[WinnerIndex], Portion);
-				std::cout << "Player " << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " (Stack: " << PotWinners[WinnerIndex]->GetStack() << ")" << std::endl;
+				std::cout << "Player " << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ")" << std::endl;
 			}
 		}
 	}
@@ -140,46 +140,61 @@ void Board::EndRound()
 
 void Board::StartPhase()
 {
-	CurrentPlayer = GetNextPlayer(BigBlindPlayer);
-
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
 		Players[Index]->SetAction(BettingAction::NONE);
 		Players[Index]->SetAnte(0);
 	}
 
+	RequiredAnte = 0;
+
 	switch (CurrentState)
 	{
 		case BoardState::Preflop:
+		{
 			std::cout << "Current Phase: Pre-flop" << std::endl;
+			
 			SmallBlindPlayer->SetAnte(SmallBlind);
 			BigBlindPlayer->SetAnte(BigBlind);
+			CurrentPlayer = GetNextPlayer(BigBlindPlayer);
 
 			RequiredAnte = BigBlind;
-
 			UpdatePot();
 
-			std::cout << "Hole cards are dealt to players..." << std::endl;
 			DealCardsToPlayers();
+			std::cout << "Hole cards are dealt to players..." << std::endl;			
 			break;
-
+		}
 		case BoardState::Flop:
+		{
 			std::cout << "Current Phase: Flop" << std::endl;
+
+			CurrentPlayer = GetNextPlayer(DealingPlayer);
+
+			IssueCommunalCards();
 			std::cout << "1st, 2nd and 3rd Community Card are placed on board..." << std::endl;
-			IssueCommunalCards();
 			break;
-
+		}
 		case BoardState::Turn:
+		{
 			std::cout << "Current Phase: Turn" << std::endl;
-			std::cout << "4th Community Card is placed on board..." << std::endl;
-			IssueCommunalCards();
-			break;
 
-		case BoardState::River:
-			std::cout << "Current Phase: River" << std::endl;
-			std::cout << "5th Community Card are placed on board..." << std::endl;
+			CurrentPlayer = GetNextPlayer(DealingPlayer);
+
 			IssueCommunalCards();
+			std::cout << "4th Community Card is placed on board..." << std::endl;
 			break;
+		}
+		case BoardState::River:
+		{
+			std::cout << "Current Phase: River" << std::endl;
+
+			CurrentPlayer = GetNextPlayer(DealingPlayer);
+
+			IssueCommunalCards();
+			std::cout << "5th Community Card are placed on board..." << std::endl;
+			break;
+		}
 	}
 
 	Print();
@@ -198,11 +213,7 @@ void Board::UpdatePhase()
 	{
 		NextPhase();
 	}
-	else
-	{
-		CurrentPlayer = GetNextPlayer(CurrentPlayer);
-	}
-
+	
 	CurrentPlayer->Update();
 
 	if (CurrentPlayer->GetAction() != BettingAction::NONE)
@@ -210,35 +221,58 @@ void Board::UpdatePhase()
 		switch(CurrentPlayer->GetAction())
 		{
 			case BettingAction::Fold:
+			{
 				std::cout << "Player " << CurrentPlayer->GetIndex() << " has folded." << std::endl;
 				CurrentPlayer->SetIsFolded(true);
 				break;
-
+			}
 			case BettingAction::Check:
+			{
 				std::cout << "Player " << CurrentPlayer->GetIndex() << " has checked." << std::endl;
 				break;
-
+			}
 			case BettingAction::Call:
+			{
 				std::cout << "Player " << CurrentPlayer->GetIndex() << " has called to $" << RequiredAnte << std::endl;
 				CurrentPlayer->SetAnte(RequiredAnte);
 				UpdatePot();
 
-				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsBetting(false);
+				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
 				break;
-
+			}
 			case BettingAction::Raise:
-				std::cout << "Player " << CurrentPlayer->GetIndex() << " has raised the ante to $" << CurrentPlayer->GetAnte() << std::endl;
+			{
+				unsigned int RaiseAmt = BigBlind;
+				if (CurrentState == BoardState::River || CurrentState == BoardState::Turn) RaiseAmt *= 2;
+
+				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
-				UpdatePot();
 
-				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsBetting(false);
+				std::cout << "Player " << CurrentPlayer->GetIndex() << " has raised to $" << RequiredAnte << std::endl;
+				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
 				break;
+			}
+			case BettingAction::Bet:
+			{
+				unsigned int BetAmt = BigBlind;
+				if (CurrentState == BoardState::River || CurrentState == BoardState::Turn) BetAmt *= 2;
 
+				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
+				RequiredAnte = CurrentPlayer->GetAnte();
+
+				std::cout << "Player " << CurrentPlayer->GetIndex() << " has bet for $" << RequiredAnte << std::endl;
+				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
+				break;
+			}
 			default:
+			{
 				std::cout << "Current betting action is invalid." << std::endl;
 				break;
+			}
 		}
 	}
+
+	CurrentPlayer = GetNextPlayer(CurrentPlayer);
 }
 
 void Board::NextPhase()
@@ -251,8 +285,14 @@ bool Board::IsPhaseEnded()
 {
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
-		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded() && Players[Index]->GetStack() > 0 && ((Players[Index]->GetIsBetting() && Players[Index]->GetAction() == BettingAction::NONE) || Players[Index]->GetAnte() < RequiredAnte))
-			return false;
+		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded() && Players[Index]->GetStack() > 0 && Players[Index]->GetIsParticipating())
+		{
+			if (CurrentState == BoardState::Preflop && Players[Index]->GetAnte() < RequiredAnte)
+				return false;
+
+			else if (CurrentState != BoardState::Preflop && (Players[Index]->GetAction() == BettingAction::NONE || Players[Index]->GetAnte() < RequiredAnte))
+				return false;
+		}
 	}
 
 	return true;
@@ -448,21 +488,26 @@ void Board::IssueCommunalCards()
 	switch(CurrentState)
 	{
 		case BoardState::Flop:
+		{
 			for (unsigned int Index = 0; Index < 3; Index++)
 				CommunalCards[Index] = PlayingDeck->Draw();
 			break;
-
+		}
 		case BoardState::Turn:
+		{
 			CommunalCards[3] = PlayingDeck->Draw();
 			break;
-
+		}
 		case BoardState::River:
+		{
 			CommunalCards[4] = PlayingDeck->Draw();
 			break;
-
+		}
 		default:
+		{
 			std::cout << "Communal Cards cannot be issued in this BoardState." << std::endl;
 			break;
+		}
 	}
 }
 
@@ -521,18 +566,18 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 		switch (HandsEvaluator::CompareHand(BettingHands[Index], BestHand))
 		{
 			case ComparisonResult::Win:
+			{
 				BestHand = BettingHands[Index];
 
 				WinningPlayers.clear();
-				WinningPlayers.push_back(BettingPlayers[Index]);
-				
+				WinningPlayers.push_back(BettingPlayers[Index]);	
 				break;
-
+			}
 			case ComparisonResult::Draw:
+			{
 				WinningPlayers.push_back(BettingPlayers[Index]);
-
 				break;
-
+			}
 			default:
 				break;
 		}
@@ -569,7 +614,7 @@ void Board::Print()
 			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << ": BROKE" << std::endl;
 		else if (Players[Index]->GetIsFolded())
 			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << ": FOLD" << std::endl;
-		else if (!Players[Index]->GetIsFolded() && !Players[Index]->GetIsBetting())
+		else if (!Players[Index]->GetIsFolded() && !Players[Index]->GetIsParticipating())
 			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << ": ALL-IN" << "   /   $" << Players[Index]->GetAnte() << std::endl;
 		else
 			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHand()[0]->GetInfo() << "," << Players[Index]->GetHand()[1]->GetInfo() << "  /  $" << Players[Index]->GetAnte() << std::endl;

@@ -31,7 +31,7 @@ public:
 	BettingAction DetermineAction();
 	void SetAction(BettingAction _Action);
 
-	void SetIsBetting(bool _IsBetting);
+	void SetIsParticipating(bool _IsParticipating);
 	void SetIsFolded(bool _IsFolded);
 	void SetIsBroke(bool _IsBroke);
 
@@ -44,7 +44,7 @@ public:
 
 	BettingAction GetAction() { return Action; }
 
-	bool GetIsBetting() { return IsBetting; }
+	bool GetIsParticipating() { return IsParticipating; }
 	bool GetIsFolded() { return IsFolded; }
 	bool GetIsBroke() { return IsBroke; }
 
@@ -67,7 +67,7 @@ private:
 	float Threshold_RaiseHalfPot = 0.75f;
 	float Threshold_RaiseFullPot = 0.9f;
 
-	bool IsBetting = true;
+	bool IsParticipating = true;
 	bool IsFolded = false;
 	bool IsBroke = false;
 };
