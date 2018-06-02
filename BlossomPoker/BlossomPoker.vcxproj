@@ -146,6 +146,9 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="DummyAI.cpp" />
+    <ClCompile Include="DummyOrchastrator.cpp" />
+    <ClCompile Include="DummyStrategy.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HandsEvaluator.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -157,11 +160,15 @@
     <ClInclude Include="BoardState.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Deck.h" />
+    <ClInclude Include="DummyAI.h" />
+    <ClInclude Include="DummyOrchastrator.h" />
+    <ClInclude Include="DummyStrategy.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Hands.h" />
     <ClInclude Include="HandsEvaluator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ComparisonResult.h" />
+    <ClInclude Include="Snapshot.h" />
     <ClInclude Include="Suits.h" />
     <ClInclude Include="Values.h" />
   </ItemGroup>

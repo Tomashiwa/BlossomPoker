@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{3ee7dc31-0d22-432d-a40b-df95bcd07db0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AI">
+      <UniqueIdentifier>{359aa1f8-a085-49fd-8fbb-c20347feda93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI\Dummy">
+      <UniqueIdentifier>{cb5319ed-46e5-4444-a088-66a289ecb361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI">
+      <UniqueIdentifier>{4a95047a-583b-48cf-b67d-8e1f672b3d17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI\Dummy">
+      <UniqueIdentifier>{cd0836b8-90b9-4b26-b8a4-1af48e6e6c0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp">
@@ -53,6 +65,15 @@
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyAI.cpp">
+      <Filter>Source Files\AI\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyOrchastrator.cpp">
+      <Filter>Source Files\AI\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="DummyStrategy.cpp">
+      <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +112,18 @@
     </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Snapshot.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyAI.h">
+      <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyOrchastrator.h">
+      <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="DummyStrategy.h">
+      <Filter>Header Files\AI\Dummy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
