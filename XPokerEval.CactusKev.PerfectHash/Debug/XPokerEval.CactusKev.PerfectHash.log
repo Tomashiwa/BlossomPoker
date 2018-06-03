@@ -1,0 +1,10 @@
+﻿  stdafx.cpp
+  pokerlib.cpp
+  fast_eval.cpp
+  Generating Code...
+fast_eval.obj : warning LNK4006: "unsigned short * hash_adjust" (?hash_adjust@@3PAGA) already defined in pokerlib.obj; second definition ignored
+fast_eval.obj : warning LNK4006: "unsigned short * hash_values" (?hash_values@@3PAGA) already defined in pokerlib.obj; second definition ignored
+fast_eval.obj : warning LNK4006: "unsigned int __cdecl find_fast(unsigned int)" (?find_fast@@YAII@Z) already defined in pokerlib.obj; second definition ignored
+fast_eval.obj : warning LNK4006: "int __cdecl eval_5hand_fast(int,int,int,int,int)" (?eval_5hand_fast@@YAHHHHHH@Z) already defined in pokerlib.obj; second definition ignored
+fast_eval.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  XPokerEval.CactusKev.PerfectHash.vcxproj -> D:\Git Repositories\BlossomPoker\bin\XPokerEval.CactusKev.PerfectHash.lib
