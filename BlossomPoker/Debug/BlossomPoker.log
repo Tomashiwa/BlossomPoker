@@ -1,19 +1,13 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (CountdownPoker.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   DummyStrategy.cpp
-  DummyOrchastrator.cpp
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.h(14): error C3646: 'DetermineAction': unknown override specifier
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.h(14): error C2059: syntax error: '('
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.h(14): error C2238: unexpected token(s) preceding ';'
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(9): error C2512: 'DummyStrategy::DummyStrategy': no appropriate default constructor available
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(10): error C2512: 'DummyStrategy::DummyStrategy': no appropriate default constructor available
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(11): error C2512: 'DummyStrategy::DummyStrategy': no appropriate default constructor available
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(12): error C2512: 'DummyStrategy::DummyStrategy': no appropriate default constructor available
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(41): error C2039: 'DetermineAction': is not a member of 'DummyOrchastrator'
-  d:\git repositories\blossompoker\blossompoker\dummystrategy.h(6): note: see declaration of 'DummyOrchastrator'
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(43): error C2065: 'CurrentStrategy': undeclared identifier
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(43): error C3861: 'DetermineOptimalStrategy': identifier not found
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(44): error C2065: 'CurrentStrategy': undeclared identifier
-d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(44): error C2227: left of '->Evaluate' must point to class/struct/union/generic type
-  d:\git repositories\blossompoker\blossompoker\dummyorchastrator.cpp(44): note: type is 'unknown-type'
   Generating Code...
-d:\git repositories\blossompoker\blossompoker\dummystrategy.cpp(23): error C4716: 'DummyStrategy::Evaluate': must return a value
+  Compiling...
+  Board.cpp
+d:\git repositories\blossompoker\blossompoker\board.cpp(85): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  Player.cpp
+  HandsEvaluator.cpp
+  GameManager.cpp
+  BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.exe
+  BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.pdb (Full PDB)

@@ -6,10 +6,10 @@ DummyOrchastrator::DummyOrchastrator(DummyAI* _AI)
 {
 	AI = _AI;
 
-	Strategies[0] = new DummyStrategy();
-	Strategies[1] = new DummyStrategy();
-	Strategies[2] = new DummyStrategy();
-	Strategies[3] = new DummyStrategy();
+	Strategies[0] = new DummyStrategy(this);
+	Strategies[1] = new DummyStrategy(this);
+	Strategies[2] = new DummyStrategy(this);
+	Strategies[3] = new DummyStrategy(this);
 
 	CurrentStrategy = nullptr;
 }

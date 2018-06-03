@@ -15,9 +15,8 @@ BettingAction DummyStrategy::Evaluate()
 	Snapshot Situation = Orchastrator->GetAI()->GetSnapshot();
 	std::vector<BettingAction> Actions = Orchastrator->GetAI()->GetAvaliableActions();
 	
-
 	//Evaluate the probability of winning w/ player's current hand
 
 
-
+	return BettingAction::NONE;
 }

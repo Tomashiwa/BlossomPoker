@@ -1,4 +1,5 @@
 #pragma once
+#include "BettingAction.h"
 #include "Snapshot.h"
 
 class DummyAI;
