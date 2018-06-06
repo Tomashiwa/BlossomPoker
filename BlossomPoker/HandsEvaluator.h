@@ -33,4 +33,6 @@ namespace HandsEvaluator
 
 	std::string GetHandStr(std::array<Card*, 5> _Hand);
 	std::string GetCardsStr(std::vector<Card*> _Hand);
+
+	
 }

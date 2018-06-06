@@ -20,8 +20,48 @@ Board::~Board()
 {
 }
 
+void Board::InitEvaluator()
+{
+	memset(HR, 0, sizeof(HR));
+	FILE * fin = fopen("HANDRANKS.DAT", "rb");
+
+	// Load the HANDRANKS.DAT file data into the HR array
+	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
+	fclose(fin);
+}
+
+int Board::GetHandValue(int* _Cards)
+{
+	int *p1 = HR + HR[53 + _Cards[0]];
+	int *p2 = HR + p1[_Cards[1]];
+	int *p3 = HR + p2[_Cards[2]];
+	int *p4 = HR + p3[_Cards[3]];
+	int *p5 = HR + p4[_Cards[4]];
+
+	return p5[0];
+}
+
+void Board::Test()
+{
+	InitEvaluator();
+
+	/*Rank Range : 2...A(Integer Representation : 0...12)
+	Suit Range : C, D, H, S(Integer Representaton : 0..3)
+	Card Integer Representation = Rank.IR * 4 + Suit.IR + 1*/
+	int Hand1[] = { 4, 10, 17, 25, 35 };
+	int Hand2[] = { 38, 49, 7, 19, 23 };
+
+	int HV1 = GetHandValue(Hand1);
+	int HV2 = GetHandValue(Hand2);
+
+	std::cout << "Hand 1's Value: " << HV1 << " / Catagory: " << (HV1 >> 12) << std::endl;
+	std::cout << "Hand 2's Value: " << HV2 << " / Catagory: " << (HV2 >> 12) << std::endl;
+}
+
 void Board::Start()
 {
+	Test();
+
 	StartRound();
 }
 

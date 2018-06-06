@@ -14,6 +14,12 @@ class Board
 public:
 	Board(unsigned int _MinStack, unsigned int _MinBet);
 	~Board();
+
+	int HR[32487834];
+
+	void InitEvaluator();
+	int GetHandValue(int* _Cards);
+	void Test();
 	
 	void Start();
 	void Update();
