@@ -17,7 +17,7 @@ std::vector<BettingAction> DummyAI::GetAvaliableActions()
 
 	Actions.push_back(BettingAction::Fold);
 
-	if (CurrentSnapshot.Phase == BoardState::Preflop)
+	if (CurrentSnapshot.Phase == Phase::Preflop)
 	{
 		Actions.push_back(BettingAction::Call);
 		Actions.push_back(BettingAction::Raise);

@@ -1,5 +1,6 @@
-#include "Board.h"
 #include "Player.h"
+#include "Card.h"
+#include "Board.h"
 
 Player::Player(Board* _Board, unsigned int _Index)
 {
@@ -37,7 +38,7 @@ std::vector<BettingAction> Player::GetAvaliableActions()
 
 	Actions.push_back(BettingAction::Fold);
 
-	if (SelfBoard->GetState() == BoardState::Preflop)
+	if (SelfBoard->GetState() == Phase::Preflop)
 	{
 		Actions.push_back(BettingAction::Call);
 		Actions.push_back(BettingAction::Raise);

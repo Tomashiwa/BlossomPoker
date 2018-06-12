@@ -3,16 +3,18 @@
 #include <iostream>
 #include <array>
 
-#include "BoardState.h"
-#include "HandsEvaluator.h"
+#include "Phase.h"
 
+class GameManager;
+class Card;
 class Deck;
 class Player;
+class HandEvaluator;
 
 class Board
 {
 public:
-	Board(unsigned int _MinStack, unsigned int _MinBet);
+	Board(GameManager* _Manager, unsigned int _BigBlind);
 	~Board();
 
 	int HR[32487834];
@@ -20,7 +22,7 @@ public:
 	void InitEvaluator();
 	int GetHandValue(int* _Cards);
 	void Test();
-	
+
 	void Start();
 	void Update();
 	void End();
@@ -62,7 +64,7 @@ public:
 	bool GetIsActive() { return IsActive; }
 	void SetActive(bool _IsActive) { IsActive = _IsActive; }
 
-	BoardState GetState() { return CurrentState; }
+	Phase GetState() { return CurrentState; }
 
 	std::vector<Player*> GetPlayers() { return Players; }
 	Player* GetDealingPlayer() { return DealingPlayer; }
@@ -71,7 +73,7 @@ public:
 	Player* GetCurrentPlayer() { return CurrentPlayer; }
 
 	Deck* GetDeck() { return PlayingDeck; }
-	std::array<Card*, 5>& GetCommunalCards() { return CommunalCards; }
+	std::array<Card*, 5> GetCommunalCards() { return CommunalCards; }
 
 	unsigned int GetPot() { return Pot; }
 	unsigned int GetSmallBlind() { return SmallBlind; }
@@ -79,7 +81,10 @@ public:
 	unsigned int GetRequiredAnte() { return RequiredAnte; }
 
 private:
-	BoardState CurrentState;
+	GameManager* Manager;
+	HandEvaluator* Evaluator;
+
+	Phase CurrentState;
 	bool IsActive = false;
 
 	std::vector<Player*> Players;

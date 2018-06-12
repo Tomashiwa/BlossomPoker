@@ -1,17 +1,23 @@
+#include "Board.h"
+#include "GameManager.h"
+#include "Card.h"
 #include "Deck.h"
 #include "Player.h"
-#include "Board.h"
+#include "HandEvaluator.h"
+
 #include <algorithm>
 #include <iterator>
 
-Board::Board(unsigned int _MinStack, unsigned int _MinBet)
+Board::Board(GameManager* _Manager, unsigned int _BigBlind)
 {
-	Pot = 0;
-	SmallBlind = _MinBet;
-	BigBlind = 2 * SmallBlind;
-	RequiredAnte = BigBlind;
+	Manager = _Manager;
+	Evaluator = _Manager->GetEvaluator();
 
-	EntryStack = _MinStack;
+	Pot = 0;
+	SmallBlind = _BigBlind/2;
+	BigBlind = _BigBlind;
+	RequiredAnte = BigBlind;
+	EntryStack = 100 * BigBlind;
 
 	PlayingDeck = new Deck();
 }
@@ -27,7 +33,9 @@ void Board::InitEvaluator()
 
 	// Load the HANDRANKS.DAT file data into the HR array
 	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
+	printf("read %zu bytes\n", bytesread * sizeof(*HR));
 	fclose(fin);
+
 }
 
 int Board::GetHandValue(int* _Cards)
@@ -60,8 +68,7 @@ void Board::Test()
 
 void Board::Start()
 {
-	Test();
-
+	//Test();
 	StartRound();
 }
 
@@ -83,7 +90,7 @@ void Board::End()
 
 void Board::StartRound()
 {
-	CurrentState = BoardState::Preflop;
+	CurrentState = Phase::Preflop;
 
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
@@ -190,7 +197,7 @@ void Board::StartPhase()
 
 	switch (CurrentState)
 	{
-		case BoardState::Preflop:
+		case Phase::Preflop:
 		{
 			std::cout << "Current Phase: Pre-flop" << std::endl;
 			
@@ -205,7 +212,7 @@ void Board::StartPhase()
 			std::cout << "Hole cards are dealt to players..." << std::endl;			
 			break;
 		}
-		case BoardState::Flop:
+		case Phase::Flop:
 		{
 			std::cout << "Current Phase: Flop" << std::endl;
 
@@ -215,7 +222,7 @@ void Board::StartPhase()
 			std::cout << "1st, 2nd and 3rd Community Card are placed on board..." << std::endl;
 			break;
 		}
-		case BoardState::Turn:
+		case Phase::Turn:
 		{
 			std::cout << "Current Phase: Turn" << std::endl;
 
@@ -225,7 +232,7 @@ void Board::StartPhase()
 			std::cout << "4th Community Card is placed on board..." << std::endl;
 			break;
 		}
-		case BoardState::River:
+		case Phase::River:
 		{
 			std::cout << "Current Phase: River" << std::endl;
 
@@ -244,12 +251,12 @@ void Board::StartPhase()
 
 void Board::UpdatePhase()
 {
-	if (IsRoundEnded() || (IsPhaseEnded() && CurrentState == BoardState::River))
+	if (IsRoundEnded() || (IsPhaseEnded() && CurrentState == Phase::River))
 	{
 		EndRound();
 		return;
 	}
-	else if (IsPhaseEnded() && CurrentState != BoardState::River)
+	else if (IsPhaseEnded() && CurrentState != Phase::River)
 	{
 		NextPhase();
 	}
@@ -283,7 +290,7 @@ void Board::UpdatePhase()
 			case BettingAction::Raise:
 			{
 				unsigned int RaiseAmt = BigBlind;
-				if (CurrentState == BoardState::River || CurrentState == BoardState::Turn) RaiseAmt *= 2;
+				if (CurrentState == Phase::River || CurrentState == Phase::Turn) RaiseAmt *= 2;
 
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
@@ -295,7 +302,7 @@ void Board::UpdatePhase()
 			case BettingAction::Bet:
 			{
 				unsigned int BetAmt = BigBlind;
-				if (CurrentState == BoardState::River || CurrentState == BoardState::Turn) BetAmt *= 2;
+				if (CurrentState == Phase::River || CurrentState == Phase::Turn) BetAmt *= 2;
 
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
@@ -317,7 +324,7 @@ void Board::UpdatePhase()
 
 void Board::NextPhase()
 {
-	CurrentState = static_cast<BoardState>(static_cast<int>(CurrentState) + 1);
+	CurrentState = static_cast<Phase>(static_cast<int>(CurrentState) + 1);
 	StartPhase();
 }
 
@@ -327,10 +334,10 @@ bool Board::IsPhaseEnded()
 	{
 		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded() && Players[Index]->GetStack() > 0 && Players[Index]->GetIsParticipating())
 		{
-			if (CurrentState == BoardState::Preflop && Players[Index]->GetAnte() < RequiredAnte)
+			if (CurrentState == Phase::Preflop && Players[Index]->GetAnte() < RequiredAnte)
 				return false;
 
-			else if (CurrentState != BoardState::Preflop && (Players[Index]->GetAction() == BettingAction::NONE || Players[Index]->GetAnte() < RequiredAnte))
+			else if (CurrentState != Phase::Preflop && (Players[Index]->GetAction() == BettingAction::NONE || Players[Index]->GetAnte() < RequiredAnte))
 				return false;
 		}
 	}
@@ -527,18 +534,18 @@ void Board::IssueCommunalCards()
 {
 	switch(CurrentState)
 	{
-		case BoardState::Flop:
+		case Phase::Flop:
 		{
 			for (unsigned int Index = 0; Index < 3; Index++)
 				CommunalCards[Index] = PlayingDeck->Draw();
 			break;
 		}
-		case BoardState::Turn:
+		case Phase::Turn:
 		{
 			CommunalCards[3] = PlayingDeck->Draw();
 			break;
 		}
-		case BoardState::River:
+		case Phase::River:
 		{
 			CommunalCards[4] = PlayingDeck->Draw();
 			break;
@@ -588,10 +595,10 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 
 	for (unsigned int Index = 0; Index < BettingPlayers.size(); Index++)
 	{
-		std::array<Card*, 5> PlayerBest = HandsEvaluator::GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
+		std::array<Card*, 5> PlayerBest = Evaluator->GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
 		BettingHands.push_back(PlayerBest);
 		
-		std::cout << "Player " << Index << "'s best communal hand: " << HandsEvaluator::GetHandStr(PlayerBest) << " (" << HandsEvaluator::GetHandTypeStr(HandsEvaluator::DetermineHandType(PlayerBest)) << ")" << std::endl;
+		std::cout << "Player " << Index << "'s best communal hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
 	}
 
 	std::array<Card*,5> BestHand = BettingHands[0];
@@ -601,9 +608,9 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 
 	for (unsigned int Index = 1; Index < BettingHands.size(); Index++)
 	{
-		std::cout << "Player " << BettingPlayers[Index]->GetIndex() << ": " << HandsEvaluator::GetHandStr(BettingHands[Index]) << " (" << HandsEvaluator::GetHandTypeStr(HandsEvaluator::DetermineHandType(BettingHands[Index])) << ")  /  Best Hand: " << HandsEvaluator::GetHandStr(BestHand) << " (" << HandsEvaluator::GetHandTypeStr(HandsEvaluator::DetermineHandType(BestHand)) << ")" << std::endl;
+		//std::cout << "Player " << BettingPlayers[Index]->GetIndex() << ": " << Evaluator->GetStr(BettingHands[Index]) << " (" << Evaluator->GetTypeStr(BettingHands[Index]) << ")  /  Best Hand: " << Evaluator->GetStr(BestHand) << " (" << Evaluator->GetTypeStr(BestHand) << ")" << std::endl;
 
-		switch (HandsEvaluator::CompareHand(BettingHands[Index], BestHand))
+		switch (Evaluator->IsBetter5Cards(BettingHands[Index],BestHand))
 		{
 			case ComparisonResult::Win:
 			{
@@ -639,7 +646,7 @@ void Board::Print()
 	for(unsigned int Index = 0; Index < 5; Index++)
 	{
 		if (CommunalCards[Index] != nullptr)
-			std::cout << " " << CommunalCards[Index]->GetInfo();
+			std::cout << " " << CommunalCards[Index]->GetInfo();	
 		else
 			break;
 	}

@@ -1,6 +1,6 @@
 #include "Card.h"
 
-Card::Card(Suit _Suit, Value _Value)
+Card::Card(Suit _Suit, Rank _Value)
 {
 	Set(_Suit, _Value);
 }
@@ -10,7 +10,7 @@ Card::~Card()
 {
 }
 
-void Card::Set(Suit _Suit, Value _Value)
+void Card::Set(Suit _Suit, Rank _Value)
 {
 	GivenSuit = _Suit;
 	GivenValue = _Value;
@@ -22,13 +22,13 @@ std::string Card::GetInfo()
 
 	switch (static_cast<int>(GivenSuit)) 
 	{
-		case 0: Info = "S";
+		case 0: Info = "C";
 			break;
-		case 1: Info = "H";
+		case 1: Info = "D";
 			break;
-		case 2: Info = "C";
+		case 2: Info = "H";
 			break;
-		case 3: Info = "D";
+		case 3: Info = "S";
 			break;
 	}
 
@@ -67,8 +67,8 @@ std::string Card::GetInfo()
 
 bool Card::IsGreater(Card* _Comparison)
 {
-	if (GivenValue == _Comparison->GetValue())
+	if (GivenValue == _Comparison->GetRank())
 		return GivenSuit > _Comparison->GetSuit() ? true : false;
 
-	return GivenValue > _Comparison->GetValue() ? true : false;
+	return GivenValue > _Comparison->GetRank() ? true : false;
 }

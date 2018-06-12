@@ -2,6 +2,7 @@
 
 #include "Board.h"
 #include "Player.h"
+#include "HandEvaluator.h"
 
 GameManager::GameManager()
 {
@@ -53,16 +54,15 @@ void GameManager::End()
 	}
 }
 
-Board* GameManager::NewBoard(unsigned int _MinStack, unsigned int _MinBet)
+Board* GameManager::NewBoard(unsigned int _StartBB)
 {
-	std::cout << "A new Board has been created... (MinStack: " << _MinStack << " / MinBet: " << _MinBet << ")" << std::endl;
-
-	Board* _NewBoard = new Board(_MinStack, _MinBet);
-	_NewBoard->AddPlayer(new Player(_NewBoard, 0),500);
-	_NewBoard->AddPlayer(new Player(_NewBoard, 1),500);
+	Board* _NewBoard = new Board(this, _StartBB);
+	_NewBoard->AddPlayer(new Player(_NewBoard, 0),_StartBB * 100);
+	_NewBoard->AddPlayer(new Player(_NewBoard, 1),_StartBB * 100);
 	_NewBoard->SetActive(true);
 
 	Boards.push_back(_NewBoard);
+	std::cout << "A new Board has been created... (SB/BB: " << _StartBB/2 << "/" << _StartBB << " / Stack: " << _StartBB*100 << ")" << std::endl;
 
 	return _NewBoard;
 }

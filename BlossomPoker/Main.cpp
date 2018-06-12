@@ -6,7 +6,7 @@ int main()
 {
 	GameManager* Manager = new GameManager();
 
-	Manager->NewBoard(20, 5);
+	Manager->NewBoard(20);
 	Manager->Start();
 
 	while (Manager->GetIsActive())

@@ -150,27 +150,27 @@
     <ClCompile Include="DummyOrchastrator.cpp" />
     <ClCompile Include="DummyStrategy.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="HandsEvaluator.cpp" />
+    <ClCompile Include="HandEvaluator.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BettingAction.h" />
     <ClInclude Include="Board.h" />
-    <ClInclude Include="BoardState.h" />
+    <ClInclude Include="Phase.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="DummyAI.h" />
     <ClInclude Include="DummyOrchastrator.h" />
     <ClInclude Include="DummyStrategy.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Hands.h" />
-    <ClInclude Include="HandsEvaluator.h" />
+    <ClInclude Include="HandEvaluator.h" />
+    <ClInclude Include="Hand.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ComparisonResult.h" />
     <ClInclude Include="Snapshot.h" />
-    <ClInclude Include="Suits.h" />
-    <ClInclude Include="Values.h" />
+    <ClInclude Include="Suit.h" />
+    <ClInclude Include="Value.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

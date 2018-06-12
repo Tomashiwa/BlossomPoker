@@ -22,16 +22,16 @@ DummyStrategy* DummyOrchastrator::DetermineOptimalStrategy()
 {
 	switch (AI->GetSnapshot().Phase)
 	{
-		case BoardState::Preflop:
+		case Phase::Preflop:
 			return Strategies[0];
 
-		case BoardState::Flop:
+		case Phase::Flop:
 			return Strategies[1];
 
-		case BoardState::River:
+		case Phase::River:
 			return Strategies[2];
 
-		case BoardState::Turn:
+		case Phase::Turn:
 			return Strategies[3];
 	}
 

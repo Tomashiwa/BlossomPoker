@@ -1,11 +1,11 @@
 #pragma once
-#include "BoardState.h"
+#include "Phase.h"
 #include "Card.h"
 #include <array>
 
 struct Snapshot
 {
-	BoardState Phase;
+	Phase Phase;
 
 	unsigned int Pot;
 	unsigned int Stack;

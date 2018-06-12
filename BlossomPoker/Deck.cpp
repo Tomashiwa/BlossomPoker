@@ -20,7 +20,7 @@ void Deck::Refill()
 		for (unsigned int VIndex = 0; VIndex < 13; VIndex++)
 		{
 			Suit NewSuit = static_cast<Suit>(SIndex);
-			Value NewValue = static_cast<Value>(VIndex);
+			Rank NewValue = static_cast<Rank>(VIndex);
 
 			Cards.push_back(new Card(NewSuit, NewValue));
 		}

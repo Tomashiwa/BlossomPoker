@@ -60,9 +60,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HandsEvaluator.cpp">
-      <Filter>Source Files\Cards &amp; Decks</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
     <ClCompile Include="DummyStrategy.cpp">
       <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
+    <ClCompile Include="HandEvaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -82,15 +82,6 @@
     </ClInclude>
     <ClInclude Include="Deck.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="Suits.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="Values.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="BoardState.h">
-      <Filter>Header Files\Board</Filter>
     </ClInclude>
     <ClInclude Include="Board.h">
       <Filter>Header Files\Board</Filter>
@@ -100,12 +91,6 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="HandsEvaluator.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="Hands.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
     <ClInclude Include="ComparisonResult.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
@@ -124,6 +109,21 @@
     </ClInclude>
     <ClInclude Include="DummyStrategy.h">
       <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="HandEvaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Suit.h">
+      <Filter>Header Files\Cards &amp; Decks</Filter>
+    </ClInclude>
+    <ClInclude Include="Value.h">
+      <Filter>Header Files\Cards &amp; Decks</Filter>
+    </ClInclude>
+    <ClInclude Include="Hand.h">
+      <Filter>Header Files\Cards &amp; Decks</Filter>
+    </ClInclude>
+    <ClInclude Include="Phase.h">
+      <Filter>Header Files\Board</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
