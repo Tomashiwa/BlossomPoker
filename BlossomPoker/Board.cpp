@@ -598,7 +598,7 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 		std::array<Card*, 5> PlayerBest = Evaluator->GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
 		BettingHands.push_back(PlayerBest);
 		
-		std::cout << "Player " << Index << "'s best communal hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
+		std::cout << "Player " << Index << "'s best hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
 	}
 
 	std::array<Card*,5> BestHand = BettingHands[0];

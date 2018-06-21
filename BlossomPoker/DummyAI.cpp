@@ -11,6 +11,15 @@ DummyAI::~DummyAI()
 {
 }
 
+BettingAction DummyAI::EnquireAction(Snapshot _Snapshot)
+{
+	CurrentSnapshot = _Snapshot;
+
+	BettingAction ActionToTake = Orchastrator->DetermineAction();
+
+	return ActionToTake;
+}
+
 std::vector<BettingAction> DummyAI::GetAvaliableActions()
 {
 	std::vector<BettingAction> Actions;
@@ -39,11 +48,12 @@ std::vector<BettingAction> DummyAI::GetAvaliableActions()
 	return Actions;
 }
 
-BettingAction DummyAI::EnquireAction(Snapshot _Snapshot)
+void DummyAI::UpdateSnapshot(Snapshot _New)
 {
-	CurrentSnapshot = _Snapshot;
+	CurrentSnapshot = _New;
+}
 
-	BettingAction ActionToTake = Orchastrator->DetermineAction();
+float DummyAI::DetermineWinRate()
+{
 
-	return ActionToTake;
 }

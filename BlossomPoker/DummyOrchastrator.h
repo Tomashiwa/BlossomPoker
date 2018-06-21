@@ -13,7 +13,7 @@ public:
 
 	DummyStrategy* DetermineOptimalStrategy();
 	BettingAction DetermineAction();
-
+	
 	DummyAI* GetAI() { return AI; }
 
 private:

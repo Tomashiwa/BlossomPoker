@@ -11,10 +11,13 @@ public:
 	DummyAI();
 	~DummyAI();
 
-	std::vector<BettingAction> GetAvaliableActions();
 	BettingAction EnquireAction(Snapshot _Snapshot);
+	std::vector<BettingAction> GetAvaliableActions();
 
+	void UpdateSnapshot(Snapshot _New);
 	Snapshot GetSnapshot() { return CurrentSnapshot; }
+
+	float DetermineWinRate();
 
 private:
 	DummyOrchastrator* Orchastrator;
