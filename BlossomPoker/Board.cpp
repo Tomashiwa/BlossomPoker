@@ -33,7 +33,7 @@ void Board::InitEvaluator()
 
 	// Load the HANDRANKS.DAT file data into the HR array
 	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
-	printf("read %zu bytes\n", bytesread * sizeof(*HR));
+	//printf("read %zu bytes\n", bytesread * sizeof(*HR));
 	fclose(fin);
 
 }
@@ -166,6 +166,7 @@ void Board::EndRound()
 	{
 		Players[Index]->EmptyHand();
 		Players[Index]->SetAnte(0);
+		Players[Index]->SetIsFolded(false);
 
 		if (Players[Index]->GetStack() <= 0)
 		{
@@ -209,7 +210,8 @@ void Board::StartPhase()
 			UpdatePot();
 
 			DealCardsToPlayers();
-			std::cout << "Hole cards are dealt to players..." << std::endl;			
+			std::cout << "Hole cards are dealt to players..." << std::endl;		
+
 			break;
 		}
 		case Phase::Flop:
@@ -220,6 +222,7 @@ void Board::StartPhase()
 
 			IssueCommunalCards();
 			std::cout << "1st, 2nd and 3rd Community Card are placed on board..." << std::endl;
+
 			break;
 		}
 		case Phase::Turn:
@@ -230,6 +233,7 @@ void Board::StartPhase()
 
 			IssueCommunalCards();
 			std::cout << "4th Community Card is placed on board..." << std::endl;
+
 			break;
 		}
 		case Phase::River:
@@ -240,6 +244,7 @@ void Board::StartPhase()
 
 			IssueCommunalCards();
 			std::cout << "5th Community Card are placed on board..." << std::endl;
+
 			break;
 		}
 	}
@@ -261,6 +266,7 @@ void Board::UpdatePhase()
 		NextPhase();
 	}
 	
+	UpdatePot();
 	CurrentPlayer->Update();
 
 	if (CurrentPlayer->GetAction() != BettingAction::NONE)
@@ -468,7 +474,7 @@ void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<P
 				if (EntryValue > BettingPlayers[ContriIndex]->GetPotContribution())
 					PotSize += BettingPlayers[ContriIndex]->GetPotContribution() - EntryValues[_Pots.size() - 1];
 				else
-					PotSize += EntryValue - EntryValues[_Pots.size() - 1];
+					PotSize += _Pots.size() == 0 ? EntryValue : (EntryValue - EntryValues[_Pots.size() - 1]);
 			}
 		}
 

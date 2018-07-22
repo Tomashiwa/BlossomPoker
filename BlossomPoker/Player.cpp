@@ -10,6 +10,8 @@ Player::Player(Board* _Board, unsigned int _Index)
 
 	SetBoard(_Board);
 	Action = BettingAction::NONE;
+
+	AI = new DummyAI(_Board->GetEvaluator());
 }
 
 Player::~Player()
@@ -29,6 +31,11 @@ void Player::Update()
 void Player::End()
 {
 
+}
+
+void Player::EnterSnapshot(Snapshot _NewShot)
+{
+	AI->UpdateSnapshot(_NewShot);
 }
 
 std::vector<BettingAction> Player::GetAvaliableActions()
@@ -62,11 +69,25 @@ std::vector<BettingAction> Player::GetAvaliableActions()
 
 BettingAction Player::DetermineAction()
 {
-	std::vector<BettingAction> AvaliableActions = GetAvaliableActions();
-	if (AvaliableActions.size() == 0) return BettingAction::NONE;
+	Snapshot NewShot;
+	NewShot.Stack = GetStack();
+	NewShot.RequiredAnte =  SelfBoard->GetRequiredAnte();
+	NewShot.Pot = SelfBoard->GetPot();
+	NewShot.PlayerAmt = 2;
+	NewShot.Phase = SelfBoard->GetState();
+	NewShot.Hole = GetHand();
+	NewShot.CurrentAnte = GetAnte();
+	NewShot.Contribution = GetPotContribution();
+	NewShot.Communal = SelfBoard->GetCommunalCards();
+	NewShot.AvaliableActions = GetAvaliableActions();
 
-	//PLACEHOLDER: ALWAYS CHECK OR CALL
-	return AvaliableActions[1];
+	return AI->EnquireAction(NewShot);
+
+	//std::vector<BettingAction> AvaliableActions = GetAvaliableActions();
+	//if (AvaliableActions.size() == 0) return BettingAction::NONE;
+
+	////PLACEHOLDER: ALWAYS CHECK OR CALL
+	//return AvaliableActions[1];
 }
 
 void Player::SetBoard(Board* _Board)

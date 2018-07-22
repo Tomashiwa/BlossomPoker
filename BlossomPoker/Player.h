@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "BettingAction.h"
+#include "DummyAI.h"
 
 class Card;
 class Board;
@@ -18,6 +19,8 @@ public:
 	void End();
 
 	void SetBoard(Board* _Board);
+
+	void EnterSnapshot(Snapshot _NewShot);
 
 	void EmptyHand();
 	void SetHand(Card* _First, Card* _Second);
@@ -53,6 +56,7 @@ public:
 private:
 	unsigned int Index;
 	Board* SelfBoard;
+	DummyAI* AI;
 
 	std::array<Card*,2> Hand;
 	
@@ -62,10 +66,10 @@ private:
 
 	BettingAction Action;
 
-	float Threshold_Call = 0.25f;
-	float Threshold_MinRaise = 0.5f;
-	float Threshold_RaiseHalfPot = 0.75f;
-	float Threshold_RaiseFullPot = 0.9f;
+	double Threshold_Call = 0.25f;
+	double Threshold_MinRaise = 0.5f;
+	double Threshold_RaiseHalfPot = 0.75f;
+	double Threshold_RaiseFullPot = 0.9f;
 
 	bool IsParticipating = true;
 	bool IsFolded = false;

@@ -50,6 +50,15 @@ std::vector<Card*> Deck::DrawMultiple(unsigned int _Amt)
 	return DrawnCards;
 }
 
+void Deck::Remove(Card* _Target)
+{
+	for (unsigned int Index = 0; Index < Cards.size(); Index++)
+	{
+		if (Cards[Index]->GetInfo() == _Target->GetInfo())
+			Cards.erase(Cards.begin() + Index);
+	}
+}
+
 void Deck::Print()
 {
 	std::cout << "Deck's information: " << std::endl;

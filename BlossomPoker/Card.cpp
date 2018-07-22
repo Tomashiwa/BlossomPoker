@@ -20,48 +20,48 @@ std::string Card::GetInfo()
 {
 	std::string Info = "";
 
+	switch (static_cast<int>(GivenValue))
+	{
+	case 0: Info += "2";
+		break;
+	case 1: Info += "3";
+		break;
+	case 2: Info += "4";
+		break;
+	case 3: Info += "5";
+		break;
+	case 4: Info += "6";
+		break;
+	case 5: Info += "7";
+		break;
+	case 6: Info += "8";
+		break;
+	case 7: Info += "9";
+		break;
+	case 8: Info += "10";
+		break;
+	case 9: Info += "J";
+		break;
+	case 10: Info += "Q";
+		break;
+	case 11: Info += "K";
+		break;
+	case 12: Info += "A";
+		break;
+	}
+
 	switch (static_cast<int>(GivenSuit)) 
 	{
-		case 0: Info = "C";
+		case 0: Info += "c";
 			break;
-		case 1: Info = "D";
+		case 1: Info += "d";
 			break;
-		case 2: Info = "H";
+		case 2: Info += "h";
 			break;
-		case 3: Info = "S";
+		case 3: Info += "s";
 			break;
 	}
 
-	switch (static_cast<int>(GivenValue))
-	{
-		case 0: Info += "2";
-			break;
-		case 1: Info += "3";
-			break;
-		case 2: Info += "4";
-			break;
-		case 3: Info += "5";
-			break;
-		case 4: Info += "6";
-			break;
-		case 5: Info += "7";
-			break;
-		case 6: Info += "8";
-			break;
-		case 7: Info += "9";
-			break;
-		case 8: Info += "10";
-			break;
-		case 9: Info += "J";
-			break;
-		case 10: Info += "Q";
-			break;
-		case 11: Info += "K";
-			break;
-		case 12: Info += "A";
-			break;
-	}
-	
 	return Info;
 }
 

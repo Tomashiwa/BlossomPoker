@@ -66,6 +66,8 @@ public:
 
 	Phase GetState() { return CurrentState; }
 
+	HandEvaluator* GetEvaluator() { return Evaluator; }
+
 	std::vector<Player*> GetPlayers() { return Players; }
 	Player* GetDealingPlayer() { return DealingPlayer; }
 	Player* GetSmallBlindPlayer() { return SmallBlindPlayer; }

@@ -2,26 +2,26 @@
 #include "BettingAction.h"
 #include "Snapshot.h"
 
+class DummyOrchastrator;
+
 class DummyStrategy
 {
 public:
-	DummyStrategy(DummyOrchastrator* _Orchastrator, float _CallingThresh, float _RaisingThresh);
+	DummyStrategy(DummyOrchastrator* _Orchastrator, double _CallingThresh, double _RaisingThresh);
 	~DummyStrategy();
 
-	void RenewSnapshot(Snapshot _NewShot);
 	BettingAction DetermineIdealAction();
-	
+
 private:
+	DummyOrchastrator* Orchastrator;
+
+	double Thresh_Calling;
+	double Thresh_RaisingBetting;
+
+	double MinWinRate_Calling;
+	double MinWinRate_RaisingBetting;
+
 	void CalculateMinWinRates();
 	bool IsActionAvaliable(BettingAction _Action);
-
-	DummyOrchastrator* Orchastrator;
-	Snapshot CurrentShot;
-
-	float Thresh_Calling;
-	float Thresh_RaisingBetting;
-	
-	float MinWinRate_Calling;
-	float MinWinRate_RaisingBetting;
 };
 

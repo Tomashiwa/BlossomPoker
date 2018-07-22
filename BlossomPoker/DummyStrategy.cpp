@@ -2,34 +2,63 @@
 #include "DummyAI.h"
 #include "DummyOrchastrator.h"
 
-DummyStrategy::DummyStrategy(DummyOrchastrator* _Orchastrator, float _CallingThresh, float _RaisingThresh)
+DummyStrategy::DummyStrategy(DummyOrchastrator* _Orchastrator, double _CallingThresh, double _RaisingThresh)
 {
 	Orchastrator = _Orchastrator;
+
 	Thresh_Calling = _CallingThresh;
 	Thresh_RaisingBetting = _RaisingThresh;
-
-	CalculateMinWinRates();
 }
 
 DummyStrategy::~DummyStrategy()
 {
 }
-	
-void DummyStrategy::RenewSnapshot(Snapshot _NewShot)
-{
-	CurrentShot = _NewShot;
-}
 
 void DummyStrategy::CalculateMinWinRates()
 {
-	float MeanWinRate = 1.0 / CurrentShot.PlayerAmt;
+	Snapshot CurrentShot = Orchastrator->GetAI()->GetSnapshot();
+	std::cout << "Current Pot: " << CurrentShot.Pot << " \n";
 
-	MinWinRate_Calling = Thresh_Calling * MeanWinRate;
-	MinWinRate_RaisingBetting = Thresh_RaisingBetting * MeanWinRate;
+	double Mean = 100.0 / CurrentShot.PlayerAmt;
+	double Diff = 100.0 - Mean;
+	double Flactuation = Diff / 2.0;
+
+	MinWinRate_Calling = Mean + (Thresh_Calling * Flactuation);
+	MinWinRate_RaisingBetting = Mean + (Thresh_RaisingBetting * Flactuation);
+
+	MinWinRate_Calling = MinWinRate_Calling > 100.0 ? 100.0 : MinWinRate_Calling;
+	MinWinRate_RaisingBetting = MinWinRate_RaisingBetting > 100.0 ? 100.0 : MinWinRate_RaisingBetting;
+
+	std::cout << "Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betting Rate: " << MinWinRate_RaisingBetting << std::endl;
+
+	//if (CurrentShot.Pot == 0 || CurrentShot.RequiredAnte == 0)
+	//{
+	//	MinWinRate_Calling = Thresh_Calling * (100.0 / CurrentShot.PlayerAmt);
+	//	MinWinRate_RaisingBetting = Thresh_RaisingBetting * (100.0 / CurrentShot.PlayerAmt);
+
+	//	MinWinRate_Calling = MinWinRate_Calling > 100.0 ? 100.0 : MinWinRate_Calling;
+	//	MinWinRate_RaisingBetting = MinWinRate_RaisingBetting > 100.0 ? 100.0 : MinWinRate_RaisingBetting;
+
+	//	std::cout << "No bets were made yet... (Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betting Rate: " << MinWinRate_RaisingBetting << ") \n";
+	//	return;
+	//}
+
+	//double CallValue = (double)CurrentShot.RequiredAnte - (double)CurrentShot.CurrentAnte;
+	//double PotOdds = CallValue / (CallValue + (double) CurrentShot.Pot);
+	//MinWinRate_Calling = Thresh_Calling * PotOdds * 100.0;
+	//MinWinRate_RaisingBetting = Thresh_RaisingBetting * PotOdds * 100.0;
+
+	//MinWinRate_Calling = MinWinRate_Calling > 100.0 ? 100.0 : MinWinRate_Calling;
+	//MinWinRate_RaisingBetting = MinWinRate_RaisingBetting > 100.0 ? 100.0 : MinWinRate_RaisingBetting;
+
+	//std::cout << "Required Ante: " << CurrentShot.RequiredAnte << " / Current Ante: " << CurrentShot.CurrentAnte << " / Pot: " << CurrentShot.Pot << " / CallValue: " << CallValue << "\n";
+	//std::cout << "Pot Odds: " << PotOdds << " / Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betterng Rate: " << MinWinRate_RaisingBetting << " \n";
 }
 
 bool DummyStrategy::IsActionAvaliable(BettingAction _Action)
 {
+	Snapshot CurrentShot = Orchastrator->GetAI()->GetSnapshot();
+
 	for (unsigned int Index = 0; Index < CurrentShot.AvaliableActions.size(); Index++)
 	{
 		if (CurrentShot.AvaliableActions[Index] == _Action)
@@ -41,16 +70,28 @@ bool DummyStrategy::IsActionAvaliable(BettingAction _Action)
 
 BettingAction DummyStrategy::DetermineIdealAction()
 {
-	float CurrentWinRate = Orchastrator->DetermineWinRate();
+	CalculateMinWinRates();
+
+	double CurrentWinRate = Orchastrator->GetAI()->DetermineWinRate();
+	std::cout << "Win Rate: " << CurrentWinRate << "% / Min to Raise: " << MinWinRate_RaisingBetting << "% / Min to Call: " << MinWinRate_Calling << "%" << std::endl;
 
 	if (CurrentWinRate >= MinWinRate_RaisingBetting)
+	{
+		std::cout << "Taking Action: Raising / Betting..." << std::endl;
 		return IsActionAvaliable(BettingAction::Bet) ? BettingAction::Bet : BettingAction::Raise;
+	}
 
-	else if (CurrentWinRate >= MinWinRate_Calling)
+	else if (IsActionAvaliable(BettingAction::Call) && CurrentWinRate >= MinWinRate_Calling)
+	{
+		std::cout << "Taking Action: Calling" << std::endl;
 		return BettingAction::Call;
+	}
 
 	else
+	{
+		std::cout << "Taking Action: Check/Fold" << std::endl;
 		return IsActionAvaliable(BettingAction::Check) ? BettingAction::Check : BettingAction::Fold;
+	}
 
 	return BettingAction::NONE;
 }

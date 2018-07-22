@@ -3,6 +3,7 @@
 #include "BettingAction.h"
 #include "Card.h"
 #include <array>
+#include <vector>
 
 struct Snapshot
 {
@@ -19,5 +20,4 @@ struct Snapshot
 	std::array<Card*, 5> Communal;
 
 	std::vector<BettingAction> AvaliableActions;
-	
 };

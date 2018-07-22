@@ -19,7 +19,7 @@ public:
 private:
 	DummyAI* AI;
 
-	std::array<DummyStrategy*, 4> Strategies;
 	DummyStrategy* CurrentStrategy;
+	std::array<DummyStrategy*, 4> Strategies;
 };
 
