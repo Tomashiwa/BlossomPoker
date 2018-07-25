@@ -1,7 +1,4 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (CountdownPoker.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Board.cpp
-d:\git repositories\blossompoker\blossompoker\board.cpp(32): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
-d:\git repositories\blossompoker\blossompoker\board.cpp(132): warning C4018: '<': signed/unsigned mismatch
+  Main.cpp
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.exe
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.pdb (Full PDB)

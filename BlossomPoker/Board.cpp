@@ -85,7 +85,7 @@ void Board::End()
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 		if (!Players[Index]->GetIsBroke()) Winner = Players[Index];
 
-	std::cout << "This Board has been won by Player " << Winner->GetIndex() << " with $" << Winner->GetStack() << std::endl;
+	std::cout << "Winner: P." << Winner->GetIndex() << " ($" << Winner->GetStack() << ") \n";
 }
 
 void Board::StartRound()
@@ -104,9 +104,7 @@ void Board::StartRound()
 	SmallBlindPlayer = GetNextPlayer(DealingPlayer);
 	BigBlindPlayer = GetNextPlayer(SmallBlindPlayer);
 
-	std::cout << "A round has started..." << std::endl;
-	std::cout << "DEALING: Player " << DealingPlayer->GetIndex() << " / SBLIND: Player " << SmallBlindPlayer->GetIndex() << " / BBLIND: Player " << BigBlindPlayer->GetIndex() << std::endl;
-	std::cout << "========================================" << std::endl;
+	std::cout << "Round started (D: P." << DealingPlayer->GetIndex() << " | SB: P." << SmallBlindPlayer->GetIndex() << " | BB: P." << BigBlindPlayer->GetIndex() << ") \n \n";
 
 	StartPhase();
 }
@@ -118,9 +116,6 @@ void Board::UpdateRound()
 
 void Board::EndRound()
 {
-	std::cout << "========================================" << std::endl;
-	std::cout << "A round has ended..." << std::endl;
-
 	std::vector<unsigned int> Pots;
 	std::vector<std::vector<Player*>> ValidPlayersPerPot;
 
@@ -128,23 +123,26 @@ void Board::EndRound()
 
 	for (unsigned int PotIndex = 0; PotIndex < Pots.size(); PotIndex++)
 	{
-		std::cout << "Pot: $" << Pots[PotIndex] << " / Participants: ";
-		for (int Index = 0; Index < ValidPlayersPerPot[PotIndex].size(); Index++)
-			std::cout << "Player " << ValidPlayersPerPot[PotIndex][Index]->GetIndex() << " ($" << ValidPlayersPerPot[PotIndex][Index]->GetPotContribution() << ")  ";
-		std::cout << std::endl;
+		//std::cout << "Pot: $" << Pots[PotIndex] << " / Participants: ";
+		//for (int Index = 0; Index < ValidPlayersPerPot[PotIndex].size(); Index++)
+		//	std::cout << "P." << ValidPlayersPerPot[PotIndex][Index]->GetIndex() << " ($" << ValidPlayersPerPot[PotIndex][Index]->GetPotContribution() << ")  ";
+		//std::cout << std::endl;
 		
 		if (ValidPlayersPerPot[PotIndex].size() == 1)
 		{
 			AwardPlayer(ValidPlayersPerPot[PotIndex][0], Pots[PotIndex]);
+			std::cout << "P." << ValidPlayersPerPot[PotIndex][0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: $" << ValidPlayersPerPot[PotIndex][0]->GetStack() << ") \n";
+
 			continue;
 		}
 
 		std::vector<Player*> PotWinners = DetermineWinningPlayers(ValidPlayersPerPot[PotIndex]);
+		std::cout << "Size of PotWinners: " << PotWinners.size() << std::endl;
 
 		if (PotWinners.size() == 1)
 		{
 			AwardPlayer(PotWinners[0], Pots[PotIndex]);
-			std::cout << "Player " << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: $" << PotWinners[0]->GetStack() << ")" << std::endl;
+			std::cout << "P." << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: $" << PotWinners[0]->GetStack() << ") \n";
 		}
 
 		else if (PotWinners.size() > 1)
@@ -154,7 +152,7 @@ void Board::EndRound()
 			for (unsigned int WinnerIndex = 0; WinnerIndex < PotWinners.size(); WinnerIndex++)
 			{
 				AwardPlayer(PotWinners[WinnerIndex], Portion);
-				std::cout << "Player " << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ")" << std::endl;
+				std::cout << "P." << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ") \n";
 			}
 		}
 	}
@@ -171,11 +169,11 @@ void Board::EndRound()
 		if (Players[Index]->GetStack() <= 0)
 		{
 			Players[Index]->SetIsBroke(true);
-			std::cout << "Player " << Index << " is broke..." << std::endl;
+			std::cout << "P." << Index << " is broke... \n";
 		}
 	}
 
-	std::cout << "========================================" << std::endl;
+	std::cout << "\nRound ended \n";
 
 	if (IsGameEnded())
 	{
@@ -200,7 +198,7 @@ void Board::StartPhase()
 	{
 		case Phase::Preflop:
 		{
-			std::cout << "Current Phase: Pre-flop" << std::endl;
+			std::cout << "Phase: Pre-flop \n";
 			
 			SmallBlindPlayer->SetAnte(SmallBlind);
 			BigBlindPlayer->SetAnte(BigBlind);
@@ -210,48 +208,38 @@ void Board::StartPhase()
 			UpdatePot();
 
 			DealCardsToPlayers();
-			std::cout << "Hole cards are dealt to players..." << std::endl;		
-
 			break;
 		}
 		case Phase::Flop:
 		{
-			std::cout << "Current Phase: Flop" << std::endl;
+			std::cout << "Phase: Flop \n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
 
 			IssueCommunalCards();
-			std::cout << "1st, 2nd and 3rd Community Card are placed on board..." << std::endl;
-
 			break;
 		}
 		case Phase::Turn:
 		{
-			std::cout << "Current Phase: Turn" << std::endl;
+			std::cout << "Phase: Turn \n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
 
 			IssueCommunalCards();
-			std::cout << "4th Community Card is placed on board..." << std::endl;
-
 			break;
 		}
 		case Phase::River:
 		{
-			std::cout << "Current Phase: River" << std::endl;
+			std::cout << "Phase: River \n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
 
 			IssueCommunalCards();
-			std::cout << "5th Community Card are placed on board..." << std::endl;
-
 			break;
 		}
 	}
 
 	Print();
-
-	std::cout << "========================================" << std::endl;
 }
 
 void Board::UpdatePhase()
@@ -275,18 +263,18 @@ void Board::UpdatePhase()
 		{
 			case BettingAction::Fold:
 			{
-				std::cout << "Player " << CurrentPlayer->GetIndex() << " has folded." << std::endl;
+				std::cout << "P." << CurrentPlayer->GetIndex() << " folded. \n";
 				CurrentPlayer->SetIsFolded(true);
 				break;
 			}
 			case BettingAction::Check:
 			{
-				std::cout << "Player " << CurrentPlayer->GetIndex() << " has checked." << std::endl;
+				std::cout << "P." << CurrentPlayer->GetIndex() << " checked. \n";
 				break;
 			}
 			case BettingAction::Call:
 			{
-				std::cout << "Player " << CurrentPlayer->GetIndex() << " has called to $" << RequiredAnte << std::endl;
+				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << "\n";
 				CurrentPlayer->SetAnte(RequiredAnte);
 				UpdatePot();
 
@@ -301,7 +289,7 @@ void Board::UpdatePhase()
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
 
-				std::cout << "Player " << CurrentPlayer->GetIndex() << " has raised to $" << RequiredAnte << std::endl;
+				std::cout << "P." << CurrentPlayer->GetIndex() << " raised to $" << RequiredAnte << "\n";
 				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
 				break;
 			}
@@ -313,13 +301,13 @@ void Board::UpdatePhase()
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
 
-				std::cout << "Player " << CurrentPlayer->GetIndex() << " has bet for $" << RequiredAnte << std::endl;
+				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << RequiredAnte << "\n";
 				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
 				break;
 			}
 			default:
 			{
-				std::cout << "Current betting action is invalid." << std::endl;
+				std::cout << "Invalid BettingAction given. \n";
 				break;
 			}
 		}
@@ -558,7 +546,7 @@ void Board::IssueCommunalCards()
 		}
 		default:
 		{
-			std::cout << "Communal Cards cannot be issued in this BoardState." << std::endl;
+			std::cout << "Communal Cards cannot be issued in this state." << std::endl;
 			break;
 		}
 	}
@@ -604,7 +592,7 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 		std::array<Card*, 5> PlayerBest = Evaluator->GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
 		BettingHands.push_back(PlayerBest);
 		
-		std::cout << "Player " << Index << "'s best hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
+		std::cout << "P." << Index << " best hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
 	}
 
 	std::array<Card*,5> BestHand = BettingHands[0];
@@ -646,9 +634,9 @@ void Board::AwardPlayer(Player* _Player, unsigned int _Amt)
 
 void Board::Print()
 {
-	std::cout << "--------------------------------------------------------------------------------" << std::endl;
+	std::cout << "\n--------------------------------------------------\n";
 	
-	std::cout << "Community Cards: ";
+	std::cout << "Board: ";
 	for(unsigned int Index = 0; Index < 5; Index++)
 	{
 		if (CommunalCards[Index] != nullptr)
@@ -657,22 +645,20 @@ void Board::Print()
 			break;
 	}
 
-	std::cout << std::endl  << std::endl;
-
-	std::cout << "Pot: $" << Pot << std::endl << std::endl;
+	std::cout << "\nPot: $" << Pot << "\n \n";
 
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
 		if (Players[Index]->GetIsBroke())
-			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << ": BROKE" << std::endl;
+			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << ": Broke \n";
 		else if (Players[Index]->GetIsFolded())
-			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << ": FOLD" << std::endl;
+			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << ": Fold \n";
 		else if (!Players[Index]->GetIsFolded() && !Players[Index]->GetIsParticipating())
-			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << ": ALL-IN" << "   /   $" << Players[Index]->GetAnte() << std::endl;
+			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << ": All-in \n" << "   |   $" << Players[Index]->GetAnte() << "\n";
 		else
-			std::cout << "Player " << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHand()[0]->GetInfo() << "," << Players[Index]->GetHand()[1]->GetInfo() << "  /  $" << Players[Index]->GetAnte() << std::endl;
+			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHand()[0]->GetInfo() << "," << Players[Index]->GetHand()[1]->GetInfo() << "  |  $" << Players[Index]->GetAnte() << "\n";
 	}
 
-	std::cout << "--------------------------------------------------------------------------------" << std::endl;
+	std::cout << "--------------------------------------------------\n\n";
 }
 

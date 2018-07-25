@@ -26,6 +26,8 @@ public:
 
 private:
 	bool IsActive = true;
+	bool IsPrintDetail = false;
+
 	std::vector<Board*> Boards;
 
 	HandEvaluator* Evaluator = new HandEvaluator();

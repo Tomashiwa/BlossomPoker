@@ -15,12 +15,7 @@ GameManager::~GameManager()
 void GameManager::Start()
 {
 	for (unsigned int Index = 0; Index < Boards.size(); Index++)
-	{
-		//std::cout << "Board " << Index << " is starting..." << std::endl;
-		std::cout << "========================================" << std::endl;
 		Boards[Index]->Start();
-		std::cout << "========================================" << std::endl;
-	}
 }
 
 void GameManager::Update()
@@ -29,15 +24,13 @@ void GameManager::Update()
 
 	for (unsigned int Index = 0; Index < Boards.size(); Index++)
 	{
-		Boards[Index]->Update();
-
 		if (!Boards[Index]->GetIsActive()) continue;
-		
-		Boards[Index]->Print();
 
-		std::cout << "========================================" << std::endl;
-
+		Boards[Index]->Update();
 		AreAllBoardInactive = false;
+		
+		if(IsPrintDetail)
+			Boards[Index]->Print();
 	}
 
 	if (AreAllBoardInactive)
@@ -47,11 +40,7 @@ void GameManager::Update()
 void GameManager::End()
 {
 	for (unsigned int Index = 0; Index < Boards.size(); Index++)
-	{
-		std::cout << "========================================" << std::endl;
 		Boards[Index]->End();
-		std::cout << "========================================" << std::endl;
-	}
 }
 
 Board* GameManager::NewBoard(unsigned int _StartBB)
@@ -62,7 +51,7 @@ Board* GameManager::NewBoard(unsigned int _StartBB)
 	_NewBoard->SetActive(true);
 
 	Boards.push_back(_NewBoard);
-	std::cout << "A new Board has been created... (SB/BB: " << _StartBB/2 << "/" << _StartBB << " / Stack: " << _StartBB*100 << ")" << std::endl;
+	std::cout << "New Board created (SB/BB: " << _StartBB/2 << "/" << _StartBB << " | Stack: " << _StartBB*100 << ") \n \n";
 
 	return _NewBoard;
 }

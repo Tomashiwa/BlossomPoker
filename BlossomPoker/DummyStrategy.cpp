@@ -17,7 +17,7 @@ DummyStrategy::~DummyStrategy()
 void DummyStrategy::CalculateMinWinRates()
 {
 	Snapshot CurrentShot = Orchastrator->GetAI()->GetSnapshot();
-	std::cout << "Current Pot: " << CurrentShot.Pot << " \n";
+	//std::cout << "Current Pot: " << CurrentShot.Pot << " \n";
 
 	double Mean = 100.0 / CurrentShot.PlayerAmt;
 	double Diff = 100.0 - Mean;
@@ -29,7 +29,7 @@ void DummyStrategy::CalculateMinWinRates()
 	MinWinRate_Calling = MinWinRate_Calling > 100.0 ? 100.0 : MinWinRate_Calling;
 	MinWinRate_RaisingBetting = MinWinRate_RaisingBetting > 100.0 ? 100.0 : MinWinRate_RaisingBetting;
 
-	std::cout << "Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betting Rate: " << MinWinRate_RaisingBetting << std::endl;
+	//std::cout << "Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betting Rate: " << MinWinRate_RaisingBetting << std::endl;
 
 	//if (CurrentShot.Pot == 0 || CurrentShot.RequiredAnte == 0)
 	//{
@@ -73,25 +73,16 @@ BettingAction DummyStrategy::DetermineIdealAction()
 	CalculateMinWinRates();
 
 	double CurrentWinRate = Orchastrator->GetAI()->DetermineWinRate();
-	std::cout << "Win Rate: " << CurrentWinRate << "% / Min to Raise: " << MinWinRate_RaisingBetting << "% / Min to Call: " << MinWinRate_Calling << "%" << std::endl;
+	std::cout << "Win Rate of " << Orchastrator->GetAI()->GetSnapshot().Hole[0]->GetInfo() << "," << Orchastrator->GetAI()->GetSnapshot().Hole[1]->GetInfo() << ": " << CurrentWinRate << "% | CallMin: " << MinWinRate_Calling << "% / RaiseMin: " << MinWinRate_RaisingBetting<< "%" << std::endl;
 
 	if (CurrentWinRate >= MinWinRate_RaisingBetting)
-	{
-		std::cout << "Taking Action: Raising / Betting..." << std::endl;
 		return IsActionAvaliable(BettingAction::Bet) ? BettingAction::Bet : BettingAction::Raise;
-	}
 
 	else if (IsActionAvaliable(BettingAction::Call) && CurrentWinRate >= MinWinRate_Calling)
-	{
-		std::cout << "Taking Action: Calling" << std::endl;
 		return BettingAction::Call;
-	}
 
 	else
-	{
-		std::cout << "Taking Action: Check/Fold" << std::endl;
 		return IsActionAvaliable(BettingAction::Check) ? BettingAction::Check : BettingAction::Fold;
-	}
 
 	return BettingAction::NONE;
 }

@@ -13,8 +13,8 @@ int main()
 	{
 		Manager->Update();
 
-		system("pause");
-		std::cout << "========================================" << std::endl;
+		//system("pause");
+		std::cout << "\n";
 	}
 
 	Manager->End();

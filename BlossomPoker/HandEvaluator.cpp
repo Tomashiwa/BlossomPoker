@@ -20,13 +20,13 @@ void HandEvaluator::ConvertPreflopOddsTxt()
 	
 	while (inTxtFile >> str_First >> str_Second >> str_Odds)
 	{
-		std::cout << "Cards: " << str_First << "," << str_Second << " / Odds: " << str_Odds << std::endl;
+		std::cout << "Cards: " << str_First << "," << str_Second << " | Odds: " << str_Odds << std::endl;
 
 		Entry.empty();
 		Entry[0] = std::to_string(GetCardInt(str_First) + GetCardInt(str_Second));
 		Entry[1] = str_Odds;
 	
-		std::cout << "PairInt: " << Entry[0] << " / Odds: " << Entry[1] << std::endl;
+		std::cout << "PairInt: " << Entry[0] << " | Odds: " << Entry[1] << std::endl;
 
 		Data.push_back(Entry);
 	}
@@ -66,18 +66,10 @@ void HandEvaluator::Initialize()
 	memset(HR, 0, sizeof(HR));
 	FILE * fin = fopen("HANDRANKS.DAT", "rb");
 	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
-	printf("read %zu bytes\n", bytesread * sizeof(*HR));
+	//printf("read %zu bytes\n", bytesread * sizeof(*HR));
 	fclose(fin);
 
-	std::fill_n(PreflopOdds, 1326, -1);
-	std::ifstream inTxtFile("PreflopResults.txt");
-	std::string str_PairInt, str_Odds;
-	while (inTxtFile >> str_PairInt >> str_Odds >> str_Odds)
-	{
-		PreflopOdds[std::stoi(str_PairInt)] = std::stof(str_Odds);
-	}
-
-	std::cout << "Evaluator Initialized..." << std::endl;
+	//std::cout << "Evaluator Initialized..." << std::endl;
 }
 
 void HandEvaluator::RandomFill(std::vector<Card*>& _Set, std::vector<Card*> _Dead, int _Target)
@@ -256,7 +248,7 @@ double HandEvaluator::DetermineOdds_MonteCarlo(std::array<Card*, 2> _Hole, std::
 
 	double EstimatedOdds = (((double)Win) + ((double)Draw) / 2.0) / ((double)Count) * 100.0;
 	
-	std::cout << "Winning Odds of " << GetStr(_Hole) << ": " << EstimatedOdds << "% - (" << TrialsAmt << " Trials in " << (clock() - Clock) * (1.0 / CLOCKS_PER_SEC) << " seconds) \n";
+	//std::cout << "Winning Odds of " << GetStr(_Hole) << ": " << EstimatedOdds << "% - (" << TrialsAmt << " Trials in " << (clock() - Clock) * (1.0 / CLOCKS_PER_SEC) << " seconds) \n";
 	return EstimatedOdds;
 }
 
