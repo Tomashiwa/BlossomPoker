@@ -21,12 +21,13 @@ public:
 
 	void SetIsActive(bool _IsActive) { IsActive = _IsActive; }
 	bool GetIsActive() { return IsActive; }
+	bool GetIsPrintingRoundInfo() { return IsPrintingRoundInfo; }
 
 	HandEvaluator* GetEvaluator() { return Evaluator; }
 
 private:
 	bool IsActive = true;
-	bool IsPrintDetail = false;
+	bool IsPrintingRoundInfo;
 
 	std::vector<Board*> Boards;
 

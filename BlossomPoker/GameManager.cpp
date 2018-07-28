@@ -14,6 +14,8 @@ GameManager::~GameManager()
 
 void GameManager::Start()
 {
+	IsPrintingRoundInfo = true;
+
 	for (unsigned int Index = 0; Index < Boards.size(); Index++)
 		Boards[Index]->Start();
 }
@@ -28,9 +30,6 @@ void GameManager::Update()
 
 		Boards[Index]->Update();
 		AreAllBoardInactive = false;
-		
-		if(IsPrintDetail)
-			Boards[Index]->Print();
 	}
 
 	if (AreAllBoardInactive)

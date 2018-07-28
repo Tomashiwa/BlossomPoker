@@ -73,7 +73,7 @@ BettingAction DummyStrategy::DetermineIdealAction()
 	CalculateMinWinRates();
 
 	double CurrentWinRate = Orchastrator->GetAI()->DetermineWinRate();
-	std::cout << "Win Rate of " << Orchastrator->GetAI()->GetSnapshot().Hole[0]->GetInfo() << "," << Orchastrator->GetAI()->GetSnapshot().Hole[1]->GetInfo() << ": " << CurrentWinRate << "% | CallMin: " << MinWinRate_Calling << "% / RaiseMin: " << MinWinRate_RaisingBetting<< "%" << std::endl;
+	//std::cout << "Win Rate of " << Orchastrator->GetAI()->GetSnapshot().Hole[0]->GetInfo() << "," << Orchastrator->GetAI()->GetSnapshot().Hole[1]->GetInfo() << ": " << CurrentWinRate << "% | CallMin: " << MinWinRate_Calling << "% / RaiseMin: " << MinWinRate_RaisingBetting<< "%" << std::endl;
 
 	if (CurrentWinRate >= MinWinRate_RaisingBetting)
 		return IsActionAvaliable(BettingAction::Bet) ? BettingAction::Bet : BettingAction::Raise;

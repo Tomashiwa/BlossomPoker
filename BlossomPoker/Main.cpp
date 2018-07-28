@@ -14,7 +14,7 @@ int main()
 		Manager->Update();
 
 		//system("pause");
-		std::cout << "\n";
+		//std::cout << "\n";
 	}
 
 	Manager->End();

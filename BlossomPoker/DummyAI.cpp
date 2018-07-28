@@ -17,7 +17,6 @@ DummyAI::~DummyAI()
 BettingAction DummyAI::EnquireAction(Snapshot _Snapshot)
 {
 	CurrentSnapshot = _Snapshot;
-	//PrintSnapshot(CurrentSnapshot);
 
 	BettingAction ActionToTake = Orchastrator->DetermineAction();
 	return ActionToTake;

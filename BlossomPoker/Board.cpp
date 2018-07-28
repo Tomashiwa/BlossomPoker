@@ -68,7 +68,7 @@ void Board::Test()
 
 void Board::Start()
 {
-	//Test();
+	Round = 1;
 	StartRound();
 }
 
@@ -104,7 +104,8 @@ void Board::StartRound()
 	SmallBlindPlayer = GetNextPlayer(DealingPlayer);
 	BigBlindPlayer = GetNextPlayer(SmallBlindPlayer);
 
-	std::cout << "Round started (D: P." << DealingPlayer->GetIndex() << " | SB: P." << SmallBlindPlayer->GetIndex() << " | BB: P." << BigBlindPlayer->GetIndex() << ") \n \n";
+	if(Manager->GetIsPrintingRoundInfo())
+		std::cout << "Round " << Round << ": \n";
 
 	StartPhase();
 }
@@ -137,7 +138,6 @@ void Board::EndRound()
 		}
 
 		std::vector<Player*> PotWinners = DetermineWinningPlayers(ValidPlayersPerPot[PotIndex]);
-		std::cout << "Size of PotWinners: " << PotWinners.size() << std::endl;
 
 		if (PotWinners.size() == 1)
 		{
@@ -173,14 +173,15 @@ void Board::EndRound()
 		}
 	}
 
-	std::cout << "\nRound ended \n";
-
 	if (IsGameEnded())
 	{
 		IsActive = false;
 		return;
 	}
 
+	std::cout << "\n";
+
+	Round++;
 	StartRound();
 }
 
@@ -198,7 +199,8 @@ void Board::StartPhase()
 	{
 		case Phase::Preflop:
 		{
-			std::cout << "Phase: Pre-flop \n";
+			if(Manager->GetIsPrintingRoundInfo())
+				std::cout << "\nPhase: Pre-flop\n";
 			
 			SmallBlindPlayer->SetAnte(SmallBlind);
 			BigBlindPlayer->SetAnte(BigBlind);
@@ -212,7 +214,8 @@ void Board::StartPhase()
 		}
 		case Phase::Flop:
 		{
-			std::cout << "Phase: Flop \n";
+			if (Manager->GetIsPrintingRoundInfo())
+				std::cout << "\nPhase: Flop\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
 
@@ -221,7 +224,8 @@ void Board::StartPhase()
 		}
 		case Phase::Turn:
 		{
-			std::cout << "Phase: Turn \n";
+			if (Manager->GetIsPrintingRoundInfo())
+				std::cout << "\nPhase: Turn\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
 
@@ -230,7 +234,8 @@ void Board::StartPhase()
 		}
 		case Phase::River:
 		{
-			std::cout << "Phase: River \n";
+			if (Manager->GetIsPrintingRoundInfo())
+				std::cout << "\nPhase: River\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
 
@@ -239,7 +244,11 @@ void Board::StartPhase()
 		}
 	}
 
-	Print();
+	for (unsigned int Index = 0; Index < Players.size(); Index++)
+		std::cout << "P." << Players[Index]->GetIndex() << ": " << Evaluator->GetStr(Players[Index]->GetHand()) << "  ";
+	std::cout << "\n";
+	std::cout << "Board: " << Evaluator->GetStr(CommunalCards) << "\n";	
+	//Print();
 }
 
 void Board::UpdatePhase()
@@ -274,7 +283,7 @@ void Board::UpdatePhase()
 			}
 			case BettingAction::Call:
 			{
-				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << "\n";
+				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
 				CurrentPlayer->SetAnte(RequiredAnte);
 				UpdatePot();
 
@@ -289,7 +298,7 @@ void Board::UpdatePhase()
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
 
-				std::cout << "P." << CurrentPlayer->GetIndex() << " raised to $" << RequiredAnte << "\n";
+				std::cout << "P." << CurrentPlayer->GetIndex() << " raised to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
 				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
 				break;
 			}
@@ -301,7 +310,7 @@ void Board::UpdatePhase()
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
 
-				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << RequiredAnte << "\n";
+				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << RequiredAnte << " (Pot: " << Pot << ") \n";
 				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
 				break;
 			}
@@ -592,7 +601,7 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 		std::array<Card*, 5> PlayerBest = Evaluator->GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
 		BettingHands.push_back(PlayerBest);
 		
-		std::cout << "P." << Index << " best hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
+		//std::cout << "P." << Index << " best hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
 	}
 
 	std::array<Card*,5> BestHand = BettingHands[0];
