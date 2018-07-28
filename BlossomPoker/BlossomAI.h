@@ -13,6 +13,7 @@ class BlossomAI
 {
 public:
 	BlossomAI(HandEvaluator* _Evaluator);
+	BlossomAI(HandEvaluator* _Evaluator, std::array<double, 8> _Thresholds);
 	~BlossomAI();
 
 	std::vector<BettingAction> GetAvaliableActions();

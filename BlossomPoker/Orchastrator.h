@@ -1,4 +1,8 @@
 #pragma once
+#include <chrono>
+#include <random>
+#include <time.h>
+
 #include "BettingAction.h"
 #include "Snapshot.h"
 
@@ -9,6 +13,8 @@ class Orchastrator
 {
 public:
 	Orchastrator(BlossomAI* _AI);
+	Orchastrator(BlossomAI* _AI, std::array<double,8> _Thresholds);
+
 	~Orchastrator();
 
 	Strategy* DetermineOptimalStrategy();

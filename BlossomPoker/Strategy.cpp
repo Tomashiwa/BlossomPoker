@@ -86,3 +86,8 @@ BettingAction Strategy::DetermineIdealAction()
 
 	return BettingAction::NONE;
 }
+
+void Strategy::PrintThresholds()
+{
+	std::cout << "Thr_Calling: " << Thr_Calling << " / Thr_RaisingBetting: " << Thr_RaisingBetting << "\n";
+}

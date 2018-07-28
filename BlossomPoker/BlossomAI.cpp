@@ -9,6 +9,11 @@ BlossomAI::BlossomAI(HandEvaluator* _Evaluator)
 	Eval = _Evaluator;
 }
 
+BlossomAI::BlossomAI(HandEvaluator* _Evaluator, std::array<double,8> _Thresholds)
+{
+	Orch = new Orchastrator(this, _Thresholds);
+	Eval = _Evaluator;
+}
 
 BlossomAI::~BlossomAI()
 {

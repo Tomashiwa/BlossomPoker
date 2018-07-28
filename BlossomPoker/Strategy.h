@@ -1,4 +1,6 @@
 #pragma once
+#include <iomanip>
+
 #include "BettingAction.h"
 #include "Snapshot.h"
 
@@ -11,6 +13,7 @@ public:
 	~Strategy();
 
 	BettingAction DetermineIdealAction();
+	void PrintThresholds();
 
 private:
 	Orchastrator* Orch;
