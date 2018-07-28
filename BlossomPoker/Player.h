@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "BettingAction.h"
-#include "DummyAI.h"
+#include "BlossomAI.h"
 
 class Card;
 class Board;
@@ -56,7 +56,7 @@ public:
 private:
 	unsigned int Index;
 	Board* SelfBoard;
-	DummyAI* AI;
+	BlossomAI* AI;
 
 	std::array<Card*,2> Hand;
 	

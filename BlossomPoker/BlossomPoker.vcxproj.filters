@@ -63,17 +63,17 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DummyAI.cpp">
-      <Filter>Source Files\AI\Dummy</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyOrchastrator.cpp">
-      <Filter>Source Files\AI\Dummy</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyStrategy.cpp">
-      <Filter>Source Files\AI\Dummy</Filter>
-    </ClCompile>
     <ClCompile Include="HandEvaluator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Strategy.cpp">
+      <Filter>Source Files\AI\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="Orchastrator.cpp">
+      <Filter>Source Files\AI\Dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="BlossomAI.cpp">
+      <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,15 +101,6 @@
     <ClInclude Include="Snapshot.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="DummyAI.h">
-      <Filter>Header Files\AI\Dummy</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyOrchastrator.h">
-      <Filter>Header Files\AI\Dummy</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyStrategy.h">
-      <Filter>Header Files\AI\Dummy</Filter>
-    </ClInclude>
     <ClInclude Include="HandEvaluator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -125,5 +116,17 @@
     <ClInclude Include="Phase.h">
       <Filter>Header Files\Board</Filter>
     </ClInclude>
+    <ClInclude Include="Strategy.h">
+      <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="Orchastrator.h">
+      <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="BlossomAI.h">
+      <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

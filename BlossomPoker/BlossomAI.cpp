@@ -1,36 +1,36 @@
-#include "DummyAI.h"
-#include "DummyOrchastrator.h"
+#include "BlossomAI.h"
 #include "HandEvaluator.h"
 #include "Deck.h"
+#include "Orchastrator.h"
 
-DummyAI::DummyAI(HandEvaluator* _Evaluator)
+BlossomAI::BlossomAI(HandEvaluator* _Evaluator)
 {
-	Orchastrator = new DummyOrchastrator(this);
-	Evaluator = _Evaluator;
+	Orch = new Orchastrator(this);
+	Eval = _Evaluator;
 }
 
 
-DummyAI::~DummyAI()
+BlossomAI::~BlossomAI()
 {
 }
 
-BettingAction DummyAI::EnquireAction(Snapshot _Snapshot)
+BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 {
-	CurrentSnapshot = _Snapshot;
+	CurrentSnap = _Snapshot;
 
-	BettingAction ActionToTake = Orchastrator->DetermineAction();
+	BettingAction ActionToTake = Orch->DetermineAction();
 	return ActionToTake;
 }
 
-std::vector<BettingAction> DummyAI::GetAvaliableActions()
+std::vector<BettingAction> BlossomAI::GetAvaliableActions()
 {
 	std::vector<BettingAction> Actions;
 
 	Actions.push_back(BettingAction::Fold);
 
-	if (CurrentSnapshot.Phase == Phase::Preflop)
+	if (CurrentSnap.Phase == Phase::Preflop)
 	{
-		if (CurrentSnapshot.RequiredAnte - CurrentSnapshot.CurrentAnte <= 0)
+		if (CurrentSnap.RequiredAnte - CurrentSnap.CurrentAnte <= 0)
 			Actions.push_back(BettingAction::Check);
 		else
 			Actions.push_back(BettingAction::Call);
@@ -39,7 +39,7 @@ std::vector<BettingAction> DummyAI::GetAvaliableActions()
 	}
 	else
 	{
-		if (CurrentSnapshot.RequiredAnte - CurrentSnapshot.CurrentAnte <= 0)
+		if (CurrentSnap.RequiredAnte - CurrentSnap.CurrentAnte <= 0)
 		{
 			Actions.push_back(BettingAction::Check);
 			Actions.push_back(BettingAction::Bet);
@@ -54,17 +54,17 @@ std::vector<BettingAction> DummyAI::GetAvaliableActions()
 	return Actions;
 }
 
-void DummyAI::UpdateSnapshot(Snapshot _New)
+void BlossomAI::UpdateSnapshot(Snapshot _New)
 {
-	CurrentSnapshot = _New;
+	CurrentSnap = _New;
 }
 
-double DummyAI::DetermineWinRate()
+double BlossomAI::DetermineWinRate()
 {
-	return Evaluator->DetermineOdds_MonteCarlo(CurrentSnapshot.Hole, CurrentSnapshot.Communal,2500);
+	return Eval->DetermineOdds_MonteCarlo(CurrentSnap.Hole, CurrentSnap.Communal,2500);
 }
 
-void DummyAI::PrintSnapshot(Snapshot _Shot)
+void BlossomAI::PrintSnapshot(Snapshot _Shot)
 {
 	std::cout << "Snapshot's Info: " << std::endl;
 	std::cout << "Phase: ";

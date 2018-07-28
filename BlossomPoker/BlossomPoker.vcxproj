@@ -146,9 +146,9 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Deck.cpp" />
-    <ClCompile Include="DummyAI.cpp" />
-    <ClCompile Include="DummyOrchastrator.cpp" />
-    <ClCompile Include="DummyStrategy.cpp" />
+    <ClCompile Include="BlossomAI.cpp" />
+    <ClCompile Include="Orchastrator.cpp" />
+    <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HandEvaluator.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -160,9 +160,9 @@
     <ClInclude Include="Phase.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Deck.h" />
-    <ClInclude Include="DummyAI.h" />
-    <ClInclude Include="DummyOrchastrator.h" />
-    <ClInclude Include="DummyStrategy.h" />
+    <ClInclude Include="BlossomAI.h" />
+    <ClInclude Include="Orchastrator.h" />
+    <ClInclude Include="Strategy.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="HandEvaluator.h" />
     <ClInclude Include="Hand.h" />
@@ -171,6 +171,9 @@
     <ClInclude Include="Snapshot.h" />
     <ClInclude Include="Suit.h" />
     <ClInclude Include="Value.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

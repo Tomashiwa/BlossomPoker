@@ -11,7 +11,7 @@ Player::Player(Board* _Board, unsigned int _Index)
 	SetBoard(_Board);
 	Action = BettingAction::NONE;
 
-	AI = new DummyAI(_Board->GetEvaluator());
+	AI = new BlossomAI(_Board->GetEvaluator());
 }
 
 Player::~Player()

@@ -6,27 +6,27 @@
 #include <vector>
 #include <limits>
 
-class DummyOrchastrator;
+class Orchastrator;
 class HandEvaluator;
 
-class DummyAI
+class BlossomAI
 {
 public:
-	DummyAI(HandEvaluator* _Evaluator);
-	~DummyAI();
+	BlossomAI(HandEvaluator* _Evaluator);
+	~BlossomAI();
 
 	BettingAction EnquireAction(Snapshot _Snapshot);
 	std::vector<BettingAction> GetAvaliableActions();
 
 	void UpdateSnapshot(Snapshot _New);
-	Snapshot GetSnapshot() { return CurrentSnapshot; }
+	Snapshot GetSnapshot() { return CurrentSnap; }
 
 	double DetermineWinRate();
 
 private:
-	DummyOrchastrator* Orchastrator;
-	HandEvaluator* Evaluator;
-	Snapshot CurrentSnapshot;
+	Orchastrator* Orch;
+	HandEvaluator* Eval;
+	Snapshot CurrentSnap;
 
 	void PrintSnapshot(Snapshot _Shot);
 };

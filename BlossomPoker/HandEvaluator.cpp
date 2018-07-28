@@ -69,7 +69,7 @@ void HandEvaluator::Initialize()
 	//printf("read %zu bytes\n", bytesread * sizeof(*HR));
 	fclose(fin);
 
-	//std::cout << "Evaluator Initialized..." << std::endl;
+	//std::cout << "Eval Initialized..." << std::endl;
 }
 
 void HandEvaluator::RandomFill(std::vector<Card*>& _Set, std::vector<Card*> _Dead, int _Target)

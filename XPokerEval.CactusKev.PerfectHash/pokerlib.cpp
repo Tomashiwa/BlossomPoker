@@ -4,8 +4,8 @@
 #include "poker.h"
 #include "..\xPokerEval.CactusKev\mtrand.h"
 
-// Paul D. Senzee's Optimized Hand Evaluator
-//   for Cactus Kev's Poker Hand Evaluator
+// Paul D. Senzee's Optimized Hand Eval
+//   for Cactus Kev's Poker Hand Eval
 //
 // Replaces binary search with a perfect hash.
 // If you replace eval_5hand with eval_5hand_fast, the products[] and values[] arrays in 'arrays.h' are unnecessary.

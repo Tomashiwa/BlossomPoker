@@ -601,7 +601,7 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 		std::array<Card*, 5> PlayerBest = Evaluator->GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
 		BettingHands.push_back(PlayerBest);
 		
-		//std::cout << "P." << Index << " best hand: " << Evaluator->GetStr(PlayerBest) << " (" << Evaluator->GetTypeStr(PlayerBest) << ")" << " => " << Evaluator->DetermineValue_5Cards(PlayerBest) << std::endl;
+		//std::cout << "P." << Index << " best hand: " << Eval->GetStr(PlayerBest) << " (" << Eval->GetTypeStr(PlayerBest) << ")" << " => " << Eval->DetermineValue_5Cards(PlayerBest) << std::endl;
 	}
 
 	std::array<Card*,5> BestHand = BettingHands[0];
@@ -611,7 +611,7 @@ std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Partic
 
 	for (unsigned int Index = 1; Index < BettingHands.size(); Index++)
 	{
-		//std::cout << "Player " << BettingPlayers[Index]->GetIndex() << ": " << Evaluator->GetStr(BettingHands[Index]) << " (" << Evaluator->GetTypeStr(BettingHands[Index]) << ")  /  Best Hand: " << Evaluator->GetStr(BestHand) << " (" << Evaluator->GetTypeStr(BestHand) << ")" << std::endl;
+		//std::cout << "Player " << BettingPlayers[Index]->GetIndex() << ": " << Eval->GetStr(BettingHands[Index]) << " (" << Eval->GetTypeStr(BettingHands[Index]) << ")  /  Best Hand: " << Eval->GetStr(BestHand) << " (" << Eval->GetTypeStr(BestHand) << ")" << std::endl;
 
 		switch (Evaluator->IsBetter5Cards(BettingHands[Index],BestHand))
 		{
