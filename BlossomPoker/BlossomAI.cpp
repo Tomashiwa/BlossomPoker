@@ -16,7 +16,7 @@ BlossomAI::~BlossomAI()
 
 BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 {
-	CurrentSnap = _Snapshot;
+	CurrentShot = _Snapshot;
 
 	BettingAction ActionToTake = Orch->DetermineAction();
 	return ActionToTake;
@@ -28,9 +28,9 @@ std::vector<BettingAction> BlossomAI::GetAvaliableActions()
 
 	Actions.push_back(BettingAction::Fold);
 
-	if (CurrentSnap.Phase == Phase::Preflop)
+	if (CurrentShot.Phase == Phase::Preflop)
 	{
-		if (CurrentSnap.RequiredAnte - CurrentSnap.CurrentAnte <= 0)
+		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
 			Actions.push_back(BettingAction::Check);
 		else
 			Actions.push_back(BettingAction::Call);
@@ -39,7 +39,7 @@ std::vector<BettingAction> BlossomAI::GetAvaliableActions()
 	}
 	else
 	{
-		if (CurrentSnap.RequiredAnte - CurrentSnap.CurrentAnte <= 0)
+		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
 		{
 			Actions.push_back(BettingAction::Check);
 			Actions.push_back(BettingAction::Bet);
@@ -54,44 +54,39 @@ std::vector<BettingAction> BlossomAI::GetAvaliableActions()
 	return Actions;
 }
 
-void BlossomAI::UpdateSnapshot(Snapshot _New)
-{
-	CurrentSnap = _New;
-}
-
 double BlossomAI::DetermineWinRate()
 {
-	return Eval->DetermineOdds_MonteCarlo(CurrentSnap.Hole, CurrentSnap.Communal,2500);
+	return Eval->DetermineOdds_MonteCarlo(CurrentShot.Hole, CurrentShot.Communal,2500);
 }
 
-void BlossomAI::PrintSnapshot(Snapshot _Shot)
+void BlossomAI::PrintShot()
 {
-	std::cout << "Snapshot's Info: " << std::endl;
+	std::cout << "Snapshot's Info: \n";
 	std::cout << "Phase: ";
-	if (_Shot.Phase == Phase::Preflop)
-		std::cout << "Pre-flop" << std::endl;
-	else if (_Shot.Phase == Phase::Flop)
-		std::cout << "Flop" << std::endl;
-	else if (_Shot.Phase == Phase::Turn)
-		std::cout << "Turn" << std::endl;
-	else if (_Shot.Phase == Phase::River)
-		std::cout << "River" << std::endl;
+	if (CurrentShot.Phase == Phase::Preflop)
+		std::cout << "Pre-flop \n";
+	else if (CurrentShot.Phase == Phase::Flop)
+		std::cout << "Flop \n";
+	else if (CurrentShot.Phase == Phase::Turn)
+		std::cout << "Turn \n";
+	else if (CurrentShot.Phase == Phase::River)
+		std::cout << "River \n";
 
 	std::cout << "Communal Cards: ";
-	for (unsigned int Index = 0; Index < _Shot.Communal.size(); Index++)
+	for (unsigned int Index = 0; Index < CurrentShot.Communal.size(); Index++)
 	{
-		if (_Shot.Communal[Index] != nullptr)
-			std::cout << _Shot.Communal[Index]->GetInfo() << " ";
+		if (CurrentShot.Communal[Index] != nullptr)
+			std::cout << CurrentShot.Communal[Index]->GetInfo() << " ";
 	}
-	std::cout << std::endl;
+	std::cout << "\n";
 
-	std::cout << "Amt of Players: " << _Shot.PlayerAmt << std::endl;
-	std::cout << "Pot:" << _Shot.Pot << std::endl;
-	std::cout << "Required Ante: " << _Shot.RequiredAnte << std::endl;
+	std::cout << "Amt of Players: " << CurrentShot.PlayerAmt << "\n";
+	std::cout << "Pot:" << CurrentShot.Pot << "\n";
+	std::cout << "Required Ante: " << CurrentShot.RequiredAnte << "\n";
 	
-	std::cout << "Hole Cards: " << _Shot.Hole[0]->GetInfo() << "," << _Shot.Hole[1]->GetInfo() << std::endl;
-	std::cout << "Avaliable Actions: " << _Shot.AvaliableActions.size() << std::endl;
-	std::cout << "Stack: " << _Shot.Stack << std::endl;
-	std::cout << "Current Ante:" << _Shot.CurrentAnte << std::endl;
-	std::cout << "Pot Contribution: " << _Shot.Contribution << std::endl;
+	std::cout << "Hole Cards: " << CurrentShot.Hole[0]->GetInfo() << "," << CurrentShot.Hole[1]->GetInfo() << "\n";
+	std::cout << "Avaliable Actions: " << CurrentShot.AvaliableActions.size() << "\n";
+	std::cout << "Stack: " << CurrentShot.Stack << "\n";
+	std::cout << "Current Ante:" << CurrentShot.CurrentAnte << "\n";
+	std::cout << "Pot Contribution: " << CurrentShot.Contribution << "\n";
 }

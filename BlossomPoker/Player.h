@@ -20,8 +20,6 @@ public:
 
 	void SetBoard(Board* _Board);
 
-	void EnterSnapshot(Snapshot _NewShot);
-
 	void EmptyHand();
 	void SetHand(Card* _First, Card* _Second);
 
@@ -65,11 +63,6 @@ private:
 	unsigned int PotContribution = 0;
 
 	BettingAction Action;
-
-	double Threshold_Call = 0.25f;
-	double Threshold_MinRaise = 0.5f;
-	double Threshold_RaiseHalfPot = 0.75f;
-	double Threshold_RaiseFullPot = 0.9f;
 
 	bool IsParticipating = true;
 	bool IsFolded = false;

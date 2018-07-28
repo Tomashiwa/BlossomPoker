@@ -33,11 +33,6 @@ void Player::End()
 
 }
 
-void Player::EnterSnapshot(Snapshot _NewShot)
-{
-	AI->UpdateSnapshot(_NewShot);
-}
-
 std::vector<BettingAction> Player::GetAvaliableActions()
 {
 	std::vector<BettingAction> Actions;
@@ -82,12 +77,6 @@ BettingAction Player::DetermineAction()
 	NewShot.AvaliableActions = GetAvaliableActions();
 
 	return AI->EnquireAction(NewShot);
-
-	//std::vector<BettingAction> AvaliableActions = GetAvaliableActions();
-	//if (AvaliableActions.size() == 0) return BettingAction::NONE;
-
-	////PLACEHOLDER: ALWAYS CHECK OR CALL
-	//return AvaliableActions[1];
 }
 
 void Player::SetBoard(Board* _Board)
@@ -114,7 +103,6 @@ void Player::SetStack(unsigned int _Stack)
 
 void Player::SetAnte(unsigned int _Amt)
 {
-
 	if (_Amt == 0)
 	{
 		Ante = 0;

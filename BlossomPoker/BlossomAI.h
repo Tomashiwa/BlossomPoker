@@ -15,19 +15,18 @@ public:
 	BlossomAI(HandEvaluator* _Evaluator);
 	~BlossomAI();
 
-	BettingAction EnquireAction(Snapshot _Snapshot);
 	std::vector<BettingAction> GetAvaliableActions();
+	BettingAction EnquireAction(Snapshot _Snapshot);
 
-	void UpdateSnapshot(Snapshot _New);
-	Snapshot GetSnapshot() { return CurrentSnap; }
-
+	void PrintShot();
 	double DetermineWinRate();
+
+	Snapshot GetSnapshot() { return CurrentShot; }
 
 private:
 	Orchastrator* Orch;
 	HandEvaluator* Eval;
-	Snapshot CurrentSnap;
+	Snapshot CurrentShot;
 
-	void PrintSnapshot(Snapshot _Shot);
 };
 

@@ -62,7 +62,6 @@ private:
 	void ConvertPreflopOddsTxt();
 	void Initialize();
 	
-
 	int GetCardInt(std::string _CardTxt);
 	int GetCardInt(Card* _Card);
 	std::array<int,5> Get5CardsInt(std::array<Card*, 5> _Hand);
