@@ -69,6 +69,7 @@ BettingAction Player::DetermineAction()
 	NewShot.RequiredAnte =  SelfBoard->GetRequiredAnte();
 	NewShot.Pot = SelfBoard->GetPot();
 	NewShot.PlayerAmt = 2;
+	NewShot.BB = SelfBoard->GetBigBlind();
 	NewShot.Phase = SelfBoard->GetState();
 	NewShot.Hole = GetHand();
 	NewShot.CurrentAnte = GetAnte();

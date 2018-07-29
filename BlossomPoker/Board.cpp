@@ -132,7 +132,7 @@ void Board::EndRound()
 		if (ValidPlayersPerPot[PotIndex].size() == 1)
 		{
 			AwardPlayer(ValidPlayersPerPot[PotIndex][0], Pots[PotIndex]);
-			std::cout << "P." << ValidPlayersPerPot[PotIndex][0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: $" << ValidPlayersPerPot[PotIndex][0]->GetStack() << ") \n";
+			std::cout << "P." << ValidPlayersPerPot[PotIndex][0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << ValidPlayersPerPot[PotIndex][0]->GetStack() << ") \n";
 
 			continue;
 		}
@@ -142,7 +142,7 @@ void Board::EndRound()
 		if (PotWinners.size() == 1)
 		{
 			AwardPlayer(PotWinners[0], Pots[PotIndex]);
-			std::cout << "P." << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " (Stack: $" << PotWinners[0]->GetStack() << ") \n";
+			std::cout << "P." << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[0]->GetStack() << ") \n";
 		}
 
 		else if (PotWinners.size() > 1)
@@ -152,7 +152,7 @@ void Board::EndRound()
 			for (unsigned int WinnerIndex = 0; WinnerIndex < PotWinners.size(); WinnerIndex++)
 			{
 				AwardPlayer(PotWinners[WinnerIndex], Portion);
-				std::cout << "P." << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ") \n";
+				std::cout << "P." << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ") \n";
 			}
 		}
 	}
@@ -179,7 +179,11 @@ void Board::EndRound()
 		return;
 	}
 
-	std::cout << "\n";
+	std::cout << "Result: / ";
+	for (unsigned int Index = 0; Index < Players.size(); Index++)
+		std::cout << "P." << Players[Index]->GetIndex() << ": " << Players[Index]->GetStack() << " ";
+
+	std::cout << "/ \n\n";
 
 	Round++;
 	StartRound();
@@ -295,6 +299,8 @@ void Board::UpdatePhase()
 				unsigned int RaiseAmt = BigBlind;
 				if (CurrentState == Phase::River || CurrentState == Phase::Turn) RaiseAmt *= 2;
 
+				RaiseAmt += RequiredAnte - CurrentPlayer->GetAnte();
+
 				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 				RequiredAnte = CurrentPlayer->GetAnte();
 
@@ -335,7 +341,7 @@ bool Board::IsPhaseEnded()
 {
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
-		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded() && Players[Index]->GetStack() > 0 && Players[Index]->GetIsParticipating())
+		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded() && Players[Index]->GetIsParticipating())
 		{
 			if (CurrentState == Phase::Preflop && Players[Index]->GetAnte() < RequiredAnte)
 				return false;

@@ -66,10 +66,21 @@ void HandEvaluator::Initialize()
 	memset(HR, 0, sizeof(HR));
 	FILE * fin = fopen("HANDRANKS.DAT", "rb");
 	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
-	//printf("read %zu bytes\n", bytesread * sizeof(*HR));
 	fclose(fin);
 
-	//std::cout << "Eval Initialized..." << std::endl;
+	int ReferenceIndex = 0;
+
+	for (unsigned int SIndex = 0; SIndex < 4; SIndex++)
+	{
+		for (unsigned int VIndex = 0; VIndex < 13; VIndex++)
+		{
+			Suit NewSuit = static_cast<Suit>(SIndex);
+			Rank NewValue = static_cast<Rank>(VIndex);
+
+			ReferenceDeck[ReferenceIndex] = new Card(NewSuit, NewValue);
+			ReferenceIndex++;
+		}
+	}
 }
 
 void HandEvaluator::RandomFill(std::vector<Card*>& _Set, std::vector<Card*> _Dead, int _Target)
@@ -87,7 +98,7 @@ void HandEvaluator::RandomFill(std::vector<Card*>& _Set, std::vector<Card*> _Dea
 	}
 
 	//Get a generic deck composision and remove the dead cards
-	std::vector<Card*> PossibleCards = GetDeckComposition();
+	std::vector<Card*> PossibleCards(ReferenceDeck.begin(), ReferenceDeck.begin() + ReferenceDeck.size());
 
 	for (auto Index = 0u; Index < _Dead.size(); Index++)
 	{
@@ -456,24 +467,6 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 	std::copy_n(SortingHand.begin(), 5, SortedHand.begin());
 
 	return SortedHand;
-}
-
-std::vector<Card*> HandEvaluator::GetDeckComposition()
-{
-	std::vector<Card*> Cards;
-
-	for (unsigned int SIndex = 0; SIndex < 4; SIndex++)
-	{
-		for (unsigned int VIndex = 0; VIndex < 13; VIndex++)
-		{
-			Suit NewSuit = static_cast<Suit>(SIndex);
-			Rank NewValue = static_cast<Rank>(VIndex);
-
-			Cards.push_back(new Card(NewSuit, NewValue));
-		}
-	}
-
-	return Cards;
 }
 
 std::array<Card*, 5> HandEvaluator::GetBestCommunalHand(std::array<Card*, 2> _Hole, std::array<Card*, 5> _Communal)

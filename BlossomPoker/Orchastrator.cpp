@@ -17,15 +17,14 @@ Orchastrator::Orchastrator(BlossomAI* _AI)
 	Strategies[2] = new Strategy(this, ThresholdDistribution(mt), ThresholdDistribution(mt));
 	Strategies[3] = new Strategy(this, ThresholdDistribution(mt), ThresholdDistribution(mt));
 
-	std::cout << "Pre-flop: ";
-	Strategies[0]->PrintThresholds();
-	std::cout << "Flop: ";
-	Strategies[1]->PrintThresholds();
-	std::cout << "Turn: ";
-	Strategies[2]->PrintThresholds();
-	std::cout << "River: ";
-	Strategies[3]->PrintThresholds();
-
+	//std::cout << "Pre-flop: ";
+	//Strategies[0]->PrintThresholds();
+	//std::cout << "Flop: ";
+	//Strategies[1]->PrintThresholds();
+	//std::cout << "Turn: ";
+	//Strategies[2]->PrintThresholds();
+	//std::cout << "River: ";
+	//Strategies[3]->PrintThresholds();
 	
 	CurrentStrategy = nullptr;
 }

@@ -11,6 +11,7 @@ struct Snapshot
 
 	unsigned int PlayerAmt;
 	unsigned int Pot;
+	unsigned int BB;
 	unsigned int Stack;
 	unsigned int Contribution;
 	unsigned int RequiredAnte;

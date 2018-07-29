@@ -39,20 +39,25 @@ std::vector<BettingAction> BlossomAI::GetAvaliableActions()
 			Actions.push_back(BettingAction::Check);
 		else
 			Actions.push_back(BettingAction::Call);
-
-		Actions.push_back(BettingAction::Raise);
+		
+		if((CurrentShot.RequiredAnte - CurrentShot.CurrentAnte) + CurrentShot.BB <= CurrentShot.Stack)
+			Actions.push_back(BettingAction::Raise);
 	}
 	else
 	{
 		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
 		{
 			Actions.push_back(BettingAction::Check);
-			Actions.push_back(BettingAction::Bet);
+
+			if((CurrentShot.Phase == Phase::Flop && CurrentShot.Stack >= CurrentShot.BB) || ((CurrentShot.Phase == Phase::River || CurrentShot.Phase == Phase::Turn) && CurrentShot.Stack >= 2 * CurrentShot.BB))
+				Actions.push_back(BettingAction::Bet);
 		}
 		else
 		{
 			Actions.push_back(BettingAction::Call);
-			Actions.push_back(BettingAction::Raise);
+
+			if ((CurrentShot.Phase == Phase::Flop && CurrentShot.Stack >= CurrentShot.BB) || ((CurrentShot.Phase == Phase::River || CurrentShot.Phase == Phase::Turn) && CurrentShot.Stack >= 2 * CurrentShot.BB))
+				Actions.push_back(BettingAction::Raise);
 		}
 	}
 

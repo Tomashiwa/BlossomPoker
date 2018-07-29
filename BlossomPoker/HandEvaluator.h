@@ -37,8 +37,6 @@ public:
 
 	std::array<Card*, 5> SortHand(std::array<Card*, 5> _Hand);
 
-	std::vector<Card*> GetDeckComposition();
-
 	std::array<Card*, 5> GetBestCommunalHand(std::array<Card*, 2> _Hole, std::array<Card*, 5> _Community);
 	std::array<Card*, 5> GetWorstCommunalHand(std::array<Card*, 2> _Hole, std::array<Card*, 5> _Community);
 	
@@ -55,9 +53,10 @@ public:
 	void Test();
 
 private:
-	
 	int HR[32487834];
 	double PreflopOdds[1326];
+
+	std::array<Card*, 52> ReferenceDeck;
 
 	void ConvertPreflopOddsTxt();
 	void Initialize();
