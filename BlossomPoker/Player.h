@@ -12,11 +12,15 @@ class Player
 {
 public:
 	Player(Board* _Board, unsigned int _Index);
+	Player(Board* _Board, unsigned int _Index, std::array<double,8> _Threshold);
+
 	~Player();
 
 	void Start();
 	void Update();
 	void End();
+
+	void Reset();
 
 	void SetBoard(Board* _Board);
 
@@ -50,6 +54,8 @@ public:
 	bool GetIsBroke() { return IsBroke; }
 
 	std::string GetHandInfo();
+
+	BlossomAI* GetAI() { return AI; }
 
 private:
 	unsigned int Index;

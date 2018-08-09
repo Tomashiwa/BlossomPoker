@@ -44,7 +44,7 @@ void GameManager::End()
 
 Board* GameManager::NewBoard(unsigned int _StartBB)
 {
-	Board* _NewBoard = new Board(this, _StartBB);
+	Board* _NewBoard = new Board(Evaluator, _StartBB, true);
 	_NewBoard->AddPlayer(new Player(_NewBoard, 0),_StartBB * 100);
 	_NewBoard->AddPlayer(new Player(_NewBoard, 1),_StartBB * 100);
 	_NewBoard->SetActive(true);

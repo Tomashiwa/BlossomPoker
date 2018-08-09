@@ -87,6 +87,14 @@ BettingAction Strategy::DetermineIdealAction()
 	return BettingAction::NONE;
 }
 
+std::array<double, 2> Strategy::GetThresholds()
+{
+	std::array<double, 2> Thresholds;
+	Thresholds[0] = Thr_Calling;
+	Thresholds[1] = Thr_RaisingBetting;
+	return Thresholds;
+}
+
 void Strategy::PrintThresholds()
 {
 	std::cout << "Thr_Calling: " << Thr_Calling << " / Thr_RaisingBetting: " << Thr_RaisingBetting << "\n";

@@ -75,6 +75,9 @@
     <ClCompile Include="BlossomAI.cpp">
       <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
+    <ClCompile Include="GeneticTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="BlossomAI.h">
       <Filter>Header Files\AI\Dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneticTest.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,4 @@
 #include "Board.h"
-#include "GameManager.h"
 #include "Card.h"
 #include "Deck.h"
 #include "Player.h"
@@ -8,10 +7,9 @@
 #include <algorithm>
 #include <iterator>
 
-Board::Board(GameManager* _Manager, unsigned int _BigBlind)
+Board::Board(HandEvaluator* _Evaluator, unsigned int _BigBlind, bool _PrintProcess)
 {
-	Manager = _Manager;
-	Evaluator = _Manager->GetEvaluator();
+	Evaluator = _Evaluator;
 
 	Pot = 0;
 	SmallBlind = _BigBlind/2;
@@ -20,6 +18,10 @@ Board::Board(GameManager* _Manager, unsigned int _BigBlind)
 	EntryStack = 100 * BigBlind;
 
 	PlayingDeck = new Deck();
+
+	PrintProcess = _PrintProcess;
+
+	Round = 1;
 }
 
 Board::~Board()
@@ -68,7 +70,6 @@ void Board::Test()
 
 void Board::Start()
 {
-	Round = 1;
 	StartRound();
 }
 
@@ -85,11 +86,57 @@ void Board::End()
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
 		if (!Players[Index]->GetIsBroke()) Winner = Players[Index];
 
-	std::cout << "Winner: P." << Winner->GetIndex() << " ($" << Winner->GetStack() << ") \n";
+	if(PrintProcess)
+		std::cout << "Winner: P." << Winner->GetIndex() << " ($" << Winner->GetStack() << ") \n";
+}
+
+void Board::Reset()
+{
+	IsActive = true;
+	CurrentState = Phase::Preflop;
+
+	for (auto& Player : Players)
+		Player->Reset();
+
+	RemoveAllPlayers();
+	DealingPlayer = nullptr;
+	BigBlindPlayer = nullptr;
+	SmallBlindPlayer = nullptr;
+	CurrentPlayer = nullptr;
+
+	Records.clear();
+
+	PlayingDeck->Refill();
+	PlayingDeck->Shuffle();
+
+	CommunalCards = { nullptr, nullptr, nullptr, nullptr, nullptr };
+
+	Pot = 0;
+	RequiredAnte = 0;
+	Round = 0;
+}
+
+void Board::ResetRecords()
+{
+	for (auto Itr = Records.begin(); Itr != Records.end(); ++Itr)
+		Itr->second = 0;
+}
+
+void Board::ResetStacks()
+{
+	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	{
+		Players[Index]->SetStack(EntryStack);
+		Players[Index]->SetIsBroke(false);
+	}
+
+	Pot = 0;
+	RequiredAnte = 0;
 }
 
 void Board::StartRound()
 {
+	Round += 1;
 	CurrentState = Phase::Preflop;
 
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
@@ -104,7 +151,7 @@ void Board::StartRound()
 	SmallBlindPlayer = GetNextPlayer(DealingPlayer);
 	BigBlindPlayer = GetNextPlayer(SmallBlindPlayer);
 
-	if(Manager->GetIsPrintingRoundInfo())
+	if(PrintProcess)
 		std::cout << "Round " << Round << ": \n";
 
 	StartPhase();
@@ -122,6 +169,10 @@ void Board::EndRound()
 
 	SplitPot(Pots, ValidPlayersPerPot);
 
+	std::map<Player*, unsigned int> PlayersWinning;
+	for (unsigned int Index = 0; Index < Players.size(); Index++)
+		PlayersWinning.insert(std::make_pair(Players[Index], 0));
+
 	for (unsigned int PotIndex = 0; PotIndex < Pots.size(); PotIndex++)
 	{
 		//std::cout << "Pot: $" << Pots[PotIndex] << " / Participants: ";
@@ -132,7 +183,11 @@ void Board::EndRound()
 		if (ValidPlayersPerPot[PotIndex].size() == 1)
 		{
 			AwardPlayer(ValidPlayersPerPot[PotIndex][0], Pots[PotIndex]);
-			std::cout << "P." << ValidPlayersPerPot[PotIndex][0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << ValidPlayersPerPot[PotIndex][0]->GetStack() << ") \n";
+			
+			if(PrintProcess)
+				std::cout << "P." << ValidPlayersPerPot[PotIndex][0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << ValidPlayersPerPot[PotIndex][0]->GetStack() << ") \n";
+
+			PlayersWinning[ValidPlayersPerPot[PotIndex][0]] += Pots[PotIndex];
 
 			continue;
 		}
@@ -142,7 +197,11 @@ void Board::EndRound()
 		if (PotWinners.size() == 1)
 		{
 			AwardPlayer(PotWinners[0], Pots[PotIndex]);
-			std::cout << "P." << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[0]->GetStack() << ") \n";
+
+			if(PrintProcess)
+				std::cout << "P." << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[0]->GetStack() << ") \n";
+		
+			PlayersWinning[PotWinners[0]] += Pots[PotIndex];
 		}
 
 		else if (PotWinners.size() > 1)
@@ -152,10 +211,22 @@ void Board::EndRound()
 			for (unsigned int WinnerIndex = 0; WinnerIndex < PotWinners.size(); WinnerIndex++)
 			{
 				AwardPlayer(PotWinners[WinnerIndex], Portion);
-				std::cout << "P." << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ") \n";
+				
+				if(PrintProcess)
+					std::cout << "P." << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ") \n";
+			
+				PlayersWinning[PotWinners[WinnerIndex]] += Portion;
 			}
 		}
 	}
+
+	auto Winner = PlayersWinning.begin();
+	for (auto Itr = PlayersWinning.begin(); Itr != PlayersWinning.end(); ++Itr)
+	{
+		if (Itr->second > Winner->second)
+			Winner = Itr;
+	}
+	Records[Winner->first] += 1;
 
 	ClearCommunalCards();
 	EmptyPot();
@@ -169,23 +240,28 @@ void Board::EndRound()
 		if (Players[Index]->GetStack() <= 0)
 		{
 			Players[Index]->SetIsBroke(true);
-			std::cout << "P." << Index << " is broke... \n";
+
+			//if(PrintProcess)
+				std::cout << "P." << Index << " is broke... \n";
 		}
 	}
 
 	if (IsGameEnded())
 	{
 		IsActive = false;
+		std::cout << "Game has ended" << std::endl;
 		return;
 	}
 
-	std::cout << "Result: / ";
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		std::cout << "P." << Players[Index]->GetIndex() << ": " << Players[Index]->GetStack() << " ";
+	if (PrintProcess)
+	{
+		std::cout << "Result: / ";
+		for (unsigned int Index = 0; Index < Players.size(); Index++)
+			std::cout << "P." << Players[Index]->GetIndex() << ": " << Players[Index]->GetStack() << " ";
 
-	std::cout << "/ \n\n";
+		std::cout << "/ \n\n";
+	}
 
-	Round++;
 	StartRound();
 }
 
@@ -203,7 +279,7 @@ void Board::StartPhase()
 	{
 		case Phase::Preflop:
 		{
-			if(Manager->GetIsPrintingRoundInfo())
+			if(PrintProcess)
 				std::cout << "\nPhase: Pre-flop\n";
 			
 			SmallBlindPlayer->SetAnte(SmallBlind);
@@ -218,7 +294,7 @@ void Board::StartPhase()
 		}
 		case Phase::Flop:
 		{
-			if (Manager->GetIsPrintingRoundInfo())
+			if (PrintProcess)
 				std::cout << "\nPhase: Flop\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
@@ -228,7 +304,7 @@ void Board::StartPhase()
 		}
 		case Phase::Turn:
 		{
-			if (Manager->GetIsPrintingRoundInfo())
+			if (PrintProcess)
 				std::cout << "\nPhase: Turn\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
@@ -238,7 +314,7 @@ void Board::StartPhase()
 		}
 		case Phase::River:
 		{
-			if (Manager->GetIsPrintingRoundInfo())
+			if (PrintProcess)
 				std::cout << "\nPhase: River\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
@@ -248,86 +324,125 @@ void Board::StartPhase()
 		}
 	}
 
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		std::cout << "P." << Players[Index]->GetIndex() << ": " << Evaluator->GetStr(Players[Index]->GetHand()) << "  ";
-	std::cout << "\n";
-	std::cout << "Board: " << Evaluator->GetStr(CommunalCards) << "\n";	
-	//Print();
+	if (PrintProcess)
+	{
+		for (unsigned int Index = 0; Index < Players.size(); Index++)
+			std::cout << "P." << Players[Index]->GetIndex() << ": " << Evaluator->GetStr(Players[Index]->GetHand()) << "  ";
+		std::cout << "\n";
+		std::cout << "Board: " << Evaluator->GetStr(CommunalCards) << "\n";	
+		//Print();
+	}
 }
 
 void Board::UpdatePhase()
 {
+	//std::cout << "enter update phase\n";
+	//std::cout << "testing for round/phase end...\n";
 	if (IsRoundEnded() || (IsPhaseEnded() && CurrentState == Phase::River))
 	{
+		//std::cout << "ending round\n";
+		std::cout << "Round has ended... (Phase: " << GetStateStr() << " / Required A: " << GetRequiredAnte() << ") = Ended at " << GetStateStr() << "\n";
 		EndRound();
+
 		return;
 	}
 	else if (IsPhaseEnded() && CurrentState != Phase::River)
 	{
 		NextPhase();
+		std::cout << "Moving to next phase...(" << GetStateStr() << ")\n";
+		
+	}
+	else if (CurrentPlayer->GetIsBroke() || CurrentPlayer->GetIsFolded() || CurrentPlayer->GetIsParticipating() == false)
+	{
+		std::cout << "Getting next player...\n";
+		CurrentPlayer = GetNextPlayer(CurrentPlayer);
+		return;
 	}
 	
+	//std::cout << "update pot\n";
 	UpdatePot();
+	//std::cout << "update player\n";
 	CurrentPlayer->Update();
 
-	if (CurrentPlayer->GetAction() != BettingAction::NONE)
+	//std::cout << "exectute player action\n";
+	switch(CurrentPlayer->GetAction())
 	{
-		switch(CurrentPlayer->GetAction())
+		case BettingAction::Fold:
 		{
-			case BettingAction::Fold:
-			{
+			if (PrintProcess) 
 				std::cout << "P." << CurrentPlayer->GetIndex() << " folded. \n";
-				CurrentPlayer->SetIsFolded(true);
-				break;
-			}
-			case BettingAction::Check:
-			{
-				std::cout << "P." << CurrentPlayer->GetIndex() << " checked. \n";
-				break;
-			}
-			case BettingAction::Call:
-			{
-				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
-				CurrentPlayer->SetAnte(RequiredAnte);
-				UpdatePot();
-
-				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
-				break;
-			}
-			case BettingAction::Raise:
-			{
-				unsigned int RaiseAmt = BigBlind;
-				if (CurrentState == Phase::River || CurrentState == Phase::Turn) RaiseAmt *= 2;
-
-				RaiseAmt += RequiredAnte - CurrentPlayer->GetAnte();
-
-				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
-				RequiredAnte = CurrentPlayer->GetAnte();
-
-				std::cout << "P." << CurrentPlayer->GetIndex() << " raised to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
-				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
-				break;
-			}
-			case BettingAction::Bet:
-			{
-				unsigned int BetAmt = BigBlind;
-				if (CurrentState == Phase::River || CurrentState == Phase::Turn) BetAmt *= 2;
-
-				CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
-				RequiredAnte = CurrentPlayer->GetAnte();
-
-				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << RequiredAnte << " (Pot: " << Pot << ") \n";
-				if (CurrentPlayer->GetStack() == 0) CurrentPlayer->SetIsParticipating(false);
-				break;
-			}
-			default:
-			{
-				std::cout << "Invalid BettingAction given. \n";
-				break;
-			}
+			
+			CurrentPlayer->SetIsFolded(true);
+			break;
 		}
+		case BettingAction::Check:
+		{
+			if (PrintProcess)
+				std::cout << "P." << CurrentPlayer->GetIndex() << " checked. \n";
+			break;
+		}
+		case BettingAction::Call:
+		{
+			if (PrintProcess)
+				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
+			
+			CurrentPlayer->SetAnte(RequiredAnte);
+			UpdatePot();
+
+			if (CurrentPlayer->GetStack() <= 0)
+			{
+				CurrentPlayer->SetIsParticipating(false);
+				std::cout << "P." << CurrentPlayer->GetIndex() << " is no longer participating...\n";
+			}
+			break;
+		}
+		case BettingAction::Raise:
+		{
+			unsigned int RaiseAmt = BigBlind;
+			if (CurrentState == Phase::River || CurrentState == Phase::Turn) RaiseAmt *= 2;
+
+			RaiseAmt += RequiredAnte - CurrentPlayer->GetAnte();
+
+			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
+			RequiredAnte = CurrentPlayer->GetAnte();
+
+			if (PrintProcess)
+				std::cout << "P." << CurrentPlayer->GetIndex() << " raised to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
+			
+			if (CurrentPlayer->GetStack() <= 0)
+			{
+				CurrentPlayer->SetIsParticipating(false);
+				std::cout << "P." << CurrentPlayer->GetIndex() << " is no longer participating...\n";
+			}
+			break;
+		}
+		case BettingAction::Bet:
+		{
+			unsigned int BetAmt = BigBlind;
+			if (CurrentState == Phase::River || CurrentState == Phase::Turn) BetAmt *= 2;
+
+			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
+			RequiredAnte = CurrentPlayer->GetAnte();
+
+			if (PrintProcess)
+				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << RequiredAnte << " (Pot: " << Pot << ") \n";
+			
+			if (CurrentPlayer->GetStack() <= 0)
+			{
+				CurrentPlayer->SetIsParticipating(false);
+				std::cout << "P." << CurrentPlayer->GetIndex() << " is no longer participating...\n";
+			}
+			break;
+		}
+		default:
+		{
+			std::cout << "Invalid BettingAction given. \n";
+			break;
+		}
+
 	}
 
+	//std::cout << "moving to next player\n";
 	CurrentPlayer = GetNextPlayer(CurrentPlayer);
 }
 
@@ -356,12 +471,18 @@ bool Board::IsPhaseEnded()
 
 bool Board::IsRoundEnded()
 {
-	unsigned int Count = 0;
+	bool HadAllIn = true;
+	for (auto const& Player : Players)
+		if (Player->GetIsParticipating()) HadAllIn = false;
 
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		if (!Players[Index]->GetIsFolded() && !Players[Index]->GetIsBroke()) Count++;
+	if (HadAllIn) return true;
 
-	return Count == 1 ? true : false;
+	unsigned int RemainingPlayers = 0;
+
+	for (auto const& Player : Players)
+		if (!Player->GetIsFolded() && !Player->GetIsBroke()) RemainingPlayers++;
+
+	return RemainingPlayers <= 1 ? true : false;
 }
 
 bool Board::IsGameEnded()
@@ -377,12 +498,16 @@ bool Board::IsGameEnded()
 void Board::AddPlayer(Player* _AddingPlayer)
 {
 	Players.push_back(_AddingPlayer);
+	Records.insert(std::make_pair(_AddingPlayer, 0));
+
 	_AddingPlayer->SetStack(EntryStack);
 }
 
 void Board::AddPlayer(Player* _AddingPlayer, unsigned int _EntryStack)
 {
 	Players.push_back(_AddingPlayer);
+	Records.insert(std::make_pair(_AddingPlayer, 0));
+
 	_AddingPlayer->SetStack(_EntryStack);
 }
 
@@ -391,20 +516,41 @@ void Board::RemovePlayer(Player* _RemovingPlayer)
 	Players.erase(Players.begin() + (_RemovingPlayer->GetIndex() - 1));
 }
 
+void Board::RemoveAllPlayers()
+{
+	Players.clear();
+}
+
 Player* Board::GetPreviousPlayer(Player* _Reference)
 {
-	if (_Reference->GetIndex() == 0)
+	for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
+	{
+		if (*Itr == _Reference)
+			return Itr == Players.begin() ? *(--Players.end()) : *(--Itr);
+	}
+
+	return nullptr;
+
+	/*if (_Reference->GetIndex() == 0)
 		return Players[Players.size() - 1];
 
-	return Players[_Reference->GetIndex() - 1];
+	return Players[_Reference->GetIndex() - 1];*/
 }
 
 Player* Board::GetNextPlayer(Player* _Reference)
 {
-	if (_Reference->GetIndex() == Players.size() - 1)
+	for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
+	{
+		if (*Itr == _Reference)
+			return Itr == (--Players.end()) ? *Players.begin() : *(++Itr);
+	}
+
+	return nullptr;
+
+	/*if (_Reference->GetIndex() == Players.size() - 1)
 		return Players[0];
 
-	return Players[_Reference->GetIndex() + 1];
+	return Players[_Reference->GetIndex() + 1];*/
 }
 
 void Board::UpdatePot()
@@ -677,3 +823,21 @@ void Board::Print()
 	std::cout << "--------------------------------------------------\n\n";
 }
 
+std::string Board::GetStateStr()
+{
+	switch (CurrentState)
+	{
+		case Phase::Preflop:
+			return "Preflop";
+		case Phase::Flop:
+			return "Flop";
+		case Phase::Turn:
+			return "Turn";
+		case Phase::River:
+			return "River";
+		default:
+			break;
+	}
+
+	return "";
+}

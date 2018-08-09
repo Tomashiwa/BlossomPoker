@@ -23,6 +23,7 @@ public:
 	double DetermineWinRate();
 
 	Snapshot GetSnapshot() { return CurrentShot; }
+	std::array<double, 8> GetThresholds();
 
 private:
 	Orchastrator* Orch;

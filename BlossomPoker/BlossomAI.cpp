@@ -100,3 +100,8 @@ void BlossomAI::PrintShot()
 	std::cout << "Current Ante:" << CurrentShot.CurrentAnte << "\n";
 	std::cout << "Pot Contribution: " << CurrentShot.Contribution << "\n";
 }
+
+std::array<double, 8> BlossomAI::GetThresholds()
+{
+	return Orch->GetThresholds();
+}

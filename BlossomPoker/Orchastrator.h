@@ -20,6 +20,7 @@ public:
 	Strategy* DetermineOptimalStrategy();
 	BettingAction DetermineAction();
 	
+	std::array<double, 8> GetThresholds();
 	BlossomAI* GetAI() { return AI; }
 
 private:

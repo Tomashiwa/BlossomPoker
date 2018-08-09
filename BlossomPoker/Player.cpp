@@ -14,6 +14,18 @@ Player::Player(Board* _Board, unsigned int _Index)
 	AI = new BlossomAI(_Board->GetEvaluator());
 }
 
+Player::Player(Board* _Board, unsigned int _Index, std::array<double, 8> _Thresholds)
+{
+	Index = _Index;
+	Stack = 0;
+	Ante = 0;
+
+	SetBoard(_Board);
+	Action = BettingAction::NONE;
+
+	AI = new BlossomAI(_Board->GetEvaluator(), _Thresholds);
+}
+
 Player::~Player()
 {
 }
@@ -31,6 +43,24 @@ void Player::Update()
 void Player::End()
 {
 
+}
+
+void Player::Reset()
+{
+	Hand[0] = nullptr;
+	Hand[1] = nullptr;
+
+	Stack = 0;
+	Ante = 0;
+	PotContribution = 0;
+
+	Action = BettingAction::NONE;
+
+	IsParticipating = false;
+	IsFolded = false;
+	IsBroke = false;
+
+	std::cout << "P." << Index << " reseted\n";
 }
 
 std::vector<BettingAction> Player::GetAvaliableActions()

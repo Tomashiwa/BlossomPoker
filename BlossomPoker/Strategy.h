@@ -14,6 +14,7 @@ public:
 
 	BettingAction DetermineIdealAction();
 	void PrintThresholds();
+	std::array<double, 2> GetThresholds();
 
 private:
 	Orchastrator* Orch;

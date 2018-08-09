@@ -1,24 +1,34 @@
 #include <iostream>
 #include <string>
 #include "GameManager.h"
+#include "GeneticTest.h"
 
 int main()
 {
-	GameManager* Manager = new GameManager();
+	GeneticTest* Test = new GeneticTest();
 
-	Manager->NewBoard(20);
-	Manager->Start();
+	Test->Start();
 
-	while (Manager->GetIsActive())
-	{
-		Manager->Update();
+	while (!Test->IsTestComplete())
+		Test->Update();
 
-		//system("pause");
-		//std::cout << "\n";
-	}
-
-	Manager->End();
+	Test->End();
 	system("pause");
+
+	//GameManager* Manager = new GameManager();
+
+	//Manager->NewBoard(20);
+	//Manager->Start();
+
+	//while (Manager->GetIsActive())
+	//{
+	//	Manager->Update();
+	//	//system("pause");
+	//	//std::cout << "\n";
+	//}
+
+	//Manager->End();
+	//system("pause");
 
 	return 0;
 }

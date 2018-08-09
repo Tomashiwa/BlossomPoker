@@ -2,10 +2,10 @@
 #include <vector>
 #include <iostream>
 #include <array>
+#include <map>
 
 #include "Phase.h"
 
-class GameManager;
 class Card;
 class Deck;
 class Player;
@@ -14,7 +14,7 @@ class HandEvaluator;
 class Board
 {
 public:
-	Board(GameManager* _Manager, unsigned int _BigBlind);
+	Board(HandEvaluator* _Evaluator, unsigned int _BigBlind, bool _PrintProcess);
 	~Board();
 
 	int HR[32487834];
@@ -26,6 +26,10 @@ public:
 	void Start();
 	void Update();
 	void End();
+
+	void Reset();
+	void ResetRecords();
+	void ResetStacks();
 
 	void StartRound();
 	void UpdateRound();
@@ -42,6 +46,7 @@ public:
 	void AddPlayer(Player* _AddingPlayer);
 	void AddPlayer(Player* _AddingPlayer, unsigned int _EntryStack);
 	void RemovePlayer(Player* _RemovingPlayer);
+	void RemoveAllPlayers();
 
 	Player* GetPreviousPlayer(Player* _Reference);
 	Player* GetNextPlayer(Player* _Reference);
@@ -60,6 +65,7 @@ public:
 	void AwardPlayer(Player* _Player, unsigned int _Amt);
 
 	void Print();
+	std::string GetStateStr();
 
 	bool GetIsActive() { return IsActive; }
 	void SetActive(bool _IsActive) { IsActive = _IsActive; }
@@ -74,6 +80,8 @@ public:
 	Player* GetBigBlindPlayer() { return BigBlindPlayer; }
 	Player* GetCurrentPlayer() { return CurrentPlayer; }
 
+	unsigned int GetPlayerWins(Player* _Target) { return Records[_Target]; }
+
 	Deck* GetDeck() { return PlayingDeck; }
 	std::array<Card*, 5> GetCommunalCards() { return CommunalCards; }
 
@@ -82,8 +90,9 @@ public:
 	unsigned int GetBigBlind() { return BigBlind; }
 	unsigned int GetRequiredAnte() { return RequiredAnte; }
 
+	unsigned int GetRounds() { return Round; }
+
 private:
-	GameManager* Manager;
 	HandEvaluator* Evaluator;
 
 	Phase CurrentState;
@@ -95,6 +104,8 @@ private:
 	Player* SmallBlindPlayer = nullptr;
 	Player* CurrentPlayer = nullptr;
 
+	std::map<Player*, unsigned int> Records;
+
 	Deck* PlayingDeck;
 	std::array<Card*, 5> CommunalCards = { nullptr, nullptr, nullptr, nullptr, nullptr };
 
@@ -105,5 +116,7 @@ private:
 
 	unsigned int Round = 0;
 	unsigned int EntryStack = BigBlind * 20;
+
+	bool PrintProcess = false;
 };
 
