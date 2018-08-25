@@ -56,7 +56,9 @@ private:
 	int HR[32487834];
 	double PreflopOdds[1326];
 
-	std::array<Card*, 52> ReferenceDeck;
+	std::mt19937 MTGenerator;
+
+	std::array <Card*,52> ReferenceDeck;
 
 	void ConvertPreflopOddsTxt();
 	void Initialize();

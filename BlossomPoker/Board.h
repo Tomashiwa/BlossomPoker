@@ -59,7 +59,7 @@ public:
 	void IssueCommunalCards();
 	void ClearCommunalCards();
 
-	std::vector<Player*> GetNonBrokePlayers();
+	std::vector<Player*> GetParticipatingPlayers();
 	std::vector<Player*> GetBettingPlayers();
 	std::vector<Player*> DetermineWinningPlayers(std::vector<Player*> _Participants);
 	void AwardPlayer(Player* _Player, unsigned int _Amt);

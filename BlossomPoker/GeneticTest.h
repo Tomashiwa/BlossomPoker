@@ -42,17 +42,17 @@ private:
 	std::map<Player*, double> Population;
 	std::vector<Player*> RandomSubjects;
 
-	double TargetFitness = 0.85;
-	double BestFitness = 0.0;
+	double TargetFitness = 0.75;
+	double MutationRate = 0.1;
 
-	double MutationRate = 0.05;
+	unsigned int PopulationSize = 50;
+	unsigned int TouramentSize = 2;
+	unsigned int WinnerPerTouranment = 1;
+	unsigned int ParentLimit = 2;
 
 	unsigned int RoundLimit = 100;
-	unsigned int TrialLimit = 1;
-	unsigned int ParentLimit = 2;
-	unsigned int TouranmentSize = 4;
-	unsigned int WinnerPerTouranment = 1;
-	unsigned int PlayersGenerated = 0;
+	
 	unsigned int Generation = 0;
+	unsigned int PlayersGenerated = 0;
 };
 

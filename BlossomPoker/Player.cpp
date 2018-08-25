@@ -59,8 +59,6 @@ void Player::Reset()
 	IsParticipating = false;
 	IsFolded = false;
 	IsBroke = false;
-
-	std::cout << "P." << Index << " reseted\n";
 }
 
 std::vector<BettingAction> Player::GetAvaliableActions()

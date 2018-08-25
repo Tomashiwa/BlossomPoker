@@ -4,6 +4,7 @@
 HandEvaluator::HandEvaluator()
 {
 	Initialize();
+	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
 }
 
 HandEvaluator::~HandEvaluator()
@@ -88,40 +89,43 @@ void HandEvaluator::RandomFill(std::vector<Card*>& _Set, std::vector<Card*> _Dea
 	//Add the cards that are currently in Set as dead cards
 	if (!_Set.empty())
 	{
-		for (auto Index = 0u; Index < _Set.size(); Index++)
+		for (auto const& CardInSet : _Set)
 		{
-			if (_Set[Index] == nullptr)
+			if (CardInSet == nullptr)
 				break;
 
-			_Dead.push_back(_Set[Index]);
+			_Dead.push_back(CardInSet);
 		}
 	}
 
-	//Get a generic deck composision and remove the dead cards
-	std::vector<Card*> PossibleCards(ReferenceDeck.begin(), ReferenceDeck.begin() + ReferenceDeck.size());
-
-	for (auto Index = 0u; Index < _Dead.size(); Index++)
-	{
-		PossibleCards.erase(std::remove_if(PossibleCards.begin(), 
-							PossibleCards.end(), [&](Card* _Card) {return _Card->GetSuit() == _Dead[Index]->GetSuit() && _Card->GetRank() == _Dead[Index]->GetRank();}), 
-							PossibleCards.end());
-	}
-
 	int RequiredAmt = _Target - _Set.size();
+	bool IsDead;
+	int RandomIndex;
 
-	//Use Mersenne Twister to obtain a random card to insert into Set
-	auto Seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	
-	std::mt19937 mt(Seed);
-	std::uniform_int_distribution<int> CardsDistribution(0, PossibleCards.size() - 1); 
+	std::uniform_int_distribution<int> CardsDistribution(0, 51);
 
-	for (auto Index = 0; Index < RequiredAmt; Index++)
+	for (unsigned int Index = 0; Index < RequiredAmt; Index++)
 	{
-		CardsDistribution.param(std::uniform_int_distribution<int>::param_type(0, PossibleCards.size() - 1));
-		auto RandomIndex = CardsDistribution(mt);
-		
-		_Set.push_back(PossibleCards[RandomIndex]);
-		PossibleCards.erase(PossibleCards.begin() + RandomIndex);
+		while (true)
+		{
+			IsDead = false;
+			RandomIndex = CardsDistribution(MTGenerator);
+			
+			for (auto const& Dead : _Dead)
+			{
+				if (ReferenceDeck[RandomIndex]->GetRank() == Dead->GetRank() && ReferenceDeck[RandomIndex]->GetSuit() == Dead->GetSuit())
+				{
+					IsDead = true;
+					break;
+				}
+			}
+
+			if (!IsDead)
+			{
+				_Set.push_back(ReferenceDeck[RandomIndex]);
+				break;
+			}
+		}
 	}
 }
 
@@ -334,6 +338,22 @@ Hand HandEvaluator::DetermineType(int _Value)
 
 ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card*, 5> _First, std::array<Card*, 5> _Second)
 {
+	//for (auto const& Card : _First)
+	//{
+	//	if (Card == nullptr)
+	//		std::cout << "A card in First Hand is null...\n";
+	//	else
+	//		std::cout << "Card in 1st Hand: " << Card->GetInfo() << "\n";
+	//}
+
+	//for (auto const& Card : _Second)
+	//{
+	//	if (Card == nullptr)
+	//		std::cout << "A card in Second Hand is null...\n";
+	//	else
+	//		std::cout << "Card in 2nd Hand: " << Card->GetInfo() << "\n";
+	//}
+
 	int FirstValue = DetermineValue_5Cards(_First);
 	int SecondValue = DetermineValue_5Cards(_Second); 
 

@@ -77,14 +77,14 @@ std::array<double, 8> Orchastrator::GetThresholds()
 	Thresholds[0] = Strategies[0]->GetThresholds()[0];
 	Thresholds[1] = Strategies[0]->GetThresholds()[1];
 
-	Thresholds[2] = Strategies[1]->GetThresholds()[2];
-	Thresholds[3] = Strategies[1]->GetThresholds()[3];
+	Thresholds[2] = Strategies[1]->GetThresholds()[0];
+	Thresholds[3] = Strategies[1]->GetThresholds()[1];
 
-	Thresholds[4] = Strategies[2]->GetThresholds()[4];
-	Thresholds[5] = Strategies[2]->GetThresholds()[5];
+	Thresholds[4] = Strategies[2]->GetThresholds()[0];
+	Thresholds[5] = Strategies[2]->GetThresholds()[1];
 
-	Thresholds[6] = Strategies[3]->GetThresholds()[6];
-	Thresholds[7] = Strategies[3]->GetThresholds()[7];
+	Thresholds[6] = Strategies[3]->GetThresholds()[0];
+	Thresholds[7] = Strategies[3]->GetThresholds()[1];
 	return Thresholds;
 }
 
