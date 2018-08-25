@@ -99,17 +99,6 @@ double GeneticTest::DetermineWinRate(Player* _Current, Player* _Subject)
 		}
 	}
 
-	/*for (unsigned int RIndex = 0; RIndex < RoundLimit; RIndex++)
-	{
-		TestBoard->Update();
-	
-		if (TestBoard->IsGameEnded())
-		{
-			std::cout << "Game has ended...\n";
-			break;
-		}	
-	}*/
-
 	//std::cout << "Result: P." << _Current->GetIndex() << " (S: $" << _Current->GetStack() << "/A: $" << _Current->GetAnte() << ") SP." << _Subject->GetIndex() << " (S: $" << _Subject->GetStack() << "/A: $" << _Subject->GetAnte() << ") Pot ($" << TestBoard->GetPot() << ") = Ended at " << TestBoard->GetStateStr() << "\n";
 	//std::cout << "P." << _Current->GetIndex() << " against SP." << _Subject->GetIndex() << ": " << (double)TestBoard->GetPlayerWins(_Current) / (double)TestBoard->GetRounds() << " (Wins: " << TestBoard->GetPlayerWins(_Current) << " | Rounds: " << TestBoard->GetRounds() << ")\n";
 

@@ -126,6 +126,7 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
+*.db
 *.VC.db
 *.VC.VC.opendb
 
@@ -361,3 +362,5 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+BlossomPoker.VC.db
+BlossomPoker.VC.db

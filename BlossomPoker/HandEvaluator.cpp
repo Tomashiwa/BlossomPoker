@@ -338,22 +338,6 @@ Hand HandEvaluator::DetermineType(int _Value)
 
 ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card*, 5> _First, std::array<Card*, 5> _Second)
 {
-	//for (auto const& Card : _First)
-	//{
-	//	if (Card == nullptr)
-	//		std::cout << "A card in First Hand is null...\n";
-	//	else
-	//		std::cout << "Card in 1st Hand: " << Card->GetInfo() << "\n";
-	//}
-
-	//for (auto const& Card : _Second)
-	//{
-	//	if (Card == nullptr)
-	//		std::cout << "A card in Second Hand is null...\n";
-	//	else
-	//		std::cout << "Card in 2nd Hand: " << Card->GetInfo() << "\n";
-	//}
-
 	int FirstValue = DetermineValue_5Cards(_First);
 	int SecondValue = DetermineValue_5Cards(_Second); 
 
@@ -695,19 +679,4 @@ std::string HandEvaluator::GetStr(std::vector<Card*> _Hand)
 	}
 
 	return str;
-
-	/*if (_Hand.empty() || _Hand[0] == nullptr)
-		return "";
-
-	std::string Str = "";
-
-	for (unsigned int Index = 0; Index < _Hand.size(); Index++)
-	{
-		if (Index != 0)
-			Str += "/";
-
-		Str += _Hand[Index]->GetInfo();
-	}
-
-	return Str;*/
 }
