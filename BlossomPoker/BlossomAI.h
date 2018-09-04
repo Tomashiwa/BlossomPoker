@@ -5,19 +5,22 @@
 
 #include <vector>
 #include <limits>
+#include <memory>
 
 class Orchastrator;
 class HandEvaluator;
 
-class BlossomAI
+class BlossomAI : public std::enable_shared_from_this<BlossomAI>
 {
 public:
-	BlossomAI(HandEvaluator* _Evaluator);
-	BlossomAI(HandEvaluator* _Evaluator, std::array<double, 8> _Thresholds);
+	BlossomAI();
 	~BlossomAI();
 
-	std::vector<BettingAction> GetAvaliableActions();
-	BettingAction EnquireAction(Snapshot _Snapshot);
+	void Initialize(std::shared_ptr<HandEvaluator> _Evaluator);
+	void InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<double, 8> _Thresholds);
+
+	//std::vector<BettingAction> GetAvaliableActions();
+	BettingAction EnquireAction(const Snapshot& _Snapshot);
 
 	void PrintShot();
 	double DetermineWinRate();
@@ -26,8 +29,9 @@ public:
 	std::array<double, 8> GetThresholds();
 
 private:
-	Orchastrator* Orch;
-	HandEvaluator* Eval;
+	std::shared_ptr<Orchastrator> Orch;
+	std::shared_ptr<HandEvaluator> Eval;
+
 	Snapshot CurrentShot;
 
 };

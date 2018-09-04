@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "HandEvaluator.h"
 
@@ -11,27 +12,30 @@ class GameManager
 {
 public:
 	GameManager();
+
+	GameManager(const GameManager&) = delete;
+	GameManager& operator= (const GameManager&) = delete;
+
 	~GameManager();
 
 	void Start();
 	void Update();
 	void End();
 
-	Board* NewBoard(unsigned int _StartBB);
+	void AddBoard(unsigned int _StartBB);
 
 	void SetIsActive(bool _IsActive) { IsActive = _IsActive; }
 	bool GetIsActive() { return IsActive; }
 	bool GetIsPrintingRoundInfo() { return IsPrintingRoundInfo; }
 
-	HandEvaluator* GetEvaluator() { return Evaluator; }
+	std::shared_ptr<HandEvaluator> GetEvaluator() { return Evaluator; }
 
 private:
 	bool IsActive = true;
 	bool IsPrintingRoundInfo;
 
-	std::vector<Board*> Boards;
-
-	HandEvaluator* Evaluator = new HandEvaluator();
+	std::vector<std::shared_ptr<Board>> Boards;
+	std::shared_ptr<HandEvaluator> Evaluator = std::make_shared<HandEvaluator>();
 
 };
 

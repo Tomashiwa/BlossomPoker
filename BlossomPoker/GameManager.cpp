@@ -42,15 +42,13 @@ void GameManager::End()
 		Boards[Index]->End();
 }
 
-Board* GameManager::NewBoard(unsigned int _StartBB)
+void GameManager::AddBoard(unsigned int _StartBB)
 {
-	Board* _NewBoard = new Board(Evaluator, _StartBB, true);
-	_NewBoard->AddPlayer(new Player(_NewBoard, 0),_StartBB * 100);
-	_NewBoard->AddPlayer(new Player(_NewBoard, 1),_StartBB * 100);
+	std::shared_ptr<Board> _NewBoard = std::make_shared<Board>(Evaluator, _StartBB, true);
+	_NewBoard->AddPlayer(std::make_shared<Player>(_NewBoard, 0),_StartBB * 100);
+	_NewBoard->AddPlayer(std::make_shared<Player>(_NewBoard, 1),_StartBB * 100);
 	_NewBoard->SetActive(true);
 
 	Boards.push_back(_NewBoard);
 	std::cout << "New Board created (SB/BB: " << _StartBB/2 << "/" << _StartBB << " | Stack: " << _StartBB*100 << ") \n \n";
-
-	return _NewBoard;
 }

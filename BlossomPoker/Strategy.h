@@ -1,5 +1,6 @@
 #pragma once
 #include <iomanip>
+#include <memory>
 
 #include "BettingAction.h"
 #include "Snapshot.h"
@@ -9,22 +10,19 @@ class Orchastrator;
 class Strategy
 {
 public:
-	Strategy(Orchastrator* _Orchastrator, double _CalingThresh, double _RaisingThresh);
+	Strategy(std::shared_ptr<Orchastrator> _Orchastrator, double _CalingThresh, double _RaisingThresh);
 	~Strategy();
 
 	BettingAction DetermineIdealAction();
+
 	void PrintThresholds();
-	std::array<double, 2> GetThresholds();
+	std::array<double, 2> GetThresholds() { return Thresholds; }
 
 private:
-	Orchastrator* Orch;
+	std::shared_ptr<Orchastrator> Orch;
 
-	double Thr_Calling;
-	double Thr_RaisingBetting;
-
-	//MWR - Minimum Winning Rate required for a certain move
-	double MWR_Calling;
-	double MWR_RaisingBetting;
+	std::array<double, 2> Thresholds; // 0 => Calling, 1 => Raising and Betting
+	std::array<double, 2> MinWinRates; // 0 => Calling, 1 =? Raising and Betting
 
 	void CalculateMWRs();
 	bool IsActionAvaliable(BettingAction _Action);

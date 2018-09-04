@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -11,21 +12,24 @@ class Deck
 {
 public:
 	Deck();
+
+	Deck(const Deck&) = delete;
+	Deck& operator= (const Deck&) = delete;
+
 	~Deck();
 
 	void Refill();
 	void Shuffle();
 	
-	Card* Draw();
-	std::vector<Card*> DrawMultiple(unsigned int _Amt);
-
-	void Remove(Card* _Target);
+	std::shared_ptr<Card> Draw();
+	bool Draw(std::shared_ptr<Card>& _NewCard);
+	bool DrawMulti(unsigned int _Amt, std::vector<std::shared_ptr<Card>>& _NewCards);//std::vector<std::shared_ptr<Card>> DrawMultiple(unsigned int _Amt);
 
 	void Print();
-	std::vector<Card*> GetCards() { return Cards; }
+	void GetCards(std::vector<std::shared_ptr<Card>>& _Cards) { _Cards = Cards; }
 
 private:
-	std::vector<Card*> Cards;
+	std::vector<std::shared_ptr<Card>> Cards;
 
 };
 

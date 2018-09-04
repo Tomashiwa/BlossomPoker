@@ -1,11 +1,13 @@
 #include <iostream>
 #include <string>
+#include <memory>
+
 #include "GameManager.h"
 #include "GeneticTest.h"
 
 int main()
 {
-	GeneticTest* Test = new GeneticTest();
+	std::unique_ptr<GeneticTest> Test = std::make_unique<GeneticTest>();
 
 	Test->Start();
 
@@ -17,7 +19,7 @@ int main()
 
 	//GameManager* Manager = new GameManager();
 
-	//Manager->NewBoard(20);
+	//Manager->AddBoard(20);
 	//Manager->Start();
 
 	//while (Manager->GetIsActive())

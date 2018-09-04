@@ -88,7 +88,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_HAS_ITERATOR_DEBUGGING=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -172,7 +172,7 @@
     <ClInclude Include="ComparisonResult.h" />
     <ClInclude Include="Snapshot.h" />
     <ClInclude Include="Suit.h" />
-    <ClInclude Include="Value.h" />
+    <ClInclude Include="Rank.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

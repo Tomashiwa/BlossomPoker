@@ -3,6 +3,7 @@
 
 Deck::Deck()
 {
+	Cards.reserve(52);
 	Refill();
 	Shuffle();
 }
@@ -19,10 +20,7 @@ void Deck::Refill()
 	{
 		for (unsigned int VIndex = 0; VIndex < 13; VIndex++)
 		{
-			Suit NewSuit = static_cast<Suit>(SIndex);
-			Rank NewValue = static_cast<Rank>(VIndex);
-
-			Cards.push_back(new Card(NewSuit, NewValue));
+			Cards.push_back(std::make_shared<Card>(static_cast<Suit>(SIndex), static_cast<Rank>(VIndex)));
 		}
 	}
 }
@@ -33,50 +31,50 @@ void Deck::Shuffle()
 	std::random_shuffle(Cards.begin(), Cards.end());
 }
 
-Card* Deck::Draw()
+bool Deck::Draw(std::shared_ptr<Card>& _NewCard)
 {
-	Card* DrawnCard = Cards.back();
+	_NewCard = std::move(Cards.back());
 	Cards.pop_back();
-	return DrawnCard;
+	return Cards.empty();
 }
 
-std::vector<Card*> Deck::DrawMultiple(unsigned int _Amt)
+std::shared_ptr<Card> Deck::Draw()
 {
-	std::vector<Card*> DrawnCards;
+	std::shared_ptr<Card> NewCard = std::move(Cards.back());
+	Cards.pop_back();
+	return NewCard;
+}
 
+bool Deck::DrawMulti(unsigned int _Amt, std::vector<std::shared_ptr<Card>>& _NewCards)
+{
 	for (unsigned int Draws = 0; Draws < _Amt; Draws++)
-		DrawnCards.push_back(Draw());
-
-	return DrawnCards;
-}
-
-void Deck::Remove(Card* _Target)
-{
-	for (unsigned int Index = 0; Index < Cards.size(); Index++)
 	{
-		if (Cards[Index]->GetInfo() == _Target->GetInfo())
-			Cards.erase(Cards.begin() + Index);
+		std::shared_ptr<Card> NewCard = std::make_shared<Card>();
+		Draw(NewCard);
+		
+		_NewCards.push_back(NewCard);
 	}
+
+	return Cards.empty();
 }
 
 void Deck::Print()
 {
-	std::cout << "Deck's information: " << std::endl;
-	std::cout << "(Remaining cards): " << Cards.size() << std::endl << std::endl;
+	std::cout << "Deck's information: \n";
+	std::cout << "(Remaining cards): " << Cards.size() << "\n\n";
 	
 	unsigned int Count = 0;
-	for (unsigned int CIndex = 0; CIndex < Cards.size(); CIndex++)
+	for (auto const& C : Cards)//unsigned int CIndex = 0; CIndex < Cards.size(); CIndex++)
 	{
-		std::cout << Cards[CIndex]->GetInfo();
-
+		std::cout << C->GetInfo() << "/";
 		Count++;
-		std::cout << "/";
+
 		if (Count >= 13)
 		{
-			std::cout << std::endl;
+			std::cout << "\n";
 			Count = 0;
 		}
 	}
 
-	std::cout << std::endl;
+	std::cout << "\n";
 }

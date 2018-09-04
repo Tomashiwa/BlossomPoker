@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <iterator>
 
-Board::Board(HandEvaluator* _Evaluator, unsigned int _BigBlind, bool _PrintProcess)
+Board::Board(std::shared_ptr<HandEvaluator> _Evaluator, unsigned int _BigBlind, bool _PrintProcess)
 {
 	Evaluator = _Evaluator;
 
@@ -17,7 +17,7 @@ Board::Board(HandEvaluator* _Evaluator, unsigned int _BigBlind, bool _PrintProce
 	RequiredAnte = BigBlind;
 	EntryStack = 100 * BigBlind;
 
-	PlayingDeck = new Deck();
+	PlayingDeck = std::make_unique<Deck>();
 
 	PrintProcess = _PrintProcess;
 
@@ -81,13 +81,11 @@ void Board::Update()
 
 void Board::End()
 {
-	Player* Winner = Players[0];
-
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		if (!Players[Index]->GetIsBroke()) Winner = Players[Index];
-
-	if(PrintProcess)
-		std::cout << "Winner: P." << Winner->GetIndex() << " ($" << Winner->GetStack() << ") \n";
+	for (auto const& CurrentPlayer : Players)
+	{
+		if (!CurrentPlayer->GetIsBroke())
+			std::cout << "Winner: P." << CurrentPlayer->GetIndex() << " ($" << CurrentPlayer->GetStack() << ") \n";
+	}
 }
 
 void Board::Reset()
@@ -99,17 +97,18 @@ void Board::Reset()
 		Player->Reset();
 
 	RemoveAllPlayers();
-	DealingPlayer = nullptr;
-	BigBlindPlayer = nullptr;
-	SmallBlindPlayer = nullptr;
-	CurrentPlayer = nullptr;
+	DealingPlayer.reset();
+	BigBlindPlayer.reset();
+	SmallBlindPlayer.reset();
+	CurrentPlayer.reset();
 
 	Records.clear();
 
 	PlayingDeck->Refill();
 	PlayingDeck->Shuffle();
 
-	CommunalCards = { nullptr, nullptr, nullptr, nullptr, nullptr };
+	for (auto& Card : CommunalCards)
+		Card.reset();
 
 	Pot = 0;
 	RequiredAnte = 0;
@@ -124,10 +123,10 @@ void Board::ResetRecords()
 
 void Board::ResetStacks()
 {
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto const& Player : Players)
 	{
-		Players[Index]->SetStack(EntryStack);
-		Players[Index]->SetIsBroke(false);
+		Player->SetStack(EntryStack);
+		Player->SetIsBroke(false);
 	}
 
 	Pot = 0;
@@ -136,18 +135,18 @@ void Board::ResetStacks()
 
 void Board::StartRound()
 {
-	Round += 1;
 	CurrentState = Phase::Preflop;
+	Round += 1;
 
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto const& Player : Players)
 	{
-		if (!Players[Index]->GetIsBroke())
-			Players[Index]->SetIsParticipating(true);
+		if (!Player->GetIsBroke())
+			Player->SetIsParticipating(true);
 
-		Players[Index]->EmptyPotContributon();
+		Player->EmptyPotContributon();
 	}
 
-	DealingPlayer = DealingPlayer == nullptr ? Players[0] : GetNextPlayer(DealingPlayer);
+	DealingPlayer = !DealingPlayer ? Players[0] : GetNextPlayer(DealingPlayer);
 	SmallBlindPlayer = GetNextPlayer(DealingPlayer);
 	BigBlindPlayer = GetNextPlayer(SmallBlindPlayer);
 
@@ -165,13 +164,15 @@ void Board::UpdateRound()
 void Board::EndRound()
 {
 	std::vector<unsigned int> Pots;
-	std::vector<std::vector<Player*>> ValidPlayersPerPot;
+	std::vector<std::vector<std::shared_ptr<Player>>> ValidPlayersPerPot;
 
 	SplitPot(Pots, ValidPlayersPerPot);
 
-	std::map<Player*, unsigned int> PlayersWinning;
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		PlayersWinning.insert(std::make_pair(Players[Index], 0));
+	std::map<std::shared_ptr<Player>, unsigned int> PlayersWinning;
+	for (auto& Player : Players)
+		PlayersWinning.insert(std::make_pair(Player, 0));
+
+	std::vector<std::shared_ptr<Player>> PotWinners;
 
 	for (unsigned int PotIndex = 0; PotIndex < Pots.size(); PotIndex++)
 	{
@@ -192,7 +193,7 @@ void Board::EndRound()
 			continue;
 		}
 
-		std::vector<Player*> PotWinners = DetermineWinningPlayers(ValidPlayersPerPot[PotIndex]);
+		DetermineWinningPlayers(ValidPlayersPerPot[PotIndex], PotWinners);
 
 		if (PotWinners.size() == 1)
 		{
@@ -218,6 +219,8 @@ void Board::EndRound()
 				PlayersWinning[PotWinners[WinnerIndex]] += Portion;
 			}
 		}
+
+		PotWinners.clear();
 	}
 
 	auto Winner = PlayersWinning.begin();
@@ -231,18 +234,18 @@ void Board::EndRound()
 	ClearCommunalCards();
 	EmptyPot();
 
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto const& Player : Players)
 	{
-		Players[Index]->EmptyHand();
-		Players[Index]->SetAnte(0);
-		Players[Index]->SetIsFolded(false);
+		Player->EmptyHand();
+		Player->SetAnte(0);
+		Player->SetIsFolded(false);
 
-		if (Players[Index]->GetStack() <= 0)
+		if (Player->GetStack() <= 0)
 		{
-			Players[Index]->SetIsBroke(true);
+			Player->SetIsBroke(true);
 
-			if(PrintProcess)
-				std::cout << "P." << Index << " is broke... \n";
+			if (PrintProcess)
+				std::cout << "P." << Player->GetIndex() << " is broke... \n";
 		}
 	}
 
@@ -267,10 +270,10 @@ void Board::EndRound()
 
 void Board::StartPhase()
 {
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto const& Player : Players)
 	{
-		Players[Index]->SetAction(BettingAction::NONE);
-		Players[Index]->SetAnte(0);
+		Player->SetAction(BettingAction::NONE);
+		Player->SetAnte(0);
 	}
 
 	RequiredAnte = 0;
@@ -298,7 +301,6 @@ void Board::StartPhase()
 				std::cout << "\nPhase: Flop\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
-
 			IssueCommunalCards();
 			break;
 		}
@@ -308,7 +310,6 @@ void Board::StartPhase()
 				std::cout << "\nPhase: Turn\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
-
 			IssueCommunalCards();
 			break;
 		}
@@ -318,7 +319,6 @@ void Board::StartPhase()
 				std::cout << "\nPhase: River\n";
 
 			CurrentPlayer = GetNextPlayer(DealingPlayer);
-
 			IssueCommunalCards();
 			break;
 		}
@@ -326,11 +326,10 @@ void Board::StartPhase()
 
 	if (PrintProcess)
 	{
-		for (unsigned int Index = 0; Index < Players.size(); Index++)
-			std::cout << "P." << Players[Index]->GetIndex() << ": " << Evaluator->GetStr(Players[Index]->GetHand()) << "  ";
+		for (auto const& Player : Players)
+			std::cout << "P." << Player->GetIndex() << ": " << Evaluator->GetStr(Player->GetHand()) << "  ";
 		std::cout << "\n";
 		std::cout << "Board: " << Evaluator->GetStr(CommunalCards) << "\n";	
-		//Print();
 	}
 }
 
@@ -454,14 +453,14 @@ void Board::NextPhase()
 
 bool Board::IsPhaseEnded()
 {
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto const& Player: Players)
 	{
-		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded() && Players[Index]->GetIsParticipating())
+		if (!Player->GetIsBroke() && !Player->GetIsFolded() && Player->GetIsParticipating())
 		{
-			if (CurrentState == Phase::Preflop && Players[Index]->GetAnte() < RequiredAnte)
+			if (CurrentState == Phase::Preflop && Player->GetAnte() < RequiredAnte)
 				return false;
 
-			else if (CurrentState != Phase::Preflop && (Players[Index]->GetAction() == BettingAction::NONE || Players[Index]->GetAnte() < RequiredAnte))
+			else if (CurrentState != Phase::Preflop && (Player->GetAction() == BettingAction::NONE || Player->GetAnte() < RequiredAnte))
 				return false;
 		}
 	}
@@ -471,16 +470,6 @@ bool Board::IsPhaseEnded()
 
 bool Board::IsRoundEnded()
 {
-	bool HadAllIn = true;
-	for (auto const& Player : Players)
-		if (Player->GetIsParticipating()) HadAllIn = false;
-
-	if (HadAllIn)
-	{
-		//std::cout << "All players have all-in in this round...\n";
-		//return true;
-	}
-
 	unsigned int RemainingPlayers = 0;
 
 	for (auto const& Player : Players)
@@ -499,7 +488,7 @@ bool Board::IsGameEnded()
 	return Count <= 1 ? true : false;
 }
 
-void Board::AddPlayer(Player* _AddingPlayer)
+void Board::AddPlayer(std::shared_ptr<Player> _AddingPlayer)
 {
 	Players.push_back(_AddingPlayer);
 	Records.insert(std::make_pair(_AddingPlayer, 0));
@@ -507,7 +496,7 @@ void Board::AddPlayer(Player* _AddingPlayer)
 	_AddingPlayer->SetStack(EntryStack);
 }
 
-void Board::AddPlayer(Player* _AddingPlayer, unsigned int _EntryStack)
+void Board::AddPlayer(std::shared_ptr<Player> _AddingPlayer, unsigned int _EntryStack)
 {
 	Players.push_back(_AddingPlayer);
 	Records.insert(std::make_pair(_AddingPlayer, 0));
@@ -515,9 +504,10 @@ void Board::AddPlayer(Player* _AddingPlayer, unsigned int _EntryStack)
 	_AddingPlayer->SetStack(_EntryStack);
 }
 
-void Board::RemovePlayer(Player* _RemovingPlayer)
+void Board::RemovePlayer(std::shared_ptr<Player>& _RemovingPlayer)
 {
 	Players.erase(Players.begin() + (_RemovingPlayer->GetIndex() - 1));
+	_RemovingPlayer.reset();
 }
 
 void Board::RemoveAllPlayers()
@@ -525,44 +515,50 @@ void Board::RemoveAllPlayers()
 	Players.clear();
 }
 
-Player* Board::GetPreviousPlayer(Player* _Reference)
+std::shared_ptr<Player> Board::GetPreviousPlayer(const std::shared_ptr<Player>& _Reference)
 {
-	for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
+	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
-		if (*Itr == _Reference)
+		if (Players[Index] == _Reference)
+			return Index <= 0 ? Players[Players.size() - 1] : Players[Index - 1];
+	}
+
+	return nullptr;
+
+	/*for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
+	{
+		if ((*Itr)->GetIndex() == _Reference->GetIndex())
 			return Itr == Players.begin() ? *(--Players.end()) : *(--Itr);
 	}
 
-	return nullptr;
-
-	/*if (_Reference->GetIndex() == 0)
-		return Players[Players.size() - 1];
-
-	return Players[_Reference->GetIndex() - 1];*/
+	return nullptr;*/
 }
 
-Player* Board::GetNextPlayer(Player* _Reference)
+std::shared_ptr<Player> Board::GetNextPlayer(const std::shared_ptr<Player>& _Reference)
 {
-	for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
+	for (unsigned int Index = 0; Index < Players.size(); Index++)
 	{
-		if (*Itr == _Reference)
-			return Itr == (--Players.end()) ? *Players.begin() : *(++Itr);
+		if (Players[Index] == _Reference)
+			return Index >= (Players.size() - 1) ? Players[0] : Players[Index + 1];
 	}
 
 	return nullptr;
 
-	/*if (_Reference->GetIndex() == Players.size() - 1)
-		return Players[0];
+	/*for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
+	{
+		if ((*Itr)->GetIndex() == _Reference->GetIndex())
+			return Itr == (--Players.end()) ? *Players.begin() : *(++Itr);
+	}
 
-	return Players[_Reference->GetIndex() + 1];*/
+	return nullptr;*/
 }
 
 void Board::UpdatePot()
 {
 	EmptyPot();
 
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		Pot += Players[Index]->GetPotContribution();
+	for (auto const& Player : Players)
+		Pot += Player->GetPotContribution();
 }
 
 void Board::EmptyPot()
@@ -570,24 +566,15 @@ void Board::EmptyPot()
 	Pot = 0;
 }
 
-void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<Player*>> &_ValidPlayersPerPot)
+void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<std::shared_ptr<Player>>> &_ValidPlayersPerPot)
 {
 	std::vector<unsigned int> EntryValues;
-	std::vector<Player*> ParticipatingPlayers = GetParticipatingPlayers();
+	std::vector<std::shared_ptr<Player>> ParticipatingPlayers;
+	GetParticipatingPlayers(ParticipatingPlayers);
 	
-	/*std::cout << "Participanting Players: \n";
-	for (auto const& Participant : ParticipatingPlayers)
-	{
-		if (Participant == nullptr)
-			std::cout << "NULL ";
-		else
-			std::cout << "P." << Participant->GetIndex() << " ";
-	}
-	std::cout << "\n";*/
-
 	//Sort ParticipatingPlayers by their contributions in ascending order
-	std::vector<Player*>::iterator NextPlayer;
-	std::vector<Player*>::iterator UpperPlayer;
+	std::vector<std::shared_ptr<Player>>::iterator NextPlayer;
+	std::vector<std::shared_ptr<Player>>::iterator UpperPlayer;
 
 	for (auto PlayerItr = ParticipatingPlayers.begin(); PlayerItr != ParticipatingPlayers.end(); PlayerItr++)
 	{
@@ -606,14 +593,17 @@ void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<P
 		std::rotate(UpperPlayer, PlayerItr, NextPlayer);
 	}
 
+	std::vector<std::shared_ptr<Player>> ContributingPlayers;
+	std::vector<std::shared_ptr<Player>> ValidPlayersInPot;
+	unsigned int EntryValue, PotSize;
+
 	//Loop through the ParticipatingPlayers to determine the size of pots and it's valid players
 	for (auto const& Participant : ParticipatingPlayers)//auto PlayerItr = ParticipatingPlayers.begin(); PlayerItr != std::prev(ParticipatingPlayers.end()); PlayerItr++)
 	{
 		if (Participant->GetIsBroke())//(*PlayerItr)->GetIsBroke())
 			continue;
 
-		std::vector<Player*> ContributingPlayers;
-		unsigned int EntryValue = Participant->GetPotContribution();
+		EntryValue = Participant->GetPotContribution();
 		EntryValues.push_back(EntryValue);
 
 		for (auto const& PotentialContributor : ParticipatingPlayers) //unsigned int ContriIndex = 0; ContriIndex < ParticipatingPlayers.size(); ContriIndex++)
@@ -625,7 +615,7 @@ void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<P
 				ContributingPlayers.push_back(PotentialContributor);
 		}
 
-		unsigned int PotSize = 0;
+		PotSize = 0;
 		for (auto const& Contributor : ContributingPlayers)//unsigned int ContriIndex = 0; ContriIndex < ContributingPlayers.size(); ContriIndex++)
 		{
 			if (!Contributor->GetIsFolded())
@@ -642,8 +632,6 @@ void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<P
 		}
 
 		_Pots.push_back(PotSize);
-
-		std::vector<Player*> ValidPlayersInPot;
 		for (auto const& Contributor : ContributingPlayers)//unsigned int ContriIndex = 0; ContriIndex < ContributingPlayers.size(); ContriIndex++)
 		{
 			if (Contributor->GetPotContribution() >= EntryValue)
@@ -669,6 +657,9 @@ void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<P
 		}
 
 		_ValidPlayersPerPot.push_back(ValidPlayersInPot);
+
+		ContributingPlayers.clear();
+		ValidPlayersInPot.clear();
 	}
 
 	//Check for leftover money in case of overbetting players
@@ -680,7 +671,7 @@ void Board::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<P
 	{
 		_Pots.push_back(LeftOver);
 
-		std::vector<Player*> OverBetters;
+		std::vector<std::shared_ptr<Player>> OverBetters;
 		OverBetters.push_back(ParticipatingPlayers[ParticipatingPlayers.size() - 1]);
 
 		_ValidPlayersPerPot.push_back(OverBetters);
@@ -692,10 +683,10 @@ void Board::DealCardsToPlayers()
 	PlayingDeck->Refill();
 	PlayingDeck->Shuffle();
 
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto const& Player : Players)
 	{
-		Players[Index]->EmptyHand();
-		Players[Index]->SetHand(PlayingDeck->Draw(), PlayingDeck->Draw());
+		Player->EmptyHand();
+		Player->SetHand(PlayingDeck->Draw(), PlayingDeck->Draw());
 	}
 }
 
@@ -729,121 +720,68 @@ void Board::IssueCommunalCards()
 
 void Board::ClearCommunalCards()
 {
-	for (unsigned int Index = 0; Index < 5; Index++)
-		CommunalCards[Index] = nullptr;
+	for (auto& Card : CommunalCards)
+		Card = nullptr;
 }
 
-std::vector<Player*> Board::GetParticipatingPlayers()
+void Board::GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants)
 {
-	std::vector<Player*> Participants;
-
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
+	for (auto& Player : Players)
 	{
-		/*if (Players[Index]->GetIsBroke())
-			std::cout << "P." << Players[Index]->GetIndex() << " is broke\n";
-		else if (Players[Index]->GetIsFolded())
-			std::cout << "P." << Players[Index]->GetIndex() << " has folded\n";
-		else if (!Players[Index]->GetIsParticipating())
-			std::cout << "P." << Players[Index]->GetIndex() << " is not participating\n";*/
-
-		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded()) 
-			Participants.push_back(Players[Index]);
-
+		if (!Player->GetIsBroke() && !Player->GetIsFolded()) 
+			_Participants.push_back(Player);
 	}
-
-	return Participants;
 }
 
-std::vector<Player*> Board::GetBettingPlayers()
+void Board::GetBettingPlayers(std::vector<std::shared_ptr<Player>>& _BettingPlayers)
 {
-	std::vector<Player*> BettingPlayers;
-
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-		if (!Players[Index]->GetIsBroke() && !Players[Index]->GetIsFolded()) BettingPlayers.push_back(Players[Index]);
-
-	return BettingPlayers;
+	for (auto& Player : Players)
+		if (!Player->GetIsBroke() && !Player->GetIsFolded()) _BettingPlayers.push_back(Player);
 }
 
-std::vector<Player*> Board::DetermineWinningPlayers(std::vector<Player*> _Participants)
+void Board::DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& _Participants, std::vector<std::shared_ptr<Player>>& _Winners)
 {
-	std::vector<Player*> BettingPlayers = _Participants;
-
-	if (BettingPlayers.size() == 1)
-		return BettingPlayers;
-
-	std::vector<std::array<Card*,5>> BettingHands;
-
-	/*std::cout << "Communal Cards: ";
-	for (auto const& Card : CommunalCards)
+	if (_Participants.size() == 1)
 	{
-		if (Card == nullptr)
-			std::cout << "NULL ";
-		else
-			std::cout << Card->GetInfo() << " ";
-	}
-	std::cout << "\n";*/
-
-	for (unsigned int Index = 0; Index < BettingPlayers.size(); Index++)
-	{
-		/*std::cout << "P." << BettingPlayers[Index]->GetIndex() << "'s Pocket: ";
-		for (auto const& Card : BettingPlayers[Index]->GetHand())
-		{
-			if (Card == nullptr)
-				std::cout << "NULL ";
-			else
-				std::cout << Card->GetInfo() << " ";
-		}
-		std::cout << "\n";
-*/
-		std::array<Card*, 5> PlayerBest = Evaluator->GetBestCommunalHand(BettingPlayers[Index]->GetHand(), CommunalCards);
-		BettingHands.push_back(PlayerBest);
-
-		/*std::cout << "P." << BettingPlayers[Index]->GetIndex() << "'s Best Hand: ";
-		for (auto const& Card : PlayerBest)
-		{
-			if (Card == nullptr)
-				std::cout << "NULL ";
-			else
-				std::cout << Card->GetInfo() << " ";
-		}
-		std::cout << "\n";*/
-		
-		//std::cout << "P." << Index << " best hand: " << Eval->GetStr(PlayerBest) << " (" << Eval->GetTypeStr(PlayerBest) << ")" << " => " << Eval->DetermineValue_5Cards(PlayerBest) << std::endl;
+		_Winners = _Participants;
+		return;
 	}
 
-	std::array<Card*,5> BestHand = BettingHands[0];
+	std::vector<std::array<std::shared_ptr<Card>,5>> BettingHands;
 
-	std::vector<Player*> WinningPlayers;
-	WinningPlayers.push_back(BettingPlayers[0]);
+	for (unsigned int Index = 0; Index < _Participants.size(); Index++)
+	{
+		BettingHands.push_back(Evaluator->GetBestCommunalHand(_Participants[Index]->GetHand(), CommunalCards));
+	}
+
+	std::array<std::shared_ptr<Card>,5> BestHand = BettingHands[0];
+
+	_Winners.push_back(_Participants[0]);
 
 	for (unsigned int Index = 1; Index < BettingHands.size(); Index++)
 	{
-		//std::cout << "Player " << ParticipatingPlayers[Index]->GetIndex() << ": " << Eval->GetStr(BettingHands[Index]) << " (" << Eval->GetTypeStr(BettingHands[Index]) << ")  /  Best Hand: " << Eval->GetStr(BestHand) << " (" << Eval->GetTypeStr(BestHand) << ")" << std::endl;
-
 		switch (Evaluator->IsBetter5Cards(BettingHands[Index],BestHand))
 		{
 			case ComparisonResult::Win:
 			{
 				BestHand = BettingHands[Index];
 
-				WinningPlayers.clear();
-				WinningPlayers.push_back(BettingPlayers[Index]);	
+				_Winners.clear();
+				_Winners.push_back(_Participants[Index]);
 				break;
 			}
 			case ComparisonResult::Draw:
 			{
-				WinningPlayers.push_back(BettingPlayers[Index]);
+				_Winners.push_back(_Participants[Index]);
 				break;
 			}
 			default:
 				break;
 		}
 	}
-
-	return WinningPlayers;
 }
 
-void Board::AwardPlayer(Player* _Player, unsigned int _Amt)
+void Board::AwardPlayer(const std::shared_ptr<Player>& _Player, unsigned int _Amt)
 {
 	_Player->SetStack(_Player->GetStack() + _Amt);
 }
@@ -872,7 +810,7 @@ void Board::Print()
 		else if (!Players[Index]->GetIsFolded() && !Players[Index]->GetIsParticipating())
 			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << ": All-in \n" << "   |   $" << Players[Index]->GetAnte() << "\n";
 		else
-			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHand()[0]->GetInfo() << "," << Players[Index]->GetHand()[1]->GetInfo() << "  |  $" << Players[Index]->GetAnte() << "\n";
+			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHandCardByIndex(0)->GetInfo() << "," << Players[Index]->GetHand()[1]->GetInfo() << "  |  $" << Players[Index]->GetAnte() << "\n";
 	}
 
 	std::cout << "--------------------------------------------------\n\n";

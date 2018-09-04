@@ -34,8 +34,8 @@ void HandEvaluator::ConvertPreflopOddsTxt()
 
 	std::ofstream outfile("PreflopResults.txt");
 
-	for (unsigned int Index = 0; Index < Data.size(); Index++)
-		outfile << Data[Index][0] << " " << Data[Index][1] << std::endl;
+	for (auto const& OddData : Data)
+		outfile << OddData[0] << " " << OddData[1] << std::endl;
 
 	outfile.close();
 }
@@ -75,16 +75,13 @@ void HandEvaluator::Initialize()
 	{
 		for (unsigned int VIndex = 0; VIndex < 13; VIndex++)
 		{
-			Suit NewSuit = static_cast<Suit>(SIndex);
-			Rank NewValue = static_cast<Rank>(VIndex);
-
-			ReferenceDeck[ReferenceIndex] = new Card(NewSuit, NewValue);
+			ReferenceDeck[ReferenceIndex] = std::make_shared<Card>(static_cast<Suit>(SIndex), static_cast<Rank>(VIndex));
 			ReferenceIndex++;
 		}
 	}
 }
 
-void HandEvaluator::RandomFill(std::vector<Card*>& _Set, std::vector<Card*> _Dead, int _Target)
+void HandEvaluator::RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>> _Dead, int _Target)
 {
 	//Add the cards that are currently in Set as dead cards
 	if (!_Set.empty())
@@ -173,15 +170,12 @@ int HandEvaluator::GetCardInt(std::string _CardTxt)
 
 }
 
-int HandEvaluator::GetCardInt(Card* _Card)
+int HandEvaluator::GetCardInt(std::shared_ptr<Card> _Card)
 {
-	int RankInt = static_cast<int>(_Card->GetRank());
-	int SuitInt = static_cast<int>(_Card->GetSuit());
-
-	return (RankInt * 4) + SuitInt + 1;
+	return (_Card->GetRankInt() * 4) + _Card->GetSuitInt() + 1;
 }
 
-std::array<int,5> HandEvaluator::Get5CardsInt(std::array<Card*, 5> _Hand)
+std::array<int,5> HandEvaluator::Get5CardsInt(std::array<std::shared_ptr<Card>, 5> _Hand)
 {
 	std::array<int, 5> CardsInt;
 
@@ -191,7 +185,7 @@ std::array<int,5> HandEvaluator::Get5CardsInt(std::array<Card*, 5> _Hand)
 	return CardsInt;
 }
 
-std::array<int,7> HandEvaluator::Get7CardsInt(std::array<Card*, 7> _Hand)
+std::array<int,7> HandEvaluator::Get7CardsInt(std::array<std::shared_ptr<Card>, 7> _Hand)
 {
 	std::array<int,7> CardsInt;
 
@@ -201,55 +195,58 @@ std::array<int,7> HandEvaluator::Get7CardsInt(std::array<Card*, 7> _Hand)
 	return CardsInt;
 }
 
-double HandEvaluator::DetermineOdds_PreflopHole(std::array<Card*, 2> _Hole)
+double HandEvaluator::DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole)
 {
-	int PairInt = GetCardInt(_Hole[0]) + GetCardInt(_Hole[1]);
-	return PreflopOdds[PairInt];
+	return PreflopOdds[GetCardInt(_Hole[0]) + GetCardInt(_Hole[1])];
 }
 
-double HandEvaluator::DetermineOdds_MonteCarlo(std::array<Card*, 2> _Hole, std::array<Card*, 5> _Community, int _TrialsAmt)
+double HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>	, 5> _Community, int _TrialsAmt)
 {
 	unsigned int TrialsAmt = _TrialsAmt;
 	unsigned int Win = 0, Lose = 0, Draw = 0, Count = 0;
+	int PlayerVal, OppoVal;
 
 	clock_t Clock = clock();
-
+	
+	std::vector<std::shared_ptr<Card>> Dead;
+	std::vector<std::shared_ptr<Card>> Rand_Community;
+	std::vector<std::shared_ptr<Card>> Rand_OppoHole;
+	
+	std::array<std::shared_ptr<Card>, 7> PlayerHand;
+	std::array<std::shared_ptr<Card>, 7> OppoHand;
+	
 	for (auto TrialIndex = 0u; TrialIndex < TrialsAmt; TrialIndex++)
 	{
-		//Generate a random set of community cards and opponent's hole cards
-		std::vector<Card*> Dead(_Hole.begin(), _Hole.end());
-		//std::cout << "Dead Cards (Only Hole): " << GetStr(Dead) << std::endl;
+		//Player's hand is consider as Dead Cards
+		Dead.insert(Dead.end(), _Hole.begin(), _Hole.end());
 
-		std::vector<Card*> Rand_Community(_Community.begin(), _Community.end());
+		//All 5 randomized communal cards as Dead Cards
+		Rand_Community.insert(Rand_Community.end(), _Community.begin(), _Community.end());
 		Rand_Community.erase(std::remove_if(Rand_Community.begin(), 
 											Rand_Community.end(), 
-											[](Card* _Card) {return _Card == nullptr; }), 
+											[](std::shared_ptr<Card> _Card) {return _Card == nullptr; }), 
 											Rand_Community.end());
 		RandomFill(Rand_Community, Dead, 5);
-		//std::cout << "Orignal Community Cards: " << GetStr(_Community) << "\n";
-		//std::cout << "Random Community Cards: " << GetStr(Rand_Community) << "\n";
 
 		Dead.insert(Dead.end(), Rand_Community.begin(), Rand_Community.end());
-		//std::cout << "Dead Cards (Hole w/ Community): " << GetStr(Dead) << std::endl;
-
-		std::vector<Card*> Rand_OppoHole;
+		
+		//Randomly get Opponent Hand based on current Dead Cards 
 		RandomFill(Rand_OppoHole, Dead, 2);
-		//std::cout << "Random Opponent Hole Cards: " << GetStr(Rand_OppoHole) << std::endl;
 
-		std::array<Card*, 7> PlayerHand;
+		//Add communal cards into both player's and opponent's hand
 		PlayerHand[0] = _Hole[0];
 		PlayerHand[1] = _Hole[1];
 		for (auto Index = 0u; Index < Rand_Community.size(); Index++)
 			PlayerHand[Index + 2] = Rand_Community[Index];
 
-		std::array<Card*, 7> OppoHand;
 		OppoHand[0] = Rand_OppoHole[0];
 		OppoHand[1] = Rand_OppoHole[1];
 		for (auto Index = 0u; Index < Rand_Community.size(); Index++)
 			OppoHand[Index + 2] = Rand_Community[Index];
 
-		int PlayerVal = DetermineValue_7Cards(PlayerHand);
-		int OppoVal	= DetermineValue_7Cards(OppoHand);
+		//Get scores for both hands to determine winner
+		PlayerVal = DetermineValue_7Cards(PlayerHand);
+		OppoVal	= DetermineValue_7Cards(OppoHand);
 
 		if (PlayerVal > OppoVal)
 			Win++;
@@ -259,15 +256,20 @@ double HandEvaluator::DetermineOdds_MonteCarlo(std::array<Card*, 2> _Hole, std::
 			Draw++;
 
  		Count++;
+
+		Dead.clear();
+		Rand_Community.clear();
+		Rand_OppoHole.clear();
+
+		PlayerHand.empty();
+		OppoHand.empty();
 	}
 
-	double EstimatedOdds = (((double)Win) + ((double)Draw) / 2.0) / ((double)Count) * 100.0;
-	
 	//std::cout << "Winning Odds of " << GetStr(_Hole) << ": " << EstimatedOdds << "% - (" << TrialsAmt << " Trials in " << (clock() - Clock) * (1.0 / CLOCKS_PER_SEC) << " seconds) \n";
-	return EstimatedOdds;
+	return (((double)Win) + ((double)Draw) / 2.0) / ((double)Count) * 100.0;
 }
 
-int HandEvaluator::DetermineValue_5Cards(std::array<Card*, 5> _Hand)
+int HandEvaluator::DetermineValue_5Cards(std::array<std::shared_ptr<Card>, 5> _Hand)
 {
 	std::array<int,5> CardInts = Get5CardsInt(_Hand); 
 	
@@ -280,7 +282,7 @@ int HandEvaluator::DetermineValue_5Cards(std::array<Card*, 5> _Hand)
 	return Value5[0]; 
 }
 
-int HandEvaluator::DetermineValue_7Cards(std::array<Card*, 7> _Hand)
+int HandEvaluator::DetermineValue_7Cards(std::array<std::shared_ptr<Card>, 7> _Hand)
 {
 	std::array<int,7> CardInts = Get7CardsInt(_Hand);
 
@@ -294,15 +296,15 @@ int HandEvaluator::DetermineValue_7Cards(std::array<Card*, 7> _Hand)
 	return HR[p + CardInts[6]];
 }
 
-int HandEvaluator::DetermineValue_Custom(std::vector<Card*> _Hand)
+int HandEvaluator::DetermineValue_Custom(std::vector<std::shared_ptr<Card>> _Hand)
 {
 	std::vector<int> CardInts;
-	for (unsigned int Index = 0; Index < _Hand.size(); Index++)
-		CardInts.push_back(GetCardInt(_Hand[Index]));
+	for (auto& Card : _Hand)
+		CardInts.push_back(GetCardInt(Card));
 
 	int* Value = HR + HR[53 + CardInts[0]];
-	for (unsigned int Index = 0; Index < CardInts.size(); Index++)
-		Value = HR + Value[CardInts[Index]];
+	for (auto& CardInt : CardInts)
+		Value = HR + Value[CardInt];
 
 	return Value[0];
 }
@@ -336,7 +338,7 @@ Hand HandEvaluator::DetermineType(int _Value)
 	return Hand::High;
 }
 
-ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card*, 5> _First, std::array<Card*, 5> _Second)
+ComparisonResult HandEvaluator::IsBetter5Cards(std::array<std::shared_ptr<Card>, 5> _First, std::array<std::shared_ptr<Card>, 5> _Second)
 {
 	int FirstValue = DetermineValue_5Cards(_First);
 	int SecondValue = DetermineValue_5Cards(_Second); 
@@ -347,7 +349,7 @@ ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card*, 5> _First, std:
 	return FirstValue > SecondValue ? ComparisonResult::Win : ComparisonResult::Lose;
 }
 
-ComparisonResult HandEvaluator::IsBetter7Cards(std::array<Card*, 7> _First, std::array<Card*, 7> _Second)
+ComparisonResult HandEvaluator::IsBetter7Cards(std::array<std::shared_ptr<Card>, 7> _First, std::array<std::shared_ptr<Card>, 7> _Second)
 {
 	int FirstValue = DetermineValue_7Cards(_First);
 	int SecondValue = DetermineValue_7Cards(_Second);
@@ -358,12 +360,12 @@ ComparisonResult HandEvaluator::IsBetter7Cards(std::array<Card*, 7> _First, std:
 	return FirstValue > SecondValue ? ComparisonResult::Win : ComparisonResult::Lose;
 }
 
-ComparisonResult HandEvaluator::IsWorse5Cards(std::array<Card*, 5> _First, std::array<Card*, 5> _Second)
+ComparisonResult HandEvaluator::IsWorse5Cards(std::array<std::shared_ptr<Card>, 5> _First, std::array<std::shared_ptr<Card>, 5> _Second)
 {
 	return IsBetter5Cards(_Second, _First);
 }
 
-std::vector<Card*>::iterator HandEvaluator::UpperBound(std::vector<Card*>::iterator _First, std::vector<Card*>::iterator _Last, Card* _Current)
+std::vector<std::shared_ptr<Card>>::iterator HandEvaluator::UpperBound(std::vector<std::shared_ptr<Card>>::iterator _First, std::vector<std::shared_ptr<Card>>::iterator _Last, std::shared_ptr<Card> _Current)
 {
 	for (auto Itr = _First; Itr != _Last; Itr++)
 	{
@@ -374,10 +376,10 @@ std::vector<Card*>::iterator HandEvaluator::UpperBound(std::vector<Card*>::itera
 	return _Last;
 }
 
-std::vector<Card*> HandEvaluator::InsertSort(std::vector<Card*> _Cards)
+void HandEvaluator::InsertSort(std::vector<std::shared_ptr<Card>>& _Cards)
 {
-	std::vector<Card*>::iterator NextCard;
-	std::vector<Card*>::iterator UpperCard;
+	std::vector<std::shared_ptr<Card>>::iterator NextCard;
+	std::vector<std::shared_ptr<Card>>::iterator UpperCard;
 
 	for (auto Itr = _Cards.begin(); Itr != _Cards.end(); Itr++)
 	{
@@ -386,29 +388,27 @@ std::vector<Card*> HandEvaluator::InsertSort(std::vector<Card*> _Cards)
 
 		std::rotate(UpperCard, Itr, NextCard);
 	}
-
-	return _Cards;
 }
 
-unsigned int HandEvaluator::CountCardsWithValue(std::vector<Card*> _Cards, Rank _Value)
+unsigned int HandEvaluator::CountCardsWithValue(std::vector<std::shared_ptr<Card>> _Cards, Rank _Value)
 {
 	unsigned int Count = 0;
 
-	for (unsigned int Index = 0; Index < _Cards.size(); Index++)
+	for (auto const& Card : _Cards)
 	{
-		if (_Cards[Index]->GetRank() == _Value)
+		if (Card->GetRank() == _Value)
 			Count++;
 	}
 
 	return Count;
 }
 
-std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
+std::array<std::shared_ptr<Card>, 5> HandEvaluator::SortHand(std::array<std::shared_ptr<Card>, 5> _Hand)
 {
-	std::vector<Card*> SortingHand(_Hand.begin(), _Hand.end());
+	std::vector<std::shared_ptr<Card>> SortingHand(_Hand.begin(), _Hand.end());
 
 	//Determine if there are cards that share the same value in the hand
-	std::vector<Card*> CardsWithMultipleCopies;
+	std::vector<std::shared_ptr<Card>> CardsWithMultipleCopies;
 
 	for (unsigned int Index = 0; Index < 5; Index++)
 	{
@@ -419,7 +419,7 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 	//If there isn't any, perform generic insert sort on the hand will do
 	if (CardsWithMultipleCopies.size() == 0)
 	{
-		SortingHand = InsertSort(SortingHand);
+		InsertSort(SortingHand);
 
 		//If this hand is a wheel straight (eg. A, 2, 3 ,4 ,5), the Ace card will be shifted to the first slot
 		if (SortingHand[4]->GetRank() == Rank::Ace && SortingHand[0]->GetRank() == Rank::Two && SortingHand[1]->GetRank() == Rank::Three && SortingHand[2]->GetRank() == Rank::Four && SortingHand[3]->GetRank() == Rank::Five)
@@ -427,7 +427,7 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 			std::rotate(SortingHand.begin(), SortingHand.begin() + 4, SortingHand.end());
 		}
 
-		std::array<Card*, 5> SortedHand;
+		std::array<std::shared_ptr<Card>, 5> SortedHand;
 		std::copy_n(SortingHand.begin(), 5, SortedHand.begin());
 
 		return SortedHand;
@@ -435,7 +435,7 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 
 	//If there are, sort those cards and the remaining cards in hand seperately
 	//Store the remaining cards somewhere for sorting purpose
-	std::vector<Card*> CardsWithSingleCopy;
+	std::vector<std::shared_ptr<Card>> CardsWithSingleCopy;
 
 	for (unsigned int Index = 0; Index < 5; Index++)
 	{
@@ -444,8 +444,8 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 	}
 
 	//Sort both set of cards
-	CardsWithMultipleCopies = InsertSort(CardsWithMultipleCopies);
-	CardsWithSingleCopy = InsertSort(CardsWithSingleCopy);
+	InsertSort(CardsWithMultipleCopies);
+	InsertSort(CardsWithSingleCopy);
 
 	//Merge them back into a single hand
 	SortingHand.clear();
@@ -456,7 +456,7 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 	//If this hand is full-house, check if there is a need to swap the cards to get a proper order of 3 cards to 2 cards
 	if (CountCardsWithValue(SortingHand, SortingHand[0]->GetRank()) == 2 && CountCardsWithValue(SortingHand, SortingHand[2]->GetRank()) == 3)
 	{
-		Card* ShiftingCards[2] = { SortingHand[0], SortingHand[1] };
+		std::shared_ptr<Card> ShiftingCards[2] = { SortingHand[0], SortingHand[1] };
 
 		//Remove the first two cards from front
 		SortingHand.erase(SortingHand.begin());
@@ -467,15 +467,15 @@ std::array<Card*, 5> HandEvaluator::SortHand(std::array<Card*, 5> _Hand)
 		SortingHand.insert(SortingHand.end(), ShiftingCards[1]);
 	}
 
-	std::array<Card*, 5> SortedHand;
+	std::array<std::shared_ptr<Card>, 5> SortedHand;
 	std::copy_n(SortingHand.begin(), 5, SortedHand.begin());
 
 	return SortedHand;
 }
 
-std::array<Card*, 5> HandEvaluator::GetBestCommunalHand(std::array<Card*, 2> _Hole, std::array<Card*, 5> _Communal)
+std::array<std::shared_ptr<Card>, 5> HandEvaluator::GetBestCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Communal)
 {
-	std::array<Card*, 5> BestHand;
+	std::array<std::shared_ptr<Card>, 5> BestHand;
 
 	if (_Communal[3] == nullptr)
 	{
@@ -488,98 +488,98 @@ std::array<Card*, 5> HandEvaluator::GetBestCommunalHand(std::array<Card*, 2> _Ho
 	}
 	else if (_Communal[4] == nullptr)
 	{
-		std::vector<std::array<Card*, 5>> PossibleHands;
-		PossibleHands.push_back(*new std::array<Card*, 5>{_Communal[0], _Communal[1], _Communal[2], _Communal[3], _Hole[0]});
-		PossibleHands.push_back(*new std::array<Card*, 5>{_Communal[0], _Communal[1], _Communal[2], _Communal[3], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card*, 5>{_Communal[0], _Communal[1], _Communal[2], _Hole[0], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card*, 5>{_Communal[0], _Communal[1], _Communal[3], _Hole[0], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card*, 5>{_Communal[0], _Communal[2], _Communal[3], _Hole[0], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card*, 5>{_Communal[1], _Communal[2], _Communal[3], _Hole[0], _Hole[1]});
+		std::vector<std::array<std::shared_ptr<Card>, 5>> PossibleHands;
+		PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{_Communal[0], _Communal[1], _Communal[2], _Communal[3], _Hole[0]});
+		PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{_Communal[0], _Communal[1], _Communal[2], _Communal[3], _Hole[1]});
+		PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{_Communal[0], _Communal[1], _Communal[2], _Hole[0], _Hole[1]});
+		PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{_Communal[0], _Communal[1], _Communal[3], _Hole[0], _Hole[1]});
+		PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{_Communal[0], _Communal[2], _Communal[3], _Hole[0], _Hole[1]});
+		PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{_Communal[1], _Communal[2], _Communal[3], _Hole[0], _Hole[1]});
 
 		BestHand = PossibleHands[0];
 
-		for (unsigned int Index = 1; Index < PossibleHands.size(); Index++)
+		for (auto const& Hand : PossibleHands)
 		{
-			if (IsBetter5Cards(PossibleHands[Index], BestHand) == ComparisonResult::Win)
-				BestHand = PossibleHands[Index];
+			if (IsBetter5Cards(Hand, BestHand) == ComparisonResult::Win)
+				BestHand = Hand;
 		}
 
 		return BestHand;
 	}
 
 	//5 community cards
-	std::vector<std::array<Card*, 5>> PossibleHands;
+	std::vector<std::array<std::shared_ptr<Card>, 5>> PossibleHands;
 	BestHand = _Communal;
 
 	//Combination with first or second hole card
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
 
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
 
 	//Combination with both hole cards	 
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[2] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[2] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[2], _Communal[3], _Communal[4] });
 
-	for (unsigned int Index = 0; Index < PossibleHands.size(); Index++)
+	for (auto const& Hand : PossibleHands)
 	{
-		if (IsBetter5Cards(PossibleHands[Index], BestHand) == ComparisonResult::Win)
-			BestHand = PossibleHands[Index];
+		if (IsBetter5Cards(Hand, BestHand) == ComparisonResult::Win)
+			BestHand = Hand;
 	}
 
 	return BestHand;
 }
 
-std::array<Card*, 5> HandEvaluator::GetWorstCommunalHand(std::array<Card*, 2> _Hole, std::array<Card*, 5> _Communal)
+std::array<std::shared_ptr<Card>, 5> HandEvaluator::GetWorstCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Communal)
 {
 	//5 community cards
-	std::vector<std::array<Card*, 5>> PossibleHands;
-	std::array<Card*, 5> WorstHand = _Communal;
+	std::vector<std::array<std::shared_ptr<Card>, 5>> PossibleHands;
+	std::array<std::shared_ptr<Card>, 5> WorstHand = _Communal;
 
 	//Combination with first or second hole card
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
 
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[1], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[1], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[0], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[1], _Communal[1], _Communal[2], _Communal[3], _Communal[4] });
 
 	//Combination with both hole cards	 
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[2] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[3] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[3], _Communal[4] });
-	PossibleHands.push_back(*new std::array<Card*, 5>{ _Hole[0], _Hole[1], _Communal[2], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[2] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[1], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[0], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[3] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[2], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[1], _Communal[3], _Communal[4] });
+	PossibleHands.push_back(*new std::array<std::shared_ptr<Card>, 5>{ _Hole[0], _Hole[1], _Communal[2], _Communal[3], _Communal[4] });
 
-	for (unsigned int Index = 0; Index < PossibleHands.size(); Index++)
+	for (auto const& Hand : PossibleHands)
 	{
-		if (IsWorse5Cards(PossibleHands[Index], WorstHand) == ComparisonResult::Win)
-			WorstHand = PossibleHands[Index];
+		if (IsWorse5Cards(Hand, WorstHand) == ComparisonResult::Win)
+			WorstHand = Hand;
 	}
 
 	return WorstHand;
@@ -615,15 +615,12 @@ std::string HandEvaluator::GetTypeStr(Hand _Hand)
 	}
 }
 
-std::string HandEvaluator::GetTypeStr(std::array<Card*, 5> _Hand)
+std::string HandEvaluator::GetTypeStr(std::array<std::shared_ptr<Card>, 5> _Hand)
 {
-	int Value = DetermineValue_5Cards(_Hand);
-	Hand Type = DetermineType(Value);
-
-	return GetTypeStr(Type);
+	return GetTypeStr(DetermineType(DetermineValue_5Cards(_Hand)));
 }
 
-std::string HandEvaluator::GetStr(std::array<Card*, 2> _Hole)
+std::string HandEvaluator::GetStr(std::array<std::shared_ptr<Card>, 2> _Hole)
 {
 	if (_Hole[0] == nullptr)
 		return "";
@@ -634,7 +631,7 @@ std::string HandEvaluator::GetStr(std::array<Card*, 2> _Hole)
 	return _Hole[0]->GetInfo() + " " + _Hole[1]->GetInfo();
 }
 
-std::string HandEvaluator::GetStr(std::array<Card*, 5> _Hand)
+std::string HandEvaluator::GetStr(std::array<std::shared_ptr<Card>, 5> _Hand)
 {
 	std::string str = "";
 
@@ -649,33 +646,31 @@ std::string HandEvaluator::GetStr(std::array<Card*, 5> _Hand)
 	return str;
 }
 
-std::string HandEvaluator::GetStr(std::array<Card*, 7> _Hand)
+std::string HandEvaluator::GetStr(std::array<std::shared_ptr<Card>, 7> _Hand)
 {
 	std::string str = "";
 
-	for (auto Index = 0u; Index < _Hand.size(); Index++)
+	for (auto const& Card : _Hand)
 	{
-		if (_Hand[Index] == nullptr)
+		if (Card == nullptr)
 			return str;
 
-		str += _Hand[Index]->GetInfo() + " ";
+		str += Card->GetInfo() + " ";
 	}
 
 	return str;
-
-	//return _Hand[0]->GetInfo() + "/" + _Hand[1]->GetInfo() + "/" + _Hand[2]->GetInfo() + "/" + _Hand[3]->GetInfo() + "/" + _Hand[4]->GetInfo() + "/" + _Hand[5]->GetInfo() + "/" + _Hand[6]->GetInfo();
 }
 
-std::string HandEvaluator::GetStr(std::vector<Card*> _Hand)
+std::string HandEvaluator::GetStr(std::vector<std::shared_ptr<Card>> _Hand)
 {
 	std::string str = "";
 
-	for (auto Index = 0u; Index < _Hand.size(); Index++)
+	for (auto const& Card : _Hand)
 	{
-		if (_Hand[Index] == nullptr)
+		if (Card == nullptr)
 			return str;
 
-		str += _Hand[Index]->GetInfo() + " ";
+		str += Card->GetInfo() + " ";
 	}
 
 	return str;

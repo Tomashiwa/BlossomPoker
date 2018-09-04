@@ -2,12 +2,12 @@
 #include "BlossomAI.h"
 #include "Orchastrator.h"
 
-Strategy::Strategy(Orchastrator* _Orchastrator, double _CallingThresh, double _RaisingThresh)
+Strategy::Strategy(std::shared_ptr<Orchastrator> _Orchastrator, double _CallingThresh, double _RaisingThresh)
 {
 	Orch = _Orchastrator;
 
-	Thr_Calling = _CallingThresh;
-	Thr_RaisingBetting = _RaisingThresh;
+	Thresholds[0] = _CallingThresh;
+	Thresholds[1] = _RaisingThresh;
 }
 
 Strategy::~Strategy()
@@ -17,42 +17,16 @@ Strategy::~Strategy()
 void Strategy::CalculateMWRs()
 {
 	Snapshot CurrentShot = Orch->GetAI()->GetSnapshot();
-	//std::cout << "Current Pot: " << CurrentShot.Pot << " \n";
 
 	double Mean = 100.0 / CurrentShot.PlayerAmt;
 	double Diff = 100.0 - Mean;
 	double Flactuation = Diff / 2.0;
 
-	MWR_Calling = Mean + (Thr_Calling * Flactuation);
-	MWR_RaisingBetting = Mean + (Thr_RaisingBetting * Flactuation);
+	MinWinRates[0] = Mean + (Thresholds[0] * Flactuation); // Calling
+	MinWinRates[1] = Mean + (Thresholds[1] * Flactuation); // Raising and Betting
 
-	MWR_Calling = MWR_Calling > 100.0 ? 100.0 : MWR_Calling;
-	MWR_RaisingBetting = MWR_RaisingBetting > 100.0 ? 100.0 : MWR_RaisingBetting;
-
-	//std::cout << "Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betting Rate: " << MinWinRate_RaisingBetting << std::endl;
-
-	//if (CurrentShot.Pot == 0 || CurrentShot.RequiredAnte == 0)
-	//{
-	//	MinWinRate_Calling = Thr_Calling * (100.0 / CurrentShot.PlayerAmt);
-	//	MinWinRate_RaisingBetting = Thr_RaisingBetting * (100.0 / CurrentShot.PlayerAmt);
-
-	//	MinWinRate_Calling = MinWinRate_Calling > 100.0 ? 100.0 : MinWinRate_Calling;
-	//	MinWinRate_RaisingBetting = MinWinRate_RaisingBetting > 100.0 ? 100.0 : MinWinRate_RaisingBetting;
-
-	//	std::cout << "No bets were made yet... (Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betting Rate: " << MinWinRate_RaisingBetting << ") \n";
-	//	return;
-	//}
-
-	//double CallValue = (double)CurrentShot.RequiredAnte - (double)CurrentShot.CurrentAnte;
-	//double PotOdds = CallValue / (CallValue + (double) CurrentShot.Pot);
-	//MinWinRate_Calling = Thr_Calling * PotOdds * 100.0;
-	//MinWinRate_RaisingBetting = Thr_RaisingBetting * PotOdds * 100.0;
-
-	//MinWinRate_Calling = MinWinRate_Calling > 100.0 ? 100.0 : MinWinRate_Calling;
-	//MinWinRate_RaisingBetting = MinWinRate_RaisingBetting > 100.0 ? 100.0 : MinWinRate_RaisingBetting;
-
-	//std::cout << "Required Ante: " << CurrentShot.RequiredAnte << " / Current Ante: " << CurrentShot.CurrentAnte << " / Pot: " << CurrentShot.Pot << " / CallValue: " << CallValue << "\n";
-	//std::cout << "Pot Odds: " << PotOdds << " / Min Calling Rate: " << MinWinRate_Calling << " / Min Raising & Betterng Rate: " << MinWinRate_RaisingBetting << " \n";
+	MinWinRates[0] = MinWinRates[0] > 100.0 ? 100.0 : MinWinRates[0];
+	MinWinRates[1] = MinWinRates[1] > 100.0 ? 100.0 : MinWinRates[1];
 }
 
 bool Strategy::IsActionAvaliable(BettingAction _Action)
@@ -73,12 +47,11 @@ BettingAction Strategy::DetermineIdealAction()
 	CalculateMWRs();
 
 	double CurrentWinRate = Orch->GetAI()->DetermineWinRate();
-	//std::cout << "Win Rate of " << Orch->GetAI()->GetSnapshot().Hole[0]->GetInfo() << "," << Orch->GetAI()->GetSnapshot().Hole[1]->GetInfo() << ": " << CurrentWinRate << "% | CallMin: " << MinWinRate_Calling << "% / RaiseMin: " << MinWinRate_RaisingBetting<< "%" << std::endl;
-
-	if (CurrentWinRate >= MWR_RaisingBetting)
+	
+	if (CurrentWinRate >= MinWinRates[1]) // Raising and Betting
 		return IsActionAvaliable(BettingAction::Bet) ? BettingAction::Bet : BettingAction::Raise;
 
-	else if (IsActionAvaliable(BettingAction::Call) && CurrentWinRate >= MWR_Calling)
+	else if (IsActionAvaliable(BettingAction::Call) && CurrentWinRate >= MinWinRates[0]) // Calling
 		return BettingAction::Call;
 
 	else
@@ -87,15 +60,7 @@ BettingAction Strategy::DetermineIdealAction()
 	return BettingAction::NONE;
 }
 
-std::array<double, 2> Strategy::GetThresholds()
-{
-	std::array<double, 2> Thresholds;
-	Thresholds[0] = Thr_Calling;
-	Thresholds[1] = Thr_RaisingBetting;
-	return Thresholds;
-}
-
 void Strategy::PrintThresholds()
 {
-	std::cout << "Thr_Calling: " << Thr_Calling << " / Thr_RaisingBetting: " << Thr_RaisingBetting << "\n";
+	std::cout << "Thr_Calling: " << Thresholds[0] << " / Thr_RaisingBetting: " << Thresholds[1] << "\n";
 }

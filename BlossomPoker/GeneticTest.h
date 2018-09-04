@@ -4,6 +4,7 @@
 #include <map>
 #include <chrono>
 #include <random>
+#include <memory>
 #include <time.h>
 
 class Board;
@@ -22,7 +23,7 @@ public:
 
 	bool IsTestComplete();
 	std::string GetPopulationStr();
-	std::string GetThresholdsStr(Player* _Target);
+	std::string GetThresholdsStr(Player& _Target);
 	void PrintPopulationFitness();
 
 private:
@@ -30,17 +31,17 @@ private:
 	void GenerateSubjects(unsigned int _Size);
 	void MeasureFitness();
 	
-	double DetermineWinRate(Player* _Current, Player* _Subject);
+	double DetermineWinRate(std::shared_ptr<Player> _Current, std::shared_ptr<Player> _Subject);
 	double GetOverallFitness();
 
-	bool HasHigherFitness(std::pair<Player*, double> _First, std::pair<Player*, double> _Second);
+	bool HasHigherFitness(std::pair<std::shared_ptr<Player>, double> _First, std::pair<std::shared_ptr<Player>, double> _Second);
 	bool HasMutationHappen();
 	void ReproducePopulation();
 
-	Board* TestBoard;
-	HandEvaluator* Evaluator;
-	std::map<Player*, double> Population;
-	std::vector<Player*> RandomSubjects;
+	std::shared_ptr<Board> TestBoard;
+	std::shared_ptr<HandEvaluator> Evaluator;
+	std::map<std::shared_ptr<Player>, double> Population;
+	std::vector<std::shared_ptr<Player>> RandomSubjects;
 
 	double TargetFitness = 0.75;
 	double MutationRate = 0.1;

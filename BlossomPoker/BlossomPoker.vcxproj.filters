@@ -110,9 +110,6 @@
     <ClInclude Include="Suit.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
-    <ClInclude Include="Value.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
     <ClInclude Include="Hand.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
@@ -130,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="GeneticTest.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rank.h">
+      <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

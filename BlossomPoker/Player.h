@@ -2,6 +2,7 @@
 #include <array>
 #include <vector>
 #include <string>
+#include <memory>
 #include "BettingAction.h"
 #include "BlossomAI.h"
 
@@ -11,67 +12,69 @@ class Board;
 class Player
 {
 public:
-	Player(Board* _Board, unsigned int _Index);
-	Player(Board* _Board, unsigned int _Index, std::array<double,8> _Threshold);
+	Player(std::shared_ptr<Board> _Board, unsigned int _Index);
+	Player(std::shared_ptr<Board> _Board, unsigned int _Index, std::array<double,8> _Threshold);
+
+	Player(const Player&) = delete;
+	Player& operator= (const Player&) = delete;
 
 	~Player();
 
 	void Start();
 	void Update();
 	void End();
-
 	void Reset();
 
-	void SetBoard(Board* _Board);
+	void SetBoard(std::shared_ptr<Board> _Board);
+	void SetHand(std::shared_ptr<Card> _First, std::shared_ptr<Card> _Second);
 
 	void EmptyHand();
-	void SetHand(Card* _First, Card* _Second);
 
 	void SetStack(unsigned int _Amt);
 	void SetAnte(unsigned int _Amt);
-
 	void EmptyPotContributon();
 
-	std::vector<BettingAction> GetAvaliableActions();
 	BettingAction DetermineAction();
 	void SetAction(BettingAction _Action);
+	void GetAvaliableActions(std::vector<BettingAction>& _PossibleActions);
 
-	void SetIsParticipating(bool _IsParticipating);
-	void SetIsFolded(bool _IsFolded);
 	void SetIsBroke(bool _IsBroke);
+	void SetIsFolded(bool _IsFolded);
+	void SetIsParticipating(bool _IsParticipating);
 
-	unsigned int GetIndex() { return Index; }
-	std::array<Card*,2> GetHand() { return Hand; }
+	std::array<std::shared_ptr<Card>, 2> GetHand() { return Hand; }
+	std::shared_ptr<Card> GetHandCardByIndex(unsigned int _Index);
+	const unsigned int GetIndex() { return Index; }
 
-	unsigned int GetStack() { return Stack; }
 	unsigned int GetAnte() { return Ante; }
+	unsigned int GetStack() { return Stack; }
 	unsigned int GetPotContribution() { return PotContribution; }
 
 	BettingAction GetAction() { return Action; }
 
-	bool GetIsParticipating() { return IsParticipating; }
-	bool GetIsFolded() { return IsFolded; }
 	bool GetIsBroke() { return IsBroke; }
+	bool GetIsFolded() { return IsFolded; }
+	bool GetIsParticipating() { return IsParticipating; }
 
 	std::string GetHandInfo();
 
-	BlossomAI* GetAI() { return AI; }
+	BlossomAI& GetAI() { return *AI.get(); }
 
 private:
 	unsigned int Index;
-	Board* SelfBoard;
-	BlossomAI* AI;
+	std::shared_ptr<BlossomAI> AI;
+	std::shared_ptr<Board> SelfBoard;
 
-	std::array<Card*,2> Hand;
+	std::array<std::shared_ptr<Card>,2> Hand;
 	
-	unsigned int Stack = 0;
 	unsigned int Ante = 0;
+	unsigned int Stack = 0;
 	unsigned int PotContribution = 0;
 
 	BettingAction Action;
 
-	bool IsParticipating = true;
-	bool IsFolded = false;
 	bool IsBroke = false;
+	bool IsFolded = false;
+	bool IsParticipating = true;
 };
 

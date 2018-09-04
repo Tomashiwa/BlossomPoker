@@ -2,6 +2,7 @@
 #include <chrono>
 #include <random>
 #include <time.h>
+#include <memory>
 
 #include "BettingAction.h"
 #include "Snapshot.h"
@@ -9,24 +10,26 @@
 class BlossomAI;
 class Strategy;
 
-class Orchastrator
+class Orchastrator : public std::enable_shared_from_this<Orchastrator>
 {
 public:
-	Orchastrator(BlossomAI* _AI);
-	Orchastrator(BlossomAI* _AI, std::array<double,8> _Thresholds);
+	Orchastrator(std::shared_ptr<BlossomAI> _AI);
 
 	~Orchastrator();
 
-	Strategy* DetermineOptimalStrategy();
+	void InitializeStrat(std::array<double,8> _Thresholds);
+	void InitializeRandomStrat();
+
+	void SetOptimalStrategy(std::shared_ptr<Strategy>& _Strategy);
 	BettingAction DetermineAction();
 	
 	std::array<double, 8> GetThresholds();
-	BlossomAI* GetAI() { return AI; }
+	std::shared_ptr<BlossomAI> GetAI() { return AI; }
 
 private:
-	BlossomAI* AI;
+	std::shared_ptr<BlossomAI> AI;
+	std::shared_ptr<Strategy> CurrentStrategy;
 
-	Strategy* CurrentStrategy;
-	std::array<Strategy*, 4> Strategies;
+	std::array<std::shared_ptr<Strategy>, 4> Strategies;
 };
 

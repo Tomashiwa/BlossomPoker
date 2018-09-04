@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 #include <iostream>
 #include <array>
@@ -14,7 +15,11 @@ class HandEvaluator;
 class Board
 {
 public:
-	Board(HandEvaluator* _Evaluator, unsigned int _BigBlind, bool _PrintProcess);
+	Board(std::shared_ptr<HandEvaluator> _Evaluator, unsigned int _BigBlind, bool _PrintProcess);
+
+	Board(const Board&) = delete;
+	Board& operator= (const Board&) = delete;
+
 	~Board();
 
 	int HR[32487834];
@@ -43,26 +48,26 @@ public:
 	bool IsRoundEnded();
 	bool IsGameEnded();
 
-	void AddPlayer(Player* _AddingPlayer);
-	void AddPlayer(Player* _AddingPlayer, unsigned int _EntryStack);
-	void RemovePlayer(Player* _RemovingPlayer);
+	void AddPlayer(std::shared_ptr<Player> _AddingPlayer);
+	void AddPlayer(std::shared_ptr<Player> _AddingPlayer, unsigned int _EntryStack);
+	void RemovePlayer(std::shared_ptr<Player>& _RemovingPlayer);
 	void RemoveAllPlayers();
 
-	Player* GetPreviousPlayer(Player* _Reference);
-	Player* GetNextPlayer(Player* _Reference);
+	std::shared_ptr<Player> GetPreviousPlayer(const std::shared_ptr<Player>& _Reference);
+	std::shared_ptr<Player> GetNextPlayer(const std::shared_ptr<Player>& _Reference);
 
 	void UpdatePot();
 	void EmptyPot();
-	void SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<Player*>> &_ValidPlayersPerPot);
+	void SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<std::shared_ptr<Player>>> &_ValidPlayersPerPot);
 
 	void DealCardsToPlayers();
 	void IssueCommunalCards();
 	void ClearCommunalCards();
 
-	std::vector<Player*> GetParticipatingPlayers();
-	std::vector<Player*> GetBettingPlayers();
-	std::vector<Player*> DetermineWinningPlayers(std::vector<Player*> _Participants);
-	void AwardPlayer(Player* _Player, unsigned int _Amt);
+	void GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants);
+	void GetBettingPlayers(std::vector<std::shared_ptr<Player>>& _BettingPlayers);
+	void DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& _Participants, std::vector<std::shared_ptr<Player>>& _Winners);
+	void AwardPlayer(const std::shared_ptr<Player>& _Player, unsigned int _Amt);
 
 	void Print();
 	std::string GetStateStr();
@@ -72,18 +77,18 @@ public:
 
 	Phase GetState() { return CurrentState; }
 
-	HandEvaluator* GetEvaluator() { return Evaluator; }
+	std::shared_ptr<HandEvaluator> GetEvaluator() { return Evaluator; }
 
-	std::vector<Player*> GetPlayers() { return Players; }
-	Player* GetDealingPlayer() { return DealingPlayer; }
-	Player* GetSmallBlindPlayer() { return SmallBlindPlayer; }
-	Player* GetBigBlindPlayer() { return BigBlindPlayer; }
-	Player* GetCurrentPlayer() { return CurrentPlayer; }
+	std::vector<std::shared_ptr<Player>> GetPlayers() { return Players; }
+	std::shared_ptr<Player> GetDealingPlayer() { return DealingPlayer; }
+	std::shared_ptr<Player> GetSmallBlindPlayer() { return SmallBlindPlayer; }
+	std::shared_ptr<Player> GetBigBlindPlayer() { return BigBlindPlayer; }
+	std::shared_ptr<Player> GetCurrentPlayer() { return CurrentPlayer; }
 
-	unsigned int GetPlayerWins(Player* _Target) { return Records[_Target]; }
+	unsigned int GetPlayerWins(const std::shared_ptr<Player>& _Target) { return Records[_Target]; }
 
-	Deck* GetDeck() { return PlayingDeck; }
-	std::array<Card*, 5> GetCommunalCards() { return CommunalCards; }
+	std::array<std::shared_ptr<Card>, 5> GetCommunalCards() { return CommunalCards; }
+	std::shared_ptr<Card> GetCommunalCardByIndex(unsigned int _Index) { return CommunalCards[_Index]; }
 
 	unsigned int GetPot() { return Pot; }
 	unsigned int GetSmallBlind() { return SmallBlind; }
@@ -93,21 +98,21 @@ public:
 	unsigned int GetRounds() { return Round; }
 
 private:
-	HandEvaluator* Evaluator;
+	std::shared_ptr<HandEvaluator> Evaluator;
 
 	Phase CurrentState;
 	bool IsActive = false;
 
-	std::vector<Player*> Players;
-	Player* DealingPlayer = nullptr;
-	Player* BigBlindPlayer = nullptr;
-	Player* SmallBlindPlayer = nullptr;
-	Player* CurrentPlayer = nullptr;
+	std::vector<std::shared_ptr<Player>> Players;
+	std::shared_ptr<Player> DealingPlayer = nullptr;
+	std::shared_ptr<Player> BigBlindPlayer = nullptr;
+	std::shared_ptr<Player> SmallBlindPlayer = nullptr;
+	std::shared_ptr<Player> CurrentPlayer = nullptr;
 
-	std::map<Player*, unsigned int> Records;
+	std::map<std::shared_ptr<Player>, unsigned int> Records;
 
-	Deck* PlayingDeck;
-	std::array<Card*, 5> CommunalCards = { nullptr, nullptr, nullptr, nullptr, nullptr };
+	std::unique_ptr<Deck> PlayingDeck;
+	std::array<std::shared_ptr<Card>, 5> CommunalCards;
 
 	unsigned int Pot = 0;
 	unsigned int SmallBlind = 0;

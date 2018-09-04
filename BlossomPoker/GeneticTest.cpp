@@ -6,8 +6,8 @@
 
 GeneticTest::GeneticTest()
 {
-	Evaluator = new HandEvaluator();
-	TestBoard = new Board(Evaluator, 20, false);
+	Evaluator = std::make_shared<HandEvaluator>();
+	TestBoard = std::make_shared<Board>(Evaluator, 20, false);
 	TestBoard->SetActive(true);
 }
 
@@ -54,7 +54,7 @@ void GeneticTest::InitializePopulation(unsigned int _Size)
 
 	for (unsigned int Index = 0; Index < _Size; Index++)
 	{
-		Population.insert(std::make_pair(new Player(TestBoard, PlayersGenerated), 0.0));
+		Population.insert(std::make_pair(std::make_shared<Player>(TestBoard, PlayersGenerated), 0.0));
 		PlayersGenerated++;
 	}
 }
@@ -69,10 +69,10 @@ void GeneticTest::GenerateSubjects(unsigned int _Size)
 	std::uniform_int_distribution<int> IndexDistribution(0,1000);
 
 	for (unsigned int Index = 0; Index < _Size; Index++)
-		RandomSubjects.push_back(new Player(TestBoard, IndexDistribution(mt)));
+		RandomSubjects.push_back(std::make_shared<Player>(TestBoard, IndexDistribution(mt)));
 }
 
-double GeneticTest::DetermineWinRate(Player* _Current, Player* _Subject)
+double GeneticTest::DetermineWinRate(std::shared_ptr<Player> _Current, std::shared_ptr<Player> _Subject)
 {
 	TestBoard->Reset();
 
@@ -99,6 +99,8 @@ double GeneticTest::DetermineWinRate(Player* _Current, Player* _Subject)
 		}
 	}
 
+	//std::cout << "\n";
+	//std::cout << "                                                                                                                        \r";
 	//std::cout << "Result: P." << _Current->GetIndex() << " (S: $" << _Current->GetStack() << "/A: $" << _Current->GetAnte() << ") SP." << _Subject->GetIndex() << " (S: $" << _Subject->GetStack() << "/A: $" << _Subject->GetAnte() << ") Pot ($" << TestBoard->GetPot() << ") = Ended at " << TestBoard->GetStateStr() << "\n";
 	//std::cout << "P." << _Current->GetIndex() << " against SP." << _Subject->GetIndex() << ": " << (double)TestBoard->GetPlayerWins(_Current) / (double)TestBoard->GetRounds() << " (Wins: " << TestBoard->GetPlayerWins(_Current) << " | Rounds: " << TestBoard->GetRounds() << ")\n";
 
@@ -107,7 +109,7 @@ double GeneticTest::DetermineWinRate(Player* _Current, Player* _Subject)
 
 void GeneticTest::MeasureFitness()
 {
-	Player* CurrentPlayer = nullptr;
+	std::shared_ptr<Player> CurrentPlayer = nullptr;
 	double AverageWinRate = 0.0;
 	unsigned int SubjectInd = 0;
 
@@ -141,7 +143,7 @@ double GeneticTest::GetOverallFitness()
 	return TotalFitness / Population.size();
 }
 
-bool GeneticTest::HasHigherFitness(std::pair<Player*, double> _First, std::pair<Player*, double> _Second)
+bool GeneticTest::HasHigherFitness(std::pair<std::shared_ptr<Player>, double> _First, std::pair<std::shared_ptr<Player>, double> _Second)
 {
 	return _First.second >= _Second.second ? true : false;
 }
@@ -161,7 +163,7 @@ void GeneticTest::ReproducePopulation()
 	std::cout << "Reproducing population...\n";
 
 	//Get a copy of current population
-	std::vector<std::pair<Player*, double>> PopulationSample(Population.begin(), Population.end());
+	std::vector<std::pair<std::shared_ptr<Player>, double>> PopulationSample(Population.begin(), Population.end());
 
 	Population.clear();
 
@@ -169,8 +171,8 @@ void GeneticTest::ReproducePopulation()
 	std::mt19937 mt(Seed);
 	std::uniform_int_distribution<int> QualifierDistribution(0, PopulationSample.size() - 1);
 	
-	std::vector<std::pair<Player*, double>> Touranment;
-	std::pair<Player*, double> CurrentContender;
+	std::vector<std::pair<std::shared_ptr<Player>, double>> Touranment;
+	std::pair<std::shared_ptr<Player>, double> CurrentContender;
 
 	//Select Parents from current population via the Tourament algorithm 
 	for (unsigned int Index = 0; Index < ParentLimit/WinnerPerTouranment; Index++)
@@ -196,20 +198,15 @@ void GeneticTest::ReproducePopulation()
 		}
 
 		Population.insert(std::make_pair(CurrentContender.first, CurrentContender.second));
-		//std::cout << "Parent " << Index << " (P." << CurrentContender.first->GetIndex() << ")\n";//=> " << GetThresholdsStr(CurrentContender.first) << "\n";
+		std::cout << "Parent " << Index << " (P." << CurrentContender.first->GetIndex() << ")\n";//=> " << GetThresholdsStr(CurrentContender.first) << "\n";
 	}
 
-	Player* Parent_A = Population.begin()->first;//nullptr;
-	Player* Parent_B = (++Population.begin())->first;//nullptr;
-	Player* NewChild = nullptr;
+	std::shared_ptr<Player> Parent_A = Population.begin()->first;//nullptr;
+	std::shared_ptr<Player> Parent_B = (++Population.begin())->first;//nullptr;
+	std::shared_ptr<Player> NewChild = nullptr;
 
-	if (Parent_A == nullptr || Parent_B == nullptr)
-		std::cout << "Selected Parent is null...\n";
-	else if (Parent_A->GetAI() == nullptr || Parent_B->GetAI() == nullptr)
-		std::cout << "Selected Parent's AI is null...\n";
-
-	std::array<double, 8> Thresholds_A = Parent_A->GetAI()->GetThresholds();
-	std::array<double, 8> Thresholds_B = Parent_B->GetAI()->GetThresholds();
+	std::array<double, 8> Thresholds_A = Parent_A->GetAI().GetThresholds();
+	std::array<double, 8> Thresholds_B = Parent_B->GetAI().GetThresholds();
 
 	std::uniform_int_distribution<int> ParentDistribution(0, ParentLimit - 1);
 	std::uniform_int_distribution<int> SelectDistribution(0, 1);
@@ -252,10 +249,10 @@ void GeneticTest::ReproducePopulation()
 		if (HasMutationHappen())
 			CombinedThresholds[ThresholdDistribution(mt)] = MutationDistribution(mt);
 
-		NewChild = new Player(TestBoard, PlayersGenerated, CombinedThresholds);
+		NewChild = std::make_shared<Player>(TestBoard, PlayersGenerated, CombinedThresholds);
 		Population.insert(std::make_pair(NewChild, 0.0));
 
-		//std::cout << "Child " << Index << ": P." << PlayersGenerated << " (" << GetThresholdsStr(NewChild) << ")\n";
+		//std::cout << "Child " << Index << ": P." << PlayersGenerated << " (" << GetThresholdsStr(*NewChild) << ")\n";
 	
 		PlayersGenerated++;
 	}
@@ -273,20 +270,20 @@ std::string GeneticTest::GetPopulationStr()
 	return PopuStr;
 }
 
-std::string GeneticTest::GetThresholdsStr(Player* _Target)
+std::string GeneticTest::GetThresholdsStr(Player& _Target)
 {
 	std::string ThrStr = "";
 
 	for (unsigned int ThrIndex = 0; ThrIndex < 8; ThrIndex++)
-		ThrStr += std::to_string(_Target->GetAI()->GetThresholds()[ThrIndex]) + "  ";
+		ThrStr += std::to_string(_Target.GetAI().GetThresholds()[ThrIndex]) + "  ";
 
 	return ThrStr;
 }
 
 void GeneticTest::PrintPopulationFitness()
 {
-	for (auto const& Member : Population)
-		std::cout << "P." << Member.first->GetIndex() << ": " << Member.second << "\n";
+	//for (auto const& Member : Population)
+	//	std::cout << "P." << Member.first->GetIndex() << ": " << Member.second << "\n";
 
 	std::cout << "Overall average fitness: " << GetOverallFitness() << "  Target fitness: " << TargetFitness << "\n";
 }

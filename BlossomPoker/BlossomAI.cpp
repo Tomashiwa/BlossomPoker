@@ -3,66 +3,73 @@
 #include "Deck.h"
 #include "Orchastrator.h"
 
-BlossomAI::BlossomAI(HandEvaluator* _Evaluator)
+BlossomAI::BlossomAI()
 {
-	Orch = new Orchastrator(this);
-	Eval = _Evaluator;
-}
 
-BlossomAI::BlossomAI(HandEvaluator* _Evaluator, std::array<double,8> _Thresholds)
-{
-	Orch = new Orchastrator(this, _Thresholds);
-	Eval = _Evaluator;
 }
 
 BlossomAI::~BlossomAI()
 {
 }
 
-BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
+void BlossomAI::Initialize(std::shared_ptr<HandEvaluator> _Evaluator)
+{
+	Orch = std::make_shared<Orchastrator>(shared_from_this());
+	Eval = _Evaluator;
+
+	Orch->InitializeRandomStrat();
+}
+
+void BlossomAI::InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<double,8> _Thresholds)
+{
+	Orch = std::make_shared<Orchastrator>(shared_from_this());
+	Eval = _Evaluator;
+
+	Orch->InitializeStrat(_Thresholds);
+}
+
+BettingAction BlossomAI::EnquireAction(const Snapshot& _Snapshot)
 {
 	CurrentShot = _Snapshot;
-
-	BettingAction ActionToTake = Orch->DetermineAction();
-	return ActionToTake;
+	return Orch->DetermineAction();
 }
 
-std::vector<BettingAction> BlossomAI::GetAvaliableActions()
-{
-	std::vector<BettingAction> Actions;
-
-	Actions.push_back(BettingAction::Fold);
-
-	if (CurrentShot.Phase == Phase::Preflop)
-	{
-		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
-			Actions.push_back(BettingAction::Check);
-		else
-			Actions.push_back(BettingAction::Call);
-		
-		if((CurrentShot.RequiredAnte - CurrentShot.CurrentAnte) + CurrentShot.BB <= CurrentShot.Stack)
-			Actions.push_back(BettingAction::Raise);
-	}
-	else
-	{
-		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
-		{
-			Actions.push_back(BettingAction::Check);
-
-			if((CurrentShot.Phase == Phase::Flop && CurrentShot.Stack >= CurrentShot.BB) || ((CurrentShot.Phase == Phase::River || CurrentShot.Phase == Phase::Turn) && CurrentShot.Stack >= 2 * CurrentShot.BB))
-				Actions.push_back(BettingAction::Bet);
-		}
-		else
-		{
-			Actions.push_back(BettingAction::Call);
-
-			if ((CurrentShot.Phase == Phase::Flop && CurrentShot.Stack >= CurrentShot.BB) || ((CurrentShot.Phase == Phase::River || CurrentShot.Phase == Phase::Turn) && CurrentShot.Stack >= 2 * CurrentShot.BB))
-				Actions.push_back(BettingAction::Raise);
-		}
-	}
-
-	return Actions;
-}
+//std::vector<BettingAction> BlossomAI::GetAvaliableActions()
+//{
+//	std::vector<BettingAction> Actions;
+//
+//	Actions.push_back(BettingAction::Fold);
+//
+//	if (CurrentShot.Phase == Phase::Preflop)
+//	{
+//		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
+//			Actions.push_back(BettingAction::Check);
+//		else
+//			Actions.push_back(BettingAction::Call);
+//		
+//		if((CurrentShot.RequiredAnte - CurrentShot.CurrentAnte) + CurrentShot.BB <= CurrentShot.Stack)
+//			Actions.push_back(BettingAction::Raise);
+//	}
+//	else
+//	{
+//		if (CurrentShot.RequiredAnte - CurrentShot.CurrentAnte <= 0)
+//		{
+//			Actions.push_back(BettingAction::Check);
+//
+//			if((CurrentShot.Phase == Phase::Flop && CurrentShot.Stack >= CurrentShot.BB) || ((CurrentShot.Phase == Phase::River || CurrentShot.Phase == Phase::Turn) && CurrentShot.Stack >= 2 * CurrentShot.BB))
+//				Actions.push_back(BettingAction::Bet);
+//		}
+//		else
+//		{
+//			Actions.push_back(BettingAction::Call);
+//
+//			if ((CurrentShot.Phase == Phase::Flop && CurrentShot.Stack >= CurrentShot.BB) || ((CurrentShot.Phase == Phase::River || CurrentShot.Phase == Phase::Turn) && CurrentShot.Stack >= 2 * CurrentShot.BB))
+//				Actions.push_back(BettingAction::Raise);
+//		}
+//	}
+//
+//	return Actions;
+//}
 
 double BlossomAI::DetermineWinRate()
 {
