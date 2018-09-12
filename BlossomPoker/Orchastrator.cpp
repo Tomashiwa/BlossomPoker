@@ -3,8 +3,8 @@
 #include "Strategy.h"
 
 Orchastrator::Orchastrator(std::shared_ptr<BlossomAI> _AI)
+	: AI(_AI)
 {
-	AI = _AI;
 }
 
 Orchastrator::~Orchastrator()

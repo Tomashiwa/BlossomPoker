@@ -1,13 +1,17 @@
-﻿  GeneticTest.cpp
+﻿  Board.cpp
+Board.cpp(25): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+  GeneticTest.cpp
 GeneticTest.cpp(14): warning C4244: 'argument': conversion from '__int64' to 'unsigned int', possible loss of data
-  LogWriter.cpp
-LogWriter.cpp(38): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\time.h(505): note: see declaration of 'localtime'
   Main.cpp
+  Orchastrator.cpp
+Orchastrator.cpp(31): warning C4244: 'argument': conversion from '__int64' to 'unsigned int', possible loss of data
+  Player.cpp
+  Strategy.cpp
   Generating code
-  2 of 1688 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  35 of 1686 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
+    51 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Release\BlossomPoker.exe
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Release\BlossomPoker.pdb (Full PDB)

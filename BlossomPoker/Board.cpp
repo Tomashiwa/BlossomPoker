@@ -8,20 +8,11 @@
 #include <iterator>
 
 Board::Board(std::shared_ptr<HandEvaluator> _Evaluator, unsigned int _BigBlind, bool _PrintProcess)
+	: SmallBlind(_BigBlind/2), BigBlind(_BigBlind), RequiredAnte(BigBlind), EntryStack(100 * _BigBlind), Pot(0), Round(1),
+	  Evaluator(_Evaluator), 
+	  PrintProcess(_PrintProcess)
 {
-	Evaluator = _Evaluator;
-
-	Pot = 0;
-	SmallBlind = _BigBlind/2;
-	BigBlind = _BigBlind;
-	RequiredAnte = BigBlind;
-	EntryStack = 100 * BigBlind;
-
 	PlayingDeck = std::make_unique<Deck>();
-
-	PrintProcess = _PrintProcess;
-
-	Round = 1;
 }
 
 Board::~Board()

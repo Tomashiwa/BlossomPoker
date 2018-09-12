@@ -3,9 +3,8 @@
 #include "Orchastrator.h"
 
 Strategy::Strategy(std::shared_ptr<Orchastrator> _Orchastrator, double _CallingThresh, double _RaisingThresh)
+	: Orch(_Orchastrator)
 {
-	Orch = _Orchastrator;
-
 	Thresholds[0] = _CallingThresh;
 	Thresholds[1] = _RaisingThresh;
 }

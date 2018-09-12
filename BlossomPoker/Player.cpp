@@ -3,14 +3,8 @@
 #include "Board.h"
 
 Player::Player(std::shared_ptr<Board> _Board, unsigned int _Index)
+	: SelfBoard(_Board), Index(_Index), Stack(0), Ante(0), Action(BettingAction::NONE)
 {
-	Index = _Index;
-	Stack = 0;
-	Ante = 0;
-
-	SetBoard(_Board);
-	Action = BettingAction::NONE;
-
 	AI = std::make_shared<BlossomAI>();
 	AI->Initialize(_Board->GetEvaluator());
 }
