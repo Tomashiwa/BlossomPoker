@@ -148,6 +148,7 @@
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="BlossomAI.cpp" />
     <ClCompile Include="GeneticTest.cpp" />
+    <ClCompile Include="LogWriter.cpp" />
     <ClCompile Include="Orchastrator.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="BettingAction.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="GeneticTest.h" />
+    <ClInclude Include="LogWriter.h" />
     <ClInclude Include="Phase.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Deck.h" />

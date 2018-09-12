@@ -108,6 +108,11 @@ void BlossomAI::PrintShot()
 	std::cout << "Pot Contribution: " << CurrentShot.Contribution << "\n";
 }
 
+void BlossomAI::SetThreshold(unsigned int _Index, double _Value)
+{
+
+}
+
 std::array<double, 8> BlossomAI::GetThresholds()
 {
 	return Orch->GetThresholds();

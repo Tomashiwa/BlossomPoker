@@ -16,6 +16,7 @@ public:
 	BettingAction DetermineIdealAction();
 
 	void PrintThresholds();
+	void SetThreshold(unsigned int _Index, double _Value) { Thresholds[_Index] = _Value; }
 	std::array<double, 2> GetThresholds() { return Thresholds; }
 
 private:

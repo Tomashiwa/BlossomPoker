@@ -81,23 +81,50 @@ void HandEvaluator::Initialize()
 	}
 }
 
-void HandEvaluator::RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>> _Dead, int _Target)
+void HandEvaluator::RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, int _Target)
 {
 	//Add the cards that are currently in Set as dead cards
-	if (!_Set.empty())
+	for (auto const& CardInSet : _Set)
 	{
-		for (auto const& CardInSet : _Set)
-		{
-			if (CardInSet == nullptr)
-				break;
+		if (CardInSet == nullptr)
+			break;
 
-			_Dead.push_back(CardInSet);
+		_Dead.push_back(CardInSet);
+	}
+
+	bool IsDead;
+	int RequiredAmt = _Target - _Set.size();
+
+	std::shared_ptr<Card> RandomCard;
+	std::uniform_int_distribution<int> CardsDistribution(0, 51);
+
+	for (unsigned int Index = 0; Index < RequiredAmt; Index++)
+	{
+		while (true)
+		{
+			IsDead = false;
+			RandomCard = ReferenceDeck[CardsDistribution(MTGenerator)];
+
+			for (auto const& Dead : _Dead)
+			{
+				if (RandomCard->GetRank() == Dead->GetRank() && RandomCard->GetSuit() == Dead->GetSuit())
+				{
+					IsDead = true;
+					break;
+				}
+			}
+
+			if (!IsDead)
+			{
+				_Set.push_back(RandomCard);
+				break;
+			}
 		}
 	}
 
+	/*int RandomIndex;
 	int RequiredAmt = _Target - _Set.size();
 	bool IsDead;
-	int RandomIndex;
 
 	std::uniform_int_distribution<int> CardsDistribution(0, 51);
 
@@ -123,7 +150,7 @@ void HandEvaluator::RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::ve
 				break;
 			}
 		}
-	}
+	}*/
 }
 
 int HandEvaluator::GetCardInt(std::string _CardTxt)
@@ -170,29 +197,21 @@ int HandEvaluator::GetCardInt(std::string _CardTxt)
 
 }
 
-int HandEvaluator::GetCardInt(std::shared_ptr<Card> _Card)
+int HandEvaluator::GetCardInt(const std::shared_ptr<Card>& _Card)
 {
 	return (_Card->GetRankInt() * 4) + _Card->GetSuitInt() + 1;
 }
 
-std::array<int,5> HandEvaluator::Get5CardsInt(std::array<std::shared_ptr<Card>, 5> _Hand)
+void HandEvaluator::Get5CardsInt(const std::array<std::shared_ptr<Card>, 5>& _Hand, std::array<int,5>& _CardInts)
 {
-	std::array<int, 5> CardsInt;
-
 	for (unsigned int Index = 0; Index < _Hand.size(); Index++)
-		CardsInt[Index] = GetCardInt(_Hand[Index]);
-
-	return CardsInt;
+		_CardInts[Index] = GetCardInt(_Hand[Index]);
 }
 
-std::array<int,7> HandEvaluator::Get7CardsInt(std::array<std::shared_ptr<Card>, 7> _Hand)
+void HandEvaluator::Get7CardsInt(const std::array<std::shared_ptr<Card>, 7>& _Hand, std::array<int,7>& _CardInts)
 {
-	std::array<int,7> CardsInt;
-
 	for (unsigned int Index = 0; Index < _Hand.size(); Index++)
-		CardsInt[Index] = GetCardInt(_Hand[Index]);
-	
-	return CardsInt;
+		_CardInts[Index] = GetCardInt(_Hand[Index]);
 }
 
 double HandEvaluator::DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole)
@@ -202,76 +221,143 @@ double HandEvaluator::DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>
 
 double HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>	, 5> _Community, int _TrialsAmt)
 {
-	unsigned int TrialsAmt = _TrialsAmt;
-	unsigned int Win = 0, Lose = 0, Draw = 0, Count = 0;
 	int PlayerVal, OppoVal;
+	unsigned int Win = 0, Draw = 0, GameCount = 0, ExistingCount = 0;
 
-	clock_t Clock = clock();
-	
+	std::array<std::shared_ptr<Card>, 7> PlayerHand;
+	std::array<std::shared_ptr<Card>, 7> OppoHand;
+
 	std::vector<std::shared_ptr<Card>> Dead;
 	std::vector<std::shared_ptr<Card>> Rand_Community;
 	std::vector<std::shared_ptr<Card>> Rand_OppoHole;
-	
-	std::array<std::shared_ptr<Card>, 7> PlayerHand;
-	std::array<std::shared_ptr<Card>, 7> OppoHand;
-	
-	for (auto TrialIndex = 0u; TrialIndex < TrialsAmt; TrialIndex++)
-	{
-		//Player's hand is consider as Dead Cards
-		Dead.insert(Dead.end(), _Hole.begin(), _Hole.end());
 
+	//Insert known information (Player's hole cards and current Community cards)
+	for (auto const& Card : _Community)
+	{
+		if (Card != nullptr)
+		{
+			Rand_Community.push_back(Card);
+			ExistingCount++;
+		}
+	}
+
+	PlayerHand[0] = _Hole[0];
+	PlayerHand[1] = _Hole[1];
+	for (unsigned int Index = 0; Index < ExistingCount; Index++)
+	{
+		PlayerHand[2 + Index] = Rand_Community[Index];
+		OppoHand[Index] = Rand_Community[Index];
+	}
+
+	Dead.insert(Dead.end(), _Hole.begin(), _Hole.end());
+	Dead.insert(Dead.end(), Rand_Community.begin(), Rand_Community.end());
+
+	for (unsigned int TrialIndex = 0; TrialIndex < _TrialsAmt; TrialIndex++)
+	{
 		//All 5 randomized communal cards as Dead Cards
-		Rand_Community.insert(Rand_Community.end(), _Community.begin(), _Community.end());
-		Rand_Community.erase(std::remove_if(Rand_Community.begin(), 
-											Rand_Community.end(), 
-											[](std::shared_ptr<Card> _Card) {return _Card == nullptr; }), 
-											Rand_Community.end());
 		RandomFill(Rand_Community, Dead, 5);
 
-		Dead.insert(Dead.end(), Rand_Community.begin(), Rand_Community.end());
-		
+		Dead.insert(Dead.end(), Rand_Community.begin() + ExistingCount, Rand_Community.end());
+
 		//Randomly get Opponent Hand based on current Dead Cards 
 		RandomFill(Rand_OppoHole, Dead, 2);
 
 		//Add communal cards into both player's and opponent's hand
-		PlayerHand[0] = _Hole[0];
-		PlayerHand[1] = _Hole[1];
-		for (auto Index = 0u; Index < Rand_Community.size(); Index++)
+		for (unsigned int Index = ExistingCount, Maximum = Rand_Community.size(); Index < Maximum; Index++)
 			PlayerHand[Index + 2] = Rand_Community[Index];
 
-		OppoHand[0] = Rand_OppoHole[0];
-		OppoHand[1] = Rand_OppoHole[1];
-		for (auto Index = 0u; Index < Rand_Community.size(); Index++)
+		OppoHand[ExistingCount] = Rand_OppoHole[0];
+		OppoHand[ExistingCount + 1] = Rand_OppoHole[1];
+		for (unsigned int Index = ExistingCount, Maximum = Rand_Community.size(); Index < Maximum; Index++)
 			OppoHand[Index + 2] = Rand_Community[Index];
-
+		
 		//Get scores for both hands to determine winner
 		PlayerVal = DetermineValue_7Cards(PlayerHand);
-		OppoVal	= DetermineValue_7Cards(OppoHand);
+		OppoVal = DetermineValue_7Cards(OppoHand);
 
 		if (PlayerVal > OppoVal)
 			Win++;
-		else if (PlayerVal < OppoVal)
-			Lose++;
-		else
+		else if(PlayerVal == OppoVal)
 			Draw++;
 
- 		Count++;
+		GameCount++;
 
-		Dead.clear();
-		Rand_Community.clear();
+		//Erase all random info
+		Dead.erase(Dead.begin() + ExistingCount, Dead.end()); 
+		Rand_Community.erase(Rand_Community.begin() + ExistingCount, Rand_Community.end());
 		Rand_OppoHole.clear();
-
-		PlayerHand.empty();
-		OppoHand.empty();
 	}
 
-	//std::cout << "Winning Odds of " << GetStr(_Hole) << ": " << EstimatedOdds << "% - (" << TrialsAmt << " Trials in " << (clock() - Clock) * (1.0 / CLOCKS_PER_SEC) << " seconds) \n";
-	return (((double)Win) + ((double)Draw) / 2.0) / ((double)Count) * 100.0;
+	return (((double)Win) + ((double)Draw) / 2.0) / ((double)GameCount) * 100.0;
+
+
+	//int PlayerVal, OppoVal;
+	//unsigned int Win = 0, Lose = 0, Draw = 0, Count = 0;
+
+	//std::vector<std::shared_ptr<Card>> Dead;
+	//std::vector<std::shared_ptr<Card>> Rand_Community;
+	//std::vector<std::shared_ptr<Card>> Rand_OppoHole;
+	//
+	//std::array<std::shared_ptr<Card>, 7> PlayerHand;
+	//std::array<std::shared_ptr<Card>, 7> OppoHand;
+	//
+	//for (unsigned int TrialIndex = 0; TrialIndex < _TrialsAmt; TrialIndex++)
+	//{
+	//	//TargetPlayer's hand is consider as Dead Cards
+	//	Dead.insert(Dead.end(), _Hole.begin(), _Hole.end());
+
+	//	//All 5 randomized communal cards as Dead Cards
+	//	Rand_Community.insert(Rand_Community.end(), _Community.begin(), _Community.end());
+	//	Rand_Community.erase(std::remove_if(Rand_Community.begin(), 
+	//										Rand_Community.end(), 
+	//										[](std::shared_ptr<Card> _Card) {return _Card == nullptr; }), 
+	//										Rand_Community.end());
+	//	RandomFill(Rand_Community, Dead, 5);
+
+	//	Dead.insert(Dead.end(), Rand_Community.begin(), Rand_Community.end());
+	//	
+	//	//Randomly get Opponent Hand based on current Dead Cards 
+	//	RandomFill(Rand_OppoHole, Dead, 2);
+
+	//	//Add communal cards into both player's and opponent's hand
+	//	PlayerHand[0] = _Hole[0];
+	//	PlayerHand[1] = _Hole[1];
+	//	for (unsigned int Index = 0, Maximum = Rand_Community.size(); Index < Maximum; Index++)
+	//		PlayerHand[Index + 2] = Rand_Community[Index];
+
+	//	OppoHand[0] = Rand_OppoHole[0];
+	//	OppoHand[1] = Rand_OppoHole[1];
+	//	for (unsigned int Index = 0, Maximum = Rand_Community.size(); Index < Maximum; Index++)
+	//		OppoHand[Index + 2] = Rand_Community[Index];
+
+	//	//Get scores for both hands to determine winner
+	//	PlayerVal = DetermineValue_7Cards(PlayerHand);
+	//	OppoVal	= DetermineValue_7Cards(OppoHand);
+
+	//	if (PlayerVal > OppoVal)
+	//		Win++;
+	//	else if (PlayerVal < OppoVal)
+	//		Lose++;
+	//	else
+	//		Draw++;
+
+ //		Count++;
+
+	//	Dead.clear();
+	//	Rand_Community.clear();
+	//	Rand_OppoHole.clear();
+
+	//	PlayerHand.empty();
+	//	OppoHand.empty();
+	//}
+
+	//return (((double)Win) + ((double)Draw) / 2.0) / ((double)Count) * 100.0;
 }
 
-int HandEvaluator::DetermineValue_5Cards(std::array<std::shared_ptr<Card>, 5> _Hand)
+int HandEvaluator::DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand)
 {
-	std::array<int,5> CardInts = Get5CardsInt(_Hand); 
+	std::array<int, 5> CardInts;
+	Get5CardsInt(_Hand,CardInts);
 	
 	int *Value1 = HR + HR[53 + CardInts[0]];
 	int *Value2 = HR + Value1[CardInts[1]];
@@ -282,21 +368,22 @@ int HandEvaluator::DetermineValue_5Cards(std::array<std::shared_ptr<Card>, 5> _H
 	return Value5[0]; 
 }
 
-int HandEvaluator::DetermineValue_7Cards(std::array<std::shared_ptr<Card>, 7> _Hand)
+int HandEvaluator::DetermineValue_7Cards(const std::array<std::shared_ptr<Card>, 7>& _Hand)
 {
-	std::array<int,7> CardInts = Get7CardsInt(_Hand);
+	std::array<int, 7> CardInts;
+	Get7CardsInt(_Hand,CardInts);
 
-	int p = HR[53 + CardInts[0]];
+	/*int p = HR[53 + CardInts[0]];
 	p = HR[p + CardInts[1]];
 	p = HR[p + CardInts[2]];
 	p = HR[p + CardInts[3]];
 	p = HR[p + CardInts[4]];
-	p = HR[p + CardInts[5]];
+	p = HR[p + CardInts[5]];*/
 
-	return HR[p + CardInts[6]];
+	return HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]];//HR[p + CardInts[6]];
 }
 
-int HandEvaluator::DetermineValue_Custom(std::vector<std::shared_ptr<Card>> _Hand)
+int HandEvaluator::DetermineValue_Custom(const std::vector<std::shared_ptr<Card>>& _Hand)
 {
 	std::vector<int> CardInts;
 	for (auto& Card : _Hand)

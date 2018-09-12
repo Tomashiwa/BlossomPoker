@@ -78,6 +78,9 @@
     <ClCompile Include="GeneticTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LogWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Rank.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
+    </ClInclude>
+    <ClInclude Include="LogWriter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

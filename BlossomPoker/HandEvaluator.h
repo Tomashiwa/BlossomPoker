@@ -26,9 +26,9 @@ public:
 	double DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole);
 	double DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, int _TrialsAmt);
 
-	int DetermineValue_5Cards(std::array<std::shared_ptr<Card>, 5> _Hand);
-	int DetermineValue_7Cards(std::array<std::shared_ptr<Card>, 7> _Hand);
-	int DetermineValue_Custom(std::vector<std::shared_ptr<Card>> _Hand);
+	int DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand);
+	int DetermineValue_7Cards(const std::array<std::shared_ptr<Card>, 7>& _Hand);
+	int DetermineValue_Custom(const std::vector<std::shared_ptr<Card>>& _Hand);
 
 	Hand DetermineType(int _Value);
 
@@ -41,7 +41,7 @@ public:
 	std::array<std::shared_ptr<Card>, 5> GetBestCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community);
 	std::array<std::shared_ptr<Card>, 5> GetWorstCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community);
 	
-	void RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>> _Dead, int _Target);
+	void RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, int _Target);
 
 	std::string GetTypeStr(Hand _Hand);
 	std::string GetTypeStr(std::array<std::shared_ptr<Card>, 5> _Hand);
@@ -65,9 +65,9 @@ private:
 	void Initialize();
 	
 	int GetCardInt(std::string _CardTxt);
-	int GetCardInt(std::shared_ptr<Card> _Card);
-	std::array<int,5> Get5CardsInt(std::array<std::shared_ptr<Card>, 5> _Hand);
-	std::array<int,7> Get7CardsInt(std::array<std::shared_ptr<Card>, 7> _Hand);
+	int GetCardInt(const std::shared_ptr<Card>& _Card);
+	void Get5CardsInt(const std::array<std::shared_ptr<Card>, 5>& _Hand, std::array<int,5>& _CardInts);
+	void Get7CardsInt(const std::array<std::shared_ptr<Card>, 7>& _Hand, std::array<int,7>& _CardInts);
 
 	std::vector<std::shared_ptr<Card>>::iterator UpperBound(std::vector<std::shared_ptr<Card>>::iterator _First, std::vector<std::shared_ptr<Card>>::iterator _Last, std::shared_ptr<Card> _Current);
 	void InsertSort(std::vector<std::shared_ptr<Card>>& _Cards);

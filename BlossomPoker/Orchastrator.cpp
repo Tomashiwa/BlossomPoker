@@ -65,6 +65,31 @@ BettingAction Orchastrator::DetermineAction()
 	return CurrentStrategy->DetermineIdealAction();
 }
 
+void Orchastrator::SetThreshold(unsigned int _Index, double _Value)
+{
+	switch (_Index)
+	{
+		case 0:
+			Strategies[0]->SetThreshold(0, _Value);
+		case 1:
+			Strategies[0]->SetThreshold(1, _Value);
+		case 2:
+			Strategies[1]->SetThreshold(0, _Value);
+		case 3:
+			Strategies[1]->SetThreshold(1, _Value);
+		case 4:
+			Strategies[2]->SetThreshold(0, _Value);
+		case 5:
+			Strategies[2]->SetThreshold(1, _Value);
+		case 6:
+			Strategies[3]->SetThreshold(0, _Value);
+		case 7:
+			Strategies[3]->SetThreshold(1, _Value);
+		default:
+			break;
+	}
+}
+
 std::array<double, 8> Orchastrator::GetThresholds()
 {
 	std::array<double, 8> Thresholds;

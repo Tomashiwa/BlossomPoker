@@ -23,6 +23,7 @@ public:
 	void SetOptimalStrategy(std::shared_ptr<Strategy>& _Strategy);
 	BettingAction DetermineAction();
 	
+	void SetThreshold(unsigned int _Index, double _Value);
 	std::array<double, 8> GetThresholds();
 	std::shared_ptr<BlossomAI> GetAI() { return AI; }
 

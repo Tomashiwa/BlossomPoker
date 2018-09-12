@@ -25,8 +25,9 @@ public:
 	void PrintShot();
 	double DetermineWinRate();
 
-	Snapshot GetSnapshot() { return CurrentShot; }
+	void SetThreshold(unsigned int _Index, double _Value);
 	std::array<double, 8> GetThresholds();
+	Snapshot GetSnapshot() { return CurrentShot; }
 
 private:
 	std::shared_ptr<Orchastrator> Orch;
