@@ -227,8 +227,8 @@ void GeneticTest::Mutate(std::shared_ptr<Player>& _Target, unsigned int _ParaInd
 bool GeneticTest::HasMutationHappen()
 {
 	std::uniform_real_distribution<double> Distribution_MutateChance(0.0, 1.0);
-	double MutationRate = pow((2 + ((7 - 2) / (50 - 1)) * (Generation + 1)), -1.0);
-	return Distribution_MutateChance(MTGenerator) <= MutationRate ? true : false;
+	double MutatingRate = pow((2 + ((7 - 2) / (50 - 1)) * (Generation + 1)), -1.0);
+	return Distribution_MutateChance(MTGenerator) <= MutatingRate ? true : false;
 
 	/*std::uniform_real_distribution<double> Distribution_MutateChance(0.0, 1.0);
 	return Distribution_MutateChance(MTGenerator) <= MutationRate ? true : false;*/

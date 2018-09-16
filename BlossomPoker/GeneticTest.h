@@ -46,7 +46,7 @@ private:
 	double MutationRate = 0.05;
 
 	unsigned int PopulationSize = 50;
-	unsigned int TouramentSize = 3;
+	unsigned int TouramentSize = 2;
 	unsigned int WinnerPerTouranment = 1;
 	unsigned int ParentLimit = 2;
 	unsigned int RoundLimit = 100;
