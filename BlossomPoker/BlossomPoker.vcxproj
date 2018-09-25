@@ -150,6 +150,7 @@
     <ClCompile Include="GeneticTest.cpp" />
     <ClCompile Include="LogWriter.cpp" />
     <ClCompile Include="Orchastrator.cpp" />
+    <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Strategy.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HandEvaluator.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Deck.h" />
     <ClInclude Include="BlossomAI.h" />
     <ClInclude Include="Orchastrator.h" />
+    <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Strategy.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="HandEvaluator.h" />

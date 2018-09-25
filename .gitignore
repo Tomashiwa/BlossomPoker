@@ -364,4 +364,4 @@ ASALocalRun/
 .localhistory/
 BlossomPoker.VC.db
 BlossomPoker.VC.db
-BlossomPoker/TestLogs/*.txt
+BlossomPoker/TestLogs/

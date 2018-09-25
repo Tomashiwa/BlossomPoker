@@ -32,7 +32,8 @@ public:
 	void Update();
 	void End();
 
-	void Reset();
+	void Reset(bool _IsHard);
+	void SoftReset();
 	void ResetRecords();
 	void ResetStacks();
 
@@ -94,6 +95,7 @@ public:
 	unsigned int GetSmallBlind() { return SmallBlind; }
 	unsigned int GetBigBlind() { return BigBlind; }
 	unsigned int GetRequiredAnte() { return RequiredAnte; }
+	unsigned int GetEntryStack() { return EntryStack; }
 
 	unsigned int GetRounds() { return Round; }
 

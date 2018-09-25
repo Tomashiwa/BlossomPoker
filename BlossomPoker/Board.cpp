@@ -79,7 +79,7 @@ void Board::End()
 	}
 }
 
-void Board::Reset()
+void Board::Reset(bool _IsHard)
 {
 	IsActive = true;
 	CurrentState = Phase::Preflop;
@@ -93,8 +93,6 @@ void Board::Reset()
 	SmallBlindPlayer.reset();
 	CurrentPlayer.reset();
 
-	Records.clear();
-
 	PlayingDeck->Refill();
 	PlayingDeck->Shuffle();
 
@@ -103,7 +101,19 @@ void Board::Reset()
 
 	Pot = 0;
 	RequiredAnte = 0;
-	Round = 0;
+
+	if (_IsHard)
+	{
+		Records.clear();
+		Round = 0;
+	}
+}
+
+void Board::SoftReset()
+{
+	IsActive = true;
+	CurrentState = Phase::Preflop;
+
 }
 
 void Board::ResetRecords()

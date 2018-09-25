@@ -23,6 +23,10 @@ public:
 	void Update();
 	void End();
 
+	void Reset();
+
+	void SetSpecs(unsigned int _PopulationSize, unsigned int _SubjectsSize, unsigned int _GenerationLimit);
+
 	bool IsTestComplete();
 	std::string GetPopulationStr();
 	std::string GetThresholdsStr(Player& _Target);
@@ -45,11 +49,14 @@ private:
 	double TargetFitness = 0.75;
 	double MutationRate = 0.05;
 
-	unsigned int PopulationSize = 50;
+	unsigned int PopulationSize = 8;
+	unsigned int SubjectsAmt = 10;
 	unsigned int TouramentSize = 2;
 	unsigned int WinnerPerTouranment = 1;
+
 	unsigned int ParentLimit = 2;
 	unsigned int RoundLimit = 100;
+	unsigned int GenerationLimit = 50;
 
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
@@ -76,6 +83,7 @@ private:
 
 	double DetermineWinRate(std::shared_ptr<Player> _Current, std::shared_ptr<Player> _Subject);
 	double GetOverallFitness();
+	double GetGenerationDiversity();
 
 	bool HasHigherFitness(std::pair<std::shared_ptr<Player>, double> _First, std::pair<std::shared_ptr<Player>, double> _Second);
 	bool HasMutationHappen();

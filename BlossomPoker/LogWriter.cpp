@@ -7,40 +7,52 @@ LogWriter::LogWriter()
 
 LogWriter::~LogWriter()
 {
-	File.close();
+	for (auto& Entry : Entries)
+		Entry->File.close();
 }
 
-void LogWriter::OpenNew()
+void LogWriter::New(std::string _Name)
 {
-	FileName = "TestLogs\\" + GetCurrentDateTime() + ".txt";
-	File.open(FileName);
-
-	if (File.fail())
+	if(_Name == "")
 	{
-		_mkdir("TestLogs\\");
-		File.open(FileName);
+		std::shared_ptr<Entry> NewEntry = std::make_shared<Entry>();
+
+		NewEntry->File.open(NewEntry->Dir);
+
+		if (NewEntry->File.fail())
+		{
+			_mkdir("TestLogs\\");
+			NewEntry->File.open(NewEntry->Dir);
+		}
+
+		Entries.push_back(NewEntry);
+	}
+	else
+	{
+		std::shared_ptr<Entry> NewEntry = std::make_shared<Entry>(_Name);
+		NewEntry->File.open(NewEntry->Dir);
+
+		if (NewEntry->File.fail())
+		{
+			_mkdir("TestLogs\\");
+			NewEntry->File.open(NewEntry->Dir);
+		}
+
+		Entries.push_back(NewEntry);
 	}
 }
 
-void LogWriter::Write(std::string _Line)
+void LogWriter::Write(unsigned int _Index, std::string _Line)
 {
-	File << _Line << std::flush;
+	Entries[_Index]->File << _Line << std::flush;
 }
 
-void LogWriter::Close()
+void LogWriter::Close(unsigned int _Index)
 {
-	File.close();
+	Entries[_Index]->File.close();
 }
 
-std::string LogWriter::GetCurrentDateTime() const
+void LogWriter::Clear()
 {
-	auto t = std::time(nullptr);
-	auto tm = *std::localtime(&t);
-
-	std::ostringstream oss; 
-	oss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
-	std::string str = oss.str();
-
-	return str;
+	Entries.clear();
 }
-
