@@ -1,13 +1,8 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (CountdownPoker.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   GeneticTest.cpp
-d:\git repositories\blossompoker\blossompoker\logwriter.h(38): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+d:\git repositories\blossompoker\blossompoker\logwriter.h(39): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\time.h(505): note: see declaration of 'localtime'
 d:\git repositories\blossompoker\blossompoker\genetictest.cpp(14): warning C4244: 'argument': conversion from '__int64' to 'unsigned int', possible loss of data
-  Generating Code...
-  Compiling...
-  Main.cpp
-d:\git repositories\blossompoker\blossompoker\logwriter.h(38): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\time.h(505): note: see declaration of 'localtime'
-  Generating Code...
+d:\git repositories\blossompoker\blossompoker\genetictest.cpp(89): warning C4244: 'argument': conversion from '__int64' to 'unsigned int', possible loss of data
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.exe
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Debug\BlossomPoker.pdb (Full PDB)

@@ -25,7 +25,7 @@ GeneticTest::~GeneticTest()
 
 void GeneticTest::Start()
 {
-	Writer->New("PopS_" + std::to_string(PopulationSize) + " SubjAmt_" + std::to_string(SubjectsAmt) + " GenLimit_" + std::to_string(GenerationLimit));
+	Writer->New("Alternis - PopS_" + std::to_string(PopulationSize) + " SubjAmt_" + std::to_string(SubjectsAmt) + " GenLimit_" + std::to_string(GenerationLimit));
 
 	InitializePopulation(PopulationSize);
 
@@ -167,7 +167,7 @@ void GeneticTest::MeasureFitness()
 	double AverageWinRate = 0.0;
 	unsigned int SubjectInd = 0;
 
-	for (auto & Entry : Population) //auto PopulationItr = Population.begin(); PopulationItr != Population.end(); ++PopulationItr)
+	for (auto & Entry : Population)
 	{
 		CurrentPlayer = Entry.TargetPlayer;
 		AverageWinRate = 0.0;
@@ -220,17 +220,6 @@ double GeneticTest::GetGenerationDiversity()
 	}
 
 	return AverageSD / 8.0;
-
-	/*double Mean = GetOverallFitness();
-	double SD = 0;
-
-	for (auto const& Entry : Population)
-		SD += pow((Entry.WinRate - Mean), 2);
-
-	SD /= Population.size();
-	SD = pow(SD, 0.5);
-
-	return SD;*/
 }
 
 bool GeneticTest::HasHigherFitness(std::pair<std::shared_ptr<Player>, double> _First, std::pair<std::shared_ptr<Player>, double> _Second)
@@ -238,8 +227,10 @@ bool GeneticTest::HasHigherFitness(std::pair<std::shared_ptr<Player>, double> _F
 	return _First.second >= _Second.second ? true : false;
 }
 
-void GeneticTest::SelectParents(const std::vector<PlayerEntry>& _ReferencePop, std::vector<PlayerEntry>& _Parents)
+
+void GeneticTest::TouramentSelect(const std::vector<PlayerEntry>& _ReferencePop, std::vector<PlayerEntry>& _Parents)
 {
+	//Tourament Selection
 	std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
 	
 	std::vector<PlayerEntry> Tourament;
@@ -311,7 +302,112 @@ void GeneticTest::ReproducePopulation()
 	std::cout << "Reproducing population...\n";
 	Writer->Write(0, "Reproducing population...\n");
 
+	//Alternis Selection
 	std::vector<PlayerEntry> PopulationReference(Population.begin(), Population.end());
+	Population.clear();
+
+	std::vector<PlayerEntry> SortedPopulation;
+	SortedPopulation.reserve(PopulationSize);
+
+	//std::cout << "Pre-sorted population: ";
+	//for (auto const& Entry : PopulationReference)
+	//	std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.WinRate << ") ";
+	//std::cout << "\n\n";
+
+	//Sort population in descending order of fitness
+	std::sort(PopulationReference.begin(), PopulationReference.end(), [](const PlayerEntry& _First, const PlayerEntry& _Second) {return _First.WinRate > _Second.WinRate; });
+
+	//std::cout << "Sort by descending fitness: ";
+	//for (auto const& Entry : PopulationReference)
+	//	std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.WinRate << ") ";
+	//std::cout << "\n\n";
+
+	//Sort population in alternating order of fitness (eg. 1st worst, 1st best, 2nd worst, 2nd best....)
+	if (PopulationSize % 2 != 0)
+	{
+		unsigned int Breakpoint = std::ceil((double)PopulationSize / 2.0);
+		
+		for (unsigned int Index = 0; Index < Breakpoint; Index++)
+		{
+			SortedPopulation.push_back(PopulationReference[PopulationSize - 1 - Index]);
+			SortedPopulation.push_back(PopulationReference[Index]);
+		}
+
+		SortedPopulation.push_back(PopulationReference[Breakpoint - 1]);
+	}
+	else
+	{
+		unsigned int Breakpoint = PopulationSize / 2;
+
+		for (unsigned int Index = 0; Index < Breakpoint; Index++)
+		{
+			SortedPopulation.push_back(PopulationReference[PopulationSize - 1 - Index]);
+			SortedPopulation.push_back(PopulationReference[Index]);
+
+		}
+	}
+
+	/*std::cout << "Sort by alternating fitness: ";
+	for (auto const& Entry : SortedPopulation)
+		std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.WinRate << ") ";
+	std::cout << "\n\n";*/
+
+	PopulationReference.clear();
+	
+	//Select the appropriate elements to mating pool
+	unsigned int Target = 0;
+	std::uniform_int_distribution<int> Distribution_RandomRange(1, PopulationSize - 2);
+
+	for (unsigned int Index = 0; Index < PopulationSize; Index++)
+	{
+		if (PopulationReference.size() >= PopulationSize)
+			break;
+
+		Target = Distribution_RandomRange(MTGenerator);
+		PopulationReference.push_back(SortedPopulation[Target]);
+
+		if (PopulationReference.size() >= PopulationSize)
+			break;
+	
+		PopulationReference.push_back(SortedPopulation[Target - 1]);
+
+		if (PopulationReference.size() >= PopulationSize)
+			break;
+
+		PopulationReference.push_back(SortedPopulation[Target + 1]);
+	}
+
+	//std::cout << "Mating pool: ";
+	//for (auto const& Entry : PopulationReference)
+	//	std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.TargetPlayer->GetAI().GetThresholds()[0] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[1] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[2] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[3] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[4] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[5] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[6] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[7] << ") \n";
+	//std::cout << "\n\n";
+
+	Distribution_RandomRange.param(std::uniform_int_distribution<>::param_type(0, PopulationSize - 1));
+	PlayerEntry ChildEntry(nullptr, 0.0);
+
+	for (unsigned Index = 0; Index < PopulationSize; Index++)
+	{
+		Crossover(PopulationReference[Distribution_RandomRange(MTGenerator)].TargetPlayer, PopulationReference[Distribution_RandomRange(MTGenerator)].TargetPlayer, ChildEntry.TargetPlayer);
+
+		for (unsigned int ParaIndex = 0; ParaIndex < 7; ParaIndex++)
+		{
+			if (HasMutationHappen())
+				Mutate(ChildEntry.TargetPlayer, ParaIndex);
+		}
+
+		Population.push_back(ChildEntry);
+		std::cout << "Child " << Index << ": P." << PlayersGenerated << " (" << GetThresholdsStr(*ChildEntry.TargetPlayer) << ")\n";
+		Writer->Write(0, "Child " + std::to_string(Index) + ": P." + std::to_string(PlayersGenerated) + " (" + GetThresholdsStr(*ChildEntry.TargetPlayer) + ")\n");
+	}
+
+	//std::cout << "Final population: ";
+	//for (auto const& Entry : Population)
+	//	std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.TargetPlayer->GetAI().GetThresholds()[0] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[1] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[2] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[3] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[4] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[5] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[6] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[7] << ") \n";
+	//std::cout << "\n\n";
+
+
+	//Tourament Selection
+	/*std::vector<PlayerEntry> PopulationReference(Population.begin(), Population.end());
 	Population.clear();
 
 	std::vector<PlayerEntry> CurrentParents;
@@ -321,9 +417,8 @@ void GeneticTest::ReproducePopulation()
 	for (unsigned int Index = 0; Index < PopulationSize; Index++)
 	{
 		//Select Parents
-		SelectParents(PopulationReference, CurrentParents);
+		TouramentSelect(PopulationReference, CurrentParents);
 		std::cout << "Parents: (P." << CurrentParents[0].TargetPlayer->GetIndex() << ": " << CurrentParents[0].WinRate << ") & (P." << CurrentParents[1].TargetPlayer->GetIndex() << ": " << CurrentParents[1].WinRate << ")\n";
-		//Writer->Write(0, "Parents: (P." + std::to_string(CurrentParents[0].TargetPlayer->GetIndex()) + ": " + std::to_string(CurrentParents[0].WinRate) + ") & (P." + std::to_string(CurrentParents[1].TargetPlayer->GetIndex()) + ": " + std::to_string(CurrentParents[1].WinRate) + ")\n");
 
 		//Cross-over
 		Crossover(CurrentParents[0].TargetPlayer, CurrentParents[1].TargetPlayer, ChildEntry.TargetPlayer);
@@ -338,7 +433,7 @@ void GeneticTest::ReproducePopulation()
 
 		Population.push_back(ChildEntry);
 		Writer->Write(0, "Child " + std::to_string(Index) + ": P." + std::to_string(PlayersGenerated) + " (" + GetThresholdsStr(*ChildEntry.TargetPlayer) + ")\n");
-	}
+	}*/
 	
 	Generation++;
 }

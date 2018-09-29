@@ -77,7 +77,8 @@ private:
 	void GenerateSubjects(unsigned int _Size);
 	void MeasureFitness();
 	
-	void SelectParents(const std::vector<PlayerEntry>& _ReferencePop, std::vector<PlayerEntry>& _Parents);
+	void TouramentSelect(const std::vector<PlayerEntry>& _ReferencePop, std::vector<PlayerEntry>& _Parents);
+	//void AlternisSelect(std::vector<PlayerEntry>&);
 	void Crossover(const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second, std::shared_ptr<Player>& _Result);
 	void Mutate(std::shared_ptr<Player>& _Target, unsigned int _ParaIndex);
 
