@@ -10,7 +10,6 @@ d:\git repositories\blossompoker\blossompoker\LogWriter.h(39): warning C4996: 'l
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\time.h(505): note: see declaration of 'localtime'
 GeneticTest.cpp(14): warning C4244: 'argument': conversion from '__int64' to 'unsigned int', possible loss of data
 GeneticTest.cpp(89): warning C4244: 'argument': conversion from '__int64' to 'unsigned int', possible loss of data
-GeneticTest.cpp(328): warning C4244: 'initializing': conversion from 'double' to 'unsigned int', possible loss of data
   LogWriter.cpp
 d:\git repositories\blossompoker\blossompoker\LogWriter.h(39): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\time.h(505): note: see declaration of 'localtime'
@@ -32,7 +31,7 @@ d:\git repositories\blossompoker\blossompoker\LogWriter.h(39): warning C4996: 'l
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\time.h(505): note: see declaration of 'localtime'
   Player.cpp
   Generating code
-  All 1947 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 1933 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Release\BlossomPoker.exe
   BlossomPoker.vcxproj -> D:\Git Repositories\BlossomPoker\Release\BlossomPoker.pdb (Full PDB)

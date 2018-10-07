@@ -9,15 +9,21 @@
 #include <vector>
 #include <memory>
 
+#include "LogType.h"
+
 class LogWriter
 {
 public:
 	LogWriter();
 	~LogWriter();
 
-	void New(std::string _Name);
-	void Write(unsigned int _Index, std::string _Line);
-	void Close(unsigned int _Index);
+	void NewFile(LogType _Type, std::string _Name);
+
+	void WriteAt(unsigned int _FileIndex, std::string _Line);
+	void WriteAt(unsigned int _FileIndex, double _Axis1, double _Axis2);
+	void WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, double _Value);
+
+	void CloseAt(unsigned int _Index);
 	void Clear();
 
 private:
@@ -25,13 +31,9 @@ private:
 	{
 		std::ofstream File;
 		std::string Dir;
+		LogType Type;
 
-		Entry() 
-		{
-			Dir = "TestLogs\\" + GetCurrentDateTime() + ".txt";
-		}
-
-		Entry(std::string _Name) : Dir("TestLogs\\" + GetCurrentDateTime() + " - " + _Name +".txt"){}
+		Entry(LogType _Type, std::string _Name) : Type(_Type), Dir("TestLogs\\" + GetCurrentDateTime() + " - " + _Name + ".txt") {};
 
 		std::string GetCurrentDateTime() const
 		{

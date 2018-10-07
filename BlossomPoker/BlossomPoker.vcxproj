@@ -161,6 +161,7 @@
     <ClInclude Include="BettingAction.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="GeneticTest.h" />
+    <ClInclude Include="LogType.h" />
     <ClInclude Include="LogWriter.h" />
     <ClInclude Include="Phase.h" />
     <ClInclude Include="Card.h" />

@@ -394,6 +394,7 @@ void Board::UpdatePhase()
 				CurrentPlayer->SetIsParticipating(false);
 				//std::cout << "P." << CurrentPlayer->GetIndex() << " is no longer participating...\n";
 			}
+			
 			break;
 		}
 		case BettingAction::Raise:

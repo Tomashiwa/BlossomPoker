@@ -12,10 +12,10 @@ class GameManager
 {
 public:
 	GameManager();
-
+	
 	GameManager(const GameManager&) = delete;
 	GameManager& operator= (const GameManager&) = delete;
-
+	
 	~GameManager();
 
 	void Start();

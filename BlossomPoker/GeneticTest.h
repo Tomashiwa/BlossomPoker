@@ -73,6 +73,9 @@ private:
 	std::vector<PlayerEntry> Population;
 	std::vector<std::shared_ptr<Player>> RandomSubjects;
 
+	std::shared_ptr<PlayerEntry> FittestPlayer;
+	std::vector<std::shared_ptr<PlayerEntry>> FittestInGenerations;
+
 	void InitializePopulation(unsigned int _Size);
 	void GenerateSubjects(unsigned int _Size);
 	void MeasureFitness();

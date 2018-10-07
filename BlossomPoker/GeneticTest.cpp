@@ -15,6 +15,8 @@ GeneticTest::GeneticTest()
 
 	Population.reserve(PopulationSize);
 
+	FittestPlayer = std::make_shared<PlayerEntry>(nullptr,0);
+
 	Writer = std::make_unique<LogWriter>();
 }
 
@@ -25,44 +27,52 @@ GeneticTest::~GeneticTest()
 
 void GeneticTest::Start()
 {
-	Writer->New("Alternis - PopS_" + std::to_string(PopulationSize) + " SubjAmt_" + std::to_string(SubjectsAmt) + " GenLimit_" + std::to_string(GenerationLimit));
+	Writer->NewFile(LogType::NONE, "Tourament - PopS_" + std::to_string(PopulationSize) + " SubjAmt_" + std::to_string(SubjectsAmt) + " GenLimit_" + std::to_string(GenerationLimit));
 
 	InitializePopulation(PopulationSize);
 
 	std::cout << "Settings: \nPopulation Size: " << PopulationSize << "  Subjects Amt: " << SubjectsAmt << " Generation Limit: " << GenerationLimit << "\n\n";
 	std::cout << "Population of " << Population.size() << " initialized: " << GetPopulationStr() << "\n";
 
-	Writer->Write(0, "Settings: \n Population Size: " + std::to_string(PopulationSize) + "  Subjects Amt: " + std::to_string(SubjectsAmt) + " Generation Limit: " + std::to_string(GenerationLimit) + "\n\n");
-	Writer->Write(0, "Population of " + std::to_string(Population.size()) + " initialized" + GetPopulationStr() + "\n");
+	Writer->WriteAt(0, "Settings: \n Population Size: " + std::to_string(PopulationSize) + "  Subjects Amt: " + std::to_string(SubjectsAmt) + " Generation Limit: " + std::to_string(GenerationLimit) + "\n\n");
+	Writer->WriteAt(0, "Population of " + std::to_string(Population.size()) + " initialized" + GetPopulationStr() + "\n");
 
 	for (auto const& Entry : Population)
-		Writer->Write(0, "P." + std::to_string(Entry.TargetPlayer->GetIndex()) + ": (" + GetThresholdsStr(*(Entry.TargetPlayer)) + ")\n");
+		Writer->WriteAt(0, "P." + std::to_string(Entry.TargetPlayer->GetIndex()) + ": (" + GetThresholdsStr(*(Entry.TargetPlayer)) + ")\n");
 
-	Writer->New("PlottingLog");
-	Writer->Write(1, "#X Y\n");
+	Writer->NewFile(LogType::Graph_Line, "GenerationPerformance");
+	Writer->WriteAt(1, "#X Y\n");
 
-	Writer->New("DiversityLog");
-	Writer->Write(2, "#X Y\n");
+	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
+	Writer->WriteAt(2, "#X Y\n");
+
+	Writer->NewFile(LogType::Graph_Bar, "EvolutionaryProgress");
+	Writer->WriteAt(3, "#Best agent in each generation:");
 }
 
 void GeneticTest::Update()
 {
 	std::cout << "\nGeneration " << Generation << ":\n";
-	Writer->Write(0, "\nGeneration " + std::to_string(Generation) + ":\n");
+	Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ":\n");
 
 	GenerateSubjects(SubjectsAmt);
 	
 	std::cout << RandomSubjects.size() << " subjects generated...\n";
-	Writer->Write(0, std::to_string(RandomSubjects.size()) + " subjects generated...\n");
+	Writer->WriteAt(0, std::to_string(RandomSubjects.size()) + " subjects generated...\n");
 
-	MeasureFitness();	
+	MeasureFitness();
 	
 	PrintPopulationFitness();
 	std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
-	Writer->Write(2, std::to_string(Generation) + " " + std::to_string(GetGenerationDiversity()) + "\n");
+	
+	Writer->WriteAt(0, "Overall average fitness: " + std::to_string(GetOverallFitness()) + " Best fitness: " + std::to_string(FittestPlayer->WinRate) + " Target fitness: " + std::to_string(TargetFitness) + "\n");
+	Writer->WriteAt(1, Generation, GetOverallFitness());
+	Writer->WriteAt(2, Generation, GetGenerationDiversity());
 
 	if (!IsTestComplete())
+	{
 		ReproducePopulation();
+	}
 	else
 		End();
 }
@@ -70,14 +80,12 @@ void GeneticTest::Update()
 void GeneticTest::End()
 {
 	std::cout << "Ending Test... (Current: " << GetOverallFitness() << " / Target: " << TargetFitness << ")\n";
-	Writer->Write(0, "Ending Test... (Current: " + std::to_string(GetOverallFitness()) + " / Target: " + std::to_string(TargetFitness) + ")\n");
+	Writer->WriteAt(0, "Ending Test... (Current: " + std::to_string(GetOverallFitness()) + " / Target: " + std::to_string(TargetFitness) + ")\n");
 
-	//std::cout << "Target Fitness Reached ! (Current: " << GetOverallFitness() << " / Target: " << TargetFitness << ")\n";
-	//Writer->Write(0, "Target Fitness Reached ! (Current: " + std::to_string(GetOverallFitness()) + " / Target: " + std::to_string(TargetFitness) + ")\n");
-	
-	Writer->Close(0);
-	Writer->Close(1);
-	Writer->Close(2);
+	Writer->CloseAt(0);
+	Writer->CloseAt(1);
+	Writer->CloseAt(2);
+
 	Writer->Clear();
 }
 
@@ -129,19 +137,12 @@ double GeneticTest::DetermineWinRate(std::shared_ptr<Player> _Current, std::shar
 
 	TestBoard->Start();
 
-	//double OverallProfits = 0;
-
-	//std::cout << "Initial: P." << _Current->GetIndex() << " (S: $" << _Current->GetStack() << "/A: $" << _Current->GetAnte() << ") SP." << _Subject->GetIndex() << " (S: $" << _Subject->GetStack() << "/A: $" << _Subject->GetAnte() << ") Pot ($" << TestBoard->GetPot() << ") \n";
-
 	while (TestBoard->GetRounds() < RoundLimit)
 	{
 		TestBoard->Update();
-		//std::cout << "Round " << TestBoard->GetRounds() << "/" << RoundLimit << " - P." << TestBoard->GetCurrentPlayer()->GetIndex() << "'s turn (" << TestBoard->GetStateStr() << " - $" << TestBoard->GetPot() << ")   \r";
 
 		if (TestBoard->IsGameEnded())
 		{
-			//OverallProfits += (double) _Current->GetStack() - (double) TestBoard->GetEntryStack();
-
 			TestBoard->Reset(false);
 
 			TestBoard->AddPlayer(_Current);
@@ -151,13 +152,6 @@ double GeneticTest::DetermineWinRate(std::shared_ptr<Player> _Current, std::shar
 		}
 	}
 
-	//std::cout << "\n";
-	//std::cout << "                                                                                                                        \r";
-	//std::cout << "Result: P." << _Current->GetIndex() << " (S: $" << _Current->GetStack() << "/A: $" << _Current->GetAnte() << ") SP." << _Subject->GetIndex() << " (S: $" << _Subject->GetStack() << "/A: $" << _Subject->GetAnte() << ") Pot ($" << TestBoard->GetPot() << ") = Ended at " << TestBoard->GetStateStr() << "\n";
-	//std::cout << "P." << _Current->GetIndex() << " against SP." << _Subject->GetIndex() << ": " << (double)TestBoard->GetPlayerWins(_Current) / (double)TestBoard->GetRounds() << " (Wins: " << TestBoard->GetPlayerWins(_Current) << " | Rounds: " << TestBoard->GetRounds() << ")\n";
-
-	//return (((OverallProfits + (double) _Current->GetStack() - (double) TestBoard->GetEntryStack()) / (double) TestBoard->GetBigBlind()) / (double) RoundLimit) * 100.0;
-
 	return (double)TestBoard->GetPlayerWins(_Current) / (double)TestBoard->GetRounds();
 }
 
@@ -166,6 +160,9 @@ void GeneticTest::MeasureFitness()
 	std::shared_ptr<Player> CurrentPlayer = nullptr;
 	double AverageWinRate = 0.0;
 	unsigned int SubjectInd = 0;
+
+	FittestPlayer->TargetPlayer = Population[0].TargetPlayer;
+	FittestPlayer->WinRate = Population[0].WinRate;
 
 	for (auto & Entry : Population)
 	{
@@ -183,9 +180,19 @@ void GeneticTest::MeasureFitness()
 		AverageWinRate /= RandomSubjects.size();
 		Entry.WinRate = AverageWinRate;
 
+		if (AverageWinRate > FittestPlayer->WinRate)
+		{
+			FittestPlayer->TargetPlayer = Entry.TargetPlayer;
+			FittestPlayer->WinRate = AverageWinRate;
+		}
+
 		std::cout << "\n";
 		SubjectInd = 0;
 	}
+
+	Writer->WriteAt(3, "#P." + std::to_string(FittestPlayer->TargetPlayer->GetIndex()) + ":" + GetThresholdsStr(*FittestPlayer->TargetPlayer) + "\n");
+	//Writer->WriteAt(3,  std::string("# P." + FittestPlayer->TargetPlayer->GetIndex()) + ": (" + GetThresholdsStr(*FittestPlayer->TargetPlayer) + ")");
+	FittestInGenerations.push_back(FittestPlayer);
 }
 
 double GeneticTest::GetOverallFitness()
@@ -282,7 +289,6 @@ void GeneticTest::Crossover(const std::shared_ptr<Player>& _First, const std::sh
 
 void GeneticTest::Mutate(std::shared_ptr<Player>& _Target, unsigned int _ParaIndex)
 {
-	//std::uniform_int_distribution<int> Distribution_ThreshIndex(0, 7);
 	std::uniform_real_distribution<double> Distribution_Mutation(0.0, 1.0); 
 	_Target->GetAI().SetThreshold(_ParaIndex, Distribution_Mutation(MTGenerator));
 }
@@ -292,17 +298,15 @@ bool GeneticTest::HasMutationHappen()
 	std::uniform_real_distribution<double> Distribution_MutateChance(0.0, 1.0);
 	double MutatingRate = pow((2 + ((7 - 2) / (GenerationLimit - 1)) * (Generation + 1)), -1.0);
 	return Distribution_MutateChance(MTGenerator) <= MutatingRate ? true : false;
-
-	/*std::uniform_real_distribution<double> Distribution_MutateChance(0.0, 1.0);
-	return Distribution_MutateChance(MTGenerator) <= MutationRate ? true : false;*/
 }
 
 void GeneticTest::ReproducePopulation()
 {
 	std::cout << "Reproducing population...\n";
-	Writer->Write(0, "Reproducing population...\n");
+	Writer->WriteAt(0, "Reproducing population...\n");
 
 	//Alternis Selection
+	/*
 	std::vector<PlayerEntry> PopulationReference(Population.begin(), Population.end());
 	Population.clear();
 
@@ -350,7 +354,7 @@ void GeneticTest::ReproducePopulation()
 	/*std::cout << "Sort by alternating fitness: ";
 	for (auto const& Entry : SortedPopulation)
 		std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.WinRate << ") ";
-	std::cout << "\n\n";*/
+	std::cout << "\n\n";
 
 	PopulationReference.clear();
 	
@@ -404,10 +408,10 @@ void GeneticTest::ReproducePopulation()
 	//for (auto const& Entry : Population)
 	//	std::cout << "P." << Entry.TargetPlayer->GetIndex() << "(" << Entry.TargetPlayer->GetAI().GetThresholds()[0] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[1] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[2] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[3] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[4] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[5] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[6] << "," << Entry.TargetPlayer->GetAI().GetThresholds()[7] << ") \n";
 	//std::cout << "\n\n";
-
+	*/
 
 	//Tourament Selection
-	/*std::vector<PlayerEntry> PopulationReference(Population.begin(), Population.end());
+	std::vector<PlayerEntry> PopulationReference(Population.begin(), Population.end());
 	Population.clear();
 
 	std::vector<PlayerEntry> CurrentParents;
@@ -432,8 +436,8 @@ void GeneticTest::ReproducePopulation()
 		}
 
 		Population.push_back(ChildEntry);
-		Writer->Write(0, "Child " + std::to_string(Index) + ": P." + std::to_string(PlayersGenerated) + " (" + GetThresholdsStr(*ChildEntry.TargetPlayer) + ")\n");
-	}*/
+		Writer->WriteAt(0, "Child " + std::to_string(Index) + ": P." + std::to_string(PlayersGenerated) + " (" + GetThresholdsStr(*ChildEntry.TargetPlayer) + ")\n");
+	}
 	
 	Generation++;
 }
@@ -461,13 +465,9 @@ std::string GeneticTest::GetThresholdsStr(Player& _Target)
 void GeneticTest::PrintPopulationFitness()
 {
 	for (auto const& Entry : Population)
-		Writer->Write(0, "P." + std::to_string(Entry.TargetPlayer->GetIndex()) + " Average Win Rate: " + std::to_string(Entry.WinRate) + "\n");
+		Writer->WriteAt(0, "P." + std::to_string(Entry.TargetPlayer->GetIndex()) + " Average Win Rate: " + std::to_string(Entry.WinRate) + "\n");
 
-	//	std::cout << "P." << Member.first->GetIndex() << ": " << Member.second << "\n";
-
-	std::cout << "Overall average fitness: " << GetOverallFitness() << "  Target fitness: " << TargetFitness << "\n";
-	Writer->Write(0, "Overall average fitness: " + std::to_string(GetOverallFitness()) + " Target fitness: " + std::to_string(TargetFitness) + "\n");
-	Writer->Write(1, std::to_string(Generation) + " " + std::to_string(GetOverallFitness()) + "\n");
+	std::cout << "Average fitness: " << GetOverallFitness() << " Best Fitness: " << FittestPlayer->WinRate << "  Target fitness: " << TargetFitness << "\n";
 }
 
 void GeneticTest::SetSpecs(unsigned int _PopulationSize, unsigned int _SubjectsSize, unsigned int _GenerationLimit)

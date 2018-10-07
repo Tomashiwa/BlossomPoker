@@ -11,43 +11,53 @@ LogWriter::~LogWriter()
 		Entry->File.close();
 }
 
-void LogWriter::New(std::string _Name)
+void LogWriter::NewFile(LogType _Type, std::string _Name)
 {
-	if(_Name == "")
+	std::shared_ptr<Entry> NewEntry = std::make_shared<Entry>(_Type, _Name);
+	NewEntry->File.open(NewEntry->Dir);
+
+	if (NewEntry->File.fail())
 	{
-		std::shared_ptr<Entry> NewEntry = std::make_shared<Entry>();
-
+		_mkdir("TestLogs\\");
 		NewEntry->File.open(NewEntry->Dir);
-
-		if (NewEntry->File.fail())
-		{
-			_mkdir("TestLogs\\");
-			NewEntry->File.open(NewEntry->Dir);
-		}
-
-		Entries.push_back(NewEntry);
 	}
-	else
+
+	Entries.push_back(NewEntry);
+
+	WriteAt(Entries.size() - 1, "# " + _Name + "\n");
+
+	switch (_Type)
 	{
-		std::shared_ptr<Entry> NewEntry = std::make_shared<Entry>(_Name);
-		NewEntry->File.open(NewEntry->Dir);
-
-		if (NewEntry->File.fail())
-		{
-			_mkdir("TestLogs\\");
-			NewEntry->File.open(NewEntry->Dir);
-		}
-
-		Entries.push_back(NewEntry);
+		case LogType::Graph_Line:
+			WriteAt(Entries.size() - 1, "# Type: Line Graph\n");
+			break;
+		case LogType::Graph_Bar:
+			WriteAt(Entries.size() - 1, "# Type: Bar Graph\n");
+			break;
+		default:
+			WriteAt(Entries.size() - 1, "# Type: NOT FOUND\n");
+			break;
 	}
+
+	WriteAt(Entries.size() - 1, "# \n");
 }
 
-void LogWriter::Write(unsigned int _Index, std::string _Line)
+void LogWriter::WriteAt(unsigned int _FileIndex, std::string _Line)
 {
-	Entries[_Index]->File << _Line << std::flush;
+	Entries[_FileIndex]->File << _Line << std::flush;
 }
 
-void LogWriter::Close(unsigned int _Index)
+void LogWriter::WriteAt(unsigned int _FileIndex, double _Axis1, double _Axis2)
+{
+	Entries[_FileIndex]->File << _Axis1 << " " << _Axis2 << "\n" << std::flush;
+}
+
+void LogWriter::WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, double _Value)
+{
+	Entries[_FileIndex]->File << _Index << " " << _Label << " " << _Value << "\n" << std::flush;
+}
+
+void LogWriter::CloseAt(unsigned int _Index)
 {
 	Entries[_Index]->File.close();
 }

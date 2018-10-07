@@ -43,6 +43,12 @@
     <Filter Include="Source Files\AI\Dummy">
       <UniqueIdentifier>{cd0836b8-90b9-4b26-b8a4-1af48e6e6c0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{22b95744-64d6-4781-9df5-8e405f6aecb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{d11d15a8-0456-423e-80f2-9a706921e19a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp">
@@ -63,9 +69,6 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HandEvaluator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Strategy.cpp">
       <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
@@ -79,10 +82,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LogWriter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Scheduler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="HandEvaluator.cpp">
+      <Filter>Source Files\Cards &amp; Decks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +116,6 @@
     <ClInclude Include="Snapshot.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="HandEvaluator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Suit.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
@@ -137,11 +140,17 @@
     <ClInclude Include="Rank.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
-    <ClInclude Include="LogWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scheduler.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="LogWriter.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="HandEvaluator.h">
+      <Filter>Header Files\Cards &amp; Decks</Filter>
+    </ClInclude>
+    <ClInclude Include="LogType.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
