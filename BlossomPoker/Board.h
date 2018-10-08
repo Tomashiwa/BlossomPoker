@@ -26,16 +26,12 @@ public:
 
 	void InitEvaluator();
 	int GetHandValue(int* _Cards);
-	void Test();
 
 	void Start();
 	void Update();
 	void End();
 
 	void Reset(bool _IsHard);
-	void SoftReset();
-	void ResetRecords();
-	void ResetStacks();
 
 	void StartRound();
 	void UpdateRound();
@@ -51,7 +47,6 @@ public:
 
 	void AddPlayer(std::shared_ptr<Player> _AddingPlayer);
 	void AddPlayer(std::shared_ptr<Player> _AddingPlayer, unsigned int _EntryStack);
-	void RemovePlayer(std::shared_ptr<Player>& _RemovingPlayer);
 	void RemoveAllPlayers();
 
 	std::shared_ptr<Player> GetPreviousPlayer(const std::shared_ptr<Player>& _Reference);

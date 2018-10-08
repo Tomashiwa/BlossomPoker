@@ -191,7 +191,6 @@ void GeneticTest::MeasureFitness()
 	}
 
 	Writer->WriteAt(3, "#P." + std::to_string(FittestPlayer->TargetPlayer->GetIndex()) + ":" + GetThresholdsStr(*FittestPlayer->TargetPlayer) + "\n");
-	//Writer->WriteAt(3,  std::string("# P." + FittestPlayer->TargetPlayer->GetIndex()) + ": (" + GetThresholdsStr(*FittestPlayer->TargetPlayer) + ")");
 	FittestInGenerations.push_back(FittestPlayer);
 }
 

@@ -13,9 +13,9 @@ int main()
 	//Schedule->Add(8, 3, 50);
 
 	Schedule->Add(8, 10, 50);
-	/*Schedule->Add(16, 10, 50);
+	Schedule->Add(16, 10, 50);
 	Schedule->Add(32, 10, 50);
-	Schedule->Add(50, 10, 50);*/
+	//Schedule->Add(50, 10, 50);
 
 	/*Schedule->Add(8, 25, 50);
 	Schedule->Add(16, 25, 50);

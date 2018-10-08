@@ -26,9 +26,7 @@ void Board::InitEvaluator()
 
 	// Load the HANDRANKS.DAT file data into the HR array
 	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
-	//printf("read %zu bytes\n", bytesread * sizeof(*HR));
 	fclose(fin);
-
 }
 
 int Board::GetHandValue(int* _Cards)
@@ -40,23 +38,6 @@ int Board::GetHandValue(int* _Cards)
 	int *p5 = HR + p4[_Cards[4]];
 
 	return p5[0];
-}
-
-void Board::Test()
-{
-	InitEvaluator();
-
-	/*Rank Range : 2...A(Integer Representation : 0...12)
-	Suit Range : C, D, H, S(Integer Representaton : 0..3)
-	Card Integer Representation = Rank.IR * 4 + Suit.IR + 1*/
-	int Hand1[] = { 4, 10, 17, 25, 35 };
-	int Hand2[] = { 38, 49, 7, 19, 23 };
-
-	int HV1 = GetHandValue(Hand1);
-	int HV2 = GetHandValue(Hand2);
-
-	std::cout << "Hand 1's Value: " << HV1 << " / Catagory: " << (HV1 >> 12) << std::endl;
-	std::cout << "Hand 2's Value: " << HV2 << " / Catagory: " << (HV2 >> 12) << std::endl;
 }
 
 void Board::Start()
@@ -107,31 +88,6 @@ void Board::Reset(bool _IsHard)
 		Records.clear();
 		Round = 0;
 	}
-}
-
-void Board::SoftReset()
-{
-	IsActive = true;
-	CurrentState = Phase::Preflop;
-
-}
-
-void Board::ResetRecords()
-{
-	for (auto Itr = Records.begin(); Itr != Records.end(); ++Itr)
-		Itr->second = 0;
-}
-
-void Board::ResetStacks()
-{
-	for (auto const& Player : Players)
-	{
-		Player->SetStack(EntryStack);
-		Player->SetIsBroke(false);
-	}
-
-	Pot = 0;
-	RequiredAnte = 0;
 }
 
 void Board::StartRound()
@@ -506,12 +462,6 @@ void Board::AddPlayer(std::shared_ptr<Player> _AddingPlayer, unsigned int _Entry
 	_AddingPlayer->SetStack(_EntryStack);
 }
 
-void Board::RemovePlayer(std::shared_ptr<Player>& _RemovingPlayer)
-{
-	Players.erase(Players.begin() + (_RemovingPlayer->GetIndex() - 1));
-	_RemovingPlayer.reset();
-}
-
 void Board::RemoveAllPlayers()
 {
 	Players.clear();
@@ -526,14 +476,6 @@ std::shared_ptr<Player> Board::GetPreviousPlayer(const std::shared_ptr<Player>& 
 	}
 
 	return nullptr;
-
-	/*for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
-	{
-		if ((*Itr)->GetIndex() == _Reference->GetIndex())
-			return Itr == Players.begin() ? *(--Players.end()) : *(--Itr);
-	}
-
-	return nullptr;*/
 }
 
 std::shared_ptr<Player> Board::GetNextPlayer(const std::shared_ptr<Player>& _Reference)
@@ -545,14 +487,6 @@ std::shared_ptr<Player> Board::GetNextPlayer(const std::shared_ptr<Player>& _Ref
 	}
 
 	return nullptr;
-
-	/*for (auto Itr = Players.begin(); Itr != Players.end(); ++Itr)
-	{
-		if ((*Itr)->GetIndex() == _Reference->GetIndex())
-			return Itr == (--Players.end()) ? *Players.begin() : *(++Itr);
-	}
-
-	return nullptr;*/
 }
 
 void Board::UpdatePot()
