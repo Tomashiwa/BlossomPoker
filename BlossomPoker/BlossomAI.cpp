@@ -20,7 +20,7 @@ void BlossomAI::Initialize(std::shared_ptr<HandEvaluator> _Evaluator)
 	Orch->InitializeRandomStrat();
 }
 
-void BlossomAI::InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<double,8> _Thresholds)
+void BlossomAI::InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<float,8> _Thresholds)
 {
 	Orch = std::make_shared<Orchastrator>(shared_from_this());
 	Eval = _Evaluator;
@@ -71,7 +71,7 @@ BettingAction BlossomAI::EnquireAction(const Snapshot& _Snapshot)
 //	return Actions;
 //}
 
-double BlossomAI::DetermineWinRate()
+float BlossomAI::DetermineEarningPotential()
 {
 	return Eval->DetermineOdds_MonteCarlo(CurrentShot.Hole, CurrentShot.Communal,2500);
 }
@@ -108,12 +108,12 @@ void BlossomAI::PrintShot()
 	std::cout << "Pot Contribution: " << CurrentShot.Contribution << "\n";
 }
 
-void BlossomAI::SetThreshold(unsigned int _Index, double _Value)
+void BlossomAI::SetThreshold(unsigned int _Index, float _Value)
 {
 
 }
 
-std::array<double, 8> BlossomAI::GetThresholds()
+std::array<float, 8> BlossomAI::GetThresholds()
 {
 	return Orch->GetThresholds();
 }

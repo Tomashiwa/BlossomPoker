@@ -20,8 +20,8 @@ public:
 	void NewFile(LogType _Type, std::string _Name);
 
 	void WriteAt(unsigned int _FileIndex, std::string _Line);
-	void WriteAt(unsigned int _FileIndex, double _Axis1, double _Axis2);
-	void WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, double _Value);
+	void WriteAt(unsigned int _FileIndex, float _Axis1, float _Axis2);
+	void WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, float _Value);
 
 	void CloseAt(unsigned int _Index);
 	void Clear();

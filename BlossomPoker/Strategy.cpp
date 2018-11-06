@@ -2,7 +2,7 @@
 #include "BlossomAI.h"
 #include "Orchastrator.h"
 
-Strategy::Strategy(std::shared_ptr<Orchastrator> _Orchastrator, double _CallingThresh, double _RaisingThresh)
+Strategy::Strategy(std::shared_ptr<Orchastrator> _Orchastrator, float _CallingThresh, float _RaisingThresh)
 	: Orch(_Orchastrator)
 {
 	Thresholds[0] = _CallingThresh;
@@ -17,9 +17,9 @@ void Strategy::CalculateMWRs()
 {
 	Snapshot CurrentShot = Orch->GetAI()->GetSnapshot();
 
-	double Mean = 100.0 / CurrentShot.PlayerAmt;
-	double Diff = 100.0 - Mean;
-	double Flactuation = Diff / 2.0;
+	float Mean = 100.0 / CurrentShot.PlayerAmt;
+	float Diff = 100.0 - Mean;
+	float Flactuation = Diff / 2.0;
 
 	MinWinRates[0] = Mean + (Thresholds[0] * Flactuation); // Calling
 	MinWinRates[1] = Mean + (Thresholds[1] * Flactuation); // Raising and Betting
@@ -45,7 +45,7 @@ BettingAction Strategy::DetermineIdealAction()
 {
 	CalculateMWRs();
 
-	double CurrentWinRate = Orch->GetAI()->DetermineWinRate();
+	float CurrentWinRate = Orch->GetAI()->DetermineEarningPotential();
 	
 	if (CurrentWinRate >= MinWinRates[1]) // Raising and Betting
 		return IsActionAvaliable(BettingAction::Bet) ? BettingAction::Bet : BettingAction::Raise;

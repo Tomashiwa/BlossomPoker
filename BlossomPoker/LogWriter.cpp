@@ -47,12 +47,12 @@ void LogWriter::WriteAt(unsigned int _FileIndex, std::string _Line)
 	Entries[_FileIndex]->File << _Line << std::flush;
 }
 
-void LogWriter::WriteAt(unsigned int _FileIndex, double _Axis1, double _Axis2)
+void LogWriter::WriteAt(unsigned int _FileIndex, float _Axis1, float _Axis2)
 {
 	Entries[_FileIndex]->File << _Axis1 << " " << _Axis2 << "\n" << std::flush;
 }
 
-void LogWriter::WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, double _Value)
+void LogWriter::WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, float _Value)
 {
 	Entries[_FileIndex]->File << _Index << " " << _Label << " " << _Value << "\n" << std::flush;
 }

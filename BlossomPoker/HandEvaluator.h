@@ -23,8 +23,8 @@ public:
 	HandEvaluator();
 	~HandEvaluator();
 
-	double DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole);
-	double DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, int _TrialsAmt);
+	float DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole);
+	float DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, int _TrialsAmt);
 
 	int DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand);
 	int DetermineValue_7Cards(const std::array<std::shared_ptr<Card>, 7>& _Hand);
@@ -55,7 +55,7 @@ public:
 
 private:
 	int HR[32487834];
-	double PreflopOdds[1326];
+	float PreflopOdds[1326];
 
 	std::mt19937 MTGenerator;
 

@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-#include "Board.h"
+#include "Table.h"
 #include "Player.h"
 #include "HandEvaluator.h"
 
@@ -16,39 +16,39 @@ void GameManager::Start()
 {
 	IsPrintingRoundInfo = true;
 
-	for (unsigned int Index = 0; Index < Boards.size(); Index++)
-		Boards[Index]->Start();
+	for (unsigned int Index = 0; Index < Tables.size(); Index++)
+		Tables[Index]->Start();
 }
 
 void GameManager::Update()
 {
-	bool AreAllBoardInactive = true;
+	bool AreAllTablesInactive = true;
 
-	for (unsigned int Index = 0; Index < Boards.size(); Index++)
+	for (unsigned int Index = 0; Index < Tables.size(); Index++)
 	{
-		if (!Boards[Index]->GetIsActive()) continue;
+		if (!Tables[Index]->GetIsActive()) continue;
 
-		Boards[Index]->Update();
-		AreAllBoardInactive = false;
+		Tables[Index]->Update();
+		AreAllTablesInactive = false;
 	}
 
-	if (AreAllBoardInactive)
+	if (AreAllTablesInactive)
 		SetIsActive(false);
 }
 
 void GameManager::End()
 {
-	for (unsigned int Index = 0; Index < Boards.size(); Index++)
-		Boards[Index]->End();
+	for (unsigned int Index = 0; Index < Tables.size(); Index++)
+		Tables[Index]->End();
 }
 
-void GameManager::AddBoard(unsigned int _StartBB)
+void GameManager::AddTable(unsigned int _StartBB)
 {
-	std::shared_ptr<Board> _NewBoard = std::make_shared<Board>(Evaluator, _StartBB, true);
-	_NewBoard->AddPlayer(std::make_shared<Player>(_NewBoard, 0),_StartBB * 100);
-	_NewBoard->AddPlayer(std::make_shared<Player>(_NewBoard, 1),_StartBB * 100);
-	_NewBoard->SetActive(true);
+	std::shared_ptr<Table> NewTable = std::make_shared<Table>(Evaluator, _StartBB, true);
+	NewTable->AddPlayer(std::make_shared<Player>(NewTable, 0),_StartBB * 100);
+	NewTable->AddPlayer(std::make_shared<Player>(NewTable, 1),_StartBB * 100);
+	NewTable->SetActive(true);
 
-	Boards.push_back(_NewBoard);
-	std::cout << "New Board created (SB/BB: " << _StartBB/2 << "/" << _StartBB << " | Stack: " << _StartBB*100 << ") \n \n";
+	Tables.push_back(NewTable);
+	std::cout << "New Table created (SB/BB: " << _StartBB/2 << "/" << _StartBB << " | Stack: " << _StartBB*100 << ") \n \n";
 }

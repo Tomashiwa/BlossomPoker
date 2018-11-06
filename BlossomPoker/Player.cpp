@@ -1,25 +1,25 @@
 #include "Player.h"
 #include "Card.h"
-#include "Board.h"
+#include "Table.h"
 
-Player::Player(std::shared_ptr<Board> _Board, unsigned int _Index)
-	: SelfBoard(_Board), Index(_Index), Stack(0), Ante(0), Action(BettingAction::NONE)
+Player::Player(std::shared_ptr<Table> _Table, unsigned int _Index)
+	: ResidingTable(_Table), Index(_Index), Stack(0), Ante(0), Action(BettingAction::NONE)
 {
 	AI = std::make_shared<BlossomAI>();
-	AI->Initialize(_Board->GetEvaluator());
+	AI->Initialize(_Table->GetEvaluator());
 }
 
-Player::Player(std::shared_ptr<Board> _Board, unsigned int _Index, std::array<double, 8> _Thresholds)
+Player::Player(std::shared_ptr<Table> _Table, unsigned int _Index, std::array<float, 8> _Thresholds)
 {
 	Index = _Index;
 	Stack = 0;
 	Ante = 0;
 
-	SetBoard(_Board);
+	SetTable(_Table);
 	Action = BettingAction::NONE;
 
 	AI = std::make_shared<BlossomAI>();
-	AI->InitializeWithThreshold(_Board->GetEvaluator(),_Thresholds);
+	AI->InitializeWithThreshold(_Table->GetEvaluator(),_Thresholds);
 }
 
 Player::~Player()
@@ -53,38 +53,29 @@ void Player::Reset()
 
 	IsBroke = false;
 	IsFolded = false;
-	IsParticipating = false;
-}
-
-std::shared_ptr<Card> Player::GetHandCardByIndex(unsigned int _Index)
-{
-	return Hand[_Index];
+	IsContributing = false;
 }
 
 void Player::GetAvaliableActions(std::vector<BettingAction>& _PossibleActions)
 {
-	if (IsBroke || IsFolded || !IsParticipating) 
+	if (IsBroke || IsFolded || !IsContributing)
 		return;
 
 	_PossibleActions.push_back(BettingAction::Fold);
 
-	if (SelfBoard->GetState() == Phase::Preflop)
+	if (Ante < ResidingTable->GetRequiredAnte())
 	{
 		_PossibleActions.push_back(BettingAction::Call);
-		_PossibleActions.push_back(BettingAction::Raise);
+
+		if(Stack > 0)
+			_PossibleActions.push_back(BettingAction::Raise);
 	}
 	else
 	{
-		if (SelfBoard->GetRequiredAnte() <= 0)
-		{
-			_PossibleActions.push_back(BettingAction::Check);
+		_PossibleActions.push_back(BettingAction::Check);
+		
+		if(Stack > 0)
 			_PossibleActions.push_back(BettingAction::Bet);
-		}
-		else
-		{
-			_PossibleActions.push_back(BettingAction::Call);
-			_PossibleActions.push_back(BettingAction::Raise);
-		}
 	}
 }
 
@@ -92,24 +83,19 @@ BettingAction Player::DetermineAction()
 {
 	Snapshot NewShot;
 	NewShot.Stack = GetStack();
-	NewShot.RequiredAnte =  SelfBoard->GetRequiredAnte();
-	NewShot.Pot = SelfBoard->GetPot();
-	NewShot.PlayerAmt = 2;
-	NewShot.BB = SelfBoard->GetBigBlind();
-	NewShot.Phase = SelfBoard->GetState();
+	NewShot.RequiredAnte =  ResidingTable->GetRequiredAnte();
+	NewShot.Pot = ResidingTable->GetPot();
+	NewShot.PlayerAmt = ResidingTable->GetPlayers().size();
+	NewShot.BB = ResidingTable->GetBigBlind();
+	NewShot.Phase = ResidingTable->GetState();
 	NewShot.Hole = GetHand();
 	NewShot.CurrentAnte = GetAnte();
 	NewShot.Contribution = GetPotContribution();
-	NewShot.Communal = SelfBoard->GetCommunalCards();
+	NewShot.Communal = ResidingTable->GetCommunalCards();
 	
 	GetAvaliableActions(NewShot.AvaliableActions);
 
 	return AI->EnquireAction(NewShot);
-}
-
-void Player::SetBoard(std::shared_ptr<Board> _Board)
-{
-	SelfBoard = _Board;
 }
 
 void Player::EmptyHand()
@@ -122,11 +108,6 @@ void Player::SetHand(std::shared_ptr<Card>  _First, std::shared_ptr<Card> _Secon
 {
 	Hand[0] = std::move(_First);
 	Hand[1] = std::move(_Second);
-}
-
-void Player::SetStack(unsigned int _Stack)
-{
-	Stack = _Stack;
 }
 
 void Player::SetAnte(unsigned int _Amt)
@@ -153,31 +134,6 @@ void Player::SetAnte(unsigned int _Amt)
 
 		Stack = 0;
 	}
-}
-
-void Player::EmptyPotContributon()
-{
-	PotContribution = 0;
-}
-
-void Player::SetAction(BettingAction _Action)
-{
-	Action = _Action;
-}
-
-void Player::SetIsParticipating(bool _IsParticipating)
-{
-	IsParticipating = _IsParticipating;
-}
-
-void Player::SetIsFolded(bool _IsFolded)
-{
-	IsFolded = _IsFolded;
-}
-
-void Player::SetIsBroke(bool _IsBroke)
-{
-	IsBroke = _IsBroke;
 }
 
 std::string Player::GetHandInfo()

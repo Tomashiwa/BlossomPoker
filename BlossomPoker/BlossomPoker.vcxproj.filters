@@ -19,9 +19,6 @@
     <Filter Include="Source Files\Cards &amp; Decks">
       <UniqueIdentifier>{fb6725dd-f2ee-471f-a51d-7d9662f029b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Board">
-      <UniqueIdentifier>{a9fcae6a-363c-4395-b128-b9a2bd0c2064}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Player">
       <UniqueIdentifier>{878bf75d-6b06-4adc-a987-72b7ef884f31}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,9 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{d11d15a8-0456-423e-80f2-9a706921e19a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Table">
+      <UniqueIdentifier>{a9fcae6a-363c-4395-b128-b9a2bd0c2064}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp">
@@ -56,9 +56,6 @@
     </ClCompile>
     <ClCompile Include="Deck.cpp">
       <Filter>Source Files\Cards &amp; Decks</Filter>
-    </ClCompile>
-    <ClCompile Include="Board.cpp">
-      <Filter>Source Files\Board</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Player</Filter>
@@ -90,6 +87,12 @@
     <ClCompile Include="HandEvaluator.cpp">
       <Filter>Source Files\Cards &amp; Decks</Filter>
     </ClCompile>
+    <ClCompile Include="Table.cpp">
+      <Filter>Source Files\Board</Filter>
+    </ClCompile>
+    <ClCompile Include="Tournament.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h">
@@ -97,9 +100,6 @@
     </ClInclude>
     <ClInclude Include="Deck.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files\Board</Filter>
     </ClInclude>
     <ClInclude Include="BettingAction.h">
       <Filter>Header Files\Player</Filter>
@@ -123,7 +123,7 @@
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
     <ClInclude Include="Phase.h">
-      <Filter>Header Files\Board</Filter>
+      <Filter>Header Files\Table</Filter>
     </ClInclude>
     <ClInclude Include="Strategy.h">
       <Filter>Header Files\AI\Dummy</Filter>
@@ -151,6 +151,15 @@
     </ClInclude>
     <ClInclude Include="LogType.h">
       <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Table.h">
+      <Filter>Header Files\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="Tournament.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Participant.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

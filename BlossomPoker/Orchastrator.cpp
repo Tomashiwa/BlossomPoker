@@ -11,7 +11,7 @@ Orchastrator::~Orchastrator()
 {
 }
 
-void Orchastrator::InitializeStrat(std::array<double, 8> _Thresholds)
+void Orchastrator::InitializeStrat(std::array<float, 8> _Thresholds)
 {
 	std::shared_ptr<Orchastrator> ThisShared = std::move(shared_from_this());
 
@@ -29,7 +29,7 @@ void Orchastrator::InitializeRandomStrat()
 	auto Seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 
 	std::mt19937 mt(Seed);
-	std::uniform_real_distribution<double> ThresholdDistribution(0.0, 1.0);
+	std::uniform_real_distribution<float> ThresholdDistribution(0.0, 1.0);
 
 	std::shared_ptr<Orchastrator> ThisShared = std::move(shared_from_this());
 
@@ -65,7 +65,7 @@ BettingAction Orchastrator::DetermineAction()
 	return CurrentStrategy->DetermineIdealAction();
 }
 
-void Orchastrator::SetThreshold(unsigned int _Index, double _Value)
+void Orchastrator::SetThreshold(unsigned int _Index, float _Value)
 {
 	switch (_Index)
 	{
@@ -90,9 +90,9 @@ void Orchastrator::SetThreshold(unsigned int _Index, double _Value)
 	}
 }
 
-std::array<double, 8> Orchastrator::GetThresholds()
+std::array<float, 8> Orchastrator::GetThresholds()
 {
-	std::array<double, 8> Thresholds;
+	std::array<float, 8> Thresholds;
 	Thresholds[0] = Strategies[0]->GetThresholds()[0];
 	Thresholds[1] = Strategies[0]->GetThresholds()[1];
 

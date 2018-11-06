@@ -17,16 +17,16 @@ public:
 	~BlossomAI();
 
 	void Initialize(std::shared_ptr<HandEvaluator> _Evaluator);
-	void InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<double, 8> _Thresholds);
+	void InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<float, 8> _Thresholds);
 
 	//std::vector<BettingAction> GetAvaliableActions();
 	BettingAction EnquireAction(const Snapshot& _Snapshot);
 
 	void PrintShot();
-	double DetermineWinRate();
+	float DetermineEarningPotential();
 
-	void SetThreshold(unsigned int _Index, double _Value);
-	std::array<double, 8> GetThresholds();
+	void SetThreshold(unsigned int _Index, float _Value);
+	std::array<float, 8> GetThresholds();
 	Snapshot GetSnapshot() { return CurrentShot; }
 
 private:

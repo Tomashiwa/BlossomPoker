@@ -121,36 +121,6 @@ void HandEvaluator::RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::ve
 			}
 		}
 	}
-
-	/*int RandomIndex;
-	int RequiredAmt = _Target - _Set.size();
-	bool IsDead;
-
-	std::uniform_int_distribution<int> CardsDistribution(0, 51);
-
-	for (unsigned int Index = 0; Index < RequiredAmt; Index++)
-	{
-		while (true)
-		{
-			IsDead = false;
-			RandomIndex = CardsDistribution(MTGenerator);
-			
-			for (auto const& Dead : _Dead)
-			{
-				if (ReferenceDeck[RandomIndex]->GetRank() == Dead->GetRank() && ReferenceDeck[RandomIndex]->GetSuit() == Dead->GetSuit())
-				{
-					IsDead = true;
-					break;
-				}
-			}
-
-			if (!IsDead)
-			{
-				_Set.push_back(ReferenceDeck[RandomIndex]);
-				break;
-			}
-		}
-	}*/
 }
 
 int HandEvaluator::GetCardInt(std::string _CardTxt)
@@ -214,12 +184,12 @@ void HandEvaluator::Get7CardsInt(const std::array<std::shared_ptr<Card>, 7>& _Ha
 		_CardInts[Index] = GetCardInt(_Hand[Index]);
 }
 
-double HandEvaluator::DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole)
+float HandEvaluator::DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole)
 {
 	return PreflopOdds[GetCardInt(_Hole[0]) + GetCardInt(_Hole[1])];
 }
 
-double HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>	, 5> _Community, int _TrialsAmt)
+float HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>	, 5> _Community, int _TrialsAmt)
 {
 	int PlayerVal, OppoVal;
 	unsigned int Win = 0, Draw = 0, GameCount = 0, ExistingCount = 0;
@@ -288,7 +258,7 @@ double HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>,
 		Rand_OppoHole.clear();
 	}
 
-	return (((double)Win) + ((double)Draw) / 2.0) / ((double)GameCount) * 100.0;
+	return (((float)Win) + ((float)Draw) / 2.0) / ((float)GameCount) * 100.0;
 
 
 	//int PlayerVal, OppoVal;
@@ -351,7 +321,7 @@ double HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>,
 	//	OppoHand.empty();
 	//}
 
-	//return (((double)Win) + ((double)Draw) / 2.0) / ((double)Count) * 100.0;
+	//return (((float)Win) + ((float)Draw) / 2.0) / ((float)Count) * 100.0;
 }
 
 int HandEvaluator::DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand)

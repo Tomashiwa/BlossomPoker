@@ -5,7 +5,7 @@
 
 #include "HandEvaluator.h"
 
-class Board;
+class Table;
 class Player;
 
 class GameManager
@@ -22,7 +22,7 @@ public:
 	void Update();
 	void End();
 
-	void AddBoard(unsigned int _StartBB);
+	void AddTable(unsigned int _StartBB);
 
 	void SetIsActive(bool _IsActive) { IsActive = _IsActive; }
 	bool GetIsActive() { return IsActive; }
@@ -34,7 +34,7 @@ private:
 	bool IsActive = true;
 	bool IsPrintingRoundInfo;
 
-	std::vector<std::shared_ptr<Board>> Boards;
+	std::vector<std::shared_ptr<Table>> Tables;
 	std::shared_ptr<HandEvaluator> Evaluator = std::make_shared<HandEvaluator>();
 
 };

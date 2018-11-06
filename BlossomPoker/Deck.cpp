@@ -58,6 +58,29 @@ bool Deck::DrawMulti(unsigned int _Amt, std::vector<std::shared_ptr<Card>>& _New
 	return Cards.empty();
 }
 
+void Deck::CopyFrom(const std::unique_ptr<Deck>& _Source)
+{
+	Cards.clear();
+	for (auto const& CardToCopy : _Source->Cards)
+		Cards.push_back(std::make_shared<Card>(CardToCopy->GetSuit(), CardToCopy->GetRank()));
+
+	/*if (Cards.size() == 0)
+	{
+		for (auto const& CardToCopy : _Source->Cards)
+			Cards.push_back(std::make_shared<Card>(CardToCopy->GetSuit(), CardToCopy->GetRank()));
+	}
+	else if (Cards.size() == _Source->Cards.size())
+	{
+		for (unsigned int Index = 0; Index < Cards.size(); Index++)
+			Cards[Index]->Set(_Source->Cards[Index]->GetSuit(), _Source->Cards[Index]->GetRank()); 
+	}
+	else
+	{
+		std::cout << "UNABLE TO COPY DECK DUE TO SIZE DIFFERENCE \n";
+		return;
+	}*/
+}
+
 void Deck::Print()
 {
 	std::cout << "Deck's information: \n";
