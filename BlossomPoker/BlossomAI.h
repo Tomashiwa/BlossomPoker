@@ -1,39 +1,48 @@
 #pragma once
-#include "Snapshot.h"
-#include "BettingAction.h"
-#include "Deck.h"
-
 #include <vector>
-#include <limits>
+#include <array>
 #include <memory>
+#include <random>
+#include <chrono>
 
-class Orchastrator;
-class HandEvaluator;
+#include "HandEvaluator.h"
+#include "Snapshot.h"
+#include "Strategy.h"
+#include "BettingAction.h"
 
-class BlossomAI : public std::enable_shared_from_this<BlossomAI>
+class BlossomAI
 {
 public:
 	BlossomAI();
 	~BlossomAI();
 
-	void Initialize(std::shared_ptr<HandEvaluator> _Evaluator);
-	void InitializeWithThreshold(std::shared_ptr<HandEvaluator> _Evaluator, std::array<float, 8> _Thresholds);
+	void Initialise();
+	void Reset();
 
-	//std::vector<BettingAction> GetAvaliableActions();
-	BettingAction EnquireAction(const Snapshot& _Snapshot);
+	BettingAction EnquireAction(Snapshot _Snapshot);
+	float DetermineWinRate(std::array<std::shared_ptr<Card>,2> _Hole, std::array<std::shared_ptr<Card>,5> _Communal, unsigned int _PlayerAmt);
 
-	void PrintShot();
-	float DetermineEarningPotential();
+	void SetThresholds(std::array<float, 16> _Thresholds);
+	void SetThresholdByPhase(Phase _Phase, unsigned int _Index, float _Threshold);
+	void SetThresholdsByPhase(Phase _Phase, std::array<float, 4> _Thresholds);
+	std::array<float, 16> GetThresholds() { return Thresholds; }
+	std::array<float, 4> GetThresholdsByPhase(Phase _Phase);
 
-	void SetThreshold(unsigned int _Index, float _Value);
-	std::array<float, 8> GetThresholds();
-	Snapshot GetSnapshot() { return CurrentShot; }
+	std::shared_ptr<Strategy> GetStrategy(Phase _Phase);
+	std::shared_ptr<Strategy> GetActiveStrategy() { return ActiveStrategy; }
+
+	void SetEvalutor(const std::shared_ptr<HandEvaluator>& _Evaluator) { Evaluator = _Evaluator; }
+
+	unsigned int GetRaiseBetAmt() { return RaiseBetAmt; }
 
 private:
-	std::shared_ptr<Orchastrator> Orch;
-	std::shared_ptr<HandEvaluator> Eval;
+	std::shared_ptr<Strategy> ActiveStrategy;
+	std::array<float, 16> Thresholds;
+	std::array<std::shared_ptr<Strategy>, 4> Strategies;
 
-	Snapshot CurrentShot;
+	unsigned int RaiseBetAmt = 0;
 
+	std::mt19937 MT;
+	std::shared_ptr<HandEvaluator> Evaluator;
 };
 

@@ -5,6 +5,7 @@
 #include <memory>
 #include <time.h>
 
+#include "Phase.h"
 #include "LogWriter.h"
 
 class Table;
@@ -25,7 +26,7 @@ public:
 	void SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit);
 
 	bool IsTestComplete();
-	void PrintPopulationFitness();
+	void PrintAvrProfits();
 
 	std::string GetPopulationContentStr();
 	std::string GetThresholdsStr(const std::shared_ptr<Player>& _Target);
@@ -37,6 +38,8 @@ private:
 
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
+
+	float MutateAmt = 0.25;
 
 	unsigned int ParentLimit = 2;
 	unsigned int TouramentSize = 2;
@@ -56,7 +59,7 @@ private:
 	void TouramentSelect(const std::vector<std::shared_ptr<Player>> _RefPopulation, std::vector<std::shared_ptr<Player>>& _Parents);
 	//void AlternisSelect(std::vector<PlayerEntry>&);
 	void Crossover(const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second, std::shared_ptr<Player>& _Result);
-	void Mutate(std::shared_ptr<Player>& _Target, unsigned int _ParaIndex);
+	void Mutate(std::shared_ptr<Player>& _Target, Phase _Phase, unsigned int _ParaIndex);
 	void ReproducePopulation();
 
 	bool HasMutationHappen();

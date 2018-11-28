@@ -36,11 +36,11 @@ void GeneticTest::Start()
 
 	Writer->NewFile(LogType::Graph_Line, "GenerationPerformance");
 	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
-	Writer->NewFile(LogType::Graph_Bar, "EvolutionaryProgress");
+	Writer->NewFile(LogType::Graph_Line, "MutationRate");
 
 	Writer->WriteAt(1, "#X Y\n");
 	Writer->WriteAt(2, "#X Y\n");
-	Writer->WriteAt(3, "#Best agent in each generation:");
+	Writer->WriteAt(3, "#Generation | Mutation Rate");
 }
 
 void GeneticTest::Run()
@@ -62,13 +62,11 @@ void GeneticTest::Run()
 
 		Tour->GetArrangedPlayers(Population);
 
-		PrintPopulationFitness();
-		std::cout << "Average Fitness: " << GetOverallFitness() << "\n";
-		std::cout << "Best Fitness: P." << CurrentBest->GetIndex() << " (" << Tour->GetTable()->GetCurrentMatch()->GetFitness(CurrentBest) << ")\n";
-		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 		Writer->WriteAt(1, Generation, GetOverallFitness());
 		Writer->WriteAt(2, Generation, GetGenerationDiversity());
-		Writer->WriteAt(3, Generation, Tour->GetTable()->GetCurrentMatch()->GetFitness(CurrentBest));
+		
+		std::cout << "Best Fitness: P." << CurrentBest->GetIndex() << " (" << Tour->GetAverageFitness(CurrentBest) << ")\n";
+		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 
 		if (!IsTestComplete())
 			ReproducePopulation();
@@ -119,10 +117,10 @@ void GeneticTest::GeneratePopulation(unsigned int _Size)
 float GeneticTest::GetOverallFitness()
 {
 	float TotalFitness = 0.0;
-	for (auto const& Entry : Tour->GetRankingBoard())
-		TotalFitness += Entry->Fitness;
+	for (auto const& Participant : Tour->GetRankingBoard())
+		TotalFitness += Participant->AverageFitness;
 
-	std::cout << "Total Fitness: " << TotalFitness << " / Board Size: " << Tour->GetRankingBoard().size() << "\n" ;
+	std::cout << "Average Fitness: " << (TotalFitness / Tour->GetRankingBoard().size()) << " (Total: " << TotalFitness << " / Table Size: " << Tour->GetRankingBoard().size() << ")\n" ;
 	return TotalFitness / Tour->GetRankingBoard().size();
 }
 
@@ -132,16 +130,16 @@ float GeneticTest::GetGenerationDiversity()
 	float SD = 0;
 	float Mean = 0;
 
-	for (unsigned int ParamIndex = 0; ParamIndex < 8; ParamIndex++)
+	for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
 	{
 		Mean = 0;
 		for (auto const Player : Population)
-			Mean += Player->GetAI().GetThresholds()[ParamIndex];
+			Mean += Player->GetAI().GetThresholds()[ThrIndex];
 		Mean /= PopulationSize;
 
 		SD = 0;
 		for (auto const Player : Population)
-			SD += pow((Player->GetAI().GetThresholds()[ParamIndex] - Mean), 2);
+			SD += pow((Player->GetAI().GetThresholds()[ThrIndex] - Mean), 2);
 		SD /= PopulationSize;
 		SD = pow(SD, (float) 0.5);
 
@@ -185,73 +183,49 @@ void GeneticTest::TouramentSelect(const std::vector<std::shared_ptr<Player>> _Re
 		else
 			Index--;
 	}
-
-	/*//Tourament Selection
-	std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
-	
-	struct Competitor
-	{
-		std::shared_ptr<Player> Owner;
-		float Fitness = 0.0;
-	};
-
-	std::vector<Competitor> Tourament;
-	Tourament.reserve(TouramentSize);
-
-	Competitor CurrentEntry	;
-
-	for (unsigned int Index = 0; Index < ParentLimit; Index++)
-	{
-		Tourament.clear();
-
-		//Generate tourament
-		for (unsigned int TourIndex = 0; TourIndex < TouramentSize; TourIndex++)
-		{
-			do
-			{
-				CurrentEntry.Owner = _ReferencePop[Distribution_Qualifier(MTGenerator)];
-			} 
-			while (std::find(Population.begin(),Population.end(), CurrentEntry.Owner) != Population.end());
-
-			Tourament.push_back(CurrentEntry);
-		}
-
-		//Get fittest in tourament
-		CurrentEntry = Tourament[0];
-
-		for (auto const& Entry : Tourament)
-		{
-			if (Entry.WinRate > CurrentEntry.WinRate)
-				CurrentEntry = Entry;
-		}
-
-		//Add as valid parent
-		_Parents.push_back(CurrentEntry);
-	}*/
 }
 
 void GeneticTest::Crossover(const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second, std::shared_ptr<Player>& _Result)
 {
-	std::array<float, 8> CombinedThresholds;
+	std::array<float, 16> CombinedThresholds;
 	std::uniform_int_distribution<int> Distribution_Crossover(0, 1);
 
-	for (unsigned int ThrIndex = 0; ThrIndex < 8; ThrIndex++)
+	for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
 		CombinedThresholds[ThrIndex] = Distribution_Crossover(MTGenerator) == 0 ? _First->GetAI().GetThresholds()[ThrIndex] : _Second->GetAI().GetThresholds()[ThrIndex];
 
-	_Result = std::move(std::make_shared<Player>(Tour->GetTable(), PlayersGenerated, CombinedThresholds));
-	PlayersGenerated++;
-}
+	_Result = std::move(std::make_shared<Player>(Tour->GetTable(), PlayersGenerated));
+	_Result->GetAI().SetThresholds(CombinedThresholds);
 
-void GeneticTest::Mutate(std::shared_ptr<Player>& _Target, unsigned int _ParaIndex)
+	PlayersGenerated++;
+}	
+
+void GeneticTest::Mutate(std::shared_ptr<Player>& _Target, Phase _Phase, unsigned int _ParaIndex)
 {
-	std::uniform_real_distribution<float> Distribution_Mutation(0.0, 1.0); 
-	_Target->GetAI().SetThreshold(_ParaIndex, Distribution_Mutation(MTGenerator));
+	std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
+
+	float MutatedThreshold = _Target->GetAI().GetThresholdsByPhase(_Phase)[_ParaIndex] + Distribution_Mutation(MTGenerator);
+	
+	if (MutatedThreshold < 0)
+	{
+		std::uniform_real_distribution<float> Distribution_Backtrack(0.0, 0.25);
+		MutatedThreshold = Distribution_Backtrack(MTGenerator);
+	}
+
+	_Target->GetAI().SetThresholdByPhase(_Phase, _ParaIndex, MutatedThreshold);
 }
 
 bool GeneticTest::HasMutationHappen()
 {
 	std::uniform_real_distribution<float> Distribution_MutateChance(0.0, 1.0);
-	float MutatingRate = pow((2 + ((7 - 2) / (GenerationLimit - 1)) * (Generation + 1)), -1.0);
+
+	//float MutatingRate = pow((2 + ((7 - 2) / (GenerationLimit - 1)) * (Generation + 1)), -1.0);
+	
+	float a = 2.5f, b = 0.5f, c = 0.15f;
+	float x = (float) Generation / (float) GenerationLimit;
+	float e = std::exp(1.0f);
+
+	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
+
 	return Distribution_MutateChance(MTGenerator) <= MutatingRate ? true : false;
 }
 
@@ -380,19 +354,30 @@ void GeneticTest::ReproducePopulation()
 
 		//Cross-over
 		Crossover(CurrentParents[0], CurrentParents[1], CurrentChild);
-		CurrentParents.clear();
+
+		float a = 2.5f, b = 0.5f, c = 0.15f;
+		float x = (float)Generation / (float)GenerationLimit;
+		float e = std::exp(1.0f);
+
+		float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
+
+		Writer->WriteAt(3, (float) Generation, MutatingRate);
 
 		//Possible Mutation
-		for (unsigned int ParaIndex = 0; ParaIndex < 7; ParaIndex++)
+		for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
 		{
-			if (HasMutationHappen())
-				Mutate(CurrentChild, ParaIndex);
+			for (unsigned int ParaIndex = 0; ParaIndex < 4; ParaIndex++)
+			{
+				if (HasMutationHappen())
+					Mutate(CurrentChild, (Phase)PhaseIndex, ParaIndex);
+			}
 		}
 
 		Population.push_back(CurrentChild);
 
 		Writer->WriteAt(0, "Parents: P." + std::to_string(CurrentParents[0]->GetIndex()) + " & P." + std::to_string(CurrentParents[1]->GetIndex()) + " \n");
 		Writer->WriteAt(0, "Child " + std::to_string(Index) + ": P." + std::to_string(PlayersGenerated) + " (" + GetThresholdsStr(CurrentChild) + ")\n");
+		CurrentParents.clear();
 	}
 	
 	Generation++;
@@ -412,13 +397,13 @@ std::string GeneticTest::GetThresholdsStr(const std::shared_ptr<Player>& _Target
 {
 	std::string ThrStr = "";
 
-	for (unsigned int ThrIndex = 0; ThrIndex < 8; ThrIndex++)
+	for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
 		ThrStr += std::to_string(_Target->GetAI().GetThresholds()[ThrIndex]) + "  ";
 
 	return ThrStr;
 }
 
-void GeneticTest::PrintPopulationFitness()
+void GeneticTest::PrintAvrProfits()
 {
 	std::cout << "Average Profits:\n";
 	Writer->WriteAt(0, "Average Profits: \n");

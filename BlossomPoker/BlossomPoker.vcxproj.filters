@@ -69,9 +69,6 @@
     <ClCompile Include="Strategy.cpp">
       <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
-    <ClCompile Include="Orchastrator.cpp">
-      <Filter>Source Files\AI\Dummy</Filter>
-    </ClCompile>
     <ClCompile Include="BlossomAI.cpp">
       <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
@@ -128,9 +125,6 @@
     <ClInclude Include="Strategy.h">
       <Filter>Header Files\AI\Dummy</Filter>
     </ClInclude>
-    <ClInclude Include="Orchastrator.h">
-      <Filter>Header Files\AI\Dummy</Filter>
-    </ClInclude>
     <ClInclude Include="BlossomAI.h">
       <Filter>Header Files\AI\Dummy</Filter>
     </ClInclude>
@@ -160,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Participant.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RaiseBetSize.h">
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

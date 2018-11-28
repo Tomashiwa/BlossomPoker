@@ -61,6 +61,9 @@ public:
 
 	void DistributeWinnings();
 
+	void RestockDeck();
+	void SaveDeckArrangement();
+	void LoadDeckArrangement();
 	void DealCardsToPlayers();
 	void IssueCommunalCards();
 	void ClearCommunalCards();

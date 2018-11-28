@@ -149,7 +149,7 @@ void Table::UpdateRound()
 
 void Table::EndRound()
 {
-	std::cout << "Round " << Round << ":\n";
+	//std::cout << "Round " << Round << ":\n";
 	DistributeWinnings();
 
 	int HighestProfit = CurrentMatch->RankingBoard[0]->Profits;
@@ -159,276 +159,47 @@ void Table::EndRound()
 			HighestProfit = Participant->Profits;
 	}
 
-	for (auto const& Participant : CurrentMatch->RankingBoard)
+	if (HighestProfit > 0)
 	{
-		if(!Participant->Owner->GetIsBroke())
-			std::cout << "P." << Participant->Owner->GetIndex() << ": " << Participant->Profits << " (IsFolded: " << Participant->Owner->GetIsFolded() << ") \n";
-	} 
-
-	std::cout << "Highest profit: " << HighestProfit << "\n";
-	if (HighestProfit == 0)
-	{
-		std::cout << "HighestProfit was found to be 0, Printing out all Player's profit and pot contribution...\n";
-		std::cout << "Pot: " << Pot << "\n";
+		for (auto const& Participant : CurrentMatch->RankingBoard)
+		{
+			if (Participant->Profits == HighestProfit)
+			{
+				Participant->MoneyWon += Participant->Profits;
+				Participant->HandsWon += 1;
+				//std::cout << "P." << Participant->Owner->GetIndex() << " won this hand...\n";
+			}
+		}
 
 		for (auto const& Participant : CurrentMatch->RankingBoard)
-			std::cout << "P." << Participant->Owner->GetIndex() << ": " << Participant->Profits << "(Profits), " << Participant->Owner->GetPotContribution() << " (Pot Contri)\n";
-		std::cout << "\n";
-	}
-
-	int Count = 0;
-	for (auto const& Participant : CurrentMatch->RankingBoard)
-	{
-		if (Participant->Profits == HighestProfit)
 		{
-			Participant->MoneyWon += Participant->Profits;
-			Participant->HandsWon += 1;
-			std::cout << "P." << Participant->Owner->GetIndex() << " won this hand...\n";
-			
-			Count++;
+			if (!Participant->Owner->GetIsBroke() && Participant->Profits < HighestProfit)
+			{
+				Participant->HandsLost += 1;
+				if (Participant->Profits > 0)
+					Participant->MoneyWon += Participant->Profits;
+				else
+					Participant->MoneyLost += -(Participant->Profits);
+
+				//std::cout << "Player " << Participant->Owner->GetIndex() << " lost this hand...\n";
+			}
 		}
 	}
-
-	if (Count >= 2)
-		std::cout << "break\n";
-
-	for (auto const& Participant : CurrentMatch->RankingBoard)
+	else if (HighestProfit == 0)
 	{
-		if (!Participant->Owner->GetIsBroke() && Participant->Profits < HighestProfit)
+		for (auto const& Participant : CurrentMatch->RankingBoard)
 		{
-			Participant->HandsLost += 1;
-			if (Participant->Profits > 0)
-				Participant->MoneyWon += Participant->Profits;
-			else
-				Participant->MoneyLost += -(Participant->Profits);
+			if (!Participant->Owner->GetIsBroke() && !Participant->Owner->GetIsFolded())
+				Participant->HandsWon += 1;
 
-			std::cout << "Player " << Participant->Owner->GetIndex() << " lost this hand...\n";
+			else if (!Participant->Owner->GetIsBroke() && Participant->Owner->GetIsFolded())
+				Participant->HandsLost += 1;
 		}
 	}
+	
 
 	for (auto const& Participant : CurrentMatch->RankingBoard)
 		Participant->Profits = 0;
-
-	/*std::vector<unsigned int> Pots;
-	std::vector<std::vector<std::shared_ptr<Player>>> ValidPlayersPerPot;
-	std::vector<std::shared_ptr<Player>> PotWinners;
-
-	std::shared_ptr<Participant> TargetParticipant;
-	std::shared_ptr<Participant> LosingParticipant;
-
-	unsigned int ContriTillNow = 0;
-	unsigned int ContriNeeded = 0;
-	
-	SplitPot(Pots, ValidPlayersPerPot);
-
-	//Folded Players
-	for (auto const& Participant : CurrentMatch->RankingBoard)
-	{
-		if (!Participant->Owner->GetIsBroke() && Participant->Owner->GetIsFolded())
-		{
-			Participant->Profits -= Participant->Owner->GetPotContribution();
-			Participant->MoneyLost += Participant->Owner->GetPotContribution();
-		
-			Participant->HandsLost += 1;
-		}
-	}
-
-	//Go through each pot
-	for (unsigned int PotIndex = 0; PotIndex < Pots.size(); PotIndex++)
-	{
-		ContriNeeded = Pots[PotIndex] / ValidPlayersPerPot[PotIndex].size();
-
-		//Pot w/ only 1 valid player
-		if (ValidPlayersPerPot[PotIndex].size() == 1)
-		{
-			AwardPlayer(ValidPlayersPerPot[PotIndex][0], Pots[PotIndex]);
-
-			CurrentMatch->GetParticipant(ValidPlayersPerPot[PotIndex][0], TargetParticipant);
-			TargetParticipant->Profits += Pots[PotIndex];
-			TargetParticipant->MoneyWon += Pots[PotIndex];
-
-			continue;
-		}
-
-		DetermineWinningPlayers(ValidPlayersPerPot[PotIndex], PotWinners);
-
-		//Pot w/ multiple valid players
-		//1 winner
-		if (PotWinners.size() == 1)
-		{
-			AwardPlayer(PotWinners[0], Pots[PotIndex]);
-
-			CurrentMatch->GetParticipant(ValidPlayersPerPot[PotIndex][0], TargetParticipant);
-			TargetParticipant->Profits += Pots[PotIndex];
-			TargetParticipant->MoneyWon += Pots[PotIndex];
-
-			//De-reward all other players that stayed to the last phase
-			for (auto const Player : ValidPlayersPerPot[PotIndex])
-			{
-				if (Player->GetIndex() != TargetParticipant->Owner->GetIndex())
-				{
-					CurrentMatch->GetParticipant(Player, LosingParticipant);
-					LosingParticipant->Profits -= (Player->GetPotContribution() - ContriTillNow) < ContriNeeded ? (Player->GetPotContribution() - ContriTillNow) : ContriNeeded;
-					LosingParticipant->MoneyLost += (Player->GetPotContribution() - ContriTillNow) < ContriNeeded ? (Player->GetPotContribution() - ContriTillNow) : ContriNeeded;
-				}
-			}
-		}
-		//Multiple winners
-		else
-		{
-			unsigned int Portion = Pots[PotIndex] / PotWinners.size();
-
-			for (auto const Winner : PotWinners)
-			{
-				AwardPlayer(Winner, Portion);
-
-				CurrentMatch->GetParticipant(Winner, TargetParticipant);
-				TargetParticipant->Profits += Portion;
-				TargetParticipant->MoneyWon += Portion;
-			}
-
-			for (auto const Player : ValidPlayersPerPot[PotIndex])
-			{
-				if (std::find(PotWinners.begin(), PotWinners.end(), Player) == PotWinners.end())
-				{
-					CurrentMatch->GetParticipant(Player, LosingParticipant);
-					LosingParticipant->Profits -= (Player->GetPotContribution() - ContriTillNow) < ContriNeeded ? (Player->GetPotContribution() - ContriTillNow) : ContriNeeded;
-					LosingParticipant->MoneyLost += (Player->GetPotContribution() - ContriTillNow) < ContriNeeded ? (Player->GetPotContribution() - ContriTillNow) : ContriNeeded;
-				}
-			}
-		}
-
-		ContriTillNow += Pots[PotIndex] / ValidPlayersPerPot[PotIndex].size();
-	}
-
-	//Update Hand Win/Loss 
-	int HighestProfit = 0;
-
-	for (auto const Participant : CurrentMatch->RankingBoard)
-	{
-		if (!Participant->Owner->GetIsBroke() && !Participant->Owner->GetIsFolded() && Participant->Profits > HighestProfit)
-		{
-			HighestProfit = Participant->Profits;
-			TargetParticipant = Participant;
-		}
-	}
-
-	for (auto const Participant : CurrentMatch->RankingBoard)
-	{
-		if (!Participant->Owner->GetIsBroke() && !Participant->Owner->GetIsFolded())
-		{
-			if (Participant->Profits < HighestProfit)
-				Participant->HandsLost += 1;
-			else
-				Participant->HandsWon += 1;
-		}
-	}
-
-	for (auto const& Participant : CurrentMatch->RankingBoard)
-		Participant->Profits = 0;*/
-
-	/*std::vector<unsigned int> Pots;
-	std::vector<std::vector<std::shared_ptr<Player>>> ValidPlayersPerPot;
-
-	SplitPot(Pots, ValidPlayersPerPot);
-
-	std::vector<std::shared_ptr<Player>> PotWinners;
-	std::shared_ptr<Participant> TargetParticipant;
-
-	unsigned int PotTillNow = 0;
-
-	for (auto const Participant : CurrentMatch->RankingBoard)
-	{
-		if (!Participant->Owner->GetIsBroke() && Participant->Owner->GetIsFolded())
-		{
-			Participant->MoneyLost += Participant->Owner->GetPotContribution();
-			Participant->HandsLost += 1;
-		}
-	}
-
-	for (unsigned int PotIndex = 0; PotIndex < Pots.size(); PotIndex++)
-	{
-		if (ValidPlayersPerPot[PotIndex].size() == 1)
-		{
-			AwardPlayer(ValidPlayersPerPot[PotIndex][0], Pots[PotIndex]);
-			
-			if(PrintProcess)
-				std::cout << "P." << ValidPlayersPerPot[PotIndex][0]->GetIndex() << " solely win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << ValidPlayersPerPot[PotIndex][0]->GetStack() << ") \n";
-
-			CurrentMatch->GetParticipant(ValidPlayersPerPot[PotIndex][0], TargetParticipant);
-			TargetParticipant->MoneyWon += Pots[PotIndex];
-			TargetParticipant->HandsWon += 1;
-
-			for (auto const Participant : CurrentMatch->RankingBoard)
-			{
-				if (!Participant->Owner->GetIsBroke() && !Participant->Owner->GetIsFolded() && Participant->Owner->GetIsContributing() && Participant->Owner->GetIndex() != TargetParticipant->Owner->GetIndex())
-				{
-					Participant->MoneyLost += (Participant->Owner->GetPotContribution() - PotTillNow) < Pots[PotIndex] ? (Participant->Owner->GetPotContribution() - PotTillNow) : Pots[PotIndex];
-					Participant->HandsLost += 1;	
-				}
-			}
-
-			continue;
-		}
-
-		DetermineWinningPlayers(ValidPlayersPerPot[PotIndex], PotWinners);
-
-		if (PotWinners.size() == 1)
-		{
-			AwardPlayer(PotWinners[0], Pots[PotIndex]);
-
-			if(PrintProcess)
-				std::cout << "P." << PotWinners[0]->GetIndex() << " win $" << Pots[PotIndex] << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[0]->GetStack() << ") \n";
-		
-			CurrentMatch->GetParticipant(PotWinners[0], TargetParticipant);
-			TargetParticipant->MoneyWon += Pots[PotIndex];
-			TargetParticipant->HandsWon += 1;
-
-			for (auto const Participant : CurrentMatch->RankingBoard)
-			{
-				if (!Participant->Owner->GetIsBroke() && !Participant->Owner->GetIsFolded() && Participant->Owner->GetIsContributing() &&  Participant->Owner->GetIndex() != TargetParticipant->Owner->GetIndex() && Participant->Owner->GetPotContribution() > PotTillNow)
-				{
-					Participant->MoneyLost += (Participant->Owner->GetPotContribution() - PotTillNow) < Pots[PotIndex] ? (Participant->Owner->GetPotContribution() - PotTillNow) : Pots[PotIndex];
-					Participant->HandsLost += 1;
-
-					if (PrintProcess)
-						std::cout << "P." << Participant->Owner->GetIndex() << " lose $" << Participant->Owner->GetPotContribution() << " (Stack: $" << Participant->Owner->GetStack() << ")\n";
-				}
-			}
-		}
-
-		else if (PotWinners.size() > 1)
-		{
-			unsigned int Portion = Pots[PotIndex] / PotWinners.size();
-
-			for (unsigned int WinnerIndex = 0; WinnerIndex < PotWinners.size(); WinnerIndex++)
-			{
-				AwardPlayer(PotWinners[WinnerIndex], Portion);
-				
-				if(PrintProcess)
-					std::cout << "P." << PotWinners[WinnerIndex]->GetIndex() << " win $" << Portion << " from Pot " << PotIndex + 1 << " (Stack: $" << PotWinners[WinnerIndex]->GetStack() << ") \n";
-			
-				CurrentMatch->GetParticipant(PotWinners[WinnerIndex], TargetParticipant);
-				TargetParticipant->MoneyWon += Portion;
-				TargetParticipant->HandsWon += 1;
-			}
-
-			for (auto const Participant : CurrentMatch->RankingBoard)
-			{
-				if (!Participant->Owner->GetIsBroke() && !Participant->Owner->GetIsFolded() && Participant->Owner->GetIsContributing() && std::find(PotWinners.begin(), PotWinners.end(), Participant->Owner) == PotWinners.end() && Participant->Owner->GetPotContribution() > PotTillNow)
-				{
-					Participant->MoneyLost += (Participant->Owner->GetPotContribution() - PotTillNow) < Pots[PotIndex] ? (Participant->Owner->GetPotContribution() - PotTillNow) : Pots[PotIndex];
-					Participant->HandsLost += 1;
-
-					if (PrintProcess)
-						std::cout << "P." << Participant->Owner->GetIndex() << " lose $" << Participant->Owner->GetPotContribution() << " (Stack: $" << Participant->Owner->GetStack() << ")\n";
-				}
-			}
-		}
-
-		PotTillNow += Pots[PotIndex];
-		PotWinners.clear();
-	}*/
 
 	ClearCommunalCards();
 	EmptyPot();
@@ -443,7 +214,7 @@ void Table::EndRound()
 		{
 			Player->SetIsBroke(true);
 
-			//if (PrintProcess)
+			if (PrintProcess)
 				std::cout << "P." << Player->GetIndex() << " is broke...\n";
 		}
 	}
@@ -456,11 +227,6 @@ void Table::EndRound()
 
 	if (PrintProcess)
 	{
-		/*std::cout << "Result: / ";
-		for (unsigned int Index = 0; Index < Players.size(); Index++)
-			std::cout << "P." << Players[Index]->GetIndex() << ": " << Players[Index]->GetStack() << " ";*/
-
-
 		std::cout << "------------------------------------------------------------------------------------\n";
 		std::cout << "\n";
 	}
@@ -535,13 +301,12 @@ void Table::StartPhase()
 
 void Table::UpdatePhase()
 {
-	//std::cout << "enter update phase for Player " << CurrentPlayer->GetIndex() << "\n";
-	//std::cout << "testing for round/phase end...\n";
-	if (IsPhaseEnded() && CurrentState == Phase::River)
+	//std::cout << "Updating P." << CurrentPlayer->GetIndex() << "...\n";
+	
+	if (IsRoundEnded() || (IsPhaseEnded() && CurrentState == Phase::River))
 	{
-		//std::cout << "Round has ended... (Phase: " << GetStateStr() << ")\n";
 		EndRound();
-
+		//std::cout << "Round has ended... (Final phase: " << GetStateStr() << ")\n";
 		return;
 	}
 	else if (IsPhaseEnded() && CurrentState != Phase::River)
@@ -553,41 +318,40 @@ void Table::UpdatePhase()
 	}
 	else if (CurrentPlayer->GetIsBroke() || CurrentPlayer->GetIsFolded() || !CurrentPlayer->GetIsContributing())
 	{
-		//std::cout << "Player " << CurrentPlayer->GetIndex() << " is not valid, Getting next player...\n";
+		//std::cout << "P." << CurrentPlayer->GetIndex() << " is not valid, Getting next player...\n";
 		CurrentPlayer = GetNextPlayer(CurrentPlayer);
 		return;
 	}
 	
-	//std::cout << "update pot\n";
 	UpdatePot();
-	//std::cout << "update player\n";
 	CurrentPlayer->Update();
 
-	//std::cout << "exectute player action\n";
 	switch(CurrentPlayer->GetAction())
 	{
 		case BettingAction::Fold:
 		{
+			CurrentPlayer->SetIsFolded(true);
+		
 			if (PrintProcess) 
 				std::cout << "P." << CurrentPlayer->GetIndex() << " folded. \n";
 			
-			CurrentPlayer->SetIsFolded(true);
 			break;
 		}
 		case BettingAction::Check:
 		{
 			if (PrintProcess)
 				std::cout << "P." << CurrentPlayer->GetIndex() << " checked. \n";
+
 			break;
 		}
 		case BettingAction::Call:
 		{
-			if (PrintProcess)
-				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
-			
 			CurrentPlayer->SetAnte(RequiredAnte);
 			UpdatePot();
 
+			if (PrintProcess)
+				std::cout << "P." << CurrentPlayer->GetIndex() << " called to $" << RequiredAnte << " results in Pot to be $" << Pot << "\n";
+			
 			if (CurrentPlayer->GetStack() <= 0)
 			{
 				CurrentPlayer->SetIsContributing(false);
@@ -598,40 +362,38 @@ void Table::UpdatePhase()
 		}
 		case BettingAction::Raise:
 		{
-			unsigned int RaiseAmt = BigBlind;
-			if (CurrentState == Phase::River || CurrentState == Phase::Turn) RaiseAmt *= 2;
-
-			RaiseAmt += RequiredAnte - CurrentPlayer->GetAnte();
-
+			unsigned int RaiseAmt = CurrentPlayer->GetAI().GetRaiseBetAmt();
 			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 			RequiredAnte = CurrentPlayer->GetAnte();
+			UpdatePot();
 
 			if (PrintProcess)
-				std::cout << "P." << CurrentPlayer->GetIndex() << " raised to $" << RequiredAnte << " (Pot: " << Pot << ") \n";
-			
+				std::cout << "P." << CurrentPlayer->GetIndex() << " raised Pot to $" << Pot <<"\n";
+
 			if (CurrentPlayer->GetStack() <= 0)
 			{
 				CurrentPlayer->SetIsContributing(false);
 				//std::cout << "P." << CurrentPlayer->GetIndex() << " is no longer participating...\n";
 			}
+		
 			break;
 		}
 		case BettingAction::Bet:
 		{
-			unsigned int BetAmt = BigBlind;
-			if (CurrentState == Phase::River || CurrentState == Phase::Turn) BetAmt *= 2;
-
+			unsigned int BetAmt = CurrentPlayer->GetAI().GetRaiseBetAmt();
 			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
 			RequiredAnte = CurrentPlayer->GetAnte();
+			UpdatePot();
 
 			if (PrintProcess)
-				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << RequiredAnte << " (Pot: " << Pot << ") \n";
-			
+				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << BetAmt << " results in Pot to $" << Pot << " \n";
+
 			if (CurrentPlayer->GetStack() <= 0)
 			{
 				CurrentPlayer->SetIsContributing(false);
 				//std::cout << "P." << CurrentPlayer->GetIndex() << " is no longer participating...\n";
 			}
+
 			break;
 		}
 		default:
@@ -863,57 +625,17 @@ void Table::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<s
 		_ContributorsPerPot.push_back(Contributors);
 		_ContestantsPerPot.push_back(Contestants);
 	}
-
-	/*std::vector<std::shared_ptr<Player>> CurrentPlayers;
-	for (auto const& Player : Players)
-	{
-		if (!Player->GetIsBroke())
-			CurrentPlayers.push_back(Player);
-	}
-	
-	std::sort(CurrentPlayers.begin(), CurrentPlayers.end(),
-		[](std::shared_ptr<Player> _First, std::shared_ptr<Player> _Second) { return _First->GetPotContribution() > _Second->GetPotContribution(); });
-
-	_Pots.push_back(CurrentPlayers[0]->GetPotContribution());
-	for (auto const & Player : CurrentPlayers)
-	{
-		if (!Player->GetIsFolded() && !Player->GetIsContributing() && Player->GetPotContribution() > 0 && std::find(_Pots.begin(), _Pots.end(), Player->GetPotContribution()) == _Pots.end())
-			_Pots.push_back(Player->GetPotContribution());
-	}
-
-	unsigned int PotTillNow = 0;
-
-	for (unsigned int Pot : _Pots)
-	{
-		std::vector<std::shared_ptr<Player>> Contributors;
-		std::vector<std::shared_ptr<Player>> Contestants;
-
-		PotTillNow += Pot;
-
-		for (auto const& Player : CurrentPlayers)
-		{
-			if (!Player->GetIsBroke())
-			{
-				if((Player->GetIsContributing() && Player->GetPotContribution() >= PotTillNow) || (!Player->GetIsContributing() && Player->GetPotContribution() > 0))
-					Contributors.push_back(Player);
-
-				if (!Player->GetIsFolded())
-					Contestants.push_back(Player);
-			}
-		}
-
-		_ContributorsPerPot.push_back(Contributors);
-		_ContestantsPerPot.push_back(Contestants);
-	}*/
 }
 
 void Table::DistributeWinnings()
 {
+	//std::cout << "Start distribution of winnings...\n";
+
 	std::vector<std::shared_ptr<Participant>> Participants;
-	std::cout << "Pot Contri:\n";
+	//std::cout << "Pot Contri:\n";
 	for (auto const& Participant : CurrentMatch->RankingBoard)
 	{
-		std::cout << "P." << Participant->Owner->GetIndex() << ": " << Participant->Owner->GetPotContribution() << "\n";
+		//std::cout << "P." << Participant->Owner->GetIndex() << ": " << Participant->Owner->GetPotContribution() << "\n";
 
 		if(Participant->Owner->GetPotContribution() > 0)
 			Participants.push_back(Participant);
@@ -938,11 +660,12 @@ void Table::DistributeWinnings()
 		std::vector<std::shared_ptr<Participant>> Winners;
 		DetermineWinningPlayers(Participants, Winners);
 
-		for (auto const& Winner : Winners)
+ 		for (auto const& Winner : Winners)
 		{
 			Winner->Profits += CurrentPot / Winners.size();
 			AwardPlayer(Winner->Owner, (CurrentPot / Winners.size()));
-			std::cout << "P." << Winner->Owner->GetIndex() << " won " << (CurrentPot / Winners.size()) << "\n";
+
+			//std::cout << "P." << Winner->Owner->GetIndex() << " won " << (CurrentPot / Winners.size()) << "\n";
 		}
 
 		auto Itr = std::begin(Participants);
@@ -955,9 +678,6 @@ void Table::DistributeWinnings()
 				++Itr;
 		}
 
-		if (Participants.size() <= 1 && CurrentPot == 0)
-			std::cout << "\n";
-
 		CurrentPot = 0;
 	}
 
@@ -965,28 +685,32 @@ void Table::DistributeWinnings()
 	{
 		Participants[0]->Profits += Participants[0]->Owner->GetPotContribution();
 		AwardPlayer(Participants[0]->Owner, Participants[0]->Owner->GetPotContribution());
-		std::cout << "P." << Participants[0]->Owner->GetIndex() << " get back contribution leftover of " << Participants[0]->Owner->GetPotContribution() << "\n";
+		//std::cout << "P." << Participants[0]->Owner->GetIndex() << " get back contribution leftover of " << Participants[0]->Owner->GetPotContribution() << "\n";
 	}
+
+	//std::cout << "End distribution of winnings...\n";
+}
+
+void Table::RestockDeck()
+{
+	ActiveDeck->Refill();
+	ActiveDeck->Shuffle();
+}
+
+void Table::SaveDeckArrangement()
+{
+	ArrangedDeck->CopyFrom(ActiveDeck);
+}
+
+void Table::LoadDeckArrangement()
+{
+	ActiveDeck->CopyFrom(ArrangedDeck);
 }
 
 void Table::DealCardsToPlayers()
 {
-	if (!CurrentMatch->IsDuplicated)
-	{
-		ActiveDeck->Refill();
-		ActiveDeck->Shuffle();
-	}
-	else if (CurrentMatch->IsDuplicated && CurrentMatch->Index == 0)
-	{
-		ActiveDeck->Refill();
-		ActiveDeck->Shuffle();
-
-		ArrangedDeck->CopyFrom(ActiveDeck);
-	}
-	else if (CurrentMatch->IsDuplicated && CurrentMatch->Index > 0)
-	{
-		ActiveDeck->CopyFrom(ArrangedDeck);
-	}
+	if (Round > 0)
+		RestockDeck();
 
 	std::vector<std::shared_ptr<Player>> ActivePlayers;
 	std::shared_ptr<Player> RefPlayer = CurrentPlayer;
@@ -999,14 +723,6 @@ void Table::DealCardsToPlayers()
 
 		RefPlayer = GetNextPlayer(RefPlayer);
 	}
-
-	//for (auto const& Player : Players)
-	//{
-	//	Player->EmptyHand();
-	//	Player->SetHand(ActiveDeck->Draw(), ActiveDeck->Draw());
-	//	
-	//	//std::cout << "P." << Player->GetIndex() << " drew " << Player->GetHandInfo() << "\n";
-	//}
 }
 
 void Table::IssueCommunalCards()
@@ -1179,9 +895,6 @@ void Table::RankPlayers(std::vector<int>& _Rankings)
 void Table::SetMatch(const std::shared_ptr<Match>& _NewMatch)
 {
 	CurrentMatch = _NewMatch;
-
-	/*for (auto const Participant : CurrentMatch->RankingBoard)
-		AddPlayer(Participant->Owner);*/
 }
 
 void Table::Print()

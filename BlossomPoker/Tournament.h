@@ -15,10 +15,10 @@ struct Match
 	bool IsDuplicated = false;
 	std::vector<std::shared_ptr<Participant>> RankingBoard;
 
-	Match(unsigned int _Index, bool _IsDuplicated, const std::vector<std::shared_ptr<Player>>& _Players) : Index(_Index), IsDuplicated(_IsDuplicated)
+	Match(unsigned int _Index, bool _IsDuplicated, const std::vector<std::shared_ptr<Player>>& _Players, const std::shared_ptr<HandEvaluator>& _Evaluator) : Index(_Index), IsDuplicated(_IsDuplicated)
 	{
 		for (auto const Player : _Players)
-			RankingBoard.push_back(std::make_shared<Participant>(Player));
+			RankingBoard.push_back(std::make_shared<Participant>(Player, _Evaluator));
 	}
 
 	void RankPlayers()
@@ -52,12 +52,12 @@ struct Match
 
 	float GetFitness(const std::shared_ptr<Player>& _Player)
 	{
-		for (auto const Participant : RankingBoard)
+		for (auto const& Participant : RankingBoard)
 		{
 			if (Participant->Owner->GetIndex() == _Player->GetIndex())
 			{
-				Participant->UpdateFitness();
-				return Participant->Fitness;
+				//Participant->UpdateAverageFitness;
+				return Participant->AverageFitness;
 			}
 		}
 
@@ -66,7 +66,7 @@ struct Match
 
 	void GetParticipant(const std::shared_ptr<Player>& _Player, std::shared_ptr<Participant>& _Participant)
 	{
-		for (auto const Participant : RankingBoard)
+		for (auto const& Participant : RankingBoard)
 		{
 			if (Participant->Owner->GetIndex() == _Player->GetIndex())
 			{
@@ -78,8 +78,8 @@ struct Match
 
 	void PrintInfo()
 	{
-		for (auto const& Player : RankingBoard)
-			std::cout << "P." << Player->Owner->GetIndex() << ": " << Player->MoneyWon << " (MoneyWon) " << Player->MoneyLost << " (MoneyLost) " << (Player->HandsWon + Player->HandsLost) << " (Hands Played) " << Player->HandsWon << " (HandsWon) " << Player->HandsLost << " (HandsLost)\n";
+		for (auto const& Pariticipant : RankingBoard)
+			std::cout << "P." << Pariticipant->Owner->GetIndex() << ": " << Pariticipant->MoneyWon << " (MoneyWon) " << Pariticipant->MoneyLost << " (MoneyLost) " << (Pariticipant->HandsWon + Pariticipant->HandsLost) << " (Hands Played) " << Pariticipant->HandsWon << " (HandsWon) " << Pariticipant->HandsLost << " (HandsLost)\n";
 	}
 };
 
@@ -97,6 +97,7 @@ public:
 	void PrintRankings();
 	
 	void GetBestPlayer(std::shared_ptr<Player>& _BestPlayer);
+	void GetBestParticipant(std::shared_ptr<Participant>& _BestParti);
 	void GetArrangedPlayers(std::vector<std::shared_ptr<Player>>& _ArrangedPlayers);
 
 	float GetAverageFitness(const std::shared_ptr<Player>& _Player);

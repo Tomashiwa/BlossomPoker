@@ -24,7 +24,8 @@ public:
 	~HandEvaluator();
 
 	float DetermineOdds_PreflopHole(std::array<std::shared_ptr<Card>, 2> _Hole);
-	float DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, int _TrialsAmt);
+	float DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, unsigned int _TrialsAmt);
+	float DetermineOdds_MonteCarlo_Multi(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, unsigned int _PlayerAmt, unsigned int _TrialsAmt);
 
 	int DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand);
 	int DetermineValue_7Cards(const std::array<std::shared_ptr<Card>, 7>& _Hand);
@@ -41,7 +42,7 @@ public:
 	std::array<std::shared_ptr<Card>, 5> GetBestCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community);
 	std::array<std::shared_ptr<Card>, 5> GetWorstCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community);
 	
-	void RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, int _Target);
+	void RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, unsigned int _Target);
 
 	std::string GetTypeStr(Hand _Hand);
 	std::string GetTypeStr(std::array<std::shared_ptr<Card>, 5> _Hand);

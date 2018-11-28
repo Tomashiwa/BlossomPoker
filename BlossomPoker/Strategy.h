@@ -3,29 +3,41 @@
 #include <memory>
 
 #include "BettingAction.h"
+#include "RaiseBetSize.h"
 #include "Snapshot.h"
-
-class Orchastrator;
 
 class Strategy
 {
 public:
-	Strategy(std::shared_ptr<Orchastrator> _Orchastrator, float _CalingThresh, float _RaisingThresh);
+	Strategy(Phase _Corresponding);
 	~Strategy();
 
-	BettingAction DetermineIdealAction();
+	BettingAction DetermineAction(std::vector<BettingAction> _AvaliableActions, float _WinRate, unsigned int _PlayerAmt);
 
-	void PrintThresholds();
-	void SetThreshold(unsigned int _Index, float _Value) { Thresholds[_Index] = _Value; }
-	std::array<float, 2> GetThresholds() { return Thresholds; }
+	Phase GetPhase() {return CorrespondingPhase;}
+
+	std::array<float, 4> GetThresholds() { return Thresholds; }
+	void SetThreshold(unsigned int _Index, float _Threshold) 
+	{ 
+		Thresholds[_Index] = _Threshold; 
+	}
+	void SetThresholds(std::array<float, 4> _Thresholds) { Thresholds = _Thresholds; }
+
+	RaiseBetSize GetSizing() { return Sizing; }
 
 private:
-	std::shared_ptr<Orchastrator> Orch;
+	Phase CorrespondingPhase;
 
-	std::array<float, 2> Thresholds; // 0 => Calling, 1 => Raising and Betting
-	std::array<float, 2> MinWinRates; // 0 => Calling, 1 =? Raising and Betting
+	std::array<float, 4> Thresholds;
+	// 0 - Call
+	// 1 - Half-Pot Raise
+	// 2 - Pot Raise
+	// 3 - All-In
+	std::array<float, 4> Requirements;
 
-	void CalculateMWRs();
-	bool IsActionAvaliable(BettingAction _Action);
+	RaiseBetSize Sizing = RaiseBetSize::NONE;
+
+	void CalculateRequirements(unsigned int _PlayerAmt);
+	
 };
 
