@@ -81,7 +81,15 @@ float BlossomAI::DetermineWinRate(std::array<std::shared_ptr<Card>, 2> _Hole, st
 
 void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)
 {
-	unsigned int SetIndex = 0;
+	for (unsigned int Index = 0; Index < 4; Index++)
+	{
+		SetThresholdByPhase((Phase) Index, 0, _Thresholds[0 + (Index * 4)]);
+		SetThresholdByPhase((Phase) Index, 1, _Thresholds[1 + (Index * 4)]);
+		SetThresholdByPhase((Phase) Index, 2, _Thresholds[2 + (Index * 4)]);
+		SetThresholdByPhase((Phase) Index, 3, _Thresholds[3 + (Index * 4)]);
+	}
+
+	/*unsigned int SetIndex = 0;
 	std::array<float, 4> NewSet;
 
 	for (auto const& Strategy : Strategies)
@@ -93,16 +101,22 @@ void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)
 		NewSet.empty();
 
 		SetIndex++;
-	}
+	}*/
 }
 
 void BlossomAI::SetThresholdByPhase(Phase _Phase, unsigned int _Index, float _Threshold)
 {
+	Thresholds[_Index + ((int)_Phase * 4)] = _Threshold;
 	GetStrategy(_Phase)->SetThreshold(_Index, _Threshold);
 }
 
 void BlossomAI::SetThresholdsByPhase(Phase _Phase, std::array<float, 4> _Thresholds)
 {
+	Thresholds[0 + ((int)_Phase * 4)] = _Thresholds[0];
+	Thresholds[1 + ((int)_Phase * 4)] = _Thresholds[1];
+	Thresholds[2 + ((int)_Phase * 4)] = _Thresholds[2];
+	Thresholds[3 + ((int)_Phase * 4)] = _Thresholds[3];
+
 	GetStrategy(_Phase)->SetThresholds(_Thresholds);
 }
 
