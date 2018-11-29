@@ -10,9 +10,8 @@ int main()
 {
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
-	Schedule->Add(8, 5);
-	Schedule->Add(8, 5);
-	Schedule->Add(8, 5);
+	Schedule->Add(8, 3);
+	Schedule->Add(8, 3);
 
 	//Schedule->Add(8, 500);
 	//Schedule->Add(8, 500);

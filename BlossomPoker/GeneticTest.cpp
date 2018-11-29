@@ -100,7 +100,7 @@ void GeneticTest::Reset()
 
 bool GeneticTest::IsTestComplete()
 {
-	return (GenerationLimit > 0 && Generation >= GenerationLimit);
+	return (GenerationLimit > 0 && Generation >= (GenerationLimit - 1));
 }
 
 void GeneticTest::GeneratePopulation(unsigned int _Size) 
