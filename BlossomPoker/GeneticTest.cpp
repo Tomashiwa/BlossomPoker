@@ -218,13 +218,16 @@ bool GeneticTest::HasMutationHappen()
 {
 	std::uniform_real_distribution<float> Distribution_MutateChance(0.0, 1.0);
 
-	//float MutatingRate = pow((2 + ((7 - 2) / (GenerationLimit - 1)) * (Generation + 1)), -1.0);
-	
-	float a = 2.5f, b = 0.5f, c = 0.15f;
+	//Gaussian Distribution
+	/*float a = 2.5f, b = 0.5f, c = 0.15f;
 	float x = (float) Generation / (float) GenerationLimit;
 	float e = std::exp(1.0f);
+	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
 
-	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
+	//Oscillating Sine Wave
+	float a = 48.7f;
+	float x = (float)Generation / (float)GenerationLimit;
+	float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;
 
 	return Distribution_MutateChance(MTGenerator) <= MutatingRate ? true : false;
 }
@@ -355,11 +358,16 @@ void GeneticTest::ReproducePopulation()
 		//Cross-over
 		Crossover(CurrentParents[0], CurrentParents[1], CurrentChild);
 
-		float a = 2.5f, b = 0.5f, c = 0.15f;
+		//Gaussian Mutation
+		/*float a = 2.5f, b = 0.5f, c = 0.15f;
 		float x = (float)Generation / (float)GenerationLimit;
 		float e = std::exp(1.0f);
+		float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
 
-		float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
+		//Oscillating Sine Wave
+		float a = 48.7f;
+		float x = (float)Generation / (float)GenerationLimit;
+		float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;
 
 		Writer->WriteAt(3, (float) Generation, MutatingRate);
 
