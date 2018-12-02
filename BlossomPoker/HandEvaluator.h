@@ -29,6 +29,7 @@ public:
 
 	int DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand);
 	int DetermineValue_7Cards(const std::array<std::shared_ptr<Card>, 7>& _Hand);
+	int DetermineValue_7Cards(const std::vector<std::shared_ptr<Card>>& _Hand);
 	int DetermineValue_Custom(const std::vector<std::shared_ptr<Card>>& _Hand);
 
 	Hand DetermineType(int _Value);
@@ -42,7 +43,8 @@ public:
 	std::array<std::shared_ptr<Card>, 5> GetBestCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community);
 	std::array<std::shared_ptr<Card>, 5> GetWorstCommunalHand(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community);
 	
-	void RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, unsigned int _Target);
+	void RandomFill_Array(std::array<std::shared_ptr<Card>, 7>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, unsigned int _Index, unsigned int _Amt);
+	void RandomFill_Vector(std::vector<std::shared_ptr<Card>>& _Set, std::vector<std::shared_ptr<Card>>& _Dead, unsigned int _Target);
 
 	std::string GetTypeStr(Hand _Hand);
 	std::string GetTypeStr(std::array<std::shared_ptr<Card>, 5> _Hand);
@@ -68,6 +70,7 @@ private:
 	int GetCardInt(std::string _CardTxt);
 	int GetCardInt(const std::shared_ptr<Card>& _Card);
 	void Get5CardsInt(const std::array<std::shared_ptr<Card>, 5>& _Hand, std::array<int,5>& _CardInts);
+	void Get7CardsInt(const std::vector<std::shared_ptr<Card>>& _Hand, std::array<int, 7>& _CardInts);
 	void Get7CardsInt(const std::array<std::shared_ptr<Card>, 7>& _Hand, std::array<int,7>& _CardInts);
 
 	std::vector<std::shared_ptr<Card>>::iterator UpperBound(std::vector<std::shared_ptr<Card>>::iterator _First, std::vector<std::shared_ptr<Card>>::iterator _Last, std::shared_ptr<Card> _Current);
