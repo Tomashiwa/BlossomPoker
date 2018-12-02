@@ -76,6 +76,12 @@ struct Match
 		}
 	}
 
+	void Refresh()
+	{
+		for (auto const Participant : RankingBoard)
+			Participant->Refresh();
+	}
+
 	void PrintInfo()
 	{
 		for (auto const& Pariticipant : RankingBoard)
@@ -91,7 +97,8 @@ public:
 
 	void Initialise(const std::vector<std::shared_ptr<Player>>& _Players, unsigned int _Size, bool _IsDuplicated);
 	void Run();
-	
+	void Refresh();
+
 	void UpdateRankings();
 
 	void PrintRankings();

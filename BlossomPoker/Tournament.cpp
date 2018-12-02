@@ -69,6 +69,12 @@ void Tournament::Run()
 	UpdateRankings();
 }
 
+void Tournament::Refresh()
+{
+	for (auto const& Match : Matches)
+		Match->Refresh();
+}
+
 void Tournament::UpdateRankings()
 {
 	for (auto const Match : Matches)

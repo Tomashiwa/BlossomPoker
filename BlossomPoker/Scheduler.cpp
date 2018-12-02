@@ -18,7 +18,7 @@ void Scheduler::Run()
 		std::cout << "Running Specification Set (PopSize: " << Entry->PopulationSize << ", GenLimit: " << Entry->GenerationLimit << ")...\n\n";
 
 		Test->Reset();
-		Test->SetSpecs(Entry->PopulationSize, Entry->GenerationLimit);
+		Test->SetSpecs(Entry->PopulationSize, Entry->GenerationLimit, Entry->ToursPerGen);
 
 		Test->Run();
 	}
@@ -36,7 +36,7 @@ void Scheduler::End()
 
 }
 
-void Scheduler::Add(unsigned int _PopulationSize, unsigned int _GenerationLimit)
+void Scheduler::Add(unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen)
 {
-	Specs.push_back(std::make_unique<Specification>(_PopulationSize, _GenerationLimit));
+	Specs.push_back(std::make_unique<Specification>(_PopulationSize, _GenerationLimit, _ToursPerGen));
 }

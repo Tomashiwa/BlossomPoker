@@ -35,4 +35,20 @@ struct Participant
 	{
 		AverageFitness = Fitness / (float)_MatchAmt;
 	}
+
+	void Refresh()
+	{
+		Rank = 0;
+		Fitness = 0.0;
+		AverageFitness = 0.0;
+
+		HandsParticipated = 0;
+
+		MoneyWon = 0;
+		MoneyLost = 0;
+		HandsWon = 0;
+		HandsLost = 0;
+		
+		Profits = 0;
+	}
 };

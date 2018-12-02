@@ -22,6 +22,7 @@ public:
 	int GetRankInt() { return static_cast<int>(GivenValue); }
 
 	void Set(Suit _Suit, Rank _Value);
+	bool IsEqualTo(const std::shared_ptr<Card>& _Comparison);
 	bool IsGreater(const std::shared_ptr<Card>& _Comparison);
 
 	std::string GetInfo() { return Info; }

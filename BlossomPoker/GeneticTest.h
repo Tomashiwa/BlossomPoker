@@ -23,7 +23,7 @@ public:
 	void End();
 	void Reset();
 
-	void SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit);
+	void SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen);
 
 	bool IsTestComplete();
 	void PrintAvrProfits();
@@ -34,6 +34,7 @@ public:
 private:
 	unsigned int PopulationSize = 9;
 	unsigned int GenerationLimit = 100;
+	unsigned int ToursPerGen = 100;
 	float TargetFitness = 0.75;
 
 	unsigned int Generation = 0;

@@ -1,10 +1,15 @@
 #include "HandEvaluator.h"
 #include "Card.h"
+#include "xoroshiro128+.h"
 
 HandEvaluator::HandEvaluator()
 {
 	Initialize();
-	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+
+	//MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+
+	s[0] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	s[1] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 }
 
 HandEvaluator::~HandEvaluator()
@@ -93,32 +98,31 @@ void HandEvaluator::RandomFill(std::vector<std::shared_ptr<Card>>& _Set, std::ve
 	}
 
 	bool IsDead;
-	int RequiredAmt = _Target - _Set.size();
-
-	std::shared_ptr<Card> RandomCard;
-	std::uniform_int_distribution<int> CardsDistribution(0, 51);
+	unsigned int RequiredAmt = _Target - _Set.size();
+	//std::uniform_int_distribution<unsigned int> CardsDistribution(0, 51);
 
 	for (unsigned int Index = 0; Index < RequiredAmt; Index++)
 	{
 		while (true)
 		{
+			//_Set.push_back(ReferenceDeck[CardsDistribution(MTGenerator)]);
+			_Set.push_back(ReferenceDeck[next() % 52]);
+
 			IsDead = false;
-			RandomCard = ReferenceDeck[CardsDistribution(MTGenerator)];
 
 			for (auto const& Dead : _Dead)
 			{
-				if (RandomCard->GetRank() == Dead->GetRank() && RandomCard->GetSuit() == Dead->GetSuit())
+				if (Dead->IsEqualTo(_Set[_Set.size() - 1]))
 				{
 					IsDead = true;
 					break;
 				}
 			}
 
-			if (!IsDead)
-			{
-				_Set.push_back(RandomCard);
+			if (IsDead)
+				_Set.pop_back();
+			else
 				break;
-			}
 		}
 	}
 }
@@ -258,7 +262,7 @@ float HandEvaluator::DetermineOdds_MonteCarlo(std::array<std::shared_ptr<Card>, 
 		Rand_OppoHole.clear();
 	}
 
-	return (((float)Win) + ((float)Draw) / 2.0) / ((float)GameCount) * 100.0;
+	return (((float)Win) + ((float)Draw) / 2.0f) / ((float)GameCount) * 100.0f;
 }
 
 float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Community, unsigned int _PlayerAmt, unsigned int _TrialsAmt)
@@ -365,7 +369,7 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<std::shared_ptr<C
 			OppoHole.clear();
 	}
 
-	return (((float)Win) + ((float)Draw) / 2.0) / ((float)GameCount) * 100.0;
+	return (((float)Win) + ((float)Draw) / 2.0f) / ((float)GameCount) * 100.0f;
 }
 
 int HandEvaluator::DetermineValue_5Cards(const std::array<std::shared_ptr<Card>, 5>& _Hand)

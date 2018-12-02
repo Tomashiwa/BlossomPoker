@@ -64,10 +64,15 @@ void Card::Set(Suit _Suit, Rank _Value)
 	}
 }
 
+bool Card::IsEqualTo(const std::shared_ptr<Card>& _Comparison)
+{
+	return GivenValue == _Comparison->GetRank() && GivenSuit == _Comparison->GetSuit();
+}
+
 bool Card::IsGreater(const std::shared_ptr<Card>& _Comparison)
 {
 	if (GivenValue == _Comparison->GetRank())
-		return GivenSuit > _Comparison->GetSuit() ? true : false;
+		return GivenSuit > _Comparison->GetSuit();
 
-	return GivenValue > _Comparison->GetRank() ? true : false;
+	return GivenValue > _Comparison->GetRank();
 }

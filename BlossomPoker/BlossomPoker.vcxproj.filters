@@ -158,6 +158,9 @@
     <ClInclude Include="RaiseBetSize.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="xoroshiro128+.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

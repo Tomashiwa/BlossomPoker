@@ -47,15 +47,23 @@ void GeneticTest::Run()
 {
 	Start();
 
-	for (unsigned int Index = 0; Index < GenerationLimit; Index++)
+	for (unsigned int GenCount = 0; GenCount < GenerationLimit; GenCount++)
 	{
 		std::cout << "\nGeneration " << Generation << ":\n";
 		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ":\n");
 
 		Tour->Initialise(Population, Population.size(), true);
-		Tour->Run();
 
-		Tour->PrintRankings();
+		for(unsigned int TourCount = 0; TourCount < ToursPerGen; TourCount++)
+		{
+			std::cout << "\nTournament " << TourCount << ": \n";
+			//Writer->WriteAt(0, "\nTournament " + std::to_string(TourCount) + ": \n");
+
+			Tour->Run();
+			Tour->Refresh();
+			
+			Tour->PrintRankings();
+		}
 
 		Tour->GetBestPlayer(CurrentBest);
 		GeneratonBest.push_back(CurrentBest);
@@ -423,8 +431,9 @@ void GeneticTest::PrintAvrProfits()
 	}
 }
 
-void GeneticTest::SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit)
+void GeneticTest::SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen)
 {
 	PopulationSize = _PopulationSize;
 	GenerationLimit = _GenerationLimit;
+	ToursPerGen = _ToursPerGen;
 }
