@@ -1,18 +1,45 @@
 #pragma once
 #include <memory>
-
 #include "Player.h"
 
-class HandEvaluator;
-
-struct Participant
+class Participant
 {
-	std::shared_ptr<Player> Owner;
-	unsigned int Rank = 0;
-	float Fitness = 0.0;
-	float AverageFitness = 0.0;
+public:
+	Participant(const std::shared_ptr<Player>& _Owner);
+	~Participant();
 
-	unsigned int HandsParticipated = 0;
+	void SetRank(unsigned int _Rank) { Rank = _Rank; }
+
+	void SetMoneyWon(unsigned int _MoneyWon) { MoneyWon = _MoneyWon; }
+	void SetMoneyLost(unsigned int _MoneyLost) { MoneyLost = _MoneyLost; }
+	void SetHandsWon(unsigned int _HandsWon) { HandsWon = _HandsWon; }
+	void SetHandsLost(unsigned int _HandsLost) { HandsLost = _HandsLost; }
+
+	void SetProfits(unsigned int _Profits) { Profits = _Profits; }
+
+	const std::shared_ptr<Player>& GetOwner() { return Owner; }
+	unsigned int GetRank() { return Rank; }
+	float GetFitness() { return Fitness; }
+	float GetAverageFitness() { return AverageFitness; }
+	
+	unsigned int GetMoneyWon() { return MoneyWon; }
+	unsigned int GetMoneyLost() { return MoneyLost; }
+	unsigned int GetHandsWon() { return HandsWon; }
+	unsigned int GetHandsLost() { return HandsLost; }
+
+	int GetProfits() { return Profits; }
+
+	void UpdateFitness();
+	void UpdateAverageFitness(unsigned int _MatchAmt);
+
+	void Refresh();
+
+private:
+	std::shared_ptr<Player> Owner;
+
+	unsigned int Rank = 0;
+	float Fitness = 0.0f;
+	float AverageFitness = 0.0f;
 
 	unsigned int MoneyWon = 0;
 	unsigned int MoneyLost = 0;
@@ -20,35 +47,5 @@ struct Participant
 	unsigned int HandsLost = 0;
 
 	int Profits = 0;
-
-	Participant(const std::shared_ptr<Player>& _Owner, const std::shared_ptr<HandEvaluator>& _Evaluator) : Owner(_Owner)
-	{
-		Owner->GetAI().SetEvalutor(_Evaluator);
-	};
-
-	void UpdateFitness()
-	{
-		Fitness = ((float)MoneyWon / (HandsWon == 0 ? (float) 1 : (float) HandsWon)) - ((float)MoneyLost / (HandsLost == 0 ? (float)1 : (float)HandsLost));
-	}
-
-	void UpdateAverageFitness(unsigned int _MatchAmt)
-	{
-		AverageFitness = Fitness / (float)_MatchAmt;
-	}
-
-	void Refresh()
-	{
-		Rank = 0;
-		Fitness = 0.0;
-		AverageFitness = 0.0;
-
-		HandsParticipated = 0;
-
-		MoneyWon = 0;
-		MoneyLost = 0;
-		HandsWon = 0;
-		HandsLost = 0;
-		
-		Profits = 0;
-	}
 };
+

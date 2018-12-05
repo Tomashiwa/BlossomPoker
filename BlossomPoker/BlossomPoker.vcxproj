@@ -143,6 +143,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Match.cpp" />
+    <ClCompile Include="Participant.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Deck.cpp" />
@@ -159,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BettingAction.h" />
+    <ClInclude Include="Match.h" />
     <ClInclude Include="Participant.h" />
     <ClInclude Include="RaiseBetSize.h" />
     <ClInclude Include="Table.h" />

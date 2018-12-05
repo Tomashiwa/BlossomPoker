@@ -76,7 +76,7 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 
 float BlossomAI::DetermineWinRate(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Communal, unsigned int _PlayerAmt)
 {
-	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _PlayerAmt, 2500);
+	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _PlayerAmt, 12500);//2500);
 }
 
 void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)
@@ -86,22 +86,8 @@ void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)
 		SetThresholdByPhase((Phase) Index, 0, _Thresholds[0 + (Index * 4)]);
 		SetThresholdByPhase((Phase) Index, 1, _Thresholds[1 + (Index * 4)]);
 		SetThresholdByPhase((Phase) Index, 2, _Thresholds[2 + (Index * 4)]);
-		SetThresholdByPhase((Phase) Index, 3, _Thresholds[3 + (Index * 4)]);
+		SetThresholdByPhase((Phase)Index, 3, _Thresholds[3 + (Index * 4)]);
 	}
-
-	/*unsigned int SetIndex = 0;
-	std::array<float, 4> NewSet;
-
-	for (auto const& Strategy : Strategies)
-	{
-		for (unsigned int Index = 0; Index < 4; Index++)
-			NewSet[Index] = _Thresholds[Index * (SetIndex + 1)];
-			
-		Strategy->SetThresholds(NewSet);
-		NewSet.empty();
-
-		SetIndex++;
-	}*/
 }
 
 void BlossomAI::SetThresholdByPhase(Phase _Phase, unsigned int _Index, float _Threshold)

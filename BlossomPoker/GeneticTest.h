@@ -11,6 +11,7 @@
 class Table;
 class Player;
 class Tournament;
+class HandEvaluator;
 
 class GeneticTest
 {
@@ -53,6 +54,7 @@ private:
 	std::vector<std::shared_ptr<Player>> GeneratonBest;
 
 	std::mt19937 MTGenerator;
+	std::shared_ptr<HandEvaluator> Evaluator;
 	std::unique_ptr<LogWriter> Writer;
 
 	void GeneratePopulation(unsigned int _Size);

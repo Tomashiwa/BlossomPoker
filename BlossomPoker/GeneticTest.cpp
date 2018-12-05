@@ -1,5 +1,6 @@
 #include "GeneticTest.h"
 
+#include "HandEvaluator.h"
 #include "Table.h"
 #include "Player.h"
 #include "Tournament.h"
@@ -10,9 +11,10 @@ GeneticTest::GeneticTest()
 
 	Population.reserve(PopulationSize);
 
+	Evaluator = std::make_shared<HandEvaluator>();
 	Writer = std::make_unique<LogWriter>();
 
-	Tour = std::make_unique<Tournament>(20);
+	Tour = std::make_unique<Tournament>(20, Evaluator);
 }
 
 GeneticTest::~GeneticTest()
@@ -27,8 +29,8 @@ void GeneticTest::Start()
 	std::cout << "Settings: \nPopulation Size: " << PopulationSize << " Generation Limit: " << GenerationLimit << "\n\n";
 	std::cout << "Population of " << Population.size() << " initialized: " << GetPopulationContentStr() << "\n";
 
-	Writer->NewFile(LogType::NONE, "Tourament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit));
-	Writer->WriteAt(0, "Settings: \n Population Size: " + std::to_string(PopulationSize) + "  Subjects Amt: " + " Generation Limit: " + std::to_string(GenerationLimit) + "\n\n");
+	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));	
+	Writer->WriteAt(0, "Settings: \n Population Size: " + std::to_string(PopulationSize) + "  Subjects Amt: " + " Generation Limit: " + std::to_string(GenerationLimit) + " Tours Per Gen: " + std::to_string(ToursPerGen) + "\n\n");
 	Writer->WriteAt(0, "Population of " + std::to_string(Population.size()) + " initialized\n " + GetPopulationContentStr() + "\n");
 
 	for (auto const& Player : Population)
@@ -118,6 +120,8 @@ void GeneticTest::GeneratePopulation(unsigned int _Size)
 	for (unsigned int Index = 0; Index < _Size; Index++)
 	{
 		Population.push_back(std::make_shared<Player>(Tour->GetTable(), PlayersGenerated));
+		Population[Population.size() - 1]->GetAI().SetEvalutor(Evaluator);
+
 		PlayersGenerated++;
 	}
 }
@@ -126,7 +130,7 @@ float GeneticTest::GetOverallFitness()
 {
 	float TotalFitness = 0.0;
 	for (auto const& Participant : Tour->GetRankingBoard())
-		TotalFitness += Participant->AverageFitness;
+		TotalFitness += Participant->GetAverageFitness();
 
 	std::cout << "Average Fitness: " << (TotalFitness / Tour->GetRankingBoard().size()) << " (Total: " << TotalFitness << " / Table Size: " << Tour->GetRankingBoard().size() << ")\n" ;
 	return TotalFitness / Tour->GetRankingBoard().size();
@@ -203,6 +207,7 @@ void GeneticTest::Crossover(const std::shared_ptr<Player>& _First, const std::sh
 
 	_Result = std::move(std::make_shared<Player>(Tour->GetTable(), PlayersGenerated));
 	_Result->GetAI().SetThresholds(CombinedThresholds);
+	_Result->GetAI().SetEvalutor(Evaluator);
 
 	PlayersGenerated++;
 }	

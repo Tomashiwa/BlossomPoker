@@ -6,6 +6,7 @@
 #include <map>
 
 #include "Phase.h"
+#include "Match.h"
 #include "Tournament.h"
 
 class Card;

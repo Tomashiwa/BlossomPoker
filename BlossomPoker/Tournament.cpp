@@ -1,13 +1,12 @@
 #include "Tournament.h"
 
-//#include "Player.h"
+#include "Match.h"
 #include "Table.h"
 #include "HandEvaluator.h"
 
-Tournament::Tournament(unsigned int _BigBlind)
+Tournament::Tournament(unsigned int _BigBlind, const std::shared_ptr<HandEvaluator>& _Evaluator)
 {
-	Evaluator = std::make_shared<HandEvaluator>();
-	ActiveTable = std::make_shared<Table>(Evaluator, _BigBlind, false);
+	ActiveTable = std::make_shared<Table>(_Evaluator, _BigBlind, false);
 }
 
 Tournament::~Tournament()
@@ -20,46 +19,40 @@ void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players
 	Matches.clear();
 	Matches.reserve(_Size);
 	for (unsigned int Index = 0; Index < _Size; Index++)
-		Matches.push_back(std::make_shared<Match>(Index, IsDuplicated, _Players, Evaluator));
+		Matches.push_back(std::make_shared<Match>(Index, IsDuplicated, _Players));
 
 	RankingBoard.clear();
 	RankingBoard.reserve(_Players.size());
 	for (auto const Player : _Players)
-		RankingBoard.push_back(std::make_shared<Participant>(Player, Evaluator));
+		RankingBoard.push_back(std::make_shared<Participant>(Player));
 }
 
 void Tournament::Run()
 {
 	ActiveTable->Reset(true);
-	for (auto const Participant : Matches[0]->RankingBoard)
-		ActiveTable->AddPlayer(Participant->Owner);
+	for (auto const Participant : Matches[0]->GetRankingBoard())
+		ActiveTable->AddPlayer(Participant->GetOwner());
 
 	for (auto const Match : Matches)
 	{
-		std::cout << "\nRunning Match #" << Match->Index << "...		\n";// \r";
+		std::cout << "\nRunning Match #" << Match->GetIndex() << "...		\n";// \r";
 
 		ActiveTable->SetMatch(Match);
 
-		if (!Match->IsDuplicated || (Match->IsDuplicated && Match->Index == 0))
+		if (!Match->GetIsDuplicated() || (Match->GetIsDuplicated() && Match->GetIndex() == 0))
 			ActiveTable->RestockDeck();
 
 		ActiveTable->Run();
 
-		Match->PrintInfo();
-
 		Match->RankPlayers();
-
-		std::cout << "Rankings:\n";
-		for (auto const Participant : Match->RankingBoard)
-			std::cout << "P." << Participant->Owner->GetIndex() << " ";
-		std::cout << "\n";
+		Match->PrintInfo();
 
 		ActiveTable->Reset(false);
 		ActiveTable->ShiftDealer(ActiveTable->GetNextPlayer(ActiveTable->GetFirstPlayer()));
 	
-		if (Match->IsDuplicated)
+		if (Match->GetIsDuplicated())
 		{
-			if (Match->Index == 0)
+			if (Match->GetIndex() == 0)
 				ActiveTable->SaveDeckArrangement();
 			else
 				ActiveTable->LoadDeckArrangement();
@@ -81,13 +74,13 @@ void Tournament::UpdateRankings()
 	{
 		for (unsigned int Index_Participant = 0; Index_Participant < RankingBoard.size(); Index_Participant++)
 		{
-			RankingBoard[Index_Participant]->Rank += Match->RankingBoard[Index_Participant]->Rank;
+			RankingBoard[Index_Participant]->SetRank(RankingBoard[Index_Participant]->GetRank() + Match->GetParticipant(Index_Participant)->GetRank());
 
-			RankingBoard[Index_Participant]->MoneyWon += Match->RankingBoard[Index_Participant]->MoneyWon;
-			RankingBoard[Index_Participant]->MoneyLost += Match->RankingBoard[Index_Participant]->MoneyLost;
+			RankingBoard[Index_Participant]->SetMoneyWon(RankingBoard[Index_Participant]->GetMoneyWon() + Match->GetParticipant(Index_Participant)->GetMoneyWon());
+			RankingBoard[Index_Participant]->SetMoneyLost(RankingBoard[Index_Participant]->GetMoneyLost() + Match->GetParticipant(Index_Participant)->GetMoneyLost());
 
-			RankingBoard[Index_Participant]->HandsWon += Match->RankingBoard[Index_Participant]->HandsWon;
-			RankingBoard[Index_Participant]->HandsLost += Match->RankingBoard[Index_Participant]->HandsLost;
+			RankingBoard[Index_Participant]->SetHandsWon(RankingBoard[Index_Participant]->GetHandsWon() + Match->GetParticipant(Index_Participant)->GetHandsWon());
+			RankingBoard[Index_Participant]->SetHandsLost(RankingBoard[Index_Participant]->GetHandsLost() + Match->GetParticipant(Index_Participant)->GetHandsLost());
 		}
 	}
 
@@ -102,13 +95,13 @@ void Tournament::PrintRankings()
 {
 	std::cout << "\nTournament Results:\n";
 	for (auto const& Participant : RankingBoard)
-		std::cout << "P." << Participant->Owner->GetIndex() << ": " << Participant->AverageFitness << " (Hands Won: " << Participant->HandsWon << ", Hands Lost: " << Participant->HandsLost << ", Money Won: " << Participant->MoneyWon << ", Money Lost: " << Participant->MoneyLost << ")\n";
+		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetAverageFitness() << " (Hands Won: " << Participant->GetHandsWon() << ", Hands Lost: " << Participant->GetHandsLost() << ", Money Won: " << Participant->GetMoneyWon() << ", Money Lost: " << Participant->GetMoneyLost() << ")\n";
 	std::cout << "\n";
 }
 
 void Tournament::GetBestPlayer(std::shared_ptr<Player>& _BestPlayer)
 {
-	_BestPlayer = RankingBoard[0]->Owner;
+	_BestPlayer = RankingBoard[0]->GetOwner();
 }
 
 void Tournament::GetBestParticipant(std::shared_ptr<Participant>& _BestParti)
@@ -121,15 +114,15 @@ void Tournament::GetArrangedPlayers(std::vector<std::shared_ptr<Player>>& _Arran
 	_ArrangedPlayers.clear();
 
 	for (auto const Participant : RankingBoard)
-		_ArrangedPlayers.push_back(Participant->Owner);
+		_ArrangedPlayers.push_back(Participant->GetOwner());
 }
 
 float Tournament::GetAverageFitness(const std::shared_ptr<Player>& _Player)
 {
 	for (auto const Participant : RankingBoard)
 	{
-		if (Participant->Owner->GetIndex() == _Player->GetIndex())
-			return Participant->AverageFitness;
+		if (Participant->GetOwner()->GetIndex() == _Player->GetIndex())
+			return Participant->GetAverageFitness();
 	}
 
 	return 0.0;
@@ -139,8 +132,8 @@ unsigned int Tournament::GetAverageRank(const std::shared_ptr<Player>& _Player)
 {
 	for (auto const Participant : RankingBoard)
 	{
-		if (Participant->Owner->GetIndex() == _Player->GetIndex())
-			return Participant->Rank;
+		if (Participant->GetOwner()->GetIndex() == _Player->GetIndex())
+			return Participant->GetRank();
 	}
 
 	return 0;
