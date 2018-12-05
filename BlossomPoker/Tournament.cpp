@@ -59,7 +59,7 @@ void Tournament::Run()
 		}
 	}
 
-	UpdateRankings();
+	RankPlayers();
 }
 
 void Tournament::Refresh()
@@ -68,7 +68,7 @@ void Tournament::Refresh()
 		Match->Refresh();
 }
 
-void Tournament::UpdateRankings()
+void Tournament::RankPlayers()
 {
 	for (auto const Match : Matches)
 	{
@@ -86,16 +86,24 @@ void Tournament::UpdateRankings()
 
 	for (auto const& Participant : RankingBoard)
 	{
+		std::cout << "Participant (P." << Participant->GetOwner()->GetIndex() << "): " << Participant->GetRank() << " (Rank) / " << Matches.size() << " (Matches.size()) => " << (float)Participant->GetRank() / (float)Matches.size() << " (Average Ranking)\n";
+		Participant->UpdateAverageRank(Matches.size());
+
 		Participant->UpdateFitness();
 		Participant->UpdateAverageFitness(Matches.size());
 	}
+
+	//Sort the RankingBoard's participant from highest ranked to lowest ranked
+	std::sort(RankingBoard.begin(), RankingBoard.end(),
+		[](const std::shared_ptr<Participant>& _First, const std::shared_ptr<Participant>& _Second)
+		{return _First->GetAverageRank() < _Second->GetAverageRank(); });
 }
 
 void Tournament::PrintRankings()
 {
 	std::cout << "\nTournament Results:\n";
 	for (auto const& Participant : RankingBoard)
-		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetAverageFitness() << " (Hands Won: " << Participant->GetHandsWon() << ", Hands Lost: " << Participant->GetHandsLost() << ", Money Won: " << Participant->GetMoneyWon() << ", Money Lost: " << Participant->GetMoneyLost() << ")\n";
+		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetAverageRank() << " (Profits per Hand: " << Participant->GetAverageFitness() << ", Hands Won: " << Participant->GetHandsWon() << ", Hands Lost: " << Participant->GetHandsLost() << ", Money Won: " << Participant->GetMoneyWon() << ", Money Lost: " << Participant->GetMoneyLost() << ")\n";
 	std::cout << "\n";
 }
 

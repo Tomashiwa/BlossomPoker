@@ -59,7 +59,6 @@ void GeneticTest::Run()
 		for(unsigned int TourCount = 0; TourCount < ToursPerGen; TourCount++)
 		{
 			std::cout << "\nTournament " << TourCount << ": \n";
-			//Writer->WriteAt(0, "\nTournament " + std::to_string(TourCount) + ": \n");
 
 			Tour->Run();
 			Tour->Refresh();
@@ -75,7 +74,7 @@ void GeneticTest::Run()
 		Writer->WriteAt(1, Generation, GetOverallFitness());
 		Writer->WriteAt(2, Generation, GetGenerationDiversity());
 		
-		std::cout << "Best Fitness: P." << CurrentBest->GetIndex() << " (" << Tour->GetAverageFitness(CurrentBest) << ")\n";
+		std::cout << "Best Player: P." << CurrentBest->GetIndex() << " (" << Tour->GetAverageRank(CurrentBest) << ")\n";
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 
 		if (!IsTestComplete())

@@ -25,7 +25,7 @@ void Match::RankPlayers()
 		for (unsigned int Rank = 0; Rank < RankingBoard.size(); Rank++)
 		{
 			if (RankingBoard[Rank]->GetOwner()->GetIndex() == Participant->GetOwner()->GetIndex())
-				Participant->SetRank(Participant->GetRank() + 1);
+				Participant->SetRank(Rank + 1);
 		}
 	}
 }

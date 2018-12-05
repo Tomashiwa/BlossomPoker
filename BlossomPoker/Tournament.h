@@ -19,7 +19,7 @@ public:
 	void Run();
 	void Refresh();
 
-	void UpdateRankings();
+	void RankPlayers();
 
 	void PrintRankings();
 
