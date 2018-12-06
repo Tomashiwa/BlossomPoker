@@ -2,19 +2,19 @@
 
 #include "HandEvaluator.h"
 #include "Table.h"
+#include "Participant.h"
 #include "Player.h"
 #include "Tournament.h"
 
 GeneticTest::GeneticTest()
 {
-	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());	
+	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
 
 	Population.reserve(PopulationSize);
 
 	Evaluator = std::make_shared<HandEvaluator>();
+	ActiveTable = std::make_shared<Table>(Evaluator, 20, false);
 	Writer = std::make_unique<LogWriter>();
-
-	Tour = std::make_unique<Tournament>(20, Evaluator);
 }
 
 GeneticTest::~GeneticTest()
@@ -24,7 +24,17 @@ GeneticTest::~GeneticTest()
 
 void GeneticTest::Start()
 {
+	Tournaments.clear();
+	Tournaments.reserve(ToursPerGen);
+	for (unsigned int Index = 0; Index < ToursPerGen; Index++)
+		Tournaments.push_back(std::make_unique<Tournament>(Index, 20, ActiveTable));
+
 	GeneratePopulation(PopulationSize);
+
+	RankingBoard.clear();
+	RankingBoard.reserve(PopulationSize);
+	for (auto const Player : Population)
+		RankingBoard.push_back(std::make_shared<Participant>(Player));
 
 	std::cout << "Settings: \nPopulation Size: " << PopulationSize << " Generation Limit: " << GenerationLimit << "\n\n";
 	std::cout << "Population of " << Population.size() << " initialized: " << GetPopulationContentStr() << "\n";
@@ -54,27 +64,33 @@ void GeneticTest::Run()
 		std::cout << "\nGeneration " << Generation << ":\n";
 		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ":\n");
 
-		Tour->Initialise(Population, Population.size(), true);
+		std::cout << "Amount of Tournaments: " << Tournaments.size() << "\n";
 
-		for(unsigned int TourCount = 0; TourCount < ToursPerGen; TourCount++)
+		for (auto const& Tournament : Tournaments)
 		{
-			std::cout << "\nTournament " << TourCount << ": \n";
+			std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-			Tour->Run();
-			Tour->Refresh();
-			
-			Tour->PrintRankings();
+			Tournament->Initialise(Population, Population.size(), true);
+			Tournament->Run();
+
+			Tournament->PrintRankings();
 		}
 
-		Tour->GetBestPlayer(CurrentBest);
-		GeneratonBest.push_back(CurrentBest);
+		RankPlayers();
 
-		Tour->GetArrangedPlayers(Population);
+		GeneratonBest.push_back(GetBestPlayer());
+
+		ArrangePlayers(Population);
+
+		std::cout << "\nGenerational Ranking: \n";
+		for (auto const& Participant : RankingBoard)
+			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << "\n";
+		std::cout << "\n";
 
 		Writer->WriteAt(1, Generation, GetOverallFitness());
 		Writer->WriteAt(2, Generation, GetGenerationDiversity());
 		
-		std::cout << "Best Player: P." << CurrentBest->GetIndex() << " (" << Tour->GetAverageRank(CurrentBest) << ")\n";
+		std::cout << "Best Player: P." << GetBestPlayer()->GetIndex() << " (" << GetParticipant(GetBestPlayer()->GetIndex())->GetRank() << ")\n";
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 
 		if (!IsTestComplete())
@@ -118,21 +134,90 @@ void GeneticTest::GeneratePopulation(unsigned int _Size)
 
 	for (unsigned int Index = 0; Index < _Size; Index++)
 	{
-		Population.push_back(std::make_shared<Player>(Tour->GetTable(), PlayersGenerated));
+		Population.push_back(std::make_shared<Player>(ActiveTable, PlayersGenerated));
 		Population[Population.size() - 1]->GetAI().SetEvalutor(Evaluator);
 
 		PlayersGenerated++;
 	}
 }
 
+void GeneticTest::RankPlayers()
+{
+	for (auto const& Tournament : Tournaments)
+	{
+		for (auto const& Participant : RankingBoard)
+		{
+			//Participant->SetRank(Participant->GetRank() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetRank());
+
+			Participant->SetMoneyWon(Participant->GetMoneyWon() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetMoneyWon());
+			Participant->SetMoneyLost(Participant->GetMoneyLost() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetMoneyLost());
+
+			Participant->SetHandsWon(Participant->GetHandsWon() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetHandsWon());
+			Participant->SetHandsLost(Participant->GetHandsLost() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetHandsLost());
+		}
+	}
+
+	//Average out Players' Rankings
+	for (auto const& Participant : RankingBoard)
+	{
+		//Participant->SetRank(Participant->GetRank() / Tournaments.size());
+		Participant->UpdateFitness();
+	}
+
+	//Sort the RankingBoard's participant from highest profit to lowest profit
+	std::sort(RankingBoard.begin(), RankingBoard.end(),
+		[](const std::shared_ptr<Participant>& _First, const std::shared_ptr<Participant>& _Second)
+		{return _First->GetFitness() > _Second->GetFitness(); });
+
+	//Re-allocate player's rank based on their average stats
+	for (auto const& Participant : RankingBoard)
+	{
+		for (unsigned int Rank = 0; Rank < RankingBoard.size(); Rank++)
+		{
+			if (RankingBoard[Rank]->GetOwner()->GetIndex() == Participant->GetOwner()->GetIndex())
+				Participant->SetRank(Rank + 1);
+		}
+	}
+}
+
+void GeneticTest::ArrangePlayers(std::vector<std::shared_ptr<Player>> _Players)
+{
+	_Players.clear();
+	
+	for (auto const& Participant : RankingBoard)
+		_Players.push_back(Participant->GetOwner());
+}
+
+const std::shared_ptr<Participant>& GeneticTest::GetParticipant(unsigned int _Index)
+{
+	for (auto const& Participant : RankingBoard)
+	{
+		if (Participant->GetOwner()->GetIndex() == _Index)
+			return Participant;
+	}
+
+	return RankingBoard[0];
+}
+
+const std::shared_ptr<Player>& GeneticTest::GetBestPlayer()
+{
+	return RankingBoard[0]->GetOwner();
+}
+
 float GeneticTest::GetOverallFitness()
 {
 	float TotalFitness = 0.0;
-	for (auto const& Participant : Tour->GetRankingBoard())
-		TotalFitness += Participant->GetAverageFitness();
+	for (auto const& Participant : RankingBoard)
+		TotalFitness += Participant->GetFitness();
 
-	std::cout << "Average Fitness: " << (TotalFitness / Tour->GetRankingBoard().size()) << " (Total: " << TotalFitness << " / Table Size: " << Tour->GetRankingBoard().size() << ")\n" ;
-	return TotalFitness / Tour->GetRankingBoard().size();
+	return TotalFitness / RankingBoard.size();
+
+	/*float TotalRanking = 0.0;
+	for (auto const& Participant : RankingBoard)
+		TotalRanking += Participant->GetRank();
+
+	std::cout << "Average Ranking: " << (TotalRanking / RankingBoard.size()) << " (Total: " << TotalRanking << " / Table Size: " << RankingBoard.size() << ")\n" ;
+	return TotalRanking / RankingBoard.size();*/
 }
 
 float GeneticTest::GetGenerationDiversity()
@@ -157,35 +242,35 @@ float GeneticTest::GetGenerationDiversity()
 		AverageSD += SD;
 	}
 
-	return AverageSD / Tour->GetTable()->GetPlayers().size();
+	return AverageSD / PopulationSize;
 }
 
 void GeneticTest::TouramentSelect(const std::vector<std::shared_ptr<Player>> _RefPopulation, std::vector<std::shared_ptr<Player>>& _Parents)
 {
 	std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
-	
-	std::vector<std::shared_ptr<Player>> Tourament;
-	Tourament.reserve(TouramentSize);
+
+	std::vector<std::shared_ptr<Player>> Tournament;
+	Tournament.reserve(TouramentSize);
 
 	std::shared_ptr<Player> CurrentPlayer;
 
 	for (unsigned int Index = 0; Index < ParentLimit; Index++)
 	{
-		Tourament.clear();
+		Tournament.clear();
 
 		for (unsigned int TourIndex = 0; TourIndex < TouramentSize; TourIndex++)
 		{
 			do { CurrentPlayer = _RefPopulation[Distribution_Qualifier(MTGenerator)]; } 
 				while (std::find(Population.begin(), Population.end(), CurrentPlayer) != Population.end());
 
-			Tourament.push_back(CurrentPlayer);
+			Tournament.push_back(CurrentPlayer);
 		}
 
-		CurrentPlayer = Tourament[0];
+		CurrentPlayer = Tournament[0];
 		
-		for (auto const Player : Tourament)
+		for (auto const Player : Tournament)
 		{
-			if (Tour->GetAverageFitness(Player) > Tour->GetAverageFitness(CurrentPlayer))
+			if (GetParticipant(Player->GetIndex())->GetFitness() > GetParticipant(CurrentPlayer->GetIndex())->GetFitness())//GetParticipant(Player->GetIndex())->GetRank() > GetParticipant(CurrentPlayer->GetIndex())->GetRank())
 				CurrentPlayer = Player;
 		}
 
@@ -204,7 +289,7 @@ void GeneticTest::Crossover(const std::shared_ptr<Player>& _First, const std::sh
 	for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
 		CombinedThresholds[ThrIndex] = Distribution_Crossover(MTGenerator) == 0 ? _First->GetAI().GetThresholds()[ThrIndex] : _Second->GetAI().GetThresholds()[ThrIndex];
 
-	_Result = std::move(std::make_shared<Player>(Tour->GetTable(), PlayersGenerated));
+	_Result = std::move(std::make_shared<Player>(ActiveTable, PlayersGenerated));
 	_Result->GetAI().SetThresholds(CombinedThresholds);
 	_Result->GetAI().SetEvalutor(Evaluator);
 
@@ -354,7 +439,7 @@ void GeneticTest::ReproducePopulation()
 	//std::cout << "\n\n";
 	*/
 
-	//Tourament Selection
+	//Tournament Selection
 	std::vector<std::shared_ptr<Player>> PopulationReference(Population.begin(), Population.end());
 	Population.clear();
 
@@ -421,18 +506,6 @@ std::string GeneticTest::GetThresholdsStr(const std::shared_ptr<Player>& _Target
 		ThrStr += std::to_string(_Target->GetAI().GetThresholds()[ThrIndex]) + "  ";
 
 	return ThrStr;
-}
-
-void GeneticTest::PrintAvrProfits()
-{
-	std::cout << "Average Profits:\n";
-	Writer->WriteAt(0, "Average Profits: \n");
-
-	for (auto const& Player : Population)
-	{
-		std::cout << "P." << Player->GetIndex() << ": " << Tour->GetAverageFitness(Player) << "\n";
-		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Tour->GetAverageFitness(Player)) + "\n");
-	}
 }
 
 void GeneticTest::SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen)

@@ -36,6 +36,17 @@ void Match::Refresh()
 		Participant->Refresh();
 }
 
+const std::shared_ptr<Participant>& Match::GetParticipant(unsigned int _Index)
+{
+	for (auto const& Participant : RankingBoard)
+	{
+		if (Participant->GetOwner()->GetIndex() == _Index)
+			return Participant;
+	}
+
+	return RankingBoard[0];
+}
+
 void Match::PrintInfo()
 {
 	for (auto const& Participant : RankingBoard)
