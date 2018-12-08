@@ -73,8 +73,6 @@ void Tournament::RankPlayers()
 	{
 		for (auto const& Participant : RankingBoard)
 		{
-			//Participant->SetRank(Participant->GetRank() + Match->GetParticipant(Participant->GetOwner()->GetIndex())->GetRank());
-		
 			Participant->SetMoneyWon(Participant->GetMoneyWon() + Match->GetParticipant(Participant->GetOwner()->GetIndex())->GetMoneyWon());
 			Participant->SetMoneyLost(Participant->GetMoneyLost() + Match->GetParticipant(Participant->GetOwner()->GetIndex())->GetMoneyLost());
 
@@ -99,16 +97,6 @@ void Tournament::RankPlayers()
 	std::sort(RankingBoard.begin(), RankingBoard.end(),
 		[](const std::shared_ptr<Participant>& _First, const std::shared_ptr<Participant>& _Second)
 		{return _First->GetFitness() > _Second->GetFitness(); });
-
-	//Re-allocate player's rank based on their average stats
-	for (auto const& Participant : RankingBoard)
-	{
-		for (unsigned int Rank = 0; Rank < RankingBoard.size(); Rank++)
-		{
-			if (RankingBoard[Rank]->GetOwner()->GetIndex() == Participant->GetOwner()->GetIndex())
-				Participant->SetRank(Rank + 1);
-		}
-	}
 }
 
 void Tournament::PrintRankings()
@@ -146,26 +134,4 @@ void Tournament::GetArrangedPlayers(std::vector<std::shared_ptr<Player>>& _Arran
 
 	for (auto const Participant : RankingBoard)
 		_ArrangedPlayers.push_back(Participant->GetOwner());
-}
-
-float Tournament::GetAverageFitness(const std::shared_ptr<Player>& _Player)
-{
-	for (auto const& Participant : RankingBoard)
-	{
-		if (Participant->GetOwner()->GetIndex() == _Player->GetIndex())
-			return Participant->GetFitness();
-	}
-
-	return 0.0;
-}
-
-unsigned int Tournament::GetAverageRank(const std::shared_ptr<Player>& _Player)
-{
-	for (auto const Participant : RankingBoard)
-	{
-		if (Participant->GetOwner()->GetIndex() == _Player->GetIndex())
-			return Participant->GetRank();
-	}
-
-	return 0;
 }

@@ -84,13 +84,13 @@ void GeneticTest::Run()
 
 		std::cout << "\nGenerational Ranking: \n";
 		for (auto const& Participant : RankingBoard)
-			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << "\n";
+			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (MoneyWon: " << Participant->GetMoneyWon() << " HandsWon: " << Participant->GetHandsWon() << " MoneyLost: " << Participant->GetMoneyLost() << " HandsLost: " << Participant->GetHandsLost() << ")\n";
 		std::cout << "\n";
 
 		Writer->WriteAt(1, Generation, GetOverallFitness());
 		Writer->WriteAt(2, Generation, GetGenerationDiversity());
 		
-		std::cout << "Best Player: P." << GetBestPlayer()->GetIndex() << " (" << GetParticipant(GetBestPlayer()->GetIndex())->GetRank() << ")\n";
+		std::cout << "Best Player: P." << GetBestPlayer()->GetIndex() << " (" << GetParticipant(GetBestPlayer()->GetIndex())->GetFitness() << ")\n";
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 
 		if (!IsTestComplete())
@@ -168,16 +168,6 @@ void GeneticTest::RankPlayers()
 	std::sort(RankingBoard.begin(), RankingBoard.end(),
 		[](const std::shared_ptr<Participant>& _First, const std::shared_ptr<Participant>& _Second)
 		{return _First->GetFitness() > _Second->GetFitness(); });
-
-	//Re-allocate player's rank based on their average stats
-	for (auto const& Participant : RankingBoard)
-	{
-		for (unsigned int Rank = 0; Rank < RankingBoard.size(); Rank++)
-		{
-			if (RankingBoard[Rank]->GetOwner()->GetIndex() == Participant->GetOwner()->GetIndex())
-				Participant->SetRank(Rank + 1);
-		}
-	}
 }
 
 void GeneticTest::ArrangePlayers(std::vector<std::shared_ptr<Player>> _Players)
@@ -483,6 +473,12 @@ void GeneticTest::ReproducePopulation()
 		Writer->WriteAt(0, "Parents: P." + std::to_string(CurrentParents[0]->GetIndex()) + " & P." + std::to_string(CurrentParents[1]->GetIndex()) + " \n");
 		Writer->WriteAt(0, "Child " + std::to_string(Index) + ": P." + std::to_string(PlayersGenerated) + " (" + GetThresholdsStr(CurrentChild) + ")\n");
 		CurrentParents.clear();
+	}
+
+	for (unsigned int Index = 0; Index < Population.size(); Index++)
+	{
+		RankingBoard[Index]->Refresh();
+		RankingBoard[Index]->SetOwner(Population[Index]);
 	}
 	
 	Generation++;

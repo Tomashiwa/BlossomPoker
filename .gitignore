@@ -366,3 +366,4 @@ BlossomPoker.VC.db
 BlossomPoker.VC.db
 BlossomPoker/TestLogs/
 *.h
+*.etl

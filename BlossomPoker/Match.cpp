@@ -19,15 +19,6 @@ void Match::RankPlayers()
 	std::sort(RankingBoard.begin(), RankingBoard.end(),
 		[](const std::shared_ptr<Participant>& _First, const std::shared_ptr<Participant>& _Second)
 		{return _First->GetFitness() > _Second->GetFitness(); });
-
-	for (auto const& Participant : RankingBoard)
-	{
-		for (unsigned int Rank = 0; Rank < RankingBoard.size(); Rank++)
-		{
-			if (RankingBoard[Rank]->GetOwner()->GetIndex() == Participant->GetOwner()->GetIndex())
-				Participant->SetRank(Rank + 1);
-		}
-	}
 }
 
 void Match::Refresh()

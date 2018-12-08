@@ -8,7 +8,7 @@ public:
 	Participant(const std::shared_ptr<Player>& _Owner);
 	~Participant();
 
-	void SetRank(float _Rank) { Rank = (float) _Rank; }
+	void SetOwner(const std::shared_ptr<Player>& _Player) { Owner = _Player; }
 
 	void SetMoneyWon(unsigned int _MoneyWon) { MoneyWon = _MoneyWon; }
 	void SetMoneyLost(unsigned int _MoneyLost) { MoneyLost = _MoneyLost; }
@@ -18,7 +18,6 @@ public:
 	void SetProfits(unsigned int _Profits) { Profits = _Profits; }
 
 	const std::shared_ptr<Player>& GetOwner() { return Owner; }
-	float GetRank() { return Rank; }
 	float GetFitness() { return Fitness; }
 	
 	unsigned int GetMoneyWon() { return MoneyWon; }
@@ -35,7 +34,6 @@ public:
 private:
 	std::shared_ptr<Player> Owner;
 
-	float Rank = 0.0f;
 	float Fitness = 0.0f;
 
 	unsigned int MoneyWon = 0;

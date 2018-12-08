@@ -32,8 +32,6 @@ void BlossomAI::Initialise()
 		Thresholds[1 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[1];
 		Thresholds[2 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[2];
 		Thresholds[3 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[3];
-		
-		//std::cout << "Strat " << StratIndex << ": " << Strategies[StratIndex]->GetThresholds()[0] << "," << Strategies[StratIndex]->GetThresholds()[1] << "," << Strategies[StratIndex]->GetThresholds()[2] << "," << Strategies[StratIndex]->GetThresholds()[3] << "\n";
 	}
 }
 
@@ -76,7 +74,7 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 
 float BlossomAI::DetermineWinRate(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Communal, unsigned int _PlayerAmt)
 {
-	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _PlayerAmt, 12500);//2500);
+	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _PlayerAmt, 7500);//2500);
 }
 
 void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)
