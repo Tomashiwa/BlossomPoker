@@ -17,8 +17,8 @@ struct Snapshot
 	unsigned int RequiredAnte;
 	unsigned int CurrentAnte;
 
-	std::array<std::shared_ptr<Card>, 2> Hole;
-	std::array<std::shared_ptr<Card>, 5> Communal;
+	std::array<Card,2> Hole;
+	std::vector<Card> Communal;
 
 	std::vector<BettingAction> AvaliableActions;
 };

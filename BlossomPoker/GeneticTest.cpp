@@ -70,7 +70,7 @@ void GeneticTest::Run()
 		{
 			std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-			Tournament->Initialise(Population, Population.size(), true);
+			Tournament->Initialise(Population, (unsigned int) Population.size(), true);
 			Tournament->Run();
 
 			Tournament->PrintRankings();
@@ -147,7 +147,7 @@ void GeneticTest::RankPlayers()
 	{
 		for (auto const& Participant : RankingBoard)
 		{
-			//Participant->SetRank(Participant->GetRank() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetRank());
+			//Participant->SetRank(Participant->Get_Rank() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->Get_Rank());
 
 			Participant->SetMoneyWon(Participant->GetMoneyWon() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetMoneyWon());
 			Participant->SetMoneyLost(Participant->GetMoneyLost() + Tournament->GetParticipant(Participant->GetOwner()->GetIndex())->GetMoneyLost());
@@ -160,7 +160,7 @@ void GeneticTest::RankPlayers()
 	//Average out Players' Rankings
 	for (auto const& Participant : RankingBoard)
 	{
-		//Participant->SetRank(Participant->GetRank() / Tournaments.size());
+		//Participant->SetRank(Participant->Get_Rank() / Tournaments.size());
 		Participant->UpdateFitness();
 	}
 
@@ -204,7 +204,7 @@ float GeneticTest::GetOverallFitness()
 
 	/*float TotalRanking = 0.0;
 	for (auto const& Participant : RankingBoard)
-		TotalRanking += Participant->GetRank();
+		TotalRanking += Participant->Get_Rank();
 
 	std::cout << "Average Ranking: " << (TotalRanking / RankingBoard.size()) << " (Total: " << TotalRanking << " / Table Size: " << RankingBoard.size() << ")\n" ;
 	return TotalRanking / RankingBoard.size();*/
@@ -260,7 +260,7 @@ void GeneticTest::TouramentSelect(const std::vector<std::shared_ptr<Player>> _Re
 		
 		for (auto const Player : Tournament)
 		{
-			if (GetParticipant(Player->GetIndex())->GetFitness() > GetParticipant(CurrentPlayer->GetIndex())->GetFitness())//GetParticipant(Player->GetIndex())->GetRank() > GetParticipant(CurrentPlayer->GetIndex())->GetRank())
+			if (GetParticipant(Player->GetIndex())->GetFitness() > GetParticipant(CurrentPlayer->GetIndex())->GetFitness())//GetParticipant(Player->GetIndex())->Get_Rank() > GetParticipant(CurrentPlayer->GetIndex())->Get_Rank())
 				CurrentPlayer = Player;
 		}
 

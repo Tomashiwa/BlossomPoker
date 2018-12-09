@@ -1,6 +1,5 @@
 #include "Table.h"
 #include "Card.h"
-#include "Deck.h"
 #include "Player.h"
 #include "HandEvaluator.h"
 
@@ -8,38 +7,10 @@
 #include <iterator>
 
 Table::Table(std::shared_ptr<HandEvaluator> _Evaluator, unsigned int _BigBlind, bool _PrintProcess)
-	: SmallBlind(_BigBlind/2), BigBlind(_BigBlind), RequiredAnte(BigBlind), EntryStack(100 * _BigBlind), Pot(0), Round(1),
-	  Evaluator(_Evaluator), 
-	  PrintProcess(_PrintProcess)
-{
-	ActiveDeck = std::make_unique<Deck>();
-	ArrangedDeck = std::make_unique<Deck>();
-}
-
-Table::~Table()
-{
-}
-
-void Table::InitEvaluator()
-{
-	memset(HR, 0, sizeof(HR));
-	FILE * fin = fopen("HANDRANKS.DAT", "rb");
-
-	// Load the HANDRANKS.DAT file data into the HR array
-	size_t bytesread = fread(HR, sizeof(HR), 1, fin);
-	fclose(fin);
-}
-
-int Table::GetHandValue(int* _Cards)
-{
-	int *p1 = HR + HR[53 + _Cards[0]];
-	int *p2 = HR + p1[_Cards[1]];
-	int *p3 = HR + p2[_Cards[2]];
-	int *p4 = HR + p3[_Cards[3]];
-	int *p5 = HR + p4[_Cards[4]];
-
-	return p5[0];
-}
+	: SmallBlind(_BigBlind / 2), BigBlind(_BigBlind), RequiredAnte(BigBlind), EntryStack(100 * _BigBlind), Pot(0), Round(1),
+	Evaluator(_Evaluator),
+	PrintProcess(_PrintProcess)
+{};
 
 void Table::Run()
 {
@@ -83,11 +54,10 @@ void Table::Reset(bool _IsHard)
 	Pot = 0;
 	RequiredAnte = 0;
 
-	for (auto& Card : CommunalCards)
-		Card.reset();
+	CommunalCards.clear();
 
-	ActiveDeck->Refill();
-	ActiveDeck->Shuffle();
+	ActiveDeck.Refill();
+	ActiveDeck.Shuffle();
 
 	if (_IsHard)
 	{
@@ -226,12 +196,11 @@ void Table::EndRound()
 	for (auto const& Participant : CurrentMatch->GetRankingBoard())
 		Participant->SetProfits(0);
 
-	ClearCommunalCards();
+	CommunalCards.clear();
 	EmptyPot();
 
 	for (auto const& Player : Players)
 	{
-		Player->EmptyHand();
 		Player->SetAnte(0);
 		Player->SetIsFolded(false);
 
@@ -318,7 +287,15 @@ void Table::StartPhase()
 	if (PrintProcess)
 	{
 		for (auto const& Player : Players)
-			std::cout << "P." << Player->GetIndex() << ": " << Evaluator->GetStr(Player->GetHand()) << "  ";
+		{
+			if (Player->GetIsBroke())
+				std::cout << "P." << Player->GetIndex() << ": BROKE  ";
+			else if (Player->GetIsFolded())
+				std::cout << "P." << Player->GetIndex() << ": FOLD  ";
+			else
+				std::cout << "P." << Player->GetIndex() << ": " << Evaluator->GetStr(Player->GetHand()) << "  ";
+		}
+
 		std::cout << "\n";
 		std::cout << "Table: " << Evaluator->GetStr(CommunalCards) << "\n";	
 	}
@@ -646,7 +623,7 @@ void Table::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<s
 			}
 		}
 
-		_Pots.push_back(Requirement * Contributors.size());
+		_Pots.push_back(Requirement * (unsigned int) Contributors.size());
 		_ContributorsPerPot.push_back(Contributors);
 		_ContestantsPerPot.push_back(Contestants);
 	}
@@ -655,6 +632,7 @@ void Table::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<s
 void Table::DistributeWinnings()
 {
 	std::vector<std::shared_ptr<Participant>> Participants;
+	Participants.reserve(CurrentMatch->GetRankingBoard().size());
 
 	//std::cout << "Pot Contri (1) :\n";
 	for (auto const& Participant : CurrentMatch->GetRankingBoard())
@@ -684,7 +662,7 @@ void Table::DistributeWinnings()
 		//std::cout << "MinStack: " << MinStack << "\n";
 		//std::cout << "Participants: " << Participants.size() << "\n";
 
-		CurrentPot += MinStack * Participants.size();
+		CurrentPot += MinStack * (unsigned int) Participants.size();
 
 		//std::cout << "CurrentPot: " << CurrentPot << "\n";
 
@@ -700,8 +678,8 @@ void Table::DistributeWinnings()
 
  		for (auto const& Winner : Winners)
 		{
-			Winner->SetProfits(Winner->GetProfits() + (CurrentPot / Winners.size()));
-			AwardPlayer(Winner->GetOwner(), (CurrentPot / Winners.size()));
+			Winner->SetProfits(Winner->GetProfits() + (CurrentPot / (unsigned int) Winners.size()));
+			AwardPlayer(Winner->GetOwner(), (CurrentPot / (unsigned int) Winners.size()));
 
 			//std::cout << "P." << Winner->GetOwner()->GetIndex() << " won " << (CurrentPot / Winners.size()) << "\n";
 		}
@@ -732,18 +710,18 @@ void Table::DistributeWinnings()
 
 void Table::RestockDeck()
 {
-	ActiveDeck->Refill();
-	ActiveDeck->Shuffle();
+	ActiveDeck.Refill();
+	ActiveDeck.Shuffle();
 }
 
 void Table::SaveDeckArrangement()
 {
-	ArrangedDeck->CopyFrom(ActiveDeck);
+	ArrangedDeck.CopyFrom(ActiveDeck);
 }
 
 void Table::LoadDeckArrangement()
 {
-	ActiveDeck->CopyFrom(ArrangedDeck);
+	ActiveDeck.CopyFrom(ArrangedDeck);
 }
 
 void Table::DealCardsToPlayers()
@@ -757,9 +735,7 @@ void Table::DealCardsToPlayers()
 
 	for (unsigned int Index = 0; Index < ActivePlayers.size(); Index++)
 	{
-		RefPlayer->EmptyHand();
-		RefPlayer->SetHand(ActiveDeck->Draw(), ActiveDeck->Draw());
-
+		RefPlayer->SetHand(ActiveDeck.Draw(), ActiveDeck.Draw());
 		RefPlayer = GetNextPlayer(RefPlayer);
 	}
 }
@@ -770,18 +746,19 @@ void Table::IssueCommunalCards()
 	{
 		case Phase::Flop:
 		{
+			CommunalCards.clear();
 			for (unsigned int Index = 0; Index < 3; Index++)
-				CommunalCards[Index] = ActiveDeck->Draw();
+				CommunalCards.push_back(ActiveDeck.Draw());
 			break;
 		}
 		case Phase::Turn:
 		{
-			CommunalCards[3] = ActiveDeck->Draw();
+			CommunalCards.push_back(ActiveDeck.Draw());
 			break;
 		}
 		case Phase::River:
 		{
-			CommunalCards[4] = ActiveDeck->Draw();
+			CommunalCards.push_back(ActiveDeck.Draw());
 			break;
 		}
 		default:
@@ -792,35 +769,12 @@ void Table::IssueCommunalCards()
 	}
 }
 
-void Table::ClearCommunalCards()
-{
-	for (auto& Card : CommunalCards)
-		Card = nullptr;
-}
-
 void Table::ShiftDealer(const std::shared_ptr<Player>& _Target)
 {
 	DealingPlayer = _Target;
 	SmallBlindPlayer = GetNextPlayer(_Target);
 	BigBlindPlayer = GetNextPlayer(SmallBlindPlayer);
 	CurrentPlayer = GetNextPlayer(BigBlindPlayer);
-}
-
-unsigned int Table::GetEntryIndex(const std::shared_ptr<Player>& _Target)
-{
-	for (unsigned int Index = 0; Index < Players.size(); Index++)
-	{
-		if (Players[Index] == _Target)
-			return Index;
-	}
-
-	std::cout << "PLAYER ENTRY INDEX CANNOT BE FOUND FOR P." << _Target->GetIndex() << std::endl;
-	return Players.size();
-}
-
-int Table::GetPlayerEarnings(const std::shared_ptr<Player>& _Target)
-{
-	return 0;//Earnings[GetEntryIndex(_Target)];
 }
 
 void Table::GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants)
@@ -840,12 +794,12 @@ void Table::DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& 
 		return;
 	}
 
-	std::vector<std::array<std::shared_ptr<Card>,5>> BettingHands;
+	std::vector<std::array<Card,5>> BettingHands;
 
 	for (auto const& Contestant : _Contestants)
 		BettingHands.push_back(Evaluator->GetBestCommunalHand(Contestant->GetHand(), CommunalCards));
 
-	std::array<std::shared_ptr<Card>,5> BestHand = BettingHands[0];
+	std::array<Card,5> BestHand = BettingHands[0];
 
 	_Winners.push_back(_Contestants[0]);
 
@@ -874,12 +828,6 @@ void Table::DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& 
 
 void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _Participants, std::vector<std::shared_ptr<Participant>>& _Winners)
 {
-	if (_Participants.size() == 1)
-	{
-		_Winners = _Participants;
-		return;
-	}
-
 	auto Itr = _Participants.begin();
 	while (Itr != _Participants.end())
 	{
@@ -889,12 +837,18 @@ void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _
 			++Itr;
 	}
 
-	std::vector<std::array<std::shared_ptr<Card>, 5>> BettingHands;
+	if (_Participants.size() == 1)
+	{
+		_Winners = _Participants;
+		return;
+	}
+
+	std::vector<std::array<Card, 5>> BettingHands;
 
 	for (auto const& Participant : _Participants)
 		BettingHands.push_back(Evaluator->GetBestCommunalHand(Participant->GetOwner()->GetHand(), CommunalCards));
 
-	std::array<std::shared_ptr<Card>, 5> BestHand = BettingHands[0];
+	std::array<Card, 5> BestHand = BettingHands[0];
 
 	_Winners.push_back(_Participants[0]);
 
@@ -926,11 +880,6 @@ void Table::AwardPlayer(const std::shared_ptr<Player>& _Player, unsigned int _Am
 	_Player->SetStack(_Player->GetStack() + _Amt);
 }
 
-void Table::RankPlayers(std::vector<int>& _Rankings)
-{
-	//_Rankings.push_back
-}
-
 void Table::SetMatch(const std::shared_ptr<Match>& _NewMatch)
 {
 	CurrentMatch = _NewMatch;
@@ -941,14 +890,9 @@ void Table::Print()
 	std::cout << "\n--------------------------------------------------\n";
 	
 	std::cout << "Table: ";
-	for(unsigned int Index = 0; Index < 5; Index++)
-	{
-		if (CommunalCards[Index] != nullptr)
-			std::cout << " " << CommunalCards[Index]->GetInfo();	
-		else
-			break;
-	}
-
+	for(auto const& Card : CommunalCards)
+		std::cout << " " << Card.To_String();
+	
 	std::cout << "\nPot: $" << Pot << "\n \n";
 
 	for (unsigned int Index = 0; Index < Players.size(); Index++)
@@ -960,7 +904,7 @@ void Table::Print()
 		else if (!Players[Index]->GetIsFolded() && !Players[Index]->GetIsContributing())
 			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << ": All-in \n" << "   |   $" << Players[Index]->GetAnte() << "\n";
 		else
-			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHandCardByIndex(0)->GetInfo() << "," << Players[Index]->GetHand()[1]->GetInfo() << "  |  $" << Players[Index]->GetAnte() << "\n";
+			std::cout << "P." << Index << " ($" << Players[Index]->GetStack() << "): " << Players[Index]->GetHandCardByIndex(0).To_String() << "," << Players[Index]->GetHand()[1].To_String() << "  |  $" << Players[Index]->GetAnte() << "\n";
 	}
 
 	std::cout << "--------------------------------------------------\n\n";

@@ -9,10 +9,6 @@ Player::Player(const std::shared_ptr<Table>& _Table, unsigned int _Index)
 	AI->Initialise();
 }
 
-Player::~Player()
-{
-}
-
 void Player::Start()
 {
 }
@@ -28,8 +24,6 @@ void Player::End()
 
 void Player::Reset()
 {
-	EmptyHand();
-
 	Ante = 0;
 	Stack = 0;
 	PotContribution = 0;
@@ -41,23 +35,16 @@ void Player::Reset()
 	IsBroke = false;
 }
 
-void Player::SetHand(const std::shared_ptr<Card>&  _First, const std::shared_ptr<Card>& _Second)
+void Player::SetHand(Card&  _First, Card& _Second)
 {
-	Hand[0] = std::move(_First);
-	Hand[1] = std::move(_Second);
+	Hand[0] = _First;
+	Hand[1] = _Second;
 }
 
 std::string Player::GetHandInfo()
 {
-	return Hand[0]->GetInfo() + "," + Hand[1]->GetInfo();
+	return Hand[0].To_String() + "," + Hand[1].To_String();
 }
-
-void Player::EmptyHand()
-{
-	Hand[0].reset();
-	Hand[1].reset();
-}
-
 
 void Player::GetAvaliableActions(std::vector<BettingAction>& _PossibleActions)
 {
@@ -91,17 +78,16 @@ BettingAction Player::DetermineAction()
 	NewShot.Stack = GetStack();
 	NewShot.RequiredAnte =  ResidingTable->GetRequiredAnte();
 	NewShot.Pot = ResidingTable->GetPot();
-	NewShot.PlayerAmt = ResidingTable->GetPlayers().size();
+	NewShot.PlayerAmt = (unsigned int) ResidingTable->GetPlayers().size();
 	NewShot.BB = ResidingTable->GetBigBlind();
 	NewShot.Phase = ResidingTable->GetState();
-	NewShot.Hole = GetHand();
+	NewShot.Hole = Hand;
 	NewShot.CurrentAnte = GetAnte();
 	NewShot.Contribution = GetPotContribution();
 	NewShot.Communal = ResidingTable->GetCommunalCards();
 	
 	GetAvaliableActions(NewShot.AvaliableActions);
 
-	//std::cout << "Enquiring BlossomAI of P." << Index << "...\n";
 	return AI->EnquireAction(NewShot);
 }
 

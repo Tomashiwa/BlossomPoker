@@ -67,5 +67,5 @@ BettingAction Strategy::DetermineAction(std::vector<BettingAction> _AvaliableAct
 void Strategy::CalculateRequirements(unsigned int _PlayerAmt)
 {
 	for (unsigned int Index = 0; Index < 4; Index++)
-		Requirements[Index] = Thresholds[Index] * (1.0 / _PlayerAmt);
+		Requirements[Index] = Thresholds[Index] * (1.0f / _PlayerAmt);
 }

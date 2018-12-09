@@ -19,16 +19,13 @@ public:
 	Player(const Player&) = delete;
 	Player& operator= (const Player&) = delete;
 
-	~Player();
-
 	void Start();
 	void Update();
 	void End();
 	void Reset();
 
-	void SetHand(const std::shared_ptr<Card>& _First, const std::shared_ptr<Card>& _Second);
+	void SetHand(Card& _First, Card& _Second);
 	std::string GetHandInfo();
-	void EmptyHand();
 
 	void GetAvaliableActions(std::vector<BettingAction>& _PossibleActions);
 	BettingAction DetermineAction();
@@ -51,8 +48,8 @@ public:
 	
 	BettingAction GetAction() { return CurrentAction; }
 	void SetAction(BettingAction _Action) { CurrentAction = _Action; }
-	std::array<std::shared_ptr<Card>, 2> GetHand() { return Hand; }
-	std::shared_ptr<Card> GetHandCardByIndex(unsigned int _Index) { return Hand[_Index]; }
+	std::array<Card, 2> GetHand() { return Hand; }
+	Card GetHandCardByIndex(unsigned int _Index) { return Hand[_Index]; }
 
 	void SetTable(std::shared_ptr<Table> _Table) { ResidingTable = _Table; }
 
@@ -69,7 +66,7 @@ private:
 	bool IsBroke = false;
 	
 	BettingAction CurrentAction;
-	std::array<std::shared_ptr<Card>,2> Hand;
+	std::array<Card,2> Hand;
 	
 	std::shared_ptr<Table> ResidingTable;
 	

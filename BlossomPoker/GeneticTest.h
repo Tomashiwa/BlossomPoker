@@ -43,7 +43,7 @@ private:
 	float MutateAmt = 0.25;
 
 	unsigned int ParentLimit = 2;
-	unsigned int TouramentSize = 2;
+	unsigned int TouramentSize = 4;
 	unsigned int WinnerPerTouranment = 1;
 
 	std::vector<std::shared_ptr<Player>> Population;

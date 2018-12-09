@@ -20,7 +20,7 @@ public:
 	void Reset();
 
 	BettingAction EnquireAction(Snapshot _Snapshot);
-	float DetermineWinRate(std::array<std::shared_ptr<Card>,2> _Hole, std::array<std::shared_ptr<Card>,5> _Communal, unsigned int _PlayerAmt);
+	float DetermineWinRate(std::array<Card,2> _Hole, std::vector<Card> _Communal, unsigned int _PlayerAmt);
 
 	void SetThresholds(std::array<float, 16> _Thresholds);
 	void SetThresholdByPhase(Phase _Phase, unsigned int _Index, float _Threshold);

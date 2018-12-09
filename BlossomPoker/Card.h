@@ -1,35 +1,43 @@
 #pragma once
-#include <memory>
+
 #include <string>
 
-#include "Suit.h"
-#include "Rank.h"
+enum class Suit { Club, Diamond, Heart, Spade };
+enum class Rank { Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace };
 
 class Card
 {
 public:
-	Card();
-	Card(Suit _Suit, Rank _Value);
+	Card() = default;
 
-	Card(const Card&) = delete;
+	Card(Suit _Suit, Rank _Rank) : GivenSuit(_Suit), GivenRank(_Rank) {};
+	Card(std::string _Info);
 
-	~Card();
+	Suit Get_Suit() const { return GivenSuit; };
+	Rank Get_Rank() const { return GivenRank; };
 	
-	Suit GetSuit() { return GivenSuit; };
-	Rank GetRank() { return GivenValue; };
-	
-	int GetSuitInt() { return static_cast<int>(GivenSuit); }
-	int GetRankInt() { return static_cast<int>(GivenValue); }
+	bool operator== (const Card& _Other) const
+	{
+		if (GivenRank == _Other.GivenRank)
+			return GivenSuit > _Other.GivenSuit;
 
-	void Set(Suit _Suit, Rank _Value);
-	bool IsEqualTo(const std::shared_ptr<Card>& _Comparison);
-	bool IsGreater(const std::shared_ptr<Card>& _Comparison);
+		return GivenRank > _Other.GivenRank;
+	}
 
-	std::string GetInfo() { return Info; }
+	bool operator>(const Card& _Other) const
+	{
+		return GivenSuit == _Other.GivenSuit && GivenRank == _Other.GivenRank;
+	}
+
+	std::string To_String() const;
+
+	explicit operator int()
+	{
+		return (static_cast<int>(GivenRank) * 4) + static_cast<int>(GivenSuit) + 1;
+	}
 
 private:
 	Suit GivenSuit;
-	Rank GivenValue;
-	std::string Info;
+	Rank GivenRank;
 };
 

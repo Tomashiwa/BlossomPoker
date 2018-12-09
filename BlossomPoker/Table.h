@@ -5,12 +5,12 @@
 #include <array>
 #include <map>
 
+#include "Deck.h"
 #include "Phase.h"
 #include "Match.h"
 #include "Tournament.h"
 
 class Card;
-class Deck;
 class Player;
 class HandEvaluator;
 
@@ -19,16 +19,6 @@ class Table
 public:
 	Table(std::shared_ptr<HandEvaluator> _Evaluator, unsigned int _BigBlind, bool _PrintProcess);
 
-	Table(const Table&) = delete;
-	Table& operator= (const Table&) = delete;
-
-	~Table();
-
-	int HR[32487834];
-
-	void InitEvaluator();
-	int GetHandValue(int* _Cards);
-	
 	void Run();
 
 	void Start();
@@ -67,19 +57,13 @@ public:
 	void LoadDeckArrangement();
 	void DealCardsToPlayers();
 	void IssueCommunalCards();
-	void ClearCommunalCards();
-
+	
 	void ShiftDealer(const std::shared_ptr<Player>& _Target);
-
-	unsigned int GetEntryIndex(const std::shared_ptr<Player>& _Target);
-	int GetPlayerEarnings(const std::shared_ptr<Player>& _Target);
 
 	void GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants);
 	void DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& _Participants, std::vector<std::shared_ptr<Player>>& _Winners);
 	void DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _Participants, std::vector<std::shared_ptr<Participant>>& _Winners);
 	void AwardPlayer(const std::shared_ptr<Player>& _Player, unsigned int _Amt);
-
-	void RankPlayers(std::vector<int>& _Rankings);
 
 	void Print();
 
@@ -103,8 +87,8 @@ public:
 	std::shared_ptr<Player> GetCurrentPlayer() { return CurrentPlayer; }
 	std::shared_ptr<Player> GetFirstPlayer() { return FirstPlayer; }
 
-	std::array<std::shared_ptr<Card>, 5> GetCommunalCards() { return CommunalCards; }
-	std::shared_ptr<Card> GetCommunalCardByIndex(unsigned int _Index) { return CommunalCards[_Index]; }
+	std::vector<Card> GetCommunalCards() { return CommunalCards; }
+	Card& GetCommunalCardByIndex(unsigned int _Index) { return CommunalCards[_Index]; }
 
 	unsigned int GetPot() { return Pot; }
 	unsigned int GetSmallBlind() { return SmallBlind; }
@@ -128,9 +112,9 @@ private:
 	std::shared_ptr<Player> CurrentPlayer = nullptr;
 	std::shared_ptr<Player> FirstPlayer = nullptr;
 
-	std::unique_ptr<Deck> ActiveDeck;
-	std::unique_ptr<Deck> ArrangedDeck;
-	std::array<std::shared_ptr<Card>, 5> CommunalCards;
+	Deck ActiveDeck;
+	Deck ArrangedDeck;
+	std::vector<Card> CommunalCards;
 
 	unsigned int Round = 0;
 	unsigned int EntryStack = BigBlind * 20;

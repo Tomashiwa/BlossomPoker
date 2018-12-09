@@ -72,7 +72,7 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 	return IdealAction;
 }
 
-float BlossomAI::DetermineWinRate(std::array<std::shared_ptr<Card>, 2> _Hole, std::array<std::shared_ptr<Card>, 5> _Communal, unsigned int _PlayerAmt)
+float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _Communal, unsigned int _PlayerAmt)
 {
 	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _PlayerAmt, 7500);//2500);
 }
@@ -104,7 +104,7 @@ void BlossomAI::SetThresholdsByPhase(Phase _Phase, std::array<float, 4> _Thresho
 	GetStrategy(_Phase)->SetThresholds(_Thresholds);
 }
 
-std::array<float, 4> BlossomAI::GetThresholdsByPhase(Phase _Phase)
+std::array<float, 4> BlossomAI::GetThresholdsByPhase(Phase _Phase)  
 {
 	return GetStrategy(_Phase)->GetThresholds();
 }

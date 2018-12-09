@@ -181,8 +181,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="ComparisonResult.h" />
     <ClInclude Include="Snapshot.h" />
-    <ClInclude Include="Suit.h" />
-    <ClInclude Include="Rank.h" />
     <ClInclude Include="Tournament.h" />
     <ClInclude Include="xoroshiro128+.h" />
   </ItemGroup>
