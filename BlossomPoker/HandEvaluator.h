@@ -47,7 +47,7 @@ private:
 
 	std::mt19937 MTGenerator;
 
-	std::array <Card,52> ReferenceDeck;
+	std::vector<Card> ReferenceDeck;//std::array <Card,52> ReferenceDeck;
 
 	void Initialize();
 	

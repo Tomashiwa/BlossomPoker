@@ -4,10 +4,7 @@
 
 Player::Player(const std::shared_ptr<Table>& _Table, unsigned int _Index)
 	: ResidingTable(_Table), Index(_Index), Stack(0), Ante(0), CurrentAction(BettingAction::NONE)
-{
-	AI = std::make_shared<BlossomAI>();
-	AI->Initialise();
-}
+{}
 
 void Player::Start()
 {
@@ -67,28 +64,6 @@ void Player::GetAvaliableActions(std::vector<BettingAction>& _PossibleActions)
 		if (Stack > (ResidingTable->GetRequiredAnte() - Ante))
 			_PossibleActions.push_back(BettingAction::Raise);
 	}
-}
-
-BettingAction Player::DetermineAction()
-{
-	if (AI == nullptr)
-		return BettingAction::Fold;
-
-	Snapshot NewShot;
-	NewShot.Stack = GetStack();
-	NewShot.RequiredAnte =  ResidingTable->GetRequiredAnte();
-	NewShot.Pot = ResidingTable->GetPot();
-	NewShot.PlayerAmt = (unsigned int) ResidingTable->GetPlayers().size();
-	NewShot.BB = ResidingTable->GetBigBlind();
-	NewShot.Phase = ResidingTable->GetState();
-	NewShot.Hole = Hand;
-	NewShot.CurrentAnte = GetAnte();
-	NewShot.Contribution = GetPotContribution();
-	NewShot.Communal = ResidingTable->GetCommunalCards();
-	
-	GetAvaliableActions(NewShot.AvaliableActions);
-
-	return AI->EnquireAction(NewShot);
 }
 
 void Player::SetAnte(unsigned int _Amt)

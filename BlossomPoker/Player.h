@@ -16,24 +16,22 @@ class Player
 public:
 	Player(const std::shared_ptr<Table>& _Table, unsigned int _Index);
 
-	Player(const Player&) = delete;
-	Player& operator= (const Player&) = delete;
-
-	void Start();
-	void Update();
-	void End();
-	void Reset();
+	virtual void Start();
+	virtual void Update();
+	virtual void End();
+	virtual void Reset();
 
 	void SetHand(Card& _First, Card& _Second);
 	std::string GetHandInfo();
 
 	void GetAvaliableActions(std::vector<BettingAction>& _PossibleActions);
-	BettingAction DetermineAction();
+	virtual BettingAction DetermineAction() = 0;
 
 	const unsigned int GetIndex() { return Index; }
 	unsigned int GetStack() { return Stack; }
 	unsigned int GetAnte() { return Ante; }
 	unsigned int GetPotContribution() { return PotContribution; }
+	virtual unsigned int GetRaiseBetAmt() { return RaiseBetAmt; }
 	void SetStack(unsigned int _Stack) { Stack = _Stack; }
 	void SetAnte(unsigned int _Amt);
 	void SetPotContribution(unsigned int _PotContri) { PotContribution = _PotContri; }
@@ -53,13 +51,13 @@ public:
 
 	void SetTable(std::shared_ptr<Table> _Table) { ResidingTable = _Table; }
 
-	BlossomAI& GetAI() { return *AI.get(); }
-
-private:
+protected:
 	unsigned int Index;
 	unsigned int Stack = 0;
 	unsigned int Ante = 0;
 	unsigned int PotContribution = 0;
+
+	unsigned int RaiseBetAmt = 0;
 
 	bool IsContributing = true;
 	bool IsFolded = false;
@@ -69,7 +67,5 @@ private:
 	std::array<Card,2> Hand;
 	
 	std::shared_ptr<Table> ResidingTable;
-	
-	std::shared_ptr<BlossomAI> AI;
 };
 

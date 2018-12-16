@@ -19,7 +19,7 @@ class Table
 public:
 	Table(std::shared_ptr<HandEvaluator> _Evaluator, unsigned int _BigBlind, bool _PrintProcess);
 
-	void Run();
+	void Run(bool _IsTraining);
 
 	void Start();
 	void Update();
@@ -98,6 +98,8 @@ public:
 
 	unsigned int GetRounds() { return Round; }
 
+	bool GetIsTraining() { return IsTraining; }
+
 private:
 	std::shared_ptr<HandEvaluator> Evaluator;
 
@@ -125,6 +127,7 @@ private:
 	unsigned int RequiredAnte = 0;
 
 	bool IsActive = false;
+	bool IsTraining = true;
 	bool PrintProcess = false;
 };
 

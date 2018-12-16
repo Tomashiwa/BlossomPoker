@@ -22,9 +22,6 @@
     <Filter Include="Header Files\Player">
       <UniqueIdentifier>{878bf75d-6b06-4adc-a987-72b7ef884f31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Board">
-      <UniqueIdentifier>{67436042-2833-4cda-9647-1a31bcb75fe4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{3ee7dc31-0d22-432d-a40b-df95bcd07db0}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,9 @@
     <Filter Include="Header Files\Table">
       <UniqueIdentifier>{a9fcae6a-363c-4395-b128-b9a2bd0c2064}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Table">
+      <UniqueIdentifier>{67436042-2833-4cda-9647-1a31bcb75fe4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp">
@@ -61,9 +61,6 @@
       <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Strategy.cpp">
@@ -85,16 +82,31 @@
       <Filter>Source Files\Cards &amp; Decks</Filter>
     </ClCompile>
     <ClCompile Include="Table.cpp">
-      <Filter>Source Files\Board</Filter>
+      <Filter>Source Files\Table</Filter>
     </ClCompile>
-    <ClCompile Include="Tournament.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BlossomPlayer.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Folder.cpp">
+      <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="Match.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Table</Filter>
     </ClCompile>
     <ClCompile Include="Participant.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Table</Filter>
+    </ClCompile>
+    <ClCompile Include="Tournament.cpp">
+      <Filter>Source Files\Table</Filter>
+    </ClCompile>
+    <ClCompile Include="Caller.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Raiser.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Randomer.cpp">
+      <Filter>Source Files\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="ComparisonResult.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Snapshot.h">
       <Filter>Header Files\AI</Filter>
@@ -149,20 +158,35 @@
     <ClInclude Include="Table.h">
       <Filter>Header Files\Table</Filter>
     </ClInclude>
-    <ClInclude Include="Tournament.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RaiseBetSize.h">
       <Filter>Header Files\Player</Filter>
     </ClInclude>
-    <ClInclude Include="xoroshiro128+.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BlossomPlayer.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Folder.h">
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="Match.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Table</Filter>
     </ClInclude>
     <ClInclude Include="Participant.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="Tournament.h">
+      <Filter>Header Files\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="xoroshiro128+.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Caller.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Randomer.h">
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Raiser.h">
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -144,8 +144,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BlossomPlayer.cpp" />
+    <ClCompile Include="Caller.cpp" />
+    <ClCompile Include="Folder.cpp" />
     <ClCompile Include="Match.cpp" />
     <ClCompile Include="Participant.cpp" />
+    <ClCompile Include="Raiser.cpp" />
+    <ClCompile Include="Randomer.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Deck.cpp" />
@@ -154,7 +159,6 @@
     <ClCompile Include="LogWriter.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Strategy.cpp" />
-    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="HandEvaluator.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -162,9 +166,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BettingAction.h" />
+    <ClInclude Include="BlossomPlayer.h" />
+    <ClInclude Include="Caller.h" />
+    <ClInclude Include="Folder.h" />
     <ClInclude Include="Match.h" />
     <ClInclude Include="Participant.h" />
     <ClInclude Include="RaiseBetSize.h" />
+    <ClInclude Include="Raiser.h" />
+    <ClInclude Include="Randomer.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="GeneticTest.h" />
     <ClInclude Include="LogType.h" />
@@ -175,7 +184,6 @@
     <ClInclude Include="BlossomAI.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="Strategy.h" />
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="HandEvaluator.h" />
     <ClInclude Include="Hand.h" />
     <ClInclude Include="Player.h" />

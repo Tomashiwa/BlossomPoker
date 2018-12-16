@@ -17,14 +17,18 @@ void HandEvaluator::Initialize()
 
 	int ReferenceIndex = 0;
 
+	ReferenceDeck.reserve(52);
+
 	for (unsigned int SIndex = 0; SIndex < 4; SIndex++)
 	{
 		for (unsigned int RIndex = 0; RIndex < 13; RIndex++)
 		{
-			ReferenceDeck[ReferenceIndex] = Card(static_cast<Suit>(SIndex), static_cast<Rank>(RIndex));
+			ReferenceDeck.emplace_back(static_cast<Suit>(SIndex), static_cast<Rank>(RIndex));
 			ReferenceIndex++;
 		}
 	}
+
+	std::cout << "\n";
 }
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
@@ -34,7 +38,7 @@ void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead
 	auto Lamb_GenerateCard = [&]() {
 		while (true)
 		{
-			Card NewCard = ReferenceDeck[next() % 52];
+			Card NewCard = ReferenceDeck[next() % 51];
 			bool IsValid = std::find_if(_Dead.begin(), _Dead.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Dead.end() &&
 				std::find_if(_Set.begin(), _Set.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Set.end();
 					

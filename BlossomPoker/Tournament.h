@@ -3,10 +3,10 @@
 #include <memory>
 
 #include "Participant.h"
-#include "Player.h"
 
 class Match;
 class Table;
+class Player;
 class HandEvaluator;
 
 class Tournament

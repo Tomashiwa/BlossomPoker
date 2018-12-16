@@ -2,6 +2,7 @@
 
 #include "Match.h"
 #include "Table.h"
+#include "Player.h"
 #include "HandEvaluator.h"
 
 Tournament::Tournament(unsigned int _Index, unsigned int _BigBlind, const std::shared_ptr<Table>& _Table) 
@@ -22,6 +23,7 @@ void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players
 
 	RankingBoard.clear();
 	RankingBoard.reserve(_Players.size());
+
 	for (auto const Player : _Players)
 		RankingBoard.push_back(std::make_shared<Participant>(Player));
 }
@@ -41,7 +43,7 @@ void Tournament::Run()
 		if (!Match->GetIsDuplicated() || (Match->GetIsDuplicated() && Match->GetIndex() == 0))
 			ActiveTable->RestockDeck();
 
-		ActiveTable->Run();
+		ActiveTable->Run(true);
 
 		Match->RankPlayers();
 		Match->PrintInfo();
@@ -84,12 +86,6 @@ void Tournament::RankPlayers()
 	//Average out Players' stats as the matches are duplicates
 	for (auto const& Participant : RankingBoard)
 	{
-		//Participant->SetMoneyWon(Participant->GetMoneyWon() / (float) Matches.size());
-		//Participant->SetMoneyLost(Participant->GetMoneyLost() / (float)Matches.size());
-
-		//Participant->SetHandsWon(Participant->GetHandsWon() / (float) Matches.size());
-		//Participant->SetHandsLost(Participant->GetHandsLost() / (float) Matches.size());
-
 		Participant->UpdateFitness();
 	}
 
