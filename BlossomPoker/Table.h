@@ -60,6 +60,7 @@ public:
 	
 	void ShiftDealer(const std::shared_ptr<Player>& _Target);
 
+	void GetActivePlayers(std::vector<std::shared_ptr<Player>>& _ActivePlayers);
 	void GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants);
 	void DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& _Participants, std::vector<std::shared_ptr<Player>>& _Winners);
 	void DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _Participants, std::vector<std::shared_ptr<Participant>>& _Winners);
@@ -96,6 +97,8 @@ public:
 	unsigned int GetRequiredAnte() { return RequiredAnte; }
 	unsigned int GetEntryStack() { return EntryStack; }
 
+	unsigned int GetPrevRaiseBet() { return PrevRaiseBet; }
+
 	unsigned int GetRounds() { return Round; }
 
 	bool GetIsTraining() { return IsTraining; }
@@ -125,6 +128,8 @@ private:
 	unsigned int SmallBlind = 0;
 	unsigned int BigBlind = 0;
 	unsigned int RequiredAnte = 0;
+
+	unsigned int PrevRaiseBet = 0;
 
 	bool IsActive = false;
 	bool IsTraining = true;

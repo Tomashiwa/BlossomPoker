@@ -22,13 +22,13 @@ BettingAction Randomer::DetermineAction()
 		switch (Distribution_Sizing(MTGenerator))
 		{
 		case 0:
-			RaiseBetAmt += ResidingTable->GetPot() / 2;
+			RaiseBetAmt = ResidingTable->GetBigBlind();//RaiseBetAmt += ResidingTable->GetBigBlind();
 			break;
 		case 1:
-			RaiseBetAmt += ResidingTable->GetPot();
+			RaiseBetAmt = ResidingTable->GetPot() / 2;//RaiseBetAmt += ResidingTable->GetPot() / 2;
 			break;
 		case 2:
-			RaiseBetAmt += Stack;
+			RaiseBetAmt = ResidingTable->GetPot();//RaiseBetAmt += ResidingTable->GetPot();
 			break;
 		}
 
@@ -36,18 +36,16 @@ BettingAction Randomer::DetermineAction()
 		break;
 
 	case BettingAction::Raise:
-		RaiseBetAmt = ResidingTable->GetRequiredAnte() - GetAnte();
-
 		switch (Distribution_Sizing(MTGenerator))
 		{
 		case 0:
-			RaiseBetAmt += ResidingTable->GetPot() / 2;
+			RaiseBetAmt = ResidingTable->GetPrevRaiseBet() == 0 ? ResidingTable->GetBigBlind() : ResidingTable->GetPrevRaiseBet();//RaiseBetAmt += ResidingTable->GetPrevRaiseBet() == 0 ? ResidingTable->GetBigBlind() : ResidingTable->GetPrevRaiseBet();
 			break;
 		case 1:
-			RaiseBetAmt += ResidingTable->GetPot();
+			RaiseBetAmt = ResidingTable->GetPot() / 2;//RaiseBetAmt += ResidingTable->GetPot() / 2;
 			break;
 		case 2:
-			RaiseBetAmt += Stack - (ResidingTable->GetRequiredAnte() - GetAnte());
+			RaiseBetAmt = ResidingTable->GetPot();//RaiseBetAmt += ResidingTable->GetPot();
 			break;
 		}
 

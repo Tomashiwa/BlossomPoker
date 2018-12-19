@@ -13,13 +13,19 @@ BettingAction BlossomPlayer::DetermineAction()
 	NewShot.Stack = GetStack();
 	NewShot.RequiredAnte = ResidingTable->GetRequiredAnte();
 	NewShot.Pot = ResidingTable->GetPot();
-	NewShot.PlayerAmt = (unsigned int)ResidingTable->GetPlayers().size();
+
+	std::vector<std::shared_ptr<Player>> ActivePlayers;
+	ResidingTable->GetActivePlayers(ActivePlayers);
+	NewShot.PlayerAmt = ActivePlayers.size();
+	//NewShot.PlayerAmt = ResidingTable->GetPlayers().size();
+	
 	NewShot.BB = ResidingTable->GetBigBlind();
 	NewShot.Phase = ResidingTable->GetState();
 	NewShot.Hole = Hand;
 	NewShot.CurrentAnte = GetAnte();
 	NewShot.Contribution = GetPotContribution();
 	NewShot.Communal = ResidingTable->GetCommunalCards();
+	NewShot.PrevRaiseBet = ResidingTable->GetPrevRaiseBet();
 
 	GetAvaliableActions(NewShot.AvaliableActions);
 

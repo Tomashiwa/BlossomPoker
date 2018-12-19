@@ -1,2 +1,2 @@
 #pragma once
-enum class RaiseBetSize { HalfPot, Pot, AllIn, SPECIFIED, NONE };
+enum class RaiseBetSize { Minimum, HalfPot, Pot, SPECIFIED, NONE };

@@ -16,6 +16,7 @@ struct Snapshot
 	unsigned int Contribution;
 	unsigned int RequiredAnte;
 	unsigned int CurrentAnte;
+	unsigned int PrevRaiseBet;
 
 	std::array<Card,2> Hole;
 	std::vector<Card> Communal;

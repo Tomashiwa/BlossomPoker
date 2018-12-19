@@ -242,6 +242,7 @@ void Table::StartPhase()
 	}
 
 	RequiredAnte = 0;
+	PrevRaiseBet = 0;
 
 	switch (CurrentState)
 	{
@@ -366,13 +367,24 @@ void Table::UpdatePhase()
 			}
 			
 			break;
-		}
+		} 
 		case BettingAction::Raise:
 		{
 			unsigned int RaiseAmt = CurrentPlayer->GetRaiseBetAmt();
+			PrevRaiseBet = RaiseAmt;
+
+			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + (RequiredAnte - CurrentPlayer->GetAnte()) + RaiseAmt);
+
+			RequiredAnte = CurrentPlayer->GetAnte();
+			UpdatePot();
+
+
+			/*unsigned int RaiseAmt = CurrentPlayer->GetRaiseBetAmt();
 			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
 			RequiredAnte = CurrentPlayer->GetAnte();
 			UpdatePot();
+
+			PrevRaiseBet = RaiseAmt;*/
 
 			if (PrintProcess)
 				std::cout << "P." << CurrentPlayer->GetIndex() << " raised Pot to $" << Pot << " w/ $" << RaiseAmt <<"\n";
@@ -388,9 +400,19 @@ void Table::UpdatePhase()
 		case BettingAction::Bet:
 		{
 			unsigned int BetAmt = CurrentPlayer->GetRaiseBetAmt();
+			PrevRaiseBet = BetAmt;
+
+			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
+
+			RequiredAnte = CurrentPlayer->GetAnte();
+			UpdatePot();
+
+			/*unsigned int BetAmt = CurrentPlayer->GetRaiseBetAmt();
 			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
 			RequiredAnte = CurrentPlayer->GetAnte();
 			UpdatePot();
+
+			PrevRaiseBet = BetAmt;*/
 
 			if (PrintProcess)
 				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << BetAmt << " results in Pot to $" << Pot << " \n";
@@ -796,6 +818,15 @@ void Table::ShiftDealer(const std::shared_ptr<Player>& _Target)
 	SmallBlindPlayer = GetNextPlayer(_Target);
 	BigBlindPlayer = GetNextPlayer(SmallBlindPlayer);
 	CurrentPlayer = GetNextPlayer(BigBlindPlayer);
+}
+
+void Table::GetActivePlayers(std::vector<std::shared_ptr<Player>>& _ActivePlayers)
+{
+	for (auto const& Player : Players)
+	{
+		if (!Player->GetIsBroke() && !Player->GetIsFolded())
+			_ActivePlayers.push_back(Player);
+	}
 }
 
 void Table::GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants)

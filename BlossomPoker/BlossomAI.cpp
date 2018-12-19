@@ -11,7 +11,7 @@ BlossomAI::~BlossomAI()
 void BlossomAI::Initialise()
 {
 	MT.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
-	std::uniform_real_distribution<float> ThresholdDistribution(0.0, 2.0);
+	std::uniform_real_distribution<float> ThresholdDistribution(0.0, 1.0);
 
 	for (unsigned int StratIndex = 0; StratIndex < 4; StratIndex++)
 	{
@@ -44,37 +44,56 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 	//std::cout << "Determining Ideal Action...\n";
 
 	ActiveStrategy = GetStrategy(_Snapshot.Phase);
-	BettingAction IdealAction = ActiveStrategy->DetermineAction(_Snapshot.AvaliableActions, DetermineWinRate(_Snapshot.Hole,_Snapshot.Communal,_Snapshot.PlayerAmt) / 100.0f, _Snapshot.PlayerAmt);
+	BettingAction IdealAction = ActiveStrategy->DetermineAction(_Snapshot.AvaliableActions, DetermineWinRate(_Snapshot.Hole,_Snapshot.Communal,_Snapshot.PlayerAmt - 1) / 100.0f, _Snapshot.PlayerAmt);
 
-	if (IdealAction == BettingAction::Bet || IdealAction == BettingAction::Raise)
+	if (IdealAction == BettingAction::Bet)
 	{
-		RaiseBetAmt = IdealAction == BettingAction::Raise ? (_Snapshot.RequiredAnte - _Snapshot.CurrentAnte) : 0;
 		switch (ActiveStrategy->GetSizing())
 		{
+			case RaiseBetSize::Minimum:
+			{
+				RaiseBetAmt = _Snapshot.BB;
+				break;
+			}
 			case RaiseBetSize::HalfPot:
 			{
-				RaiseBetAmt += _Snapshot.Pot / 2;
+				RaiseBetAmt = _Snapshot.Pot / 2;
 				break;
 			}
 			case RaiseBetSize::Pot:
 			{
-				RaiseBetAmt += _Snapshot.Pot;
-				break;
-			}
-			case RaiseBetSize::AllIn:
-			{
-				RaiseBetAmt += IdealAction == BettingAction::Raise ? _Snapshot.Stack - (_Snapshot.RequiredAnte - _Snapshot.CurrentAnte) : _Snapshot.Stack;
+				RaiseBetAmt = _Snapshot.Pot;
 				break;
 			}
 		}
 	}
-
+	else if (IdealAction == BettingAction::Raise)
+	{
+		switch (ActiveStrategy->GetSizing())
+		{
+		case RaiseBetSize::Minimum:
+		{
+			RaiseBetAmt = _Snapshot.PrevRaiseBet == 0 ? _Snapshot.BB : _Snapshot.PrevRaiseBet;
+			break;
+		}
+		case RaiseBetSize::HalfPot:
+		{
+			RaiseBetAmt = _Snapshot.Pot / 2;
+			break;
+		}
+		case RaiseBetSize::Pot:
+		{
+			RaiseBetAmt = _Snapshot.Pot;
+			break;
+		}
+		}
+	}
 	return IdealAction;
 }
 
-float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _Communal, unsigned int _PlayerAmt)
+float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _Communal, unsigned int _OppoAmt)
 {
-	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _PlayerAmt, 7500);//2500);
+	return Evaluator->DetermineOdds_MonteCarlo_Multi(_Hole, _Communal, _OppoAmt, 7500);//2500);
 }
 
 void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)

@@ -18,7 +18,7 @@ GeneticTest::GeneticTest()
 	Population.reserve(PopulationSize);
 
 	Evaluator = std::make_shared<HandEvaluator>();
-	ActiveTable = std::make_shared<Table>(Evaluator, 20, false);
+	ActiveTable = std::make_shared<Table>(Evaluator, 20, true);
 	Writer = std::make_unique<LogWriter>();
 
 	FoldingPlayer = std::make_unique<Folder>(ActiveTable, 100000);

@@ -31,15 +31,17 @@ BettingAction Strategy::DetermineAction(std::vector<BettingAction> _AvaliableAct
 		return _AvaliableActions[1];
 	}
 
+	//std::cout << "Thresholds: " << Thresholds[0] << "," << Thresholds[1] << "," << Thresholds[2] << "," << Thresholds[3] << "\n";
 	CalculateRequirements(_PlayerAmt);
-	//std::cout << "Win Rate: " << _WinRate << " / ToCall: " << Requirements[0] << ", ToHalfPot: " << Requirements[1] << ", ToFullPot: " << Requirements[2] << ", ToAllIn: " << Requirements[3] << "\n";
+	std::cout << "\n";
+	std::cout << "Win Rate: " << _WinRate << " / Call: " << Requirements[0] << ", MinRaise: " << Requirements[1] << ", HalfPot: " << Requirements[2] << ", FullPot: " << Requirements[3] << "\n";
 
 	if (_WinRate >= Requirements[3])
-		Sizing = RaiseBetSize::AllIn;
-	else if (_WinRate >= Requirements[2])
 		Sizing = RaiseBetSize::Pot;
-	else if (_WinRate >= Requirements[1])
+	else if (_WinRate >= Requirements[2])
 		Sizing = RaiseBetSize::HalfPot;
+	else if (_WinRate >= Requirements[1])
+		Sizing = RaiseBetSize::Minimum;
 	else
 		Sizing = RaiseBetSize::NONE;
 
@@ -66,6 +68,12 @@ BettingAction Strategy::DetermineAction(std::vector<BettingAction> _AvaliableAct
 
 void Strategy::CalculateRequirements(unsigned int _PlayerAmt)
 {
+	//std::cout << "Player Amt: " << _PlayerAmt << "\n";
+	//std::cout << "Requirements: ";
 	for (unsigned int Index = 0; Index < 4; Index++)
-		Requirements[Index] = Thresholds[Index] * (1.0f / _PlayerAmt);
+	{
+		Requirements[Index] = Thresholds[Index] * (_PlayerAmt / 8.0f); //(1.0f / _PlayerAmt);
+		//std::cout << Requirements[Index] << " ";
+	}
+	//std::cout << "\n";
 }

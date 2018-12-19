@@ -46,7 +46,7 @@ private:
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
 
-	float MutateAmt = 0.25;
+	float MutateAmt = 0.375f;//0.25;
 
 	unsigned int ParentLimit = 2;
 	unsigned int TouramentSize = 4;
