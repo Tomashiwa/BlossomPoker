@@ -38,15 +38,15 @@ public:
 	std::string GetThresholdsStr(const std::shared_ptr<BlossomPlayer>& _Target);
 
 private:
-	unsigned int PopulationSize = 9;
-	unsigned int GenerationLimit = 100;
-	unsigned int ToursPerGen = 100;
-	unsigned int TableSize = 9;
+	unsigned int PopulationSize;
+	unsigned int GenerationLimit;
+	unsigned int ToursPerGen;
+	unsigned int TableSize = 8;
 	
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
 
-	float MutateAmt = 0.375f;//0.25;
+	float MutateAmt = 0.25f;
 
 	unsigned int ParentLimit = 2;
 	unsigned int TouramentSize = 4;
@@ -60,10 +60,11 @@ private:
 	std::vector<std::unique_ptr<Tournament>> Tournaments;
 	std::vector<std::shared_ptr<Participant>> HoF;
 
-	std::shared_ptr<Folder> FoldingPlayer;
+	//std::shared_ptr<Folder> FoldingPlayer;
 	std::shared_ptr<Caller> CallingPlayer;
 	std::shared_ptr<Raiser> RaisingPlayer;
 	std::shared_ptr<Randomer> RandomPlayer;
+	std::shared_ptr<Randomer> RandomPlayer1;
 
 	std::mt19937 MTGenerator;
 	std::shared_ptr<HandEvaluator> Evaluator;

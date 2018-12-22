@@ -178,7 +178,7 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, s
 			Hole.clear();
 	}
 
-	std::cout << "\nWin Rate: " << Win << "/" << GameCount << " = " << ((float)Win / (float)GameCount) * 100.0f;
+	//std::cout << "\nWin Rate: " << Win << "/" << GameCount << " = " << ((float)Win / (float)GameCount) * 100.0f;
 	return ((float)Win / (float)GameCount) * 100.0f;//(((float)Win) + ((float)Draw) / 2.0f) / ((float)GameCount) * 100.0f;
 }
 
@@ -197,12 +197,20 @@ int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
 
 int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand)
 {
-	std::array<int, 7> CardInts = Get7CardsInt(_Hand);
+	/*int* Cards = Get7CardsInt(_Hand).data();
+	int Score = HR[53 + *Cards++];
+	Score = HR[Score + *Cards++];
+	Score = HR[Score + *Cards++];
+	Score = HR[Score + *Cards++];
+	Score = HR[Score + *Cards++];
+	Score = HR[Score + *Cards++];
+	Score = HR[Score + *Cards++];
 
-	//std::cout << "CardsInts: ";
-	//for (unsigned int Index = 0; Index < 7; Index++)
-	//	std::cout << CardInts[Index] << " ";
-	//std::cout << "\n";
+	std::cout << "Result Value: " << Score << "\n\n";
+
+	return HR[Score + *Cards++];*/
+	
+	std::array<int, 7> CardInts = Get7CardsInt(_Hand);
 
 	//std::cout << "HR[53 + CardInts[0]]: " << HR[53 + CardInts[0]] << "\n";
 	//std::cout << "HR[53 + CardInts[0]] + CardInts[1]]: " << HR[HR[53 + CardInts[0]] + CardInts[1]] << "\n";
@@ -213,7 +221,6 @@ int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand)
 	//std::cout << "HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]]: " << HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]] << "\n";
 
 	return HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]];
-	//return HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]];
 }
 
 Hand HandEvaluator::DetermineType(int _Value)

@@ -33,8 +33,8 @@ BettingAction Strategy::DetermineAction(std::vector<BettingAction> _AvaliableAct
 
 	//std::cout << "Thresholds: " << Thresholds[0] << "," << Thresholds[1] << "," << Thresholds[2] << "," << Thresholds[3] << "\n";
 	CalculateRequirements(_PlayerAmt);
-	std::cout << "\n";
-	std::cout << "Win Rate: " << _WinRate << " / Call: " << Requirements[0] << ", MinRaise: " << Requirements[1] << ", HalfPot: " << Requirements[2] << ", FullPot: " << Requirements[3] << "\n";
+	//std::cout << "\n";
+	//std::cout << "Win Rate: " << _WinRate << " / Call: " << Requirements[0] << ", MinRaise: " << Requirements[1] << ", HalfPot: " << Requirements[2] << ", FullPot: " << Requirements[3] << " (Players Left: " << _PlayerAmt << ")\n";
 
 	if (_WinRate >= Requirements[3])
 		Sizing = RaiseBetSize::Pot;
@@ -68,12 +68,22 @@ BettingAction Strategy::DetermineAction(std::vector<BettingAction> _AvaliableAct
 
 void Strategy::CalculateRequirements(unsigned int _PlayerAmt)
 {
-	//std::cout << "Player Amt: " << _PlayerAmt << "\n";
-	//std::cout << "Requirements: ";
-	for (unsigned int Index = 0; Index < 4; Index++)
+	float MeanExpectation = 1.0f / (float)_PlayerAmt;
+	float StratifiedExpectation = (1.0f - MeanExpectation) / 3.0f;
+
+	Requirements[0] = MeanExpectation + (Thresholds[0] * StratifiedExpectation);
+	Requirements[1] = MeanExpectation + (Thresholds[1] * StratifiedExpectation);
+	Requirements[2] = MeanExpectation + (Thresholds[2] * StratifiedExpectation);
+	Requirements[3] = MeanExpectation + (Thresholds[3] * StratifiedExpectation);
+
+
+	//Requirements[0] = Thresholds[0] * MeanExpectation; //Callable Win-Rate
+	//Requirements[1] = Thresholds[1] * StratifiedExpectation;//MinRaise Win-Rate
+	//Requirements[2] = Thresholds[2] * StratifiedExpectation;//Halfpot Win-rate
+	//Requirements[3] = Thresholds[3] * StratifiedExpectation;//Fullpot win-rate
+
+	/*for (unsigned int Index = 0; Index < 4; Index++)
 	{
 		Requirements[Index] = Thresholds[Index] * (_PlayerAmt / 8.0f); //(1.0f / _PlayerAmt);
-		//std::cout << Requirements[Index] << " ";
-	}
-	//std::cout << "\n";
+	}*/
 }

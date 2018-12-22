@@ -15,16 +15,15 @@ GeneticTest::GeneticTest()
 {
 	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
 
-	Population.reserve(PopulationSize);
-
 	Evaluator = std::make_shared<HandEvaluator>();
-	ActiveTable = std::make_shared<Table>(Evaluator, 20, true);
+	ActiveTable = std::make_shared<Table>(Evaluator, 20, false);
 	Writer = std::make_unique<LogWriter>();
 
-	FoldingPlayer = std::make_unique<Folder>(ActiveTable, 100000);
+	//FoldingPlayer = std::make_unique<Folder>(ActiveTable, 100000);
 	CallingPlayer = std::make_unique<Caller>(ActiveTable, 200000);
 	RaisingPlayer = std::make_unique<Raiser>(ActiveTable, 300000);
 	RandomPlayer = std::make_unique<Randomer>(ActiveTable, 400000);
+	RandomPlayer1 = std::make_unique<Randomer>(ActiveTable, 100000);
 }
 
 GeneticTest::~GeneticTest()
@@ -39,7 +38,7 @@ void GeneticTest::Start()
 	PlayingPopulation.clear();
 	PlayingPopulation.reserve(TableSize);
 	
-	PlayingPopulation.push_back(FoldingPlayer);
+	PlayingPopulation.push_back(RandomPlayer1);//FoldingPlayer);
 	PlayingPopulation.push_back(CallingPlayer);
 	PlayingPopulation.push_back(RaisingPlayer);
 	PlayingPopulation.push_back(RandomPlayer);
@@ -150,21 +149,34 @@ void GeneticTest::Run()
 		ArrangeHoF();
 
 		std::cout << "\nGenerational Ranking: \n";
+		Writer->WriteAt(0, "\nGenerational Ranking: \n");
 		for (auto const& Participant : RankingBoard)
+		{
 			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (MoneyWon: " << Participant->GetMoneyWon() << " HandsWon: " << Participant->GetHandsWon() << " MoneyLost: " << Participant->GetMoneyLost() << " HandsLost: " << Participant->GetHandsLost() << ")\n";
+			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + " (MoneyWon: " + std::to_string(Participant->GetMoneyWon()) + " HandsWon: " + std::to_string(Participant->GetHandsWon()) + " MoneyLost: " + std::to_string(Participant->GetMoneyLost()) + " HandsLost: " + std::to_string(Participant->GetHandsLost()) + ")\n");
+		}
 		std::cout << "\n";
+		Writer->WriteAt(0, "\n");
 
 		std::cout << "HoF: \n";
+		Writer->WriteAt(0, "HoF: \n");
 		for (auto const& Participant : HoF)
+		{
 			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (MoneyWon: " << Participant->GetMoneyWon() << " HandsWon: " << Participant->GetHandsWon() << " MoneyLost: " << Participant->GetMoneyLost() << " HandsLost: " << Participant->GetHandsLost() << ")\n";
+			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + " (MoneyWon: " + std::to_string(Participant->GetMoneyWon()) + " HandsWon: " + std::to_string(Participant->GetHandsWon()) + " MoneyLost: " + std::to_string(Participant->GetMoneyLost()) + " HandsLost: " + std::to_string(Participant->GetHandsLost()) + ")\n");
+		}
 		std::cout << "\n";
+		Writer->WriteAt(0, "\n");
 
 		Writer->WriteAt(1, Generation, GetOverallFitness());
 		Writer->WriteAt(2, Generation, GetGenerationDiversity());
 
-		std::cout << "Top Players: P." << Population[0]->GetIndex() << " (" << GetParticipant(Population[0]->GetIndex())->GetFitness() << ") " << Population[1]->GetIndex() << " (" << GetParticipant(Population[1]->GetIndex())->GetFitness() << ") " << Population[2]->GetIndex() << " (" << GetParticipant(Population[2]->GetIndex())->GetFitness() << ")\n";
+		std::cout << "Top Players: P." << Population[0]->GetIndex() << " (" << GetParticipant(Population[0]->GetIndex())->GetFitness() << ") P." << Population[1]->GetIndex() << " (" << GetParticipant(Population[1]->GetIndex())->GetFitness() << ") " << Population[2]->GetIndex() << " (" << GetParticipant(Population[2]->GetIndex())->GetFitness() << ")\n";
+		Writer->WriteAt(0, "Top Players: P." + std::to_string(Population[0]->GetIndex()) + " (" + std::to_string(GetParticipant(Population[0]->GetIndex())->GetFitness()) + ") P." + std::to_string(Population[1]->GetIndex()) + " (" + std::to_string(GetParticipant(Population[1]->GetIndex())->GetFitness()) + ") P." + std::to_string(Population[2]->GetIndex()) + " (" + std::to_string(GetParticipant(Population[2]->GetIndex())->GetFitness()) + ")\n");
 		std::cout << "Overall Fitness of Generation " << Generation << ": " << GetOverallFitness() << "\n";
+		Writer->WriteAt(0, "Overall Fitness of Generation " + std::to_string(Generation) + ": " + std::to_string(GetOverallFitness()) + "\n");
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
+		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
 		
 		if (!IsTestComplete())
 			ReproducePopulation();
@@ -585,7 +597,24 @@ void GeneticTest::ReproducePopulation()
 		TouramentSelect(PopulationReference, CurrentParents);
 
 		//Cross-over
+		//std::cout << "Crossing Over P." << CurrentParents[0]->GetIndex() << " and P." << CurrentParents[1]->GetIndex() << "...\n";
+		//
+		//std::cout << "P." << CurrentParents[0]->GetIndex() << ": ";
+		//for (unsigned int Index = 0; Index < 16; Index++)
+		//	std::cout << CurrentParents[0]->GetAI().GetThresholds()[Index] << " ";
+		//std::cout << "\n";
+
+		//std::cout << "P." << CurrentParents[1]->GetIndex() << ": ";
+		//for (unsigned int Index = 0; Index < 16; Index++)
+		//	std::cout << CurrentParents[1]->GetAI().GetThresholds()[Index] << " ";
+		//std::cout << "\n";
+
 		Crossover(CurrentParents[0], CurrentParents[1], CurrentChild);
+
+		//std::cout << "Child produced: P." << CurrentChild->GetIndex() << " (";
+		//for (unsigned int Index = 0; Index < 16; Index++)
+		//	std::cout << CurrentChild->GetAI().GetThresholds()[Index] << " ";
+		//std::cout << "\n";
 
 		//Gaussian Mutation
 		/*float a = 2.5f, b = 0.5f, c = 0.15f;

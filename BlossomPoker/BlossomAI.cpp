@@ -11,7 +11,7 @@ BlossomAI::~BlossomAI()
 void BlossomAI::Initialise()
 {
 	MT.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
-	std::uniform_real_distribution<float> ThresholdDistribution(0.0, 1.0);
+	std::uniform_real_distribution<float> ThresholdDistribution(0.0, 2.0);
 
 	for (unsigned int StratIndex = 0; StratIndex < 4; StratIndex++)
 	{
@@ -33,6 +33,12 @@ void BlossomAI::Initialise()
 		Thresholds[2 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[2];
 		Thresholds[3 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[3];
 	}
+
+	//std::cout << "Strat 1: " << Strategies[0]->GetThresholds()[0] << "," << Strategies[0]->GetThresholds()[1] << "," << Strategies[0]->GetThresholds()[2] << "," << Strategies[0]->GetThresholds()[3] << "\n";
+	//std::cout << "Strat 2: " << Strategies[1]->GetThresholds()[0] << "," << Strategies[1]->GetThresholds()[1] << "," << Strategies[1]->GetThresholds()[2] << "," << Strategies[1]->GetThresholds()[3] << "\n";
+	//std::cout << "Strat 3: " << Strategies[2]->GetThresholds()[0] << "," << Strategies[2]->GetThresholds()[1] << "," << Strategies[2]->GetThresholds()[2] << "," << Strategies[2]->GetThresholds()[3] << "\n";
+	//std::cout << "Strat 4: " << Strategies[3]->GetThresholds()[0] << "," << Strategies[3]->GetThresholds()[1] << "," << Strategies[3]->GetThresholds()[2] << "," << Strategies[3]->GetThresholds()[3] << "\n";
+	//std::cout << "\n";
 }
 
 void BlossomAI::Reset()
