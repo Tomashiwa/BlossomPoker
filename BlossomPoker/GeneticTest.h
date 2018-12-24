@@ -79,7 +79,7 @@ private:
 	const std::shared_ptr<Participant>& GetParticipant(unsigned int _Index);
 	const std::shared_ptr<Player>& GetBestPlayer();
 	
-	void TouramentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents);
+	void TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents);
 	void Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::shared_ptr<BlossomPlayer>& _Result);
 	void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex);
 	void ReproducePopulation();

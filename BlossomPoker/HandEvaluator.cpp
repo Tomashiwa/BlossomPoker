@@ -196,20 +196,7 @@ int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
 }
 
 int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand)
-{
-	/*int* Cards = Get7CardsInt(_Hand).data();
-	int Score = HR[53 + *Cards++];
-	Score = HR[Score + *Cards++];
-	Score = HR[Score + *Cards++];
-	Score = HR[Score + *Cards++];
-	Score = HR[Score + *Cards++];
-	Score = HR[Score + *Cards++];
-	Score = HR[Score + *Cards++];
-
-	std::cout << "Result Value: " << Score << "\n\n";
-
-	return HR[Score + *Cards++];*/
-	
+{	
 	std::array<int, 7> CardInts = Get7CardsInt(_Hand);
 
 	//std::cout << "HR[53 + CardInts[0]]: " << HR[53 + CardInts[0]] << "\n";

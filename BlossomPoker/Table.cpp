@@ -562,8 +562,11 @@ std::shared_ptr<Player> Table::GetNextPlayer(const std::shared_ptr<Player>& _Ref
 	std::vector<std::shared_ptr<Player>> ActivePlayers;
 	GetParticipatingPlayers(ActivePlayers);
 
-	if (ActivePlayers.size() == 0)// || (ActivePlayers.size() == 1 && ActivePlayers[0]->GetIndex() == _Reference->GetIndex()))
+	if (ActivePlayers.size() == 0)
+	{
+		//std::cout << "There are no active players...\n";
 		return nullptr;
+	}
 	
 	auto RefItr = std::find(ActivePlayers.begin(), ActivePlayers.end(), _Reference);
 
@@ -572,7 +575,21 @@ std::shared_ptr<Player> Table::GetNextPlayer(const std::shared_ptr<Player>& _Ref
 		RefItr = std::find(Players.begin(), Players.end(), _Reference);
 		
 		if (RefItr == Players.end())
+		{
+			std::cout << "a\n";
+			std::cout << "Current Players:\n";
+			for (auto const& Player : Players)
+				std::cout << "P." << Player->GetIndex() << "\n";
+			std::cout << "\n";
+
+			std::cout << "Active Players:\n";
+			for (auto const& Player : ActivePlayers)
+				std::cout << "P." << Player->GetIndex() << "\n";
+			std::cout << "\n";
+
+			std::cout << "Next player cannot be found...\n";
 			return nullptr;
+		}
 	
 		for (unsigned int Index = 0; Index < Players.size(); Index++)
 		{
@@ -588,6 +605,7 @@ std::shared_ptr<Player> Table::GetNextPlayer(const std::shared_ptr<Player>& _Ref
 		return (*RefItr);
 	}
 
+	std::cout << "b\n";
 	std::cout << "Current Players:\n";
 	for (auto const& Player : Players)
 		std::cout << "P." << Player->GetIndex() << "\n";
@@ -714,6 +732,7 @@ void Table::DistributeWinnings()
 		{
 			Participant->GetOwner()->SetPotContribution(Participant->GetOwner()->GetPotContribution() - MinStack);
 			//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetOwner()->GetPotContribution() << "\n";
+			//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetOwner()->GetIsBroke() << " (Broke?) " << Participant->GetOwner()->GetIsFolded() << " (Folded?) \n";
 		}
 
 		std::vector<std::shared_ptr<Participant>> Winners;
@@ -880,6 +899,8 @@ void Table::DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& 
 
 void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _Participants, std::vector<std::shared_ptr<Participant>>& _Winners)
 {
+	//std::cout << "Participants pre-removal via itr: " << _Participants.size() << "\n";
+
 	auto Itr = _Participants.begin();
 	while (Itr != _Participants.end())
 	{
@@ -893,6 +914,22 @@ void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _
 	{
 		_Winners = _Participants;
 		return;
+	}
+
+	if (CommunalCards.size() == 0)
+	{
+		std::cout << "RankingBoard:\n";
+		for (auto const& Player : CurrentMatch->GetRankingBoard())
+			std::cout << "P." << Player->GetOwner()->GetIndex() << " ";
+		std::cout << "\n";
+
+		std::cout << "Current Phase: " << GetStateStr() << "\n";
+		std::cout << "Current Player: P." << CurrentPlayer->GetIndex() << "\n";
+		std::cout << "Hand: " << CurrentPlayer->GetHandInfo() << "\n";
+		std::cout << "Participants: \n";
+		for (auto const& Player : _Participants)
+			std::cout << "P." << Player->GetOwner()->GetIndex() << " ";
+		std::cout << "\n";
 	}
 
 	std::vector<std::array<Card, 5>> BettingHands;
