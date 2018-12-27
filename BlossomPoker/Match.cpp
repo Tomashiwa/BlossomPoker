@@ -41,5 +41,5 @@ const std::shared_ptr<Participant>& Match::GetParticipant(unsigned int _Index)
 void Match::PrintInfo()
 {
 	for (auto const& Participant : RankingBoard)
-		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Profit per Hand) | " << Participant->GetMoneyWon() << " (MoneyWon) " << Participant->GetMoneyLost() << " (MoneyLost) " << Participant->GetHandsWon()<< " (HandsWon) " << Participant->GetHandsLost() << " (HandsLost)\n";
+		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
 }

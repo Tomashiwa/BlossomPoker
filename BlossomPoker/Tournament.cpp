@@ -99,7 +99,7 @@ void Tournament::PrintRankings()
 {
 	std::cout << "\nResults:\n";
 	for (auto const& Participant : RankingBoard)
-		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (MoneyWon: " << Participant->GetMoneyWon() << ", HandsWon: " << Participant->GetHandsWon() << ", MoneyLost: " << Participant->GetMoneyLost() << ", HandsLost: " << Participant->GetHandsLost() << ")\n";
+		std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
 	std::cout << "\n";
 }
 

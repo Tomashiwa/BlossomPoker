@@ -81,7 +81,8 @@ private:
 	
 	void TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents);
 	void Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::shared_ptr<BlossomPlayer>& _Result);
-	void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex);
+	void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase);
+	//void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex);
 	void ReproducePopulation();
 
 	bool HasMutationHappen();

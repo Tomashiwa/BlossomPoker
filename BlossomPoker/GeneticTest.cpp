@@ -162,7 +162,7 @@ void GeneticTest::Run()
 		for (auto const& Participant : RankingBoard)
 		{
 			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
-			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "(Hands W / L: " + std::to_string(Participant->GetHandsWon()) + "/" + std::to_string(Participant->GetHandsLost()) + " Money W / L : " + std::to_string(Participant->GetMoneyWon()) + "/" + std::to_string(Participant->GetMoneyLost()) + ")\n");
+			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "(Hands W/L: " + std::to_string(Participant->GetHandsWon()) + "/" + std::to_string(Participant->GetHandsLost()) + " Money W/L : " + std::to_string(Participant->GetMoneyWon()) + "/" + std::to_string(Participant->GetMoneyLost()) + ")\n");
 		}
 		std::cout << "\n";
 		Writer->WriteAt(0, "\n");
@@ -172,7 +172,7 @@ void GeneticTest::Run()
 		for (auto const& Participant : HoF)
 		{
 			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
-			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "(Hands W / L: " + std::to_string(Participant->GetHandsWon()) + "/" + std::to_string(Participant->GetHandsLost()) + " Money W / L : " + std::to_string(Participant->GetMoneyWon()) + "/" + std::to_string(Participant->GetMoneyLost()) + ")\n");
+			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "(Hands W/L: " + std::to_string(Participant->GetHandsWon()) + "/" + std::to_string(Participant->GetHandsLost()) + " Money W/L : " + std::to_string(Participant->GetMoneyWon()) + "/" + std::to_string(Participant->GetMoneyLost()) + ")\n");
 		}
 		std::cout << "\n";
 		Writer->WriteAt(0, "\n");
@@ -353,7 +353,8 @@ void GeneticTest::TournamentSelect(const std::vector<std::shared_ptr<BlossomPlay
 
 void GeneticTest::Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::shared_ptr<BlossomPlayer>& _Result)
 {
-	std::array<float, 16> CombinedThresholds;
+	//Binary Crossover
+	/*std::array<float, 16> CombinedThresholds;
 	std::uniform_int_distribution<int> Distribution_Crossover(0, 1);
 
 	for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
@@ -361,12 +362,49 @@ void GeneticTest::Crossover(const std::shared_ptr<BlossomPlayer>& _First, const 
 
 	_Result = std::move(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated));
 	_Result->GetAI().SetThresholds(CombinedThresholds);
-	_Result->GetAI().SetEvalutor(Evaluator);
+	_Result->GetAI().SetEvalutor(Evaluator);*/
+
+	//Threshold Set Crossover
+	_Result = std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated));
+
+	std::uniform_int_distribution<int> Distribution_ThreshSet(0, 1);
+
+	for (unsigned int Index = 0; Index < 4; Index++)
+	{
+		switch (Distribution_ThreshSet(MTGenerator))
+		{
+		case 0:
+			_Result->GetAI().SetThresholdsByPhase((Phase)Index, _First->GetAI().GetThresholdsByPhase((Phase)Index));
+			break;
+		case 1:
+			_Result->GetAI().SetThresholdsByPhase((Phase)Index, _Second->GetAI().GetThresholdsByPhase((Phase)Index));
+			break;
+		}
+	}
 
 	PlayersGenerated++;
 }	
 
-void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex)
+//Mutating a Threshold Set
+void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase)
+{
+	std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
+	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
+
+	std::array<float, 4> ThreshSet = _Target->GetAI().GetThresholdsByPhase(_Phase);
+
+	for (auto& Thresh : ThreshSet)
+	{
+		Thresh = Thresh + Distribution_Mutation(MTGenerator);
+		if (Thresh < 0)
+			Thresh = Distribution_Backtrack(MTGenerator);
+	}
+
+	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
+}
+
+//Mutating a specific threshold
+/*void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex)
 {
 	std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
 
@@ -374,28 +412,29 @@ void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, 
 	
 	if (MutatedThreshold < 0)
 	{
-		std::uniform_real_distribution<float> Distribution_Backtrack(0.0, 0.25);
+		std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
 		MutatedThreshold = Distribution_Backtrack(MTGenerator);
 	}
 
 	_Target->GetAI().SetThresholdByPhase(_Phase, _ParaIndex, MutatedThreshold);
-}
+}*/
 
 bool GeneticTest::HasMutationHappen()
 {
 	std::uniform_real_distribution<float> Distribution_MutateChance(0.0, 1.0);
 
 	//Gaussian Distribution
-	/*float a = 2.5f, b = 0.5f, c = 0.15f;
+	float a = 2.5f, b = 0.5f, c = 0.15f;
 	float x = (float) Generation / (float) GenerationLimit;
 	float e = std::exp(1.0f);
-	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
+	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
 
 	//Oscillating Sine Wave
-	float a = 48.7f;
+	/*float a = 48.7f;
 	float x = (float)Generation / (float)GenerationLimit;
-	float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;
+	float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;*/
 
+	Writer->WriteAt(3, (float)Generation, MutatingRate);
 	return Distribution_MutateChance(MTGenerator) <= MutatingRate ? true : false;
 }
 
@@ -475,21 +514,29 @@ void GeneticTest::ReproducePopulation()
 		TournamentSelect(PopulationReference, CurrentParents);
 
 		Crossover(CurrentParents[0], CurrentParents[1], CurrentChild);
+		std::cout << "Parent 1: P." << CurrentParents[0]->GetIndex() << " (" << GetThresholdsStr(CurrentParents[0]) << ")\n";
+		std::cout << "Parent 2: P." << CurrentParents[1]->GetIndex() << " (" << GetThresholdsStr(CurrentParents[1]) << ")\n";
+		std::cout << "Child: P." << CurrentChild->GetIndex() << " (" << GetThresholdsStr(CurrentChild) << ")\n";
+		std::cout << "\n";
 
-		float a = 48.7f;
-		float x = (float)Generation / (float)GenerationLimit;
-		float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;
-
-		Writer->WriteAt(3, (float)Generation, MutatingRate);
-
-		for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+		//Mutating Individual Thresholds
+		/*for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
 		{
 			for (unsigned int ParaIndex = 0; ParaIndex < 4; ParaIndex++)
 			{
 				if (HasMutationHappen())
 					Mutate(CurrentChild, (Phase)PhaseIndex, ParaIndex);
 			}
+		}*/
+
+		//Mutating Threshold Set
+		for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+		{
+			if (HasMutationHappen())
+				Mutate(CurrentChild, (Phase)PhaseIndex);
 		}
+		std::cout << "Child after mutation: P." << CurrentChild->GetIndex() << " (" << GetThresholdsStr(CurrentChild) << ")\n";
+		std::cout << "\n";
 
 		Population.push_back(CurrentChild);
 
