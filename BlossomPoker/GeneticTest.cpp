@@ -68,11 +68,13 @@ void GeneticTest::Start()
 	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
 	Writer->NewFile(LogType::Graph_Line, "MutationRate");
 	Writer->NewFile(LogType::Graph_Bar, "HallOfFame");
+	Writer->NewFile(LogType::Graph_Line, "GenBestFitness");
 
 	Writer->WriteAt(1, "#X Y\n");
 	Writer->WriteAt(2, "#X Y\n");
 	Writer->WriteAt(3, "#Generation | Mutation Rate\n");
 	Writer->WriteAt(4, "#Player Index | Fitness\n");
+	Writer->WriteAt(5, "#Generation | Fitness\n");
 	#pragma endregion
 }
 
@@ -184,8 +186,11 @@ void GeneticTest::Run()
 		Writer->WriteAt(0, "Top Players: P." + std::to_string(Population[0]->GetIndex()) + " (" + std::to_string(GetParticipant(Population[0]->GetIndex())->GetFitness()) + ") P." + std::to_string(Population[1]->GetIndex()) + " (" + std::to_string(GetParticipant(Population[1]->GetIndex())->GetFitness()) + ") P." + std::to_string(Population[2]->GetIndex()) + " (" + std::to_string(GetParticipant(Population[2]->GetIndex())->GetFitness()) + ")\n");
 		std::cout << "Overall Fitness of Generation " << Generation << ": " << GetOverallFitness() << "\n";
 		Writer->WriteAt(0, "Overall Fitness of Generation " + std::to_string(Generation) + ": " + std::to_string(GetOverallFitness()) + "\n");
+		std::cout << "Best Fitness of Generation " << Generation << ": P." << RankingBoard[0]->GetOwner()->GetIndex() << " - " << RankingBoard[0]->GetFitness() << "\n";
+		Writer->WriteAt(5, Generation, RankingBoard[0]->GetFitness());
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
+		
 		
 		if (!IsTestComplete())
  			ReproducePopulation();
@@ -403,6 +408,30 @@ void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase)
 	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
 }
 
+void GeneticTest::EvaluateMutateRate()
+{
+	//Diversity-based Adaptive Mutation
+	float Sensitivity = 0.3f;
+	float TargetDiversity = 0.2f;
+	float CurrentDiversity = GetGenerationDiversity();
+
+	CurrentMutateRate = CurrentMutateRate * (1 + (Sensitivity * ((TargetDiversity - CurrentDiversity) / CurrentDiversity)));
+	CurrentMutateRate = std::max(0.0f, std::min(CurrentMutateRate, 1.0f));
+
+	Writer->WriteAt(3, (float)Generation, CurrentMutateRate);
+
+	//Gaussian Distribution
+	/*float a = 2.5f, b = 0.5f, c = 0.15f;
+	float x = (float) Generation / (float) GenerationLimit;
+	float e = std::exp(1.0f);
+	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
+
+	//Oscillating Sine Wave
+	/*float a = 48.7f;
+	float x = (float)Generation / (float)GenerationLimit;
+	float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;*/
+}
+
 //Mutating a specific threshold
 /*void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex)
 {
@@ -422,26 +451,15 @@ void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase)
 bool GeneticTest::HasMutationHappen()
 {
 	std::uniform_real_distribution<float> Distribution_MutateChance(0.0, 1.0);
-
-	//Gaussian Distribution
-	float a = 2.5f, b = 0.5f, c = 0.15f;
-	float x = (float) Generation / (float) GenerationLimit;
-	float e = std::exp(1.0f);
-	float MutatingRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
-
-	//Oscillating Sine Wave
-	/*float a = 48.7f;
-	float x = (float)Generation / (float)GenerationLimit;
-	float MutatingRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;*/
-
-	Writer->WriteAt(3, (float)Generation, MutatingRate);
-	return Distribution_MutateChance(MTGenerator) <= MutatingRate ? true : false;
+	return Distribution_MutateChance(MTGenerator) <= CurrentMutateRate? true : false;
 }
 
 void GeneticTest::ReproducePopulation()
 {
 	std::cout << "\nReproducing population...\n";
 	Writer->WriteAt(0, "\nReproducing population...\n");
+
+	EvaluateMutateRate();
 
 	//Reproduction without Elitism
 	/*std::vector<std::shared_ptr<BlossomPlayer>> PopulationReference(Population.begin(), Population.end());

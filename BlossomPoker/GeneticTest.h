@@ -47,6 +47,7 @@ private:
 	unsigned int PlayersGenerated = 0;
 
 	float MutateAmt = 0.25f;
+	float CurrentMutateRate = 0.1f;
 
 	unsigned int ParentLimit = 2;
 	unsigned int TouramentSize = 4;
@@ -85,6 +86,7 @@ private:
 	//void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex);
 	void ReproducePopulation();
 
+	void EvaluateMutateRate();
 	bool HasMutationHappen();
 
 	float GetOverallFitness();
