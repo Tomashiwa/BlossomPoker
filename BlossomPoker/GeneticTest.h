@@ -46,8 +46,9 @@ private:
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
 
+	float CrossoverRate = 0.7f;
 	float MutateAmt = 0.25f;
-	float CurrentMutateRate = 0.1f;
+	float MutateRate = 0.1f;
 
 	unsigned int ParentLimit = 2;
 	unsigned int TouramentSize = 4;
@@ -80,11 +81,13 @@ private:
 	const std::shared_ptr<Participant>& GetParticipant(unsigned int _Index);
 	const std::shared_ptr<Player>& GetBestPlayer();
 	
-	void TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents);
-	void Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::shared_ptr<BlossomPlayer>& _Result);
+	std::shared_ptr<BlossomPlayer>& TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation);
+	void Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::vector<std::shared_ptr<BlossomPlayer>>& _Results);
 	void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase);
 	//void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex);
 	void ReproducePopulation();
+
+	bool HasCrossoverHappen();
 
 	void EvaluateMutateRate();
 	bool HasMutationHappen();
