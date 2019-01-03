@@ -28,14 +28,8 @@
     <Filter Include="Header Files\AI">
       <UniqueIdentifier>{359aa1f8-a085-49fd-8fbb-c20347feda93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\AI\Dummy">
-      <UniqueIdentifier>{cb5319ed-46e5-4444-a088-66a289ecb361}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\AI">
       <UniqueIdentifier>{4a95047a-583b-48cf-b67d-8e1f672b3d17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\AI\Dummy">
-      <UniqueIdentifier>{cd0836b8-90b9-4b26-b8a4-1af48e6e6c0f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Tools">
       <UniqueIdentifier>{22b95744-64d6-4781-9df5-8e405f6aecb8}</UniqueIdentifier>
@@ -57,17 +51,8 @@
     <ClCompile Include="Deck.cpp">
       <Filter>Source Files\Cards &amp; Decks</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Strategy.cpp">
-      <Filter>Source Files\AI\Dummy</Filter>
-    </ClCompile>
-    <ClCompile Include="BlossomAI.cpp">
-      <Filter>Source Files\AI\Dummy</Filter>
     </ClCompile>
     <ClCompile Include="GeneticTest.cpp">
       <Filter>Source Files</Filter>
@@ -84,12 +69,6 @@
     <ClCompile Include="Table.cpp">
       <Filter>Source Files\Table</Filter>
     </ClCompile>
-    <ClCompile Include="BlossomPlayer.cpp">
-      <Filter>Source Files\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Folder.cpp">
-      <Filter>Source Files\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Match.cpp">
       <Filter>Source Files\Table</Filter>
     </ClCompile>
@@ -99,13 +78,28 @@
     <ClCompile Include="Tournament.cpp">
       <Filter>Source Files\Table</Filter>
     </ClCompile>
+    <ClCompile Include="BlossomAI.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Strategy.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
     <ClCompile Include="Caller.cpp">
-      <Filter>Source Files\Player</Filter>
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Folder.cpp">
+      <Filter>Source Files\AI</Filter>
     </ClCompile>
     <ClCompile Include="Raiser.cpp">
-      <Filter>Source Files\Player</Filter>
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="BlossomPlayer.cpp">
+      <Filter>Source Files\AI</Filter>
     </ClCompile>
     <ClCompile Include="Randomer.cpp">
+      <Filter>Source Files\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -115,12 +109,6 @@
     </ClInclude>
     <ClInclude Include="Deck.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
-    <ClInclude Include="BettingAction.h">
-      <Filter>Header Files\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="ComparisonResult.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
@@ -134,12 +122,6 @@
     <ClInclude Include="Phase.h">
       <Filter>Header Files\Table</Filter>
     </ClInclude>
-    <ClInclude Include="Strategy.h">
-      <Filter>Header Files\AI\Dummy</Filter>
-    </ClInclude>
-    <ClInclude Include="BlossomAI.h">
-      <Filter>Header Files\AI\Dummy</Filter>
-    </ClInclude>
     <ClInclude Include="GeneticTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -149,23 +131,11 @@
     <ClInclude Include="LogWriter.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="HandEvaluator.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
     <ClInclude Include="LogType.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Table.h">
       <Filter>Header Files\Table</Filter>
-    </ClInclude>
-    <ClInclude Include="RaiseBetSize.h">
-      <Filter>Header Files\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="BlossomPlayer.h">
-      <Filter>Header Files\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Folder.h">
-      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="Match.h">
       <Filter>Header Files\Table</Filter>
@@ -179,14 +149,38 @@
     <ClInclude Include="xoroshiro128+.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Caller.h">
-      <Filter>Header Files\Player</Filter>
+    <ClInclude Include="BlossomAI.h">
+      <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Randomer.h">
-      <Filter>Header Files\Player</Filter>
+    <ClInclude Include="Strategy.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Caller.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Folder.h">
+      <Filter>Header Files\AI</Filter>
     </ClInclude>
     <ClInclude Include="Raiser.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Randomer.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BlossomPlayer.h">
+      <Filter>Header Files\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="RaiseBetSize.h">
+      <Filter>Header Files\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="BettingAction.h">
+      <Filter>Header Files\Table</Filter>
+    </ClInclude>
+    <ClInclude Include="HandEvaluator.h">
+      <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
