@@ -404,60 +404,135 @@ void GeneticTest::Crossover(const std::shared_ptr<BlossomPlayer>& _First, const 
 		}
 	}*/
 
-	//Single-Set Binary Crossover
-	_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-	PlayersGenerated++;
-	_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-	PlayersGenerated++;
+	std::uniform_int_distribution<int> Distribution_Method(0, 1);
+	unsigned int MethodIndex = Distribution_Method(MTGenerator);
 
-	std::uniform_int_distribution<int> Distribution_Set(0, 3);
-	std::uniform_int_distribution<int> Distribution_Choice(0, 1);
-
-	Phase TargetPhase = (Phase)Distribution_Set(MTGenerator);
-	
-	std::array<float, 4> ThresholdSet_0, ThresholdSet_1;
-
-	for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
+	if (MethodIndex == 0)
 	{
-		switch (Distribution_Choice(MTGenerator))
+		std::cout << "Crossover: Single-set Binary Crossover\n";
+		Writer->WriteAt(0, "Crossover: Single-set Binary Crossover\n");
+
+		//Single-Set Binary Crossover
+		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+		PlayersGenerated++;
+		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+		PlayersGenerated++;
+
+		std::uniform_int_distribution<int> Distribution_Set(0, 3);
+		std::uniform_int_distribution<int> Distribution_Choice(0, 1);
+
+		Phase TargetPhase = (Phase)Distribution_Set(MTGenerator);
+
+		std::array<float, 4> ThresholdSet_0, ThresholdSet_1;
+
+		for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
 		{
-		case 0:
-			ThresholdSet_0[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-			ThresholdSet_1[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-			break;
-		case 1:
-			ThresholdSet_0[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-			ThresholdSet_1[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-			break;
-		}
-	}
-		
-	for(unsigned int ResIndex = 0; ResIndex < _Results.size(); ResIndex++)
-	{
-		for (unsigned int PhIndex = 0; PhIndex < 4; PhIndex++)
-		{
-			if (ResIndex == 0)
+			switch (Distribution_Choice(MTGenerator))
 			{
-				if(PhIndex == (unsigned int) TargetPhase)
-					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_0);
-				else
-					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _First->GetAI().GetThresholdsByPhase((Phase)PhIndex));
-			}
-			else
-			{
-				if (PhIndex == (unsigned int)TargetPhase)
-					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_1);
-				else
-					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _Second->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+			case 0:
+				ThresholdSet_0[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+				ThresholdSet_1[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+				break;
+			case 1:
+				ThresholdSet_0[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+				ThresholdSet_1[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+				break;
 			}
 		}
+
+		for (unsigned int ResIndex = 0; ResIndex < _Results.size(); ResIndex++)
+		{
+			for (unsigned int PhIndex = 0; PhIndex < 4; PhIndex++)
+			{
+				if (ResIndex == 0)
+				{
+					if (PhIndex == (unsigned int)TargetPhase)
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_0);
+					else
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _First->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+				}
+				else
+				{
+					if (PhIndex == (unsigned int)TargetPhase)
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_1);
+					else
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _Second->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+				}
+			}
+		}
 	}
+	else if(MethodIndex == 1)
+	{
+		std::cout << "Crossover: Cross-set Binary Crossover\n";
+		Writer->WriteAt(0, "Crossover: Cross-set Binary Crossover\n");
+
+		//Cross-Set Binary Crossover
+		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+		PlayersGenerated++;
+		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+		PlayersGenerated++;
+
+		std::uniform_int_distribution<int> Distribution_Set(0, 3);
+		std::uniform_int_distribution<int> Distribution_Choice(0, 1);
+
+		Phase TargetPhase_0 = (Phase)Distribution_Set(MTGenerator), TargetPhase_1 = (Phase)Distribution_Set(MTGenerator);
+
+		std::array<float, 4> ThresholdSet_0, ThresholdSet_1;
+
+		for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
+		{
+			switch (Distribution_Choice(MTGenerator))
+			{
+			case 0:
+				ThresholdSet_0[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase_0)[ThrIndex];
+				ThresholdSet_1[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase_1)[ThrIndex];
+				break;
+			case 1:
+				ThresholdSet_0[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase_1)[ThrIndex];
+				ThresholdSet_1[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase_0)[ThrIndex];
+				break;
+			}
+		}
+
+		for (unsigned int ResIndex = 0; ResIndex < _Results.size(); ResIndex++)
+		{
+			for (unsigned int PhIndex = 0; PhIndex < 4; PhIndex++)
+			{
+				if (ResIndex == 0)
+				{
+					if (PhIndex == (unsigned int)TargetPhase_0)
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_0);
+					else
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _First->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+				}
+				else
+				{
+					if (PhIndex == (unsigned int)TargetPhase_1)
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_1);
+					else
+						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _Second->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+				}
+			}
+		}
+	}	
 }	
 
 //Mutating a Threshold Set
-void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase)
+void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _Index)
 {
+	//Single Threshold
 	std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
+	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
+
+	std::array<float, 16> Thresholds = _Target->GetAI().GetThresholds();
+	unsigned int TargetIndex = (unsigned int)_Phase + _Index;
+	
+	Thresholds[TargetIndex] = Thresholds[TargetIndex] + Distribution_Mutation(MTGenerator);
+	if (Thresholds[TargetIndex] < 0)
+		Thresholds[TargetIndex] = Distribution_Backtrack(MTGenerator);
+
+	//Entire Set
+	/*std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
 	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
 
 	std::array<float, 4> ThreshSet = _Target->GetAI().GetThresholdsByPhase(_Phase);
@@ -469,7 +544,7 @@ void GeneticTest::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase)
 			Thresh = Distribution_Backtrack(MTGenerator);
 	}
 
-	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
+	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);*/
 }
 
 void GeneticTest::EvaluateMutateRate()
@@ -489,9 +564,12 @@ void GeneticTest::EvaluateMutateRate()
 	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
 
 	//Oscillating Sine Wave
-	float a = 48.7f;
-	float x = (float)Generation / (float)GenerationLimit;
-	MutateRate = (sin(a * sqrt(x))) / 2.0f + 0.5f;
+	float Freq = 48.7f;
+	float HeightOffset = 0.0f;//0.5f;
+	float GenRatio = (float)Generation / (float)GenerationLimit;
+	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
+
+	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
 	Writer->WriteAt(3, (float)Generation, MutateRate);
 }
@@ -588,6 +666,8 @@ void GeneticTest::ReproducePopulation()
 	std::vector<std::shared_ptr<BlossomPlayer>> Children;
 	std::shared_ptr<BlossomPlayer> Reference;
 
+	std::uniform_int_distribution<int> Distribution_Phase(0, 3);
+
 	while(Population.size() < PopulationSize)
 	{
 		Parents.clear();
@@ -610,10 +690,12 @@ void GeneticTest::ReproducePopulation()
 
 			for (auto& Child : Children)
 			{
-				for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+				Phase TargetPhase = (Phase)Distribution_Phase(MTGenerator);
+
+				for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
 				{
 					if (HasMutationHappen())
-						Mutate(Child, (Phase)PhaseIndex);
+						Mutate(Child, TargetPhase, ThrIndex);
 				}
 				
 				if(Population.size() < PopulationSize)
@@ -634,10 +716,12 @@ void GeneticTest::ReproducePopulation()
 			for (unsigned int Index = 0; Index < 4; Index++)
 				Children[0]->GetAI().SetThresholdsByPhase((Phase)Index, Reference->GetAI().GetThresholdsByPhase((Phase)Index));
 
-			for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+			Phase TargetPhase = (Phase)Distribution_Phase(MTGenerator);
+
+			for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
 			{
 				if (HasMutationHappen())
-					Mutate(Children[0], (Phase)PhaseIndex);
+					Mutate(Children[0], TargetPhase, ThrIndex);
 			}
 	
 			Population.push_back(Children[0]);

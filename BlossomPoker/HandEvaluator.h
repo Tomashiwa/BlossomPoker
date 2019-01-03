@@ -21,8 +21,9 @@ public:
 
 	float DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _PlayerAmt, unsigned int _TrialsAmt);
 
+	int DetermineValue_Cards(const std::vector<Card>& _Cards);
 	int DetermineValue_5Cards(const std::array<Card, 5>& _Hand);
-	int DetermineValue_7Cards(const std::array<Card, 7>& _Hand);
+	int DetermineValue_7Cards(const std::array<Card, 7>& _Hand, int _PrecomputeScore, unsigned int _ContinueFrom);
 	
 	Hand DetermineType(int _Value);
 

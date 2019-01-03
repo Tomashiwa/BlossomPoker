@@ -48,39 +48,6 @@ void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead
 	};
 
 	std::generate_n(std::back_inserter(_Set), RequiredAmt, Lamb_GenerateCard);
-
-	/*//Add the cards that are currently in Set as dead cards
-	for (auto const& Card : _Set)
-		_Dead.push_back(Card);
-
-	bool IsDead;
-	unsigned int RequiredAmt = _Target - _Set.size();
-	//std::uniform_int_distribution<unsigned int> CardsDistribution(0, 51);
-
-	for (unsigned int Index = 0; Index < RequiredAmt; Index++)
-	{
-		while (true)
-		{
-			//_Set.push_back(ReferenceDeck[CardsDistribution(MTGenerator)]);
-			_Set.push_back(ReferenceDeck[next() % 52]);
-
-			IsDead = false;
-
-			for (auto const& Dead : _Dead)
-			{
-				if (Dead == _Set[_Set.size() - 1])
-				{
-					IsDead = true;
-					break;
-				}
-			}
-
-			if (IsDead)
-				_Set.pop_back();
-			else
-				break;
-		}
-	}*/
 }
  
 int HandEvaluator::GetCardInt(Card& _Card)
@@ -127,6 +94,10 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, s
 
 	Dead.insert(Dead.end(), _Hole.begin(), _Hole.end());
 	Dead.insert(Dead.end(), Community.begin(), Community.end());
+	
+	//Pre-computation
+	unsigned int CommunityScoreRef = DetermineValue_Cards(Community);
+	unsigned int PlayerScoreRef = DetermineValue_Cards(std::vector<Card>(PlayerHand.begin(), PlayerHand.begin() + 2 + ExistingCount));
 
 	for (unsigned int TrialIndex = 0; TrialIndex < _TrialsAmt; TrialIndex++)
 	{
@@ -151,10 +122,10 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, s
 				OpponentHands[Index][CommIndex + 2] = Community[CommIndex];
 		}
 
-		PlayerScore = DetermineValue_7Cards(PlayerHand);
+		PlayerScore = DetermineValue_7Cards(PlayerHand, PlayerScoreRef, 2 + ExistingCount);
 
 		for (unsigned int Index = 0; Index < _OppoAmt; Index++)
-			OpponentScores[Index] = DetermineValue_7Cards(OpponentHands[Index]);
+			OpponentScores[Index] = DetermineValue_7Cards(OpponentHands[Index], CommunityScoreRef, ExistingCount);
 
 		bool HasPlayerWin = true;
 		for (auto& Score : OpponentScores)
@@ -182,6 +153,22 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, s
 	return ((float)Win / (float)GameCount) * 100.0f;//(((float)Win) + ((float)Draw) / 2.0f) / ((float)GameCount) * 100.0f;
 }
 
+int HandEvaluator::DetermineValue_Cards(const std::vector<Card>& _Cards)
+{
+	if (_Cards.size() == 0)
+		return 0;
+
+	std::vector<int> CardInts;
+	for (auto Card : _Cards)
+		CardInts.push_back(static_cast<int>(Card));
+	
+	int Value = HR[53 + CardInts[0]];
+	for (unsigned int Index = 1; Index < CardInts.size(); Index++)
+		Value = HR[Value + CardInts[Index]];
+
+	return Value;
+}
+
 int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
 {
 	std::array<int, 5> CardInts = Get5CardsInt(_Hand);
@@ -195,9 +182,37 @@ int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
 	return Value5[0]; 
 }
 
-int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand)
+int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand, int _PrecomputeScore, unsigned int _ContinueFrom)
 {	
 	std::array<int, 7> CardInts = Get7CardsInt(_Hand);
+
+	if (_PrecomputeScore != -1 && _ContinueFrom >= 1)
+	{
+		switch (_ContinueFrom)
+		{
+		case 1:
+			return HR[HR[HR[HR[HR[HR[HR[_PrecomputeScore + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]]];
+			break;
+		case 2:
+			return HR[HR[HR[HR[HR[_PrecomputeScore + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]];
+			break;
+		case 3:
+			return HR[HR[HR[HR[_PrecomputeScore + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]];
+			break;
+		case 4:
+			return HR[HR[HR[_PrecomputeScore + CardInts[4]] + CardInts[5]] + CardInts[6]];
+			break;
+		case 5:
+			return HR[HR[_PrecomputeScore + CardInts[5]] + CardInts[6]];
+			break;
+		case 6:
+			return HR[_PrecomputeScore + CardInts[6]];
+			break;
+		default:
+			return HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]];
+			break;
+		}
+	}
 
 	//std::cout << "HR[53 + CardInts[0]]: " << HR[53 + CardInts[0]] << "\n";
 	//std::cout << "HR[53 + CardInts[0]] + CardInts[1]]: " << HR[HR[53 + CardInts[0]] + CardInts[1]] << "\n";
@@ -252,8 +267,8 @@ ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card, 5> _First, std::
 
 ComparisonResult HandEvaluator::IsBetter7Cards(std::array<Card, 7> _First, std::array<Card, 7> _Second)
 {
-	int FirstValue = DetermineValue_7Cards(_First);
-	int SecondValue = DetermineValue_7Cards(_Second);
+	int FirstValue = DetermineValue_7Cards(_First,-1,0);
+	int SecondValue = DetermineValue_7Cards(_Second,-1,0);
 
 	if (FirstValue == SecondValue)
 		return ComparisonResult::Draw;
