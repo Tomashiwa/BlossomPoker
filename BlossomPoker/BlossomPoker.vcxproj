@@ -155,7 +155,7 @@
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="BlossomAI.cpp" />
-    <ClCompile Include="GeneticTest.cpp" />
+    <ClCompile Include="GeneticTrainer.cpp" />
     <ClCompile Include="LogWriter.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="Strategy.cpp" />
@@ -175,7 +175,7 @@
     <ClInclude Include="Raiser.h" />
     <ClInclude Include="Randomer.h" />
     <ClInclude Include="Table.h" />
-    <ClInclude Include="GeneticTest.h" />
+    <ClInclude Include="GeneticTrainer.h" />
     <ClInclude Include="LogType.h" />
     <ClInclude Include="LogWriter.h" />
     <ClInclude Include="Phase.h" />
@@ -194,6 +194,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="HandRanks.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PreflopResults.txt" />
+    <Text Include="PrefopOdds.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

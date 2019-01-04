@@ -54,9 +54,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneticTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LogWriter.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     <ClCompile Include="Caller.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Folder.cpp">
-      <Filter>Source Files\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Raiser.cpp">
       <Filter>Source Files\AI</Filter>
     </ClCompile>
@@ -101,6 +95,12 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneticTrainer.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Folder.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="Phase.h">
       <Filter>Header Files\Table</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneticTest.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scheduler.h">
       <Filter>Header Files\Tools</Filter>
@@ -158,9 +155,6 @@
     <ClInclude Include="Caller.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Folder.h">
-      <Filter>Header Files\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Raiser.h">
       <Filter>Header Files\AI</Filter>
     </ClInclude>
@@ -182,8 +176,19 @@
     <ClInclude Include="HandEvaluator.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
+    <ClInclude Include="GeneticTrainer.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Folder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="HandRanks.dat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PrefopOdds.txt" />
+    <Text Include="PreflopResults.txt" />
   </ItemGroup>
 </Project>

@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "GeneticTest.h"
+#include "GeneticTrainer.h"
 
 class Scheduler
 {
@@ -29,6 +29,6 @@ private:
 	};
 
 	std::vector<std::unique_ptr<Specification>> Specs;
-	std::unique_ptr<GeneticTest> Test;
+	std::unique_ptr<GeneticTrainer> Test;
 };
 

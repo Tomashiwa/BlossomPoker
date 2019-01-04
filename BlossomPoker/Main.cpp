@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 
-#include "GeneticTest.h"
+#include "GeneticTrainer.h"
 #include "Scheduler.h"
 
 int main()

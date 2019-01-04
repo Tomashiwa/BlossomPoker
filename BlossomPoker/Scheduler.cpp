@@ -2,7 +2,7 @@
 
 Scheduler::Scheduler()
 {
-	Test = std::make_unique<GeneticTest>();
+	Test = std::make_unique<GeneticTrainer>();
 }
 
 Scheduler::~Scheduler()
