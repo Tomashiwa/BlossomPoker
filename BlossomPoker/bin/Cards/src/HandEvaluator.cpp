@@ -28,7 +28,7 @@ void HandEvaluator::Initialize()
 		}
 	}
 
-	std::cout << "\n";
+	Eval = std::make_unique<omp::Evaluator>();
 }
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
@@ -49,10 +49,16 @@ void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead
 
 	std::generate_n(std::back_inserter(_Set), RequiredAmt, Lamb_GenerateCard);
 }
- 
-int HandEvaluator::GetCardInt(Card& _Card)
+
+int HandEvaluator::GetCardInt_TwoPlusTwo(Card& _Card)
 {
 	return static_cast<int>(_Card);
+}
+ 
+int HandEvaluator::GetCardInt_OMPEval(Suit _Suit, Rank _Rank)//(const Card& _Card)
+{
+	return static_cast<int>(_Rank) * 4 - static_cast<int>(_Suit) + 3;
+	//return static_cast<int>(_Card.Get_Rank()) * 4 - static_cast<int>(_Card.Get_Suit()) + 3;
 }
 
 std::array<int,5> HandEvaluator::Get5CardsInt(const std::array<Card, 5>& _Hand)
@@ -62,14 +68,22 @@ std::array<int,5> HandEvaluator::Get5CardsInt(const std::array<Card, 5>& _Hand)
 	return CardInts;
 }
 
-std::array<int,7> HandEvaluator::Get7CardsInt(const std::array<Card,7>& _Hand)
+std::array<int,7> HandEvaluator::Get7CardsInt_TwoPlusTwo(const std::array<Card,7>& _Hand)
 {
 	std::array<int, 7> CardInts{};
 	std::transform(_Hand.begin(), _Hand.end(), CardInts.begin(), [](Card _Card) {return static_cast<int>(_Card); });
 	return CardInts;
 }
 
-float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt)
+std::array<int, 7> HandEvaluator::Get7CardsInt_OMPEval(const std::array<Card, 7>& _Hand)
+{
+	std::array<int, 7> CardInts{};
+	std::transform(_Hand.begin(), _Hand.end(), CardInts.begin(), [](Card card) { return static_cast<int>(card.Get_Rank()) * 4 - static_cast<int>(card.Get_Suit()) + 3;});
+
+	return CardInts;
+}
+
+float HandEvaluator::DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt)
 {
 	std::array<Card, 7> PlayerHand{ _Hole[0], _Hole[1] };
 	std::vector<std::array<Card, 7>> OpponentHands(_OppoAmt);
@@ -122,10 +136,90 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi(std::array<Card, 2> _Hole, s
 				OpponentHands[Index][CommIndex + 2] = Community[CommIndex];
 		}
 
-		PlayerScore = DetermineValue_7Cards(PlayerHand, PlayerScoreRef, 2 + ExistingCount);
+		PlayerScore = DetermineValue_7Cards_TwoPlusTwo(PlayerHand, PlayerScoreRef, 2 + ExistingCount);
 
 		for (unsigned int Index = 0; Index < _OppoAmt; Index++)
-			OpponentScores[Index] = DetermineValue_7Cards(OpponentHands[Index], CommunityScoreRef, ExistingCount);
+			OpponentScores[Index] = DetermineValue_7Cards_TwoPlusTwo(OpponentHands[Index], CommunityScoreRef, ExistingCount);
+
+		bool HasPlayerWin = true;
+		for (auto& Score : OpponentScores)
+		{
+			if (PlayerScore < Score)
+			{
+				HasPlayerWin = false;
+				break;
+			}
+		}
+
+		if (HasPlayerWin)
+			Win++;
+
+		GameCount++;
+
+		Dead.erase(Dead.begin() + 2 + ExistingCount, Dead.end());
+		Community.erase(Community.begin() + ExistingCount, Community.end());
+
+		for (auto& Hole : OpponentHoles)
+			Hole.clear();
+	}
+
+	//std::cout << "\nWin Rate: " << Win << "/" << GameCount << " = " << ((float)Win / (float)GameCount) * 100.0f;
+	return ((float)Win / (float)GameCount) * 100.0f;//(((float)Win) + ((float)Draw) / 2.0f) / ((float)GameCount) * 100.0f;
+}
+
+float HandEvaluator::DetermineOdds_MonteCarlo_Multi_OMPEval(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt)
+{
+	std::array<Card, 7> PlayerHand{ _Hole[0], _Hole[1] };
+	std::vector<std::array<Card, 7>> OpponentHands(_OppoAmt);
+	std::vector<std::vector<Card>> OpponentHoles(_OppoAmt);
+
+	std::vector<Card> Dead;
+	std::vector<Card> Community(_Community);
+
+	unsigned int PlayerScore = 0;
+	std::vector<unsigned int> OpponentScores(_OppoAmt);
+
+	unsigned int Win = 0, Draw = 0, GameCount = 0;
+	unsigned int ExistingCount = Community.size();
+
+	for (unsigned int Index = 0; Index < ExistingCount; Index++)
+	{
+		PlayerHand[2 + Index] = Community[Index];
+
+		for (auto& Hand : OpponentHands)
+			Hand[Index] = Community[Index];
+	}
+
+	Dead.insert(Dead.end(), _Hole.begin(), _Hole.end());
+	Dead.insert(Dead.end(), Community.begin(), Community.end());
+
+	for (unsigned int TrialIndex = 0; TrialIndex < _TrialsAmt; TrialIndex++)
+	{
+		RandomFill(Community, Dead, 5);
+		Dead.insert(Dead.end(), Community.begin() + ExistingCount, Community.end());
+
+		for (auto& Hole : OpponentHoles)
+		{
+			RandomFill(Hole, Dead, 2);
+			Dead.insert(Dead.end(), Hole.begin(), Hole.end());
+		}
+
+		for (unsigned int Index = ExistingCount, Max = Community.size(); Index < Max; Index++)
+			PlayerHand[Index + 2] = Community[Index];
+
+		for (unsigned int Index = 0; Index < _OppoAmt; Index++)
+		{
+			OpponentHands[Index][ExistingCount] = OpponentHoles[Index][0];
+			OpponentHands[Index][ExistingCount + 1] = OpponentHoles[Index][1];
+
+			for (unsigned int CommIndex = ExistingCount, Max = Community.size(); CommIndex < Max; CommIndex++)
+				OpponentHands[Index][CommIndex + 2] = Community[CommIndex];
+		}
+
+		PlayerScore = DetermineValue_7Cards_OMPEval(PlayerHand);
+
+		for (unsigned int Index = 0; Index < _OppoAmt; Index++)
+			OpponentScores[Index] = DetermineValue_7Cards_OMPEval(OpponentHands[Index]);
 
 		bool HasPlayerWin = true;
 		for (auto& Score : OpponentScores)
@@ -182,9 +276,9 @@ int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
 	return Value5[0]; 
 }
 
-int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand, int _PrecomputeScore, unsigned int _ContinueFrom)
+int HandEvaluator::DetermineValue_7Cards_TwoPlusTwo(const std::array<Card, 7>& _Hand, int _PrecomputeScore, unsigned int _ContinueFrom)
 {	
-	std::array<int, 7> CardInts = Get7CardsInt(_Hand);
+	std::array<int, 7> CardInts = Get7CardsInt_TwoPlusTwo(_Hand);
 
 	if (_PrecomputeScore != -1 && _ContinueFrom >= 1)
 	{
@@ -223,6 +317,23 @@ int HandEvaluator::DetermineValue_7Cards(const std::array<Card, 7>& _Hand, int _
 	//std::cout << "HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]]: " << HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]] << "\n";
 
 	return HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]];
+}
+
+int HandEvaluator::DetermineValue_7Cards_OMPEval(const std::array<Card, 7>& _Hand)
+{
+	omp::Hand SampleHand = omp::Hand::empty();
+	SampleHand += omp::Hand(GetCardInt_OMPEval(_Hand[0].Get_Suit(), _Hand[0].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[1].Get_Suit(), _Hand[1].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[2].Get_Suit(), _Hand[2].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[3].Get_Suit(), _Hand[3].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[4].Get_Suit(), _Hand[4].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[5].Get_Suit(), _Hand[5].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[6].Get_Suit(), _Hand[6].Get_Rank()));
+	return Eval->evaluate(SampleHand);
+
+	/*omp::Hand SampleHand = omp::Hand::empty();
+	SampleHand += omp::Hand(GetCardInt_OMPEval(_Hand[0])) + omp::Hand(GetCardInt_OMPEval(_Hand[1])) + omp::Hand(GetCardInt_OMPEval(_Hand[2])) + omp::Hand(GetCardInt_OMPEval(_Hand[3])) + omp::Hand(GetCardInt_OMPEval(_Hand[4])) + omp::Hand(GetCardInt_OMPEval(_Hand[5])) + omp::Hand(GetCardInt_OMPEval(_Hand[6]));
+	
+	std::cout << "Card Ints: ";
+	for (auto const Card : _Hand)
+		std::cout << GetCardInt_OMPEval(Card) << " ";
+	std::cout << "\n";
+	
+	return Eval->evaluate(SampleHand);*/
 }
 
 Hand HandEvaluator::DetermineType(int _Value)
@@ -267,8 +378,8 @@ ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card, 5> _First, std::
 
 ComparisonResult HandEvaluator::IsBetter7Cards(std::array<Card, 7> _First, std::array<Card, 7> _Second)
 {
-	int FirstValue = DetermineValue_7Cards(_First,-1,0);
-	int SecondValue = DetermineValue_7Cards(_Second,-1,0);
+	int FirstValue = DetermineValue_7Cards_TwoPlusTwo(_First,-1,0);
+	int SecondValue = DetermineValue_7Cards_TwoPlusTwo(_Second,-1,0);
 
 	if (FirstValue == SecondValue)
 		return ComparisonResult::Draw;

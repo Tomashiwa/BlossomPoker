@@ -53,6 +53,8 @@ void GeneticTrainer::Start()
 	for (auto const Player : Population)
 		RankingBoard.push_back(std::make_shared<Participant>(Player));
 
+	HoF.clear();
+
 	#pragma region Logging & Comments
 	std::cout << "Settings: \nPopulation Size: " << PopulationSize << " Generation Limit: " << GenerationLimit << "\n\n";
 	std::cout << "Population of " << Population.size() << " initialized: " << GetPopulationContentStr() << "\n";
@@ -191,7 +193,6 @@ void GeneticTrainer::Run()
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
 		
-		
 		if (!IsTestComplete())
  			ReproducePopulation();
 		else
@@ -202,7 +203,7 @@ void GeneticTrainer::Run()
 void GeneticTrainer::End()
 {
 	std::cout << "Test ended at Generation " << Generation << "\n";
-	Writer->WriteAt(0, "Test ended at Generation " + std::to_string(Generation) + "\n");
+	Writer->WriteAt(0, "Test ended at Generation " + std::to_string(Generation) + "\n\n");
 
 	Writer->CloseAt(0);
 	Writer->CloseAt(1);
