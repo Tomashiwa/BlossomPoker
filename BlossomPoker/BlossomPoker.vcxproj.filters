@@ -102,6 +102,18 @@
     <ClCompile Include="Bin\Cards\src\HandEvaluator.cpp">
       <Filter>Source Files\Cards &amp; Decks</Filter>
     </ClCompile>
+    <ClCompile Include="OMPEval\src\CardRange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OMPEval\src\CombinedRange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OMPEval\src\EquityCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OMPEval\src\Evaluator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Player\Inc\Caller.h">
@@ -178,6 +190,36 @@
     </ClInclude>
     <ClInclude Include="Bin\Cards\inc\HandEvaluator.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\CardRange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\CombinedRange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\Constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\EquityCalculator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\Hand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\libdivide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\OffsetTable.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OMPEval\inc\Evaluator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
