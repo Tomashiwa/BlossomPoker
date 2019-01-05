@@ -1,4 +1,4 @@
-#include "LogWriter.h"
+#include "../inc/LogWriter.h"
 
 LogWriter::LogWriter()
 {

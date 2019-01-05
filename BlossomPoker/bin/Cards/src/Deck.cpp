@@ -1,9 +1,9 @@
-#include "Card.h"
-#include "Deck.h"
-
 #include <random>
 #include <iostream>
 #include <algorithm>
+
+#include "../inc/Card.h"
+#include "../inc/Deck.h"
 
 Deck::Deck()
 {

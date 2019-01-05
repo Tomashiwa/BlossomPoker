@@ -1,5 +1,6 @@
 #pragma once
-#include "Player.h"
+#include "../../Player/inc/Player.h"
+#include "BlossomAI.h"
 
 class BlossomPlayer : public Player
 {

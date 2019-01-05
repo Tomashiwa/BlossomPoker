@@ -5,8 +5,8 @@
 #include <memory>
 #include <time.h>
 
-#include "Phase.h"
-#include "LogWriter.h"
+#include "../../Table/inc/Phase.h"
+#include "../inc/LogWriter.h"
 
 class Table;
 class Player;

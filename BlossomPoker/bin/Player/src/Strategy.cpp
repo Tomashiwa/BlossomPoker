@@ -1,5 +1,5 @@
-#include "Strategy.h"
-#include "BlossomAI.h"
+#include "../inc/Strategy.h"
+#include "../../AI/inc/BlossomAI.h"
 
 Strategy::Strategy(Phase _Corresponding)
 {

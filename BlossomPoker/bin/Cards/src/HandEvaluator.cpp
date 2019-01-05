@@ -1,5 +1,5 @@
-#include "HandEvaluator.h"
-#include "xoroshiro128+.h"
+#include "../inc/HandEvaluator.h"
+#include "../../Tools/inc/xoroshiro128+.h"
 
 HandEvaluator::HandEvaluator()
 {

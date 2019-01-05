@@ -1,5 +1,5 @@
-#include "Table.h"
-#include "BlossomPlayer.h"
+#include "../inc/BlossomPlayer.h"
+#include "../../Table/inc/Table.h"
 
 BlossomPlayer::BlossomPlayer(const std::shared_ptr<Table>& _Table, const std::shared_ptr<HandEvaluator>& _Evaluator, unsigned int _Index) : Player(_Table,_Index)
 {

@@ -1,4 +1,4 @@
-#include "Match.h"
+#include "../inc/Match.h"
 
 Match::Match(unsigned int _Index, bool _IsDuplicated, const std::vector<std::shared_ptr<Player>>& _Players) 
 	: Index(_Index), IsDuplicated(_IsDuplicated)

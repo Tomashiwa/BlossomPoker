@@ -1,5 +1,5 @@
-#include "Raiser.h"
-#include "Table.h"
+#include "../inc/Raiser.h"
+#include "../../Table/inc/Table.h"
 
 Raiser::Raiser(const std::shared_ptr<Table>& _Table, unsigned int _Index) : Player(_Table, _Index)
 {

@@ -2,9 +2,9 @@
 #include <iomanip>
 #include <memory>
 
-#include "BettingAction.h"
-#include "RaiseBetSize.h"
-#include "Snapshot.h"
+#include "../../Player/inc/Strategy.h"
+#include "../../Table/inc/RaiseBetSize.h"
+#include "../../AI/inc/Snapshot.h"
 
 class Strategy
 {

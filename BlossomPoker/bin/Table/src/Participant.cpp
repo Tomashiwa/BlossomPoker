@@ -1,4 +1,4 @@
-#include "Participant.h"
+#include "../inc/Participant.h"
 
 Participant::Participant(const std::shared_ptr<Player>& _Owner) : Owner(_Owner)
 {}

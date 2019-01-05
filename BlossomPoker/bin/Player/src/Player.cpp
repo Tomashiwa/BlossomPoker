@@ -1,6 +1,6 @@
-#include "Player.h"
-#include "Card.h"
-#include "Table.h"
+#include "../inc/Player.h"
+#include "../../Cards/inc/Card.h"
+#include "../../Table/inc/Table.h"
 
 Player::Player(const std::shared_ptr<Table>& _Table, unsigned int _Index)
 	: ResidingTable(_Table), Index(_Index), Stack(0), Ante(0), CurrentAction(BettingAction::NONE)

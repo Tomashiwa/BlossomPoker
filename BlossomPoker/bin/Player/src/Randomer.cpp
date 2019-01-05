@@ -1,5 +1,5 @@
-#include "Randomer.h"
-#include "Table.h"
+#include "../inc/Randomer.h"
+#include "../../Table/inc/Table.h"
 
 Randomer::Randomer(const std::shared_ptr<Table>& _Table, unsigned int _Index) : Player(_Table,_Index)
 {

@@ -5,8 +5,9 @@
 #include <random>
 #include <chrono>
 #include <memory>
-#include "BettingAction.h"
-#include "BlossomAI.h"
+
+#include "../../Table/inc/BettingAction.h"
+#include "../../AI/inc/BlossomAI.h"
 
 class Card;
 class Table;

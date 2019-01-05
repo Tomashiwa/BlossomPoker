@@ -1,15 +1,15 @@
-#include "GeneticTrainer.h"
+#include "../inc/GeneticTrainer.h"
 
-#include "HandEvaluator.h"
-#include "Table.h"
-#include "Participant.h"
-#include "Player.h"
-#include "BlossomPlayer.h"
-#include "Folder.h"
-#include "Caller.h"
-#include "Raiser.h"
-#include "Randomer.h"
-#include "Tournament.h"
+#include "../../Cards/inc/HandEvaluator.h"
+#include "../../Table/inc/Table.h"
+#include "../../Table/inc/Participant.h"
+#include "../../Player/inc/Player.h"
+#include "../../AI/inc/BlossomPlayer.h"
+#include "../../Player/inc/Folder.h"
+#include "../../Player/inc/Caller.h"
+#include "../../Player/inc/Raiser.h"
+#include "../../Player/inc/Randomer.h"
+#include "../../Table/inc/Tournament.h"
 
 GeneticTrainer::GeneticTrainer()
 {

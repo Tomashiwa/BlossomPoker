@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Player.h"
+#include "../../Player/inc/Player.h"
 
 class Participant
 {

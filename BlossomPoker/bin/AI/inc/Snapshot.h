@@ -1,9 +1,10 @@
 #pragma once
-#include "Phase.h"
-#include "BettingAction.h"
-#include "Card.h"
 #include <array>
 #include <vector>
+
+#include "../../Table/inc/Phase.h"
+#include "../../Table/inc/BettingAction.h"
+#include "../../Cards/inc/Card.h"
 
 struct Snapshot
 {

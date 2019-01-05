@@ -1,4 +1,4 @@
-#include "BlossomAI.h"
+#include "../inc/BlossomAI.h"
 
 BlossomAI::BlossomAI()
 {

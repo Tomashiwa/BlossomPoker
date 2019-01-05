@@ -5,10 +5,10 @@
 #include <random>
 #include <chrono>
 
-#include "HandEvaluator.h"
-#include "Snapshot.h"
-#include "Strategy.h"
-#include "BettingAction.h"
+#include "../../Cards/inc/HandEvaluator.h"
+#include "../../AI/inc/BlossomAI.h"
+#include "../../Player/inc/Strategy.h"
+#include "../../Table/inc/BettingAction.h"
 
 class BlossomAI
 {

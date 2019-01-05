@@ -5,10 +5,10 @@
 #include <array>
 #include <map>
 
-#include "Deck.h"
-#include "Phase.h"
-#include "Match.h"
-#include "Tournament.h"
+#include "../../Cards/inc/Deck.h"
+#include "../inc/Phase.h"
+#include "../inc/Match.h"
+#include "../inc/Tournament.h"
 
 class Card;
 class Player;

@@ -1,9 +1,9 @@
-#include "Tournament.h"
+#include "../inc/Tournament.h"
 
-#include "Match.h"
-#include "Table.h"
-#include "Player.h"
-#include "HandEvaluator.h"
+#include "../../Table/inc/Match.h"
+#include "../../Table/inc/Table.h"
+#include "../../Player/inc/Player.h"
+#include "../../Cards/inc/HandEvaluator.h"
 
 Tournament::Tournament(unsigned int _Index, unsigned int _BigBlind, const std::shared_ptr<Table>& _Table) 
 	: Index(_Index), ActiveTable(_Table)

@@ -1,4 +1,4 @@
-#include "Folder.h"
+#include "../inc/Folder.h"
 
 Folder::Folder(const std::shared_ptr<Table>& _Table, unsigned int _Index) : Player(_Table,_Index)
 {}

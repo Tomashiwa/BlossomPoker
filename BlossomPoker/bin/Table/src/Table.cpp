@@ -1,7 +1,7 @@
-#include "Table.h"
-#include "Card.h"
-#include "Player.h"
-#include "HandEvaluator.h"
+#include "../inc/Table.h"
+#include "../../Cards/inc/Card.h"
+#include "../../Player/inc/Player.h"
+#include "../../Cards/inc/HandEvaluator.h"
 
 #include <algorithm>
 #include <iterator>
