@@ -11,8 +11,9 @@
 #include <memory>
 
 #include "Card.h"
-#include "Hand.h"
 #include "ComparisonResult.h"
+
+enum class Hand { High, Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
 
 class HandEvaluator
 {

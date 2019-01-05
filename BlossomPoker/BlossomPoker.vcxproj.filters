@@ -176,9 +176,6 @@
     <ClInclude Include="Bin\Cards\inc\Deck.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>
-    <ClInclude Include="Bin\Cards\inc\Hand.h">
-      <Filter>Header Files\Cards &amp; Decks</Filter>
-    </ClInclude>
     <ClInclude Include="Bin\Cards\inc\HandEvaluator.h">
       <Filter>Header Files\Cards &amp; Decks</Filter>
     </ClInclude>

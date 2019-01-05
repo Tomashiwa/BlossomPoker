@@ -185,7 +185,6 @@
     <ClInclude Include="Bin\Tools\inc\Scheduler.h" />
     <ClInclude Include="Bin\Player\Inc\Strategy.h" />
     <ClInclude Include="Bin\Cards\inc\HandEvaluator.h" />
-    <ClInclude Include="Bin\Cards\inc\Hand.h" />
     <ClInclude Include="Bin\Player\Inc\Player.h" />
     <ClInclude Include="Bin\Cards\inc\ComparisonResult.h" />
     <ClInclude Include="Bin\AI\inc\Snapshot.h" />
