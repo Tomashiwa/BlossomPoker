@@ -47,11 +47,11 @@ private:
 	unsigned int PlayersGenerated = 0;
 
 	float CrossoverRate = 0.7f;
-	float MutateAmt = 0.1f;
+	float MutateDelta = 0.1f;
 	float MutateRate = 0.1f;
 
 	unsigned int ParentLimit = 2;
-	unsigned int TouramentSize = 2;
+	unsigned int TournamentSize = 2;
 	unsigned int WinnerPerTouranment = 1;
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Population;

@@ -56,12 +56,14 @@ void GeneticTrainer::Start()
 	HoF.clear();
 
 	#pragma region Logging & Comments
-	std::cout << "Settings: \nPopulation Size: " << PopulationSize << " Generation Limit: " << GenerationLimit << "\n\n";
-	std::cout << "Population of " << Population.size() << " initialized: " << GetPopulationContentStr() << "\n";
+	std::cout << "Simulating a Population of " << PopulationSize << " Players for " << GenerationLimit << " generations.\n";
+	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << PopulationSize << " duplicate matches.\n";
+	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism applied and mutate dynamically.\n";
 
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));
-	Writer->WriteAt(0, "Settings: \n Population Size: " + std::to_string(PopulationSize) + "  Subjects Amt: " + " Generation Limit: " + std::to_string(GenerationLimit) + " Tours Per Gen: " + std::to_string(ToursPerGen) + "\n\n");
-	Writer->WriteAt(0, "Population of " + std::to_string(Population.size()) + " initialized\n " + GetPopulationContentStr() + "\n");
+	Writer->WriteAt(0, "Simulating a Population of " + std::to_string(PopulationSize) + " Players for " + std::to_string(GenerationLimit) + " generations.\n");
+	Writer->WriteAt(0, "Players will play " + std::to_string(TournamentSize) + " Tournaments with " + std::to_string(PopulationSize) + " duplicate matches.\n");
+	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism applied and mutate dynamically.\n");
 
 	for (auto const& Player : Population)
 		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": (" + GetThresholdsStr(Player) + ")\n");
@@ -86,8 +88,8 @@ void GeneticTrainer::Run()
 
 	for (unsigned int GenIndex = 0; GenIndex < GenerationLimit; GenIndex++)
 	{
-		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ":\n");
-		std::cout << "\nGeneration " << Generation << ":\n";
+		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ": (" + std::to_string(PlayersGenerated) + " Players created till now)\n");
+		std::cout << "\nGeneration " << Generation << ": (" << PlayersGenerated << " Players created till now)\n";
 
 		if (HoF.size() == 0)
 		{
@@ -121,7 +123,7 @@ void GeneticTrainer::Run()
 			{
 				std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-				Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
+				Tournament->Initialise(PlayingPopulation, PopulationSize, true);
 
 				Tournament->Run();
 			}
@@ -171,8 +173,8 @@ void GeneticTrainer::Run()
 		std::cout << "\n";
 		Writer->WriteAt(0, "\n");
 
-		std::cout << "HoF: \n";
-		Writer->WriteAt(0, "HoF: \n");
+		std::cout << "Hall of Fame: \n";
+		Writer->WriteAt(0, "Hall of Fame: \n");
 		for (auto const& Participant : HoF)
 		{
 			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
@@ -326,11 +328,11 @@ std::shared_ptr<BlossomPlayer>& GeneticTrainer::TournamentSelect(const std::vect
 	std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Tournament;
-	Tournament.reserve(TouramentSize);
+	Tournament.reserve(TournamentSize);
 
 	std::shared_ptr<BlossomPlayer> CurrentPlayer;
 
-	for (unsigned int TourIndex = 0; TourIndex < TouramentSize; TourIndex++)
+	for (unsigned int TourIndex = 0; TourIndex < TournamentSize; TourIndex++)
 	{
 		do { CurrentPlayer = _RefPopulation[Distribution_Qualifier(MTGenerator)]; } while (std::find(Population.begin(), Population.end(), CurrentPlayer) != Population.end());
 
@@ -344,7 +346,7 @@ std::shared_ptr<BlossomPlayer>& GeneticTrainer::TournamentSelect(const std::vect
 	/*std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Tournament;
-	Tournament.reserve(TouramentSize);
+	Tournament.reserve(TournamentSize);
 
 	std::shared_ptr<BlossomPlayer> CurrentPlayer;
 
@@ -352,7 +354,7 @@ std::shared_ptr<BlossomPlayer>& GeneticTrainer::TournamentSelect(const std::vect
 	{
 		Tournament.clear();
 
-		for (unsigned int TourIndex = 0; TourIndex < TouramentSize; TourIndex++)
+		for (unsigned int TourIndex = 0; TourIndex < TournamentSize; TourIndex++)
 		{
 			do { CurrentPlayer = _RefPopulation[Distribution_Qualifier(MTGenerator)]; } 
 				while (std::find(Population.begin(), Population.end(), CurrentPlayer) != Population.end());
@@ -522,8 +524,8 @@ void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, con
 void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _Index)
 {
 	//Single Threshold
-	std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
-	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
+	std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
+	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 
 	std::array<float, 16> Thresholds = _Target->GetAI().GetThresholds();
 	unsigned int TargetIndex = (unsigned int)_Phase + _Index;
@@ -532,9 +534,11 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 	if (Thresholds[TargetIndex] < 0)
 		Thresholds[TargetIndex] = Distribution_Backtrack(MTGenerator);
 
+	Writer->WriteAt(0, "Mutated P." + std::to_string(_Target->GetIndex()) + " Threshold set " + std::to_string((int) _Phase) + " Index " + std::to_string(_Index) + "\n");
+
 	//Entire Set
-	/*std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
-	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
+	/*std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
+	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 
 	std::array<float, 4> ThreshSet = _Target->GetAI().GetThresholdsByPhase(_Phase);
 
@@ -559,16 +563,16 @@ void GeneticTrainer::EvaluateMutateRate()
 	//MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
 	//Gaussian Distribution
-	/*float a = 2.5f, b = 0.5f, c = 0.15f;
+	float a = 2.5f, b = 0.5f, c = 0.15f;
 	float x = (float) Generation / (float) GenerationLimit;
 	float e = std::exp(1.0f);
-	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
+	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
 
 	//Oscillating Sine Wave
-	float Freq = 48.7f;
-	float HeightOffset = 0.0f;//0.5f;
-	float GenRatio = (float)Generation / (float)GenerationLimit;
-	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
+	//float Freq = 48.7f;
+	//float HeightOffset = 0.0f;//0.5f;
+	//float GenRatio = (float)Generation / (float)GenerationLimit;
+	//MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
 
 	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
@@ -578,13 +582,13 @@ void GeneticTrainer::EvaluateMutateRate()
 //Mutating a specific threshold
 /*void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex)
 {
-	std::uniform_real_distribution<float> Distribution_Mutation(-MutateAmt, MutateAmt);
+	std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
 
 	float MutatedThreshold = _Target->GetAI().GetThresholdsByPhase(_Phase)[_ParaIndex] + Distribution_Mutation(MTGenerator);
 	
 	if (MutatedThreshold < 0)
 	{
-		std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateAmt);
+		std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 		MutatedThreshold = Distribution_Backtrack(MTGenerator);
 	}
 
