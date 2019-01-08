@@ -9,9 +9,9 @@ int main()
 {
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
-	Schedule->Add(16, 100, 16);
+	Schedule->Add(8, 1, 1);
 
-	Schedule->Run();
+	Schedule->Run(true);
 	system("pause");
 
 	return 0;

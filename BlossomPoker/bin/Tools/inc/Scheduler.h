@@ -5,6 +5,10 @@
 
 #include "GeneticTrainer.h"
 
+#include <windows.h>
+#pragma comment(lib, "user32.lib")
+#pragma comment(lib, "advapi32.lib")
+
 class Scheduler
 {
 public:
@@ -12,8 +16,10 @@ public:
 	~Scheduler();
 
 	void Start();
-	void Run();
+	void Run(bool _TerminateAfterComp);
 	void End();
+
+	BOOL Terminate();
 
 	void Add(unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen);
 

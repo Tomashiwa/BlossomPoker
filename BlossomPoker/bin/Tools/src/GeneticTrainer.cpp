@@ -57,7 +57,7 @@ void GeneticTrainer::Start()
 
 	#pragma region Logging & Comments
 	std::cout << "Simulating a Population of " << PopulationSize << " Players for " << GenerationLimit << " generations.\n";
-	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << PopulationSize << " duplicate matches.\n";
+	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << 8 << " duplicate matches.\n";
 	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism applied and mutate dynamically.\n";
 
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));
@@ -123,7 +123,7 @@ void GeneticTrainer::Run()
 			{
 				std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-				Tournament->Initialise(PlayingPopulation, PopulationSize, true);
+				Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
 
 				Tournament->Run();
 			}
