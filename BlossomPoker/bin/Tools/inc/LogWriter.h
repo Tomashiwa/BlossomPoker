@@ -17,7 +17,9 @@ public:
 	LogWriter();
 	~LogWriter();
 
+	void NewDir();
 	void NewFile(LogType _Type, std::string _Name);
+	void GenerateGNUFile();
 
 	void WriteAt(unsigned int _FileIndex, std::string _Line);
 	void WriteAt(unsigned int _FileIndex, float _Axis1, float _Axis2);
@@ -26,28 +28,20 @@ public:
 	void CloseAt(unsigned int _Index);
 	void Clear();
 
+	std::string GetCurrentDateTime() const;
+
 private:
 	struct Entry
 	{
 		std::ofstream File;
-		std::string Dir;
+		std::string Name;
 		LogType Type;
 
-		Entry(LogType _Type, std::string _Name) : Type(_Type), Dir("TestLogs\\" + GetCurrentDateTime() + " - " + _Name + ".txt") {};
-
-		std::string GetCurrentDateTime() const
-		{
-			auto t = std::time(nullptr);
-			auto tm = *std::localtime(&t);
-
-			std::ostringstream oss;
-			oss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
-			std::string str = oss.str();
-
-			return str;
-		}
+		Entry(LogType _Type, std::string _Name) : Type(_Type), Name( _Name + ".txt") {};
 	};
 
+	std::string CurrentDir;
+	std::string LastSavedDateTime;
 	std::vector<std::shared_ptr<Entry>> Entries;
 };
 
