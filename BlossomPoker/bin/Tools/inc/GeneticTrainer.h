@@ -47,7 +47,7 @@ private:
 	unsigned int PlayersGenerated = 0;
 
 	float CrossoverRate = 0.7f;
-	float MutateDelta = 0.1f;
+	float MutateDelta = 0.15f;
 	float MutateRate = 0.1f;
 
 	unsigned int ParentLimit = 2;

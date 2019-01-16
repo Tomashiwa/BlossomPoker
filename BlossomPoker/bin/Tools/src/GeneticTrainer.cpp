@@ -57,8 +57,8 @@ void GeneticTrainer::Start()
 
 	#pragma region Logging & Comments
 	std::cout << "Simulating a Population of " << PopulationSize << " Players for " << GenerationLimit << " generations.\n";
-	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << 8 << " duplicate matches.\n";
-	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism applied and mutate dynamically.\n";
+	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << PopulationSize << " duplicate matches.\n";
+	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism applied and mutate dynamically with delta of " << MutateDelta << ".\n";
 
 	Writer->NewDir();
 	Writer->GenerateGNUFile();
@@ -66,7 +66,7 @@ void GeneticTrainer::Start()
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));
 	Writer->WriteAt(0, "Simulating a Population of " + std::to_string(PopulationSize) + " Players for " + std::to_string(GenerationLimit) + " generations.\n");
 	Writer->WriteAt(0, "Players will play " + std::to_string(TournamentSize) + " Tournaments with " + std::to_string(PopulationSize) + " duplicate matches.\n");
-	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism applied and mutate dynamically.\n");
+	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism applied and mutate dynamically with delta of " + std::to_string(MutateDelta) + ".\n");
 
 	for (auto const& Player : Population)
 		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": (" + GetThresholdsStr(Player) + ")\n");
@@ -126,7 +126,7 @@ void GeneticTrainer::Run()
 			{
 				std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-				Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
+				Tournament->Initialise(PlayingPopulation, PopulationSize, true);//PlayingPopulation.size(), true);
 
 				Tournament->Run();
 			}
@@ -530,14 +530,36 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 	std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
 	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 
-	std::array<float, 16> Thresholds = _Target->GetAI().GetThresholds();
-	unsigned int TargetIndex = (unsigned int)_Phase + _Index;
-	
-	Thresholds[TargetIndex] = Thresholds[TargetIndex] + Distribution_Mutation(MTGenerator);
-	if (Thresholds[TargetIndex] < 0)
-		Thresholds[TargetIndex] = Distribution_Backtrack(MTGenerator);
+	std::array<float, 4> ThreshSet = _Target->GetAI().GetThresholdsByPhase(_Phase);
+	float Delta = Distribution_Mutation(MTGenerator);
 
-	Writer->WriteAt(0, "Mutated P." + std::to_string(_Target->GetIndex()) + " Threshold set " + std::to_string((int) _Phase) + " Index " + std::to_string(_Index) + "\n");
+	Writer->WriteAt(0, "Mutated P." + std::to_string(_Target->GetIndex()) + " Threshold set " + std::to_string((int)_Phase) + " Index " + std::to_string(_Index) + " with a delta of " + std::to_string(Delta) + "\n");
+	Writer->WriteAt(0, "Premutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
+
+	ThreshSet[_Index] = ThreshSet[_Index] + Delta;
+	if (ThreshSet[_Index] < 0)
+	{
+		Delta = Distribution_Backtrack(MTGenerator);
+		ThreshSet[_Index] = Delta;
+	}
+
+	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
+
+	Writer->WriteAt(0, "Postmutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
+
+	/*std::array<float, 16> Thresholds = _Target->GetAI().GetThresholds();
+	unsigned int TargetIndex = (unsigned int)_Phase + _Index;
+	float Delta = Distribution_Mutation(MTGenerator);
+	
+	Thresholds[TargetIndex] = Thresholds[TargetIndex] + Delta;
+	if (Thresholds[TargetIndex] < 0)
+	{
+		Delta = Distribution_Backtrack(MTGenerator);
+		Thresholds[TargetIndex] = Delta;
+	}
+
+	_Target->GetAI().SetThresholds(Thresholds);*/
+	
 
 	//Entire Set
 	/*std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
@@ -566,17 +588,18 @@ void GeneticTrainer::EvaluateMutateRate()
 	//MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
 	//Gaussian Distribution
-	float a = 2.5f, b = 0.5f, c = 0.15f;
+	/*float a = 2.5f, b = 0.5f, c = 0.15f;
 	float x = (float) Generation / (float) GenerationLimit;
 	float e = std::exp(1.0f);
-	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
+	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
 
 	//Oscillating Sine Wave
-	//float Freq = 48.7f;
-	//float HeightOffset = 0.0f;//0.5f;
-	//float GenRatio = (float)Generation / (float)GenerationLimit;
-	//MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
+	float Freq = 48.7f;
+	float HeightOffset = 0.5f;
+	float GenRatio = (float)Generation / (float)GenerationLimit;
+	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
 
+	//MutateRate = 1.0f;
 	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
 	Writer->WriteAt(3, (float)Generation, MutateRate);
