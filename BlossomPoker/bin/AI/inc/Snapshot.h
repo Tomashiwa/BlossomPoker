@@ -8,6 +8,7 @@
 
 struct Snapshot
 {
+	unsigned int Rounds;
 	Phase Phase;
 
 	unsigned int PlayerAmt;

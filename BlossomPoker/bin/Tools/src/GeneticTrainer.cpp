@@ -65,7 +65,7 @@ void GeneticTrainer::Start()
 
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));
 	Writer->WriteAt(0, "Simulating a Population of " + std::to_string(PopulationSize) + " Players for " + std::to_string(GenerationLimit) + " generations.\n");
-	Writer->WriteAt(0, "Players will play " + std::to_string(TournamentSize) + " Tournaments with " + std::to_string(PopulationSize) + " duplicate matches.\n");
+	Writer->WriteAt(0, "Players will play " + std::to_string(ToursPerGen) + " Tournaments with " + std::to_string(PopulationSize) + " duplicate matches.\n");
 	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism applied and mutate dynamically with delta of " + std::to_string(MutateDelta) + ".\n");
 
 	for (auto const& Player : Population)
@@ -126,7 +126,7 @@ void GeneticTrainer::Run()
 			{
 				std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-				Tournament->Initialise(PlayingPopulation, PopulationSize, true);//PlayingPopulation.size(), true);
+				Tournament->Initialise(PlayingPopulation, PopulationSize, true);// PlayingPopulation.size(), true);
 
 				Tournament->Run();
 			}

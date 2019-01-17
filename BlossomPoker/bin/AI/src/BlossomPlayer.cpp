@@ -17,9 +17,9 @@ BettingAction BlossomPlayer::DetermineAction()
 	std::vector<std::shared_ptr<Player>> ActivePlayers;
 	ResidingTable->GetActivePlayers(ActivePlayers);
 	NewShot.PlayerAmt = ActivePlayers.size();
-	//NewShot.PlayerAmt = ResidingTable->GetPlayers().size();
 	
 	NewShot.BB = ResidingTable->GetBigBlind();
+	NewShot.Rounds = ResidingTable->GetRounds();
 	NewShot.Phase = ResidingTable->GetState();
 	NewShot.Hole = Hand;
 	NewShot.CurrentAnte = GetAnte();

@@ -42,6 +42,10 @@ private:
 
 	unsigned int RaiseBetAmt = 0;
 
+	unsigned int CurrentRound = 0;
+	Phase CurrentPhase = Phase::NONE;
+	float CurrentWinRate = 0.0f;
+
 	std::mt19937 MT;
 	std::shared_ptr<HandEvaluator> Evaluator;
 };

@@ -11,7 +11,7 @@ int main()
 
 	Schedule->Add(16, 100, 16);
 
-	Schedule->Run(true);
+	Schedule->Run(false);
 	system("pause");
 
 	return 0;
