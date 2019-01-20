@@ -524,17 +524,16 @@ void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, con
 }	
 
 //Mutating a Threshold Set
-void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _Index)
+void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase)//, unsigned int _Index)
 {
 	//Single Threshold
-	std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
+	/*std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
 	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 
 	std::array<float, 4> ThreshSet = _Target->GetAI().GetThresholdsByPhase(_Phase);
 	float Delta = Distribution_Mutation(MTGenerator);
 
 	Writer->WriteAt(0, "Mutated P." + std::to_string(_Target->GetIndex()) + " Threshold set " + std::to_string((int)_Phase) + " Index " + std::to_string(_Index) + " with a delta of " + std::to_string(Delta) + "\n");
-	Writer->WriteAt(0, "Premutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
 
 	ThreshSet[_Index] = ThreshSet[_Index] + Delta;
 	if (ThreshSet[_Index] < 0)
@@ -543,26 +542,12 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 		ThreshSet[_Index] = Delta;
 	}
 
-	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
-
-	Writer->WriteAt(0, "Postmutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
-
-	/*std::array<float, 16> Thresholds = _Target->GetAI().GetThresholds();
-	unsigned int TargetIndex = (unsigned int)_Phase + _Index;
-	float Delta = Distribution_Mutation(MTGenerator);
-	
-	Thresholds[TargetIndex] = Thresholds[TargetIndex] + Delta;
-	if (Thresholds[TargetIndex] < 0)
-	{
-		Delta = Distribution_Backtrack(MTGenerator);
-		Thresholds[TargetIndex] = Delta;
-	}
-
-	_Target->GetAI().SetThresholds(Thresholds);*/
-	
+	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);*/
 
 	//Entire Set
-	/*std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
+	Writer->WriteAt(0, "Mutating P." + std::to_string(_Target->GetIndex()) + "'s Threshold Set " + std::to_string((unsigned int)_Phase) + "\n");
+	Writer->WriteAt(0, "Pre-mutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
+	std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
 	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 
 	std::array<float, 4> ThreshSet = _Target->GetAI().GetThresholdsByPhase(_Phase);
@@ -574,18 +559,19 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 			Thresh = Distribution_Backtrack(MTGenerator);
 	}
 
-	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);*/
+	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
+	Writer->WriteAt(0, "Post-mutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
 }
 
 void GeneticTrainer::EvaluateMutateRate()
 {
 	//Diversity-based Adaptive Mutation
-	//float Sensitivity = 0.3f;
-	//float TargetDiversity = 0.2f;
-	//float CurrentDiversity = GetGenerationDiversity();
+	float Sensitivity = 0.3f;
+	float TargetDiversity = 0.4f;
+	float CurrentDiversity = GetGenerationDiversity();
 
-	//MutateRate = MutateRate * (1 + (Sensitivity * ((TargetDiversity - CurrentDiversity) / CurrentDiversity)));
-	//MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
+	MutateRate = MutateRate * (1 + (Sensitivity * ((TargetDiversity - CurrentDiversity) / CurrentDiversity)));
+	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
 	//Gaussian Distribution
 	/*float a = 2.5f, b = 0.5f, c = 0.15f;
@@ -594,10 +580,10 @@ void GeneticTrainer::EvaluateMutateRate()
 	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
 
 	//Oscillating Sine Wave
-	float Freq = 48.7f;
+	/*float Freq = 48.7f;
 	float HeightOffset = 0.5f;
 	float GenRatio = (float)Generation / (float)GenerationLimit;
-	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
+	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;*/
 
 	//MutateRate = 1.0f;
 	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
@@ -721,13 +707,20 @@ void GeneticTrainer::ReproducePopulation()
 
 			for (auto& Child : Children)
 			{
-				Phase TargetPhase = (Phase)Distribution_Phase(MTGenerator);
+				//Mutating Threshold Set
+				for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+				{
+					if (HasMutationHappen())
+						Mutate(Child, (Phase)PhaseIndex);
+				}
+				//Distributed Mutation of Single Set
+				/*Phase TargetPhase = (Phase)Distribution_Phase(MTGenerator);
 
 				for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
 				{
 					if (HasMutationHappen())
 						Mutate(Child, TargetPhase, ThrIndex);
-				}
+				}*/
 				
 				if(Population.size() < PopulationSize)
 					Population.push_back(Child);
@@ -747,13 +740,21 @@ void GeneticTrainer::ReproducePopulation()
 			for (unsigned int Index = 0; Index < 4; Index++)
 				Children[0]->GetAI().SetThresholdsByPhase((Phase)Index, Reference->GetAI().GetThresholdsByPhase((Phase)Index));
 
-			Phase TargetPhase = (Phase)Distribution_Phase(MTGenerator);
+			//Mutating Threshold Set
+			for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+			{
+				if (HasMutationHappen())
+					Mutate(Children[0], (Phase)PhaseIndex);
+			}
+
+			//Distributed Mutation of Single Set
+			/*Phase TargetPhase = (Phase)Distribution_Phase(MTGenerator);
 
 			for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
 			{
 				if (HasMutationHappen())
 					Mutate(Children[0], TargetPhase, ThrIndex);
-			}
+			}*/
 	
 			Population.push_back(Children[0]);
 			PlayersGenerated++;
