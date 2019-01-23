@@ -112,7 +112,6 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 
 float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _Communal, unsigned int _OppoAmt)
 {
-	//return Evaluator->DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(_Hole, _Communal, _OppoAmt, 7500);//2500);
 	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 7500);
 }
 

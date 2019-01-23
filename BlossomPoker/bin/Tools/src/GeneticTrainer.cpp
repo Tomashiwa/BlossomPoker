@@ -57,8 +57,8 @@ void GeneticTrainer::Start()
 
 	#pragma region Logging & Comments
 	std::cout << "Simulating a Population of " << PopulationSize << " Players for " << GenerationLimit << " generations.\n";
-	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << PopulationSize << " duplicate matches.\n";
-	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism applied and mutate dynamically with delta of " << MutateDelta << ".\n";
+	std::cout << "Players will play " << ToursPerGen << " Tournaments with " << 8 << " duplicate matches.\n";
+	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism (" << ElitesLimit << ") applied and mutate dynamically with delta of " << MutateDelta << ".\n";
 
 	Writer->NewDir();
 	Writer->GenerateGNUFile();
@@ -66,7 +66,7 @@ void GeneticTrainer::Start()
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));
 	Writer->WriteAt(0, "Simulating a Population of " + std::to_string(PopulationSize) + " Players for " + std::to_string(GenerationLimit) + " generations.\n");
 	Writer->WriteAt(0, "Players will play " + std::to_string(ToursPerGen) + " Tournaments with " + std::to_string(PopulationSize) + " duplicate matches.\n");
-	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism applied and mutate dynamically with delta of " + std::to_string(MutateDelta) + ".\n");
+	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism (" + std::to_string(ElitesLimit) + ") applied and mutate dynamically with delta of " + std::to_string(MutateDelta) + ".\n");
 
 	for (auto const& Player : Population)
 		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": (" + GetThresholdsStr(Player) + ")\n");
@@ -126,7 +126,7 @@ void GeneticTrainer::Run()
 			{
 				std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
-				Tournament->Initialise(PlayingPopulation, PopulationSize, true);// PlayingPopulation.size(), true);
+				Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
 
 				Tournament->Run();
 			}
@@ -137,7 +137,7 @@ void GeneticTrainer::Run()
 		
 		ArrangePlayers(Population);
 
-		for (unsigned int Index = 0; Index < 4; Index++)
+		for (unsigned int Index = 0; Index < ElitesLimit + 4; Index++)
 		{
 			auto TopItr = std::find_if(HoF.begin(), HoF.end(), [&](std::shared_ptr<Participant> _Participant) { return _Participant->GetOwner()->GetIndex() == RankingBoard[Index]->GetOwner()->GetIndex(); });
 
@@ -165,6 +165,9 @@ void GeneticTrainer::Run()
 		}
 
 		ArrangeHoF();
+
+		if(HoF.size() > PopulationSize * 2)
+			HoF.erase(HoF.begin() + PopulationSize * 2, HoF.end());
 
 		std::cout << "\nGenerational Ranking: \n";
 		Writer->WriteAt(0, "\nGenerational Ranking: \n");
@@ -410,13 +413,62 @@ void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, con
 		}
 	}*/
 
-	std::uniform_int_distribution<int> Distribution_Method(0, 1);
+	//Single-Set Binary Crossover
+	_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+	PlayersGenerated++;
+	_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+	PlayersGenerated++;
+
+	std::uniform_int_distribution<int> Distribution_Set(0, 3);
+	std::uniform_int_distribution<int> Distribution_Choice(0, 1);
+
+	Phase TargetPhase = (Phase)Distribution_Set(MTGenerator);
+
+	std::array<float, 4> ThresholdSet_0, ThresholdSet_1;
+
+	for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
+	{
+		switch (Distribution_Choice(MTGenerator))
+		{
+		case 0:
+			ThresholdSet_0[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+			ThresholdSet_1[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+			break;
+		case 1:
+			ThresholdSet_0[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+			ThresholdSet_1[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
+			break;
+		}
+	}
+
+	for (unsigned int ResIndex = 0; ResIndex < _Results.size(); ResIndex++)
+	{
+		for (unsigned int PhIndex = 0; PhIndex < 4; PhIndex++)
+		{
+			if (ResIndex == 0)
+			{
+				if (PhIndex == (unsigned int)TargetPhase)
+					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_0);
+				else
+					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _First->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+			}
+			else
+			{
+				if (PhIndex == (unsigned int)TargetPhase)
+					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_1);
+				else
+					_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _Second->GetAI().GetThresholdsByPhase((Phase)PhIndex));
+			}
+		}
+	}
+
+	/*std::uniform_int_distribution<int> Distribution_Method(0, 1);
 	unsigned int MethodIndex = Distribution_Method(MTGenerator);
 
 	if (MethodIndex == 0)
 	{
 		std::cout << "Crossover: Single-set Binary Crossover\n";
-		Writer->WriteAt(0, "Crossover: Single-set Binary Crossover\n");
+		//Writer->WriteAt(0, "Crossover: Single-set Binary Crossover\n");
 
 		//Single-Set Binary Crossover
 		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
@@ -470,7 +522,7 @@ void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, con
 	else if(MethodIndex == 1)
 	{
 		std::cout << "Crossover: Cross-set Binary Crossover\n";
-		Writer->WriteAt(0, "Crossover: Cross-set Binary Crossover\n");
+		//Writer->WriteAt(0, "Crossover: Cross-set Binary Crossover\n");
 
 		//Cross-Set Binary Crossover
 		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
@@ -520,7 +572,7 @@ void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, con
 				}
 			}
 		}
-	}	
+	}	*/
 }	
 
 //Mutating a Threshold Set
@@ -545,8 +597,8 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);*/
 
 	//Entire Set
-	Writer->WriteAt(0, "Mutating P." + std::to_string(_Target->GetIndex()) + "'s Threshold Set " + std::to_string((unsigned int)_Phase) + "\n");
-	Writer->WriteAt(0, "Pre-mutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
+	//Writer->WriteAt(0, "Mutating P." + std::to_string(_Target->GetIndex()) + "'s Threshold Set " + std::to_string((unsigned int)_Phase) + "\n");
+	//Writer->WriteAt(0, "Pre-mutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
 	std::uniform_real_distribution<float> Distribution_Mutation(-MutateDelta, MutateDelta);
 	std::uniform_real_distribution<float> Distribution_Backtrack(0.0, MutateDelta);
 
@@ -560,18 +612,34 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 	}
 
 	_Target->GetAI().SetThresholdsByPhase(_Phase, ThreshSet);
-	Writer->WriteAt(0, "Post-mutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
+	//Writer->WriteAt(0, "Post-mutated P." + std::to_string(_Target->GetIndex()) + ": " + GetThresholdsStr(_Target) + "\n");
 }
 
 void GeneticTrainer::EvaluateMutateRate()
 {
-	//Diversity-based Adaptive Mutation
+	//Custom Diversity-based Adaptive Mutation
 	float Sensitivity = 0.3f;
+	float Diversity_Min = 0.2f, Diversity_Max = 0.3f;
+	float Diversity_Current = GetGenerationDiversity();
+
+	if (MutatePhase == 0)
+	{
+		MutateRate = MutateRate * (1 + (Sensitivity * ((Diversity_Min - Diversity_Current) / Diversity_Current)));
+		MutatePhase = Diversity_Current <= Diversity_Min ? 1 : 0;
+	}
+	else
+	{
+		MutateRate = MutateRate * (1 + (Sensitivity * ((Diversity_Max - Diversity_Current) / Diversity_Current)));
+		MutatePhase = Diversity_Current >= Diversity_Max ? 0 : 1;
+	}
+
+	//Diversity-based Adaptive Mutation
+	/*float Sensitivity = 0.3f;
 	float TargetDiversity = 0.4f;
 	float CurrentDiversity = GetGenerationDiversity();
 
 	MutateRate = MutateRate * (1 + (Sensitivity * ((TargetDiversity - CurrentDiversity) / CurrentDiversity)));
-	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
+	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));*/
 
 	//Gaussian Distribution
 	/*float a = 2.5f, b = 0.5f, c = 0.15f;
@@ -586,7 +654,7 @@ void GeneticTrainer::EvaluateMutateRate()
 	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;*/
 
 	//MutateRate = 1.0f;
-	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
+	MutateRate = std::max(0.0f, std::min(MutateRate, 0.7f));
 
 	Writer->WriteAt(3, (float)Generation, MutateRate);
 }
@@ -674,10 +742,13 @@ void GeneticTrainer::ReproducePopulation()
 
 	//Reproduction with Elitism
 	std::vector<std::shared_ptr<BlossomPlayer>> PopulationReference(Population.begin(), Population.end());
-	Population.erase(Population.begin() + 1, Population.end()); //Keep the best agent
+	Population.erase(Population.begin() + ElitesLimit, Population.end());
 
-	std::cout << "Elite: P." << Population[0]->GetIndex() << "\n";
-	Writer->WriteAt(0, "Elite: P." + std::to_string(Population[0]->GetIndex()) + "\n");
+	for (unsigned int Index = 0; Index < ElitesLimit; Index++)
+	{
+		std::cout << "Elite: P." << Population[Index]->GetIndex() << "\n";
+		Writer->WriteAt(0, "Elite: P." + std::to_string(Population[Index]->GetIndex()) + "\n");
+	}
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Parents;
 	std::vector<std::shared_ptr<BlossomPlayer>> Children;
@@ -735,7 +806,7 @@ void GeneticTrainer::ReproducePopulation()
 			Reference = TournamentSelect(PopulationReference);
 
 			std::cout << "Reference: P." << Reference->GetIndex() << "\n";
-			Writer->WriteAt(0, "Reference: P." + std::to_string(Reference->GetIndex()) + "\n");
+			//Writer->WriteAt(0, "Reference: P." + std::to_string(Reference->GetIndex()) + "\n");
 
 			for (unsigned int Index = 0; Index < 4; Index++)
 				Children[0]->GetAI().SetThresholdsByPhase((Phase)Index, Reference->GetAI().GetThresholdsByPhase((Phase)Index));

@@ -51,8 +51,12 @@ private:
 	float MutateRate = 0.1f;
 
 	unsigned int ParentLimit = 2;
-	unsigned int TournamentSize = 2;
+	unsigned int TournamentSize = 4;
 	unsigned int WinnerPerTouranment = 1;
+
+	unsigned int ElitesLimit = 3;
+
+	unsigned int MutatePhase = 0;
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Population;
 	std::vector<std::shared_ptr<Player>> PlayingPopulation;
