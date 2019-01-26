@@ -19,7 +19,7 @@ public:
 
 	const std::shared_ptr<Player>& GetOwner() { return Owner; }
 	float GetFitness() { return Fitness; }
-	
+
 	unsigned int GetMoneyWon() { return MoneyWon; }
 	unsigned int GetMoneyLost() { return MoneyLost; }
 	unsigned int GetHandsWon() { return HandsWon; }
@@ -30,6 +30,7 @@ public:
 	void UpdateFitness();
 
 	void Refresh();
+	void Reload(const std::shared_ptr<Player>& _Owner);
 
 private:
 	std::shared_ptr<Player> Owner;
@@ -43,4 +44,3 @@ private:
 
 	int Profits = 0;
 };
-

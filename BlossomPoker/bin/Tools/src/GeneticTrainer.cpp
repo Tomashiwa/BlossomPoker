@@ -358,7 +358,7 @@ float GeneticTrainer::GetGenerationDiversity()
 	return TotalDist;
 }
 
-std::shared_ptr<BlossomPlayer>& GeneticTrainer::TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation)//, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents)
+std::shared_ptr<BlossomPlayer> GeneticTrainer::TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation)//, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents)
 {
 	std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
 
@@ -370,12 +370,10 @@ std::shared_ptr<BlossomPlayer>& GeneticTrainer::TournamentSelect(const std::vect
 	for (unsigned int TourIndex = 0; TourIndex < TournamentSize; TourIndex++)
 	{
 		do { CurrentPlayer = _RefPopulation[Distribution_Qualifier(MTGenerator)]; } while (std::find(Population.begin(), Population.end(), CurrentPlayer) != Population.end());
-
 		Tournament.push_back(CurrentPlayer);
 	}
 
 	std::sort(Tournament.begin(), Tournament.end(), [&](std::shared_ptr<BlossomPlayer> _First, std::shared_ptr<BlossomPlayer> _Second) {return GetParticipant(_First->GetIndex())->GetFitness() > GetParticipant(_Second->GetIndex())->GetFitness(); });
-
 	return Tournament[0];
 
 	/*std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);

@@ -12,6 +12,7 @@ public:
 
 	void RankPlayers();
 	void Refresh();
+	void Reload(bool _IsDuplicated, const std::vector<std::shared_ptr<Player>>& _Players);
 
 	unsigned int GetIndex() { return Index; }
 	bool GetIsDuplicated() { return IsDuplicated; }
@@ -26,4 +27,3 @@ private:
 	bool IsDuplicated = false;
 	std::vector<std::shared_ptr<Participant>> RankingBoard;
 };
-

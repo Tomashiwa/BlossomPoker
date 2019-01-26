@@ -10,7 +10,7 @@ Participant::~Participant()
 void Participant::UpdateFitness()
 {
 	//Profit per Hand = (MoneyWon - MoneyLost) / (HandsWon + HandsLost)
-	Fitness = ((float) MoneyWon - (float) MoneyLost) / (float)(HandsWon + HandsLost);
+	Fitness = ((float)MoneyWon - (float)MoneyLost) / (float)(HandsWon + HandsLost);
 
 	//Profit per Hand = (MoneyWon / HandsWon) - (MoneyLost / HandsLost)
 	//Fitness = ((float)MoneyWon / (HandsWon == 0 ? (float)1 : (float)HandsWon)) - ((float)MoneyLost / (HandsLost == 0 ? (float)1 : (float)HandsLost));
@@ -26,4 +26,10 @@ void Participant::Refresh()
 	HandsLost = 0;
 
 	Profits = 0;
+}
+
+void Participant::Reload(const std::shared_ptr<Player>& _Owner)
+{
+	Owner = _Owner;
+	Refresh();
 }

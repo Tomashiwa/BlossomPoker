@@ -385,23 +385,15 @@ std::array<Card, 5> HandEvaluator::GetBestCommunalHand(std::array<Card, 2> _Hole
 {
 	std::array<Card, 5> BestHand;
 
-	std::cout << "Getting the best communal hand...\n";
-	std::cout << "Hole: " << GetStr(_Hole) << "\n";
-	std::cout << "Community: " << GetStr(_Community) << "\n";
-
 	if (_Community.size() == 3)
 	{
 		std::copy(_Hole.begin(), _Hole.end(), BestHand.begin());
 		std::copy(_Community.begin(), _Community.end(), BestHand.begin() + 2);
 
-		std::cout << "Only 3 communal cards are avaliable, defaulting hand to: " << GetStr(BestHand) << "\n";
-
 		return BestHand;
 	}
 	else if (_Community.size() == 4)
 	{
-		std::cout << "4 communal cards avaliable, Hand Combinations are: \n";
-
 		std::vector<std::array<Card, 5>> PossibleHands
 		{
 			{ _Community[0], _Community[1], _Community[2], _Community[3], _Hole[0] },
@@ -416,20 +408,14 @@ std::array<Card, 5> HandEvaluator::GetBestCommunalHand(std::array<Card, 2> _Hole
 
 		for (auto const& Hand : PossibleHands)
 		{
-			std::cout << GetStr(Hand) << " -> " << DetermineValue_5Cards_OMPEval(Hand) << "\n";
-
 			if (IsBetter5Cards(Hand, BestHand) == ComparisonResult::Win)
 				BestHand = Hand;
 		}
-
-		std::cout << "Best Hand: " << GetStr(BestHand) << " -> " << DetermineValue_5Cards_OMPEval(BestHand) << "\n";
 
 		return BestHand;
 	}
 
 	//5 community cards
-	std::cout << "5 communal cards avaliable, Hand Combinations are: \n";
-
 	std::copy(_Community.begin(), _Community.end(), BestHand.begin());
 	std::vector<std::array<Card, 5>> PossibleHands
 	{
@@ -461,13 +447,9 @@ std::array<Card, 5> HandEvaluator::GetBestCommunalHand(std::array<Card, 2> _Hole
 
 	for (auto const& Hand : PossibleHands)
 	{
-		std::cout << GetStr(Hand) << " -> " << DetermineValue_5Cards_OMPEval(Hand) << "\n";
-
 		if (IsBetter5Cards(Hand, BestHand) == ComparisonResult::Win)
 			BestHand = Hand;
 	}
-
-	std::cout << "Best Hand: " << GetStr(BestHand) << " -> " << DetermineValue_5Cards_OMPEval(BestHand) << "\n";
 
 	return BestHand;
 }

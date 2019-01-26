@@ -5,7 +5,7 @@
 #include "../../Player/inc/Player.h"
 #include "../../Cards/inc/HandEvaluator.h"
 
-Tournament::Tournament(unsigned int _Index, unsigned int _BigBlind, const std::shared_ptr<Table>& _Table) 
+Tournament::Tournament(unsigned int _Index, unsigned int _BigBlind, const std::shared_ptr<Table>& _Table)
 	: Index(_Index), ActiveTable(_Table)
 {}
 
@@ -16,10 +16,23 @@ void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players
 {
 	IsDuplicated = _IsDuplicated;
 
-	Matches.clear();
+	if (Matches.size() != _Size)
+	{
+		Matches.clear();
+		Matches.reserve(_Size);
+		for (unsigned int Index = 0; Index < _Size; Index++)
+			Matches.push_back(std::make_shared<Match>(Index, IsDuplicated, _Players));
+	}
+	else
+	{
+		for (unsigned int Index = 0; Index < _Size; Index++)
+			Matches[Index]->Reload(_IsDuplicated, _Players);
+	}
+
+	/*Matches.clear();
 	Matches.reserve(_Size);
 	for (unsigned int Index = 0; Index < _Size; Index++)
-		Matches.push_back(std::make_shared<Match>(Index, IsDuplicated, _Players));
+	Matches.push_back(std::make_shared<Match>(Index, IsDuplicated, _Players));*/
 
 	RankingBoard.clear();
 	RankingBoard.reserve(_Players.size());
@@ -50,7 +63,7 @@ void Tournament::Run()
 
 		ActiveTable->Reset(false);
 		ActiveTable->ShiftDealer(ActiveTable->GetNextPlayer(ActiveTable->GetFirstPlayer()));
-	
+
 		if (Match->GetIsDuplicated())
 		{
 			if (Match->GetIndex() == 0)
@@ -92,7 +105,7 @@ void Tournament::RankPlayers()
 	//Sort the RankingBoard's participant from highest profit to lowest profit
 	std::sort(RankingBoard.begin(), RankingBoard.end(),
 		[](const std::shared_ptr<Participant>& _First, const std::shared_ptr<Participant>& _Second)
-		{return _First->GetFitness() > _Second->GetFitness(); });
+	{return _First->GetFitness() > _Second->GetFitness(); });
 }
 
 void Tournament::PrintRankings()
