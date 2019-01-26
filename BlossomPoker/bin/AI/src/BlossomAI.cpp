@@ -112,7 +112,65 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 
 float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _Communal, unsigned int _OppoAmt)
 {
-	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 7500);
+	//unsigned int RunsLimit = 10;
+	//float Current = 0.0f;
+	//float Average = 0.0f;
+
+	//std::cout << "Win-rate w/ 7500 iterations: \n";
+	//for (unsigned int Index = 0; Index < RunsLimit; Index++)
+	//{
+	//	Current = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 7500);
+	//	Average += Current;
+
+	//	//std::cout << Current << ", ";
+	//}
+	//Average /= RunsLimit;
+	//std::cout << "Average: " << Average << "\n";
+	//std::cout << "\n\n";
+
+	//Average = 0.0f;
+
+	//std::cout << "Win-rate w/ 5000 iterations: \n";
+	//for (unsigned int Index = 0; Index < RunsLimit; Index++)
+	//{
+	//	Current = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 5000);
+	//	Average += Current;
+
+	//	//std::cout << Current << ", ";
+	//}
+	//Average /= RunsLimit;
+	//std::cout << "Average: " << Average << "\n";
+	//std::cout << "\n\n";
+
+	//Average = 0.0f;
+
+	//std::cout << "Win-rate w/ 2500 iterations: \n";
+	//for (unsigned int Index = 0; Index < RunsLimit; Index++)
+	//{
+	//	Current = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 2500);
+	//	Average += Current;
+
+	//	//std::cout << Current << ", ";
+	//}
+	//Average /= RunsLimit;
+	//std::cout << "Average: " << Average << "\n";
+	//std::cout << "\n\n";
+
+	//Average = 0.0f;
+
+	//std::cout << "Win-rate w/ 1000 iterations: \n";
+	//for (unsigned int Index = 0; Index < RunsLimit; Index++)
+	//{
+	//	Current = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 1000);
+	//	Average += Current;
+
+	//	//std::cout << Current << ", ";
+	//}
+	//Average /= RunsLimit;
+	//std::cout << "Average: " << Average << "\n";
+	//std::cout << "\n";
+
+	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 1000);
 }
 
 void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)

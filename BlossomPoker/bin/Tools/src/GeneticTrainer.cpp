@@ -306,7 +306,8 @@ float GeneticTrainer::GetOverallFitness()
 
 float GeneticTrainer::GetGenerationDiversity()
 {
-	float AverageSD = 0;
+	//Standard Deviation
+	/*float AverageSD = 0;
 	float SD = 0;
 	float Mean = 0;
 
@@ -326,7 +327,35 @@ float GeneticTrainer::GetGenerationDiversity()
 		AverageSD += SD;
 	}
 
-	return AverageSD / PopulationSize;
+	return AverageSD / PopulationSize;*/
+
+	//Distance to centroid
+	std::array<float, 16> AverageThresholds{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+
+	for (unsigned int Index = 0; Index < 16; Index++)
+	{
+		for (auto const& Player : Population)
+			AverageThresholds[Index] += Player->GetAI().GetThresholds()[Index];
+
+		AverageThresholds[Index] /= (float) Population.size();
+ 	}
+
+	float TotalDist = 0.0f;
+
+	for (auto const& Player : Population)
+	{
+		float CurrentDist = 0.0f;
+
+		for (unsigned int Index = 0; Index < 16; Index++)
+			CurrentDist += powf(Player->GetAI().GetThresholds()[Index] - AverageThresholds[Index], 2.0f);
+
+		CurrentDist = powf(CurrentDist, 0.5f);
+		TotalDist += abs(CurrentDist);
+	}
+
+	TotalDist /= (float) Population.size();
+
+	return TotalDist;
 }
 
 std::shared_ptr<BlossomPlayer>& GeneticTrainer::TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation)//, std::vector<std::shared_ptr<BlossomPlayer>>& _Parents)
@@ -618,8 +647,8 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phas
 void GeneticTrainer::EvaluateMutateRate()
 {
 	//Custom Diversity-based Adaptive Mutation
-	float Sensitivity = 0.3f;
-	float Diversity_Min = 0.2f, Diversity_Max = 0.3f;
+	/*float Sensitivity = 0.3f;
+	float Diversity_Min = 0.2f, Diversity_Max = 1.5f;
 	float Diversity_Current = GetGenerationDiversity();
 
 	if (MutatePhase == 0)
@@ -631,7 +660,7 @@ void GeneticTrainer::EvaluateMutateRate()
 	{
 		MutateRate = MutateRate * (1 + (Sensitivity * ((Diversity_Max - Diversity_Current) / Diversity_Current)));
 		MutatePhase = Diversity_Current >= Diversity_Max ? 0 : 1;
-	}
+	}*/
 
 	//Diversity-based Adaptive Mutation
 	/*float Sensitivity = 0.3f;
@@ -648,13 +677,12 @@ void GeneticTrainer::EvaluateMutateRate()
 	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
 
 	//Oscillating Sine Wave
-	/*float Freq = 48.7f;
-	float HeightOffset = 0.5f;
+	float Freq = 48.7f;
+	float HeightOffset = 0.25f;
 	float GenRatio = (float)Generation / (float)GenerationLimit;
-	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;*/
+	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
 
-	//MutateRate = 1.0f;
-	MutateRate = std::max(0.0f, std::min(MutateRate, 0.7f));
+	MutateRate = std::max(0.0f, std::min(MutateRate, 1.0f));
 
 	Writer->WriteAt(3, (float)Generation, MutateRate);
 }
