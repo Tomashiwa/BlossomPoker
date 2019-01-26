@@ -61,7 +61,7 @@ int HandEvaluator::GetCardInt_OMPEval(Suit _Suit, Rank _Rank)//(const Card& _Car
 	//return static_cast<int>(_Card.Get_Rank()) * 4 - static_cast<int>(_Card.Get_Suit()) + 3;
 }
 
-std::array<int,5> HandEvaluator::Get5CardsInt(const std::array<Card, 5>& _Hand)
+std::array<int,5> HandEvaluator::Get5CardsInt_TwoPlusTwo(const std::array<Card, 5>& _Hand)
 {
 	std::array<int, 5> CardInts {};
 	std::transform(_Hand.begin(), _Hand.end(), CardInts.begin(), [](Card _Card) { return static_cast<int>(_Card); });
@@ -263,9 +263,9 @@ int HandEvaluator::DetermineValue_Cards(const std::vector<Card>& _Cards)
 	return Value;
 }
 
-int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
+int HandEvaluator::DetermineValue_5Cards_TwoPlusTwo(const std::array<Card, 5>& _Hand)
 {
-	std::array<int, 5> CardInts = Get5CardsInt(_Hand);
+	std::array<int, 5> CardInts = Get5CardsInt_TwoPlusTwo(_Hand);
 	
 	int *Value1 = HR + HR[53 + CardInts[0]];
 	int *Value2 = HR + Value1[CardInts[1]];
@@ -274,6 +274,13 @@ int HandEvaluator::DetermineValue_5Cards(const std::array<Card, 5>& _Hand)
 	int *Value5 = HR + Value4[CardInts[4]];
 
 	return Value5[0]; 
+}
+
+int HandEvaluator::DetermineValue_5Cards_OMPEval(const std::array<Card, 5>& _Hand)
+{
+	omp::Hand SampleHand = omp::Hand::empty();
+	SampleHand += omp::Hand(GetCardInt_OMPEval(_Hand[0].Get_Suit(), _Hand[0].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[1].Get_Suit(), _Hand[1].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[2].Get_Suit(), _Hand[2].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[3].Get_Suit(), _Hand[3].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[4].Get_Suit(), _Hand[4].Get_Rank()));
+	return Eval->evaluate(SampleHand);
 }
 
 int HandEvaluator::DetermineValue_7Cards_TwoPlusTwo(const std::array<Card, 7>& _Hand, int _PrecomputeScore, unsigned int _ContinueFrom)
@@ -308,14 +315,6 @@ int HandEvaluator::DetermineValue_7Cards_TwoPlusTwo(const std::array<Card, 7>& _
 		}
 	}
 
-	//std::cout << "HR[53 + CardInts[0]]: " << HR[53 + CardInts[0]] << "\n";
-	//std::cout << "HR[53 + CardInts[0]] + CardInts[1]]: " << HR[HR[53 + CardInts[0]] + CardInts[1]] << "\n";
-	//std::cout << "HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]]: " << HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] << "\n";
-	//std::cout << "HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]]: " << HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] << "\n";
-	//std::cout << "HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]]: " << HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] << "\n";
-	//std::cout << "HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]]: " << HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] << "\n";
-	//std::cout << "HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]]: " << HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]] << "\n";
-
 	return HR[HR[HR[HR[HR[HR[HR[53 + CardInts[0]] + CardInts[1]] + CardInts[2]] + CardInts[3]] + CardInts[4]] + CardInts[5]] + CardInts[6]];
 }
 
@@ -324,16 +323,6 @@ int HandEvaluator::DetermineValue_7Cards_OMPEval(const std::array<Card, 7>& _Han
 	omp::Hand SampleHand = omp::Hand::empty();
 	SampleHand += omp::Hand(GetCardInt_OMPEval(_Hand[0].Get_Suit(), _Hand[0].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[1].Get_Suit(), _Hand[1].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[2].Get_Suit(), _Hand[2].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[3].Get_Suit(), _Hand[3].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[4].Get_Suit(), _Hand[4].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[5].Get_Suit(), _Hand[5].Get_Rank())) + omp::Hand(GetCardInt_OMPEval(_Hand[6].Get_Suit(), _Hand[6].Get_Rank()));
 	return Eval->evaluate(SampleHand);
-
-	/*omp::Hand SampleHand = omp::Hand::empty();
-	SampleHand += omp::Hand(GetCardInt_OMPEval(_Hand[0])) + omp::Hand(GetCardInt_OMPEval(_Hand[1])) + omp::Hand(GetCardInt_OMPEval(_Hand[2])) + omp::Hand(GetCardInt_OMPEval(_Hand[3])) + omp::Hand(GetCardInt_OMPEval(_Hand[4])) + omp::Hand(GetCardInt_OMPEval(_Hand[5])) + omp::Hand(GetCardInt_OMPEval(_Hand[6]));
-	
-	std::cout << "Card Ints: ";
-	for (auto const Card : _Hand)
-		std::cout << GetCardInt_OMPEval(Card) << " ";
-	std::cout << "\n";
-	
-	return Eval->evaluate(SampleHand);*/
 }
 
 Hand HandEvaluator::DetermineType(int _Value)
@@ -367,8 +356,8 @@ Hand HandEvaluator::DetermineType(int _Value)
 
 ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card, 5> _First, std::array<Card, 5> _Second)
 {
-	int FirstValue = DetermineValue_5Cards(_First);
-	int SecondValue = DetermineValue_5Cards(_Second); 
+	int FirstValue = DetermineValue_5Cards_OMPEval(_First);
+	int SecondValue = DetermineValue_5Cards_OMPEval(_Second); 
 
 	if (FirstValue == SecondValue)
 		return ComparisonResult::Draw;
@@ -378,8 +367,8 @@ ComparisonResult HandEvaluator::IsBetter5Cards(std::array<Card, 5> _First, std::
 
 ComparisonResult HandEvaluator::IsBetter7Cards(std::array<Card, 7> _First, std::array<Card, 7> _Second)
 {
-	int FirstValue = DetermineValue_7Cards_TwoPlusTwo(_First,-1,0);
-	int SecondValue = DetermineValue_7Cards_TwoPlusTwo(_Second,-1,0);
+	int FirstValue = DetermineValue_7Cards_OMPEval(_First);
+	int SecondValue = DetermineValue_7Cards_OMPEval(_Second);
 
 	if (FirstValue == SecondValue)
 		return ComparisonResult::Draw;
@@ -396,68 +385,89 @@ std::array<Card, 5> HandEvaluator::GetBestCommunalHand(std::array<Card, 2> _Hole
 {
 	std::array<Card, 5> BestHand;
 
+	std::cout << "Getting the best communal hand...\n";
+	std::cout << "Hole: " << GetStr(_Hole) << "\n";
+	std::cout << "Community: " << GetStr(_Community) << "\n";
+
 	if (_Community.size() == 3)
 	{
 		std::copy(_Hole.begin(), _Hole.end(), BestHand.begin());
 		std::copy(_Community.begin(), _Community.end(), BestHand.begin() + 2);
+
+		std::cout << "Only 3 communal cards are avaliable, defaulting hand to: " << GetStr(BestHand) << "\n";
+
 		return BestHand;
 	}
 	else if (_Community.size() == 4)
 	{
-		std::vector<std::array<Card, 5>> PossibleHands;
+		std::cout << "4 communal cards avaliable, Hand Combinations are: \n";
 
-		PossibleHands.push_back(*new std::array<Card, 5>{_Community[0], _Community[1], _Community[2], _Community[3], _Hole[0]});
-		PossibleHands.push_back(*new std::array<Card, 5>{_Community[0], _Community[1], _Community[2], _Community[3], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card, 5>{_Community[0], _Community[1], _Community[2], _Hole[0], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card, 5>{_Community[0], _Community[1], _Community[3], _Hole[0], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card, 5>{_Community[0], _Community[2], _Community[3], _Hole[0], _Hole[1]});
-		PossibleHands.push_back(*new std::array<Card, 5>{_Community[1], _Community[2], _Community[3], _Hole[0], _Hole[1]});
+		std::vector<std::array<Card, 5>> PossibleHands
+		{
+			{ _Community[0], _Community[1], _Community[2], _Community[3], _Hole[0] },
+			{ _Community[0], _Community[1], _Community[2], _Community[3], _Hole[1] },
+			{ _Community[0], _Community[1], _Community[2], _Hole[0], _Hole[1] },
+			{_Community[0], _Community[1], _Community[2], _Hole[0], _Hole[1]},
+			{_Community[0], _Community[1], _Community[2], _Hole[0], _Hole[1]},
+			{_Community[0], _Community[1], _Community[2], _Hole[0], _Hole[1]}
+		};
 
 		BestHand = PossibleHands[0];
 
 		for (auto const& Hand : PossibleHands)
 		{
+			std::cout << GetStr(Hand) << " -> " << DetermineValue_5Cards_OMPEval(Hand) << "\n";
+
 			if (IsBetter5Cards(Hand, BestHand) == ComparisonResult::Win)
 				BestHand = Hand;
 		}
+
+		std::cout << "Best Hand: " << GetStr(BestHand) << " -> " << DetermineValue_5Cards_OMPEval(BestHand) << "\n";
 
 		return BestHand;
 	}
 
 	//5 community cards
-	std::vector<std::array<Card, 5>> PossibleHands;
+	std::cout << "5 communal cards avaliable, Hand Combinations are: \n";
+
 	std::copy(_Community.begin(), _Community.end(), BestHand.begin());
+	std::vector<std::array<Card, 5>> PossibleHands
+	{
+		//Combination with first or second hole card
+		{ _Hole[0], _Community[0], _Community[1], _Community[2], _Community[3] },
+		{ _Hole[0], _Community[0], _Community[1], _Community[2], _Community[4] },
+		{ _Hole[0], _Community[0], _Community[1], _Community[3], _Community[4] },
+		{ _Hole[0], _Community[0], _Community[2], _Community[3], _Community[4] },
+		{ _Hole[0], _Community[1], _Community[2], _Community[3], _Community[4] },
+		
+		{ _Hole[1], _Community[0], _Community[1], _Community[2], _Community[3] },
+		{ _Hole[1], _Community[0], _Community[1], _Community[2], _Community[4] },
+		{ _Hole[1], _Community[0], _Community[1], _Community[3], _Community[4] },
+		{ _Hole[1], _Community[0], _Community[2], _Community[3], _Community[4] },
+		{ _Hole[1], _Community[1], _Community[2], _Community[3], _Community[4] },
 
-	//Combination with first or second hole card
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Community[0], _Community[1], _Community[2], _Community[3] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Community[0], _Community[1], _Community[2], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Community[0], _Community[1], _Community[3], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Community[0], _Community[2], _Community[3], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Community[1], _Community[2], _Community[3], _Community[4] });
-
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[1], _Community[0], _Community[1], _Community[2], _Community[3] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[1], _Community[0], _Community[1], _Community[2], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[1], _Community[0], _Community[1], _Community[3], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[1], _Community[0], _Community[2], _Community[3], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[1], _Community[1], _Community[2], _Community[3], _Community[4] });
-
-	//Combination with both hole cards	 
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[0], _Community[1], _Community[2] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[0], _Community[1], _Community[3] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[0], _Community[1], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[0], _Community[2], _Community[3] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[0], _Community[2], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[0], _Community[3], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[1], _Community[2], _Community[3] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[1], _Community[2], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[1], _Community[3], _Community[4] });
-	PossibleHands.push_back(*new std::array<Card, 5>{ _Hole[0], _Hole[1], _Community[2], _Community[3], _Community[4] });
+		//Combination with both hole cards
+		{ _Hole[0], _Hole[1], _Community[0], _Community[1], _Community[2] },
+		{ _Hole[0], _Hole[1], _Community[0], _Community[1], _Community[3] },
+		{ _Hole[0], _Hole[1], _Community[0], _Community[1], _Community[4] },
+		{ _Hole[0], _Hole[1], _Community[0], _Community[2], _Community[3] },
+		{ _Hole[0], _Hole[1], _Community[0], _Community[2], _Community[4] },
+		{ _Hole[0], _Hole[1], _Community[0], _Community[3], _Community[4] },
+		{ _Hole[0], _Hole[1], _Community[1], _Community[2], _Community[3] },
+		{ _Hole[0], _Hole[1], _Community[1], _Community[2], _Community[4] },
+		{ _Hole[0], _Hole[1], _Community[1], _Community[3], _Community[4] },
+		{ _Hole[0], _Hole[1], _Community[2], _Community[3], _Community[4] }
+	};
 
 	for (auto const& Hand : PossibleHands)
 	{
+		std::cout << GetStr(Hand) << " -> " << DetermineValue_5Cards_OMPEval(Hand) << "\n";
+
 		if (IsBetter5Cards(Hand, BestHand) == ComparisonResult::Win)
 			BestHand = Hand;
 	}
+
+	std::cout << "Best Hand: " << GetStr(BestHand) << " -> " << DetermineValue_5Cards_OMPEval(BestHand) << "\n";
 
 	return BestHand;
 }
@@ -494,7 +504,7 @@ std::string HandEvaluator::GetTypeStr(Hand _Hand)
 
 std::string HandEvaluator::GetTypeStr(std::array<Card, 5> _Hand)
 {
-	return GetTypeStr(DetermineType(DetermineValue_5Cards(_Hand)));
+	return GetTypeStr(DetermineType(DetermineValue_5Cards_TwoPlusTwo(_Hand)));
 }
 
 std::string HandEvaluator::GetStr(std::array<Card, 2> _Hole)

@@ -25,7 +25,8 @@ public:
 	float DetermineOdds_MonteCarlo_Multi_OMPEval(std::array<Card, 2> _Hole, std::vector<Card> community, unsigned int _PlayerAmt, unsigned int _TrialsAmt);
 
 	int DetermineValue_Cards(const std::vector<Card>& _Cards);
-	int DetermineValue_5Cards(const std::array<Card, 5>& _Hand);
+	int DetermineValue_5Cards_TwoPlusTwo(const std::array<Card, 5>& _Hand);
+	int DetermineValue_5Cards_OMPEval(const std::array<Card, 5>& _Hand);
 	int DetermineValue_7Cards_TwoPlusTwo(const std::array<Card, 7>& _Hand, int _PrecomputeScore, unsigned int _ContinueFrom);
 	int DetermineValue_7Cards_OMPEval(const std::array<Card, 7>& _Hand);
 
@@ -59,7 +60,7 @@ private:
 	
 	int GetCardInt_TwoPlusTwo(Card& _Card);
 	int GetCardInt_OMPEval(Suit _Suit, Rank _Rank);//(const Card& _Card);
-	std::array<int, 5> Get5CardsInt(const std::array<Card, 5>& _Hand);
+	std::array<int, 5> Get5CardsInt_TwoPlusTwo(const std::array<Card, 5>& _Hand);
 	std::array<int, 7> Get7CardsInt_TwoPlusTwo(const std::array<Card, 7>& _Hand);
 	std::array<int, 7> Get7CardsInt_OMPEval(const std::array<Card, 7>& _Hand);
 };
