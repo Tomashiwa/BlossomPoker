@@ -77,11 +77,19 @@ void GeneticTrainer::Start()
 	Writer->NewFile(LogType::Graph_Bar, "HallOfFame");
 	Writer->NewFile(LogType::Graph_Line, "GenBestFitness");
 
-	Writer->WriteAt(1, "#X Y\n");
-	Writer->WriteAt(2, "#X Y\n");
+	Writer->NewFile(LogType::Graph_Line, "GenWorstFitness");
+	Writer->NewFile(LogType::Graph_Line, "GenEliteAverFitness");
+	Writer->NewFile(LogType::Graph_Line, "GenHoFTop3AverFitness");
+
+	Writer->WriteAt(1, "#Generation | Average Fitness\n");
+	Writer->WriteAt(2, "#Generation | Variance\n");
 	Writer->WriteAt(3, "#Generation | Mutation Rate\n");
 	Writer->WriteAt(4, "#Player Index | Fitness\n");
-	Writer->WriteAt(5, "#Generation | Fitness\n");
+	Writer->WriteAt(5, "#Generation | Best Fitness\n");
+
+	Writer->WriteAt(6, "#Generation | Worst Fitness\n");
+	Writer->WriteAt(7, "#Generation | Average Fitness\n");
+	Writer->WriteAt(8, "#Generation | Top 3 Average Fitness\n");
 	#pragma endregion
 }
 
@@ -198,6 +206,10 @@ void GeneticTrainer::Run()
 		Writer->WriteAt(0, "Overall Fitness of Generation " + std::to_string(Generation) + ": " + std::to_string(GetOverallFitness()) + "\n");
 		std::cout << "Best Fitness of Generation " << Generation << ": P." << RankingBoard[0]->GetOwner()->GetIndex() << " - " << RankingBoard[0]->GetFitness() << "\n";
 		Writer->WriteAt(5, Generation, RankingBoard[0]->GetFitness());
+		std::cout << "Worst Fitness of Generation " << Generation << ": P." << RankingBoard[RankingBoard.size() - 1]->GetOwner()->GetIndex() << " - " << RankingBoard[RankingBoard.size() - 1]->GetFitness() << "\n";
+		Writer->WriteAt(6, Generation, RankingBoard[RankingBoard.size() - 1]->GetFitness());
+		std::wcout << "Average Fitness of Top 3 in HoF:" << (HoF[0]->GetFitness() + HoF[1]->GetFitness() + HoF[2]->GetFitness()) / 3.0f << "\n";
+		Writer->WriteAt(8, Generation, (HoF[0]->GetFitness() + HoF[1]->GetFitness() + HoF[2]->GetFitness()) / 3.0f);
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
 		
@@ -306,29 +318,6 @@ float GeneticTrainer::GetOverallFitness()
 
 float GeneticTrainer::GetGenerationDiversity()
 {
-	//Standard Deviation
-	/*float AverageSD = 0;
-	float SD = 0;
-	float Mean = 0;
-
-	for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
-	{
-		Mean = 0;
-		for (auto const Player : Population)
-			Mean += Player->GetAI().GetThresholds()[ThrIndex];
-		Mean /= PopulationSize;
-
-		SD = 0;
-		for (auto const Player : Population)
-			SD += pow((Player->GetAI().GetThresholds()[ThrIndex] - Mean), 2);
-		SD /= PopulationSize;
-		SD = pow(SD, (float) 0.5);
-
-		AverageSD += SD;
-	}
-
-	return AverageSD / PopulationSize;*/
-
 	//Distance to centroid
 	std::array<float, 16> AverageThresholds{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
@@ -375,39 +364,6 @@ std::shared_ptr<BlossomPlayer> GeneticTrainer::TournamentSelect(const std::vecto
 
 	std::sort(Tournament.begin(), Tournament.end(), [&](std::shared_ptr<BlossomPlayer> _First, std::shared_ptr<BlossomPlayer> _Second) {return GetParticipant(_First->GetIndex())->GetFitness() > GetParticipant(_Second->GetIndex())->GetFitness(); });
 	return Tournament[0];
-
-	/*std::uniform_int_distribution<int> Distribution_Qualifier(0, PopulationSize - 1);
-
-	std::vector<std::shared_ptr<BlossomPlayer>> Tournament;
-	Tournament.reserve(TournamentSize);
-
-	std::shared_ptr<BlossomPlayer> CurrentPlayer;
-
-	for (unsigned int ThrIndex = 0; ThrIndex < ParentLimit; ThrIndex++)
-	{
-		Tournament.clear();
-
-		for (unsigned int TourIndex = 0; TourIndex < TournamentSize; TourIndex++)
-		{
-			do { CurrentPlayer = _RefPopulation[Distribution_Qualifier(MTGenerator)]; } 
-				while (std::find(Population.begin(), Population.end(), CurrentPlayer) != Population.end());
-
-			Tournament.push_back(CurrentPlayer);
-		}
-
-		CurrentPlayer = Tournament[0];
-		
-		for (auto const Player : Tournament)
-		{
-			if (GetParticipant(Player->GetIndex())->GetFitness() > GetParticipant(CurrentPlayer->GetIndex())->GetFitness())//GetParticipant(Player->GetIndex())->Get_Rank() > GetParticipant(CurrentPlayer->GetIndex())->Get_Rank())
-				CurrentPlayer = Player;
-		}
-
-		if (std::find(_Parents.begin(), _Parents.end(), CurrentPlayer) == _Parents.end())
-			_Parents.push_back(CurrentPlayer);
-		else
-			ThrIndex--;
-	}*/
 }
 
 void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::vector<std::shared_ptr<BlossomPlayer>>& _Results)
@@ -770,11 +726,18 @@ void GeneticTrainer::ReproducePopulation()
 	std::vector<std::shared_ptr<BlossomPlayer>> PopulationReference(Population.begin(), Population.end());
 	Population.erase(Population.begin() + ElitesLimit, Population.end());
 
+	float EliteAverFitness = 0.0f;
+
 	for (unsigned int Index = 0; Index < ElitesLimit; Index++)
 	{
 		std::cout << "Elite: P." << Population[Index]->GetIndex() << "\n";
 		Writer->WriteAt(0, "Elite: P." + std::to_string(Population[Index]->GetIndex()) + "\n");
+
+		EliteAverFitness += GetParticipant(Population[Index]->GetIndex())->GetFitness();
 	}
+
+	EliteAverFitness /= (float) ElitesLimit;
+	Writer->WriteAt(7, Generation, EliteAverFitness);
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Parents;
 	std::vector<std::shared_ptr<BlossomPlayer>> Children;
