@@ -676,7 +676,7 @@ void GeneticTrainer::EvaluateMutateRate()
 
 	//Oscillating Sine Wave
 	float Freq = 48.7f;
-	float HeightOffset = 0.25f;
+	float HeightOffset = 0.5f;
 	float GenRatio = (float)Generation / (float)GenerationLimit;
 	MutateRate = (sin(Freq * sqrt(GenRatio))) / 2.0f + HeightOffset;
 
