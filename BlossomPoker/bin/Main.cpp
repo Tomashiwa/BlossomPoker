@@ -10,7 +10,7 @@ int main()
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
 	//for(unsigned int Index = 0; Index < 10; Index++)
-	Schedule->Add(32, 500, 32);
+	Schedule->Add(8, 100, 1);
 
 	Schedule->Run(false);
 	system("pause");

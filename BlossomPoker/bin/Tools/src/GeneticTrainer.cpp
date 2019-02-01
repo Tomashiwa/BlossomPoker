@@ -102,6 +102,7 @@ void GeneticTrainer::Run()
 		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ": (" + std::to_string(PlayersGenerated) + " Players created till now)\n");
 		std::cout << "\nGeneration " << Generation << ": (" << PlayersGenerated << " Players created till now)\n";
 
+		//Initialize/Refresh PlayingPopulation
 		if (HoF.size() == 0)
 		{
 			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001));
@@ -125,6 +126,7 @@ void GeneticTrainer::Run()
 			}
 		}
 
+		//Run tournaments for each player and rank them based on their performance
 		for (auto const& Player : Population)
 		{
 			std::cout << "P." << Player->GetIndex() << ": \n";
@@ -135,7 +137,6 @@ void GeneticTrainer::Run()
 				std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
 				Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
-
 				Tournament->Run();
 			}
 
@@ -145,6 +146,7 @@ void GeneticTrainer::Run()
 		
 		ArrangePlayers(Population);
 
+		//Add the top players into HoF if they perform sufficently well
 		for (unsigned int Index = 0; Index < ElitesLimit + 4; Index++)
 		{
 			auto TopItr = std::find_if(HoF.begin(), HoF.end(), [&](std::shared_ptr<Participant> _Participant) { return _Participant->GetOwner()->GetIndex() == RankingBoard[Index]->GetOwner()->GetIndex(); });
@@ -174,6 +176,7 @@ void GeneticTrainer::Run()
 
 		ArrangeHoF();
 
+		//Clip off any players outside the HoF size
 		if(HoF.size() > PopulationSize * 2)
 			HoF.erase(HoF.begin() + PopulationSize * 2, HoF.end());
 
@@ -824,7 +827,7 @@ void GeneticTrainer::ReproducePopulation()
 		}
 	}
 
-	for (unsigned int Index = 0; Index < Population.size(); Index++)
+	for (unsigned int Index = ElitesLimit; Index < Population.size(); Index++)
 	{
 		RankingBoard[Index]->Refresh();
 		RankingBoard[Index]->SetOwner(Population[Index]);
