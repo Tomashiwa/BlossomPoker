@@ -163,7 +163,7 @@ void GeneticTrainer::Run()
 
 				Writer->WriteAt(4, std::to_string(RankingBoard[Index]->GetOwner()->GetIndex()) + " " + std::to_string(RankingBoard[Index]->GetFitness()) + "\n");
 			}
-			else if (TopItr != HoF.end() && RankingBoard[Index]->GetFitness() > (*TopItr)->GetFitness())
+			else if (TopItr != HoF.end())
 			{
 				(*TopItr)->SetHandsWon(RankingBoard[Index]->GetHandsWon());
 				(*TopItr)->SetHandsLost(RankingBoard[Index]->GetHandsLost());
