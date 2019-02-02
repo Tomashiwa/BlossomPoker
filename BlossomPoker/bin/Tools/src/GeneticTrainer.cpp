@@ -61,7 +61,7 @@ void GeneticTrainer::Start()
 	std::cout << "Each generation will crossover at a probability of " << CrossoverRate << " with Elitism (" << ElitesLimit << ") applied and mutate dynamically with delta of " << MutateDelta << ".\n";
 
 	Writer->NewDir();
-	Writer->GenerateGNUFile();
+	Writer->GenerateGNUFiles();
 
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(PopulationSize) + " GenLimit_" + std::to_string(GenerationLimit) + " ToursPerGen_" + std::to_string(ToursPerGen));
 	Writer->WriteAt(0, "Simulating a Population of " + std::to_string(PopulationSize) + " Players for " + std::to_string(GenerationLimit) + " generations.\n");

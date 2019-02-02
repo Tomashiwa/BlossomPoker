@@ -21,14 +21,14 @@ void LogWriter::NewDir()
 void LogWriter::NewFile(LogType _Type, std::string _Name)
 {
 	std::shared_ptr<Entry> NewEntry = std::make_shared<Entry>(_Type, _Name);
-	NewEntry->File.open(CurrentDir + "\\" + LastSavedDateTime + " - " + NewEntry->Name);
+	NewEntry->File.open(CurrentDir + "\\" + NewEntry->Name);
 
 	if (NewEntry->File.fail())
 	{
 		_mkdir("TestLogs\\");
 		NewDir();
 
-		NewEntry->File.open(CurrentDir + "\\" + LastSavedDateTime + " - " + NewEntry->Name);
+		NewEntry->File.open(CurrentDir + "\\" + NewEntry->Name);
 	}
 
 	Entries.push_back(NewEntry);
@@ -66,30 +66,45 @@ void LogWriter::WriteAt(unsigned int _FileIndex, unsigned int _Index, std::strin
 	Entries[_FileIndex]->File << _Index << " " << _Label << " " << _Value << "\n" << std::flush;
 }
 
-void LogWriter::GenerateGNUFile()
+void LogWriter::GenerateGNUFiles()
 {
-	NewFile(LogType::NONE, "GNU Commands");
-
+	NewFile(LogType::NONE, "RunGraph - Performance");
 	WriteAt(Entries.size() - 1, "set title \"Performance\" font \", 20\"\n");
 	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
 	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
-	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - GenBestFitness.txt' with linespoints title 'Best Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - GenerationPerformance.txt' with linespoints title 'Average Fitness' , 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - GenWorstFitness.txt' with linespoints title 'Worst Fitness'\n\n");
+	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenBestFitness.txt' with linespoints title 'Best Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\- GenerationPerformance.txt' with linespoints title 'Average Fitness'\n\n");
+	WriteAt(Entries.size() - 1, "pause 1\n");
+	WriteAt(Entries.size() - 1, "reread");
+	CloseAt(Entries.size() - 1);
+	Entries.pop_back();
 
+	NewFile(LogType::NONE, "RunGraph - Mutation");
 	WriteAt(Entries.size() - 1, "set title \"Mutation vs Variance\" font \",20\"\n");
 	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
 	WriteAt(Entries.size() - 1, "set ylabel \"Rate\"\n");
-	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - PopulationVariance.txt' with linespoints title 'Population Variance', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - MutationRate.txt' with linespoints title 'Mutation Rate'\n\n");
+	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\PopulationVariance.txt' with linespoints title 'Population Variance', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\MutationRate.txt' with linespoints title 'Mutation Rate'\n\n");
+	WriteAt(Entries.size() - 1, "pause 1\n");
+	WriteAt(Entries.size() - 1, "reread");
+	CloseAt(Entries.size() - 1);
+	Entries.pop_back();
 
+	NewFile(LogType::NONE, "RunGraph - Hall of Fame");
 	WriteAt(Entries.size() - 1, "set title \"Hall of Fame\" font \",20\"\n");
 	WriteAt(Entries.size() - 1, "set xlabel \"Index (P.)\"\n");
 	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
-	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - HallOfFame.txt' with points title 'Player'\n\n");
+	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\HallOfFame.txt' with points title 'Player'\n\n");
+	WriteAt(Entries.size() - 1, "pause 1\n");
+	WriteAt(Entries.size() - 1, "reread");
+	CloseAt(Entries.size() - 1);
+	Entries.pop_back();
 
+	NewFile(LogType::NONE, "RunGraph - Elitism vs HoF");
 	WriteAt(Entries.size() - 1, "set title \"Elitism vs Top 3 in HoF\" font \",20\"\n");
 	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
 	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
-	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - GenEliteAverFitness.txt' with linespoints title 'Elite Average Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\" + LastSavedDateTime + " - GenHoFTop3AverFitness.txt' with linespoints title 'Top 3 Average Fitness'\n\n");
-
+	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenEliteAverFitness.txt' with linespoints title 'Elite Average Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenHoFTop3AverFitness.txt' with linespoints title 'Top 3 Average Fitness'\n\n");
+	WriteAt(Entries.size() - 1, "pause 1\n");
+	WriteAt(Entries.size() - 1, "reread");
 	CloseAt(Entries.size() - 1);
 	Entries.pop_back();
 }

@@ -19,7 +19,7 @@ public:
 
 	void NewDir();
 	void NewFile(LogType _Type, std::string _Name);
-	void GenerateGNUFile();
+	void GenerateGNUFiles();
 
 	void WriteAt(unsigned int _FileIndex, std::string _Line);
 	void WriteAt(unsigned int _FileIndex, float _Axis1, float _Axis2);

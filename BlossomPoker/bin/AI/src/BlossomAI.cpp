@@ -170,7 +170,7 @@ float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _
 	//std::cout << "Average: " << Average << "\n";
 	//std::cout << "\n";
 
-	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 1);// 1000);
+	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 1);//1000);
 }
 
 void BlossomAI::SetThresholds(std::array<float, 16> _Thresholds)
