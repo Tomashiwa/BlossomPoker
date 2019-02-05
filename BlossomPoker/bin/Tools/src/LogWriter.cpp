@@ -72,7 +72,7 @@ void LogWriter::GenerateGNUFiles()
 	WriteAt(Entries.size() - 1, "set title \"Performance\" font \", 20\"\n");
 	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
 	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
-	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenBestFitness.txt' with linespoints title 'Best Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\- GenerationPerformance.txt' with linespoints title 'Average Fitness'\n\n");
+	WriteAt(Entries.size() - 1, "plot 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenBestFitness.txt' with linespoints title 'Best Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenerationPerformance.txt' with linespoints title 'Average Fitness', 'D:\\Git Repositories\\BlossomPoker\\BlossomPoker\\TestLogs\\" + LastSavedDateTime + "\\GenWorstFitness.txt' with linespoints title 'Worst Fitness'\n\n");
 	WriteAt(Entries.size() - 1, "pause 1\n");
 	WriteAt(Entries.size() - 1, "reread");
 	CloseAt(Entries.size() - 1);

@@ -54,7 +54,7 @@ private:
 	unsigned int TournamentSize = 4;
 	unsigned int WinnerPerTouranment = 1;
 
-	unsigned int ElitesLimit = 3;
+	unsigned int ElitesLimit;
 
 	unsigned int MutatePhase = 0;
 
@@ -66,29 +66,33 @@ private:
 	std::vector<std::unique_ptr<Tournament>> Tournaments;
 	std::vector<std::shared_ptr<Participant>> HoF;
 
-	//std::shared_ptr<Folder> FoldingPlayer;
 	std::shared_ptr<Caller> CallingPlayer;
 	std::shared_ptr<Raiser> RaisingPlayer;
-	std::shared_ptr<Randomer> RandomPlayer;
+	std::shared_ptr<Randomer> RandomPlayer0;
 	std::shared_ptr<Randomer> RandomPlayer1;
 
 	std::mt19937 MTGenerator;
 	std::shared_ptr<HandEvaluator> Evaluator;
 	std::unique_ptr<LogWriter> Writer;
 
-	void GeneratePopulation(unsigned int _Size);
+	void InitializePopu(unsigned int _Size);
+
+	void InitializePlayingPopu();
+
+	float MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Player);
 
 	void RankPlayer(const std::shared_ptr<BlossomPlayer>& _Player);
 	void ArrangePlayers(std::vector<std::shared_ptr<BlossomPlayer>>& _Players);
+
+	void AddPlayersToHoF(unsigned int _Amt);
 	void ArrangeHoF();
+	void ClipHoF(unsigned int _Size);
 
 	const std::shared_ptr<Participant>& GetParticipant(unsigned int _Index);
-	const std::shared_ptr<Player>& GetBestPlayer();
 	
 	std::shared_ptr<BlossomPlayer> TournamentSelect(const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation);
 	void Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::vector<std::shared_ptr<BlossomPlayer>>& _Results);
-	void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase);
-	//void Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _Index);
+	void Mutate(std::shared_ptr<BlossomPlayer>& _Target);// , Phase _Phase);
 	void ReproducePopulation();
 
 	bool HasCrossoverHappen();
