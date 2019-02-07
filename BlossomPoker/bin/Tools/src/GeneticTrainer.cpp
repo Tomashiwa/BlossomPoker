@@ -794,18 +794,18 @@ void GeneticTrainer::EvaluateMutateRate()
 	}*/
 
 	//Diversity-based Adaptive Mutation
-	float Sensitivity = 0.225f;//0.3f;
-	float TargetDiversity = 0.8f;
-	float CurrentDiversity = GetGenerationDiversity();
+	//float Sensitivity = 0.225f;//0.3f;
+	//float TargetDiversity = 0.8f;
+	//float CurrentDiversity = GetGenerationDiversity();
 
-	MutateRate = MutateRate * (1 + (Sensitivity * ((TargetDiversity - CurrentDiversity) / CurrentDiversity)));
-	MutateRate = std::max(0.0f, std::min(MutateRate, 0.5f));
+	//MutateRate = MutateRate * (1 + (Sensitivity * ((TargetDiversity - CurrentDiversity) / CurrentDiversity)));
+	//MutateRate = std::max(0.0f, std::min(MutateRate, 0.5f));
 
 	//Gaussian Distribution
-	/*float a = 2.5f, b = 0.5f, c = 0.15f;
+	float a = 2.5f, b = 0.5f, c = 1.5075f;//float a = 2.5f, b = 0.5f, c = 0.15f;
 	float x = (float) Generation / (float) GenerationLimit;
 	float e = std::exp(1.0f);
-	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));*/
+	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2)))) - 0.9f;//pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
 
 	//Oscillating Sine Wave
 	/*float Freq = 48.7f;
@@ -948,34 +948,62 @@ void GeneticTrainer::ReproducePopulation()
 				if (Population.size() >= PopulationSize)
 					break;
 
+				std::array<float, 16> InitialThresholds = Children[Index]->GetAI().GetThresholds();
+
 				Mutate(Children[Index]);
 				std::cout << "Child of Crossover: P." << Children[Index]->GetIndex() << " (" << GetThresholdsStr(Children[Index]) << ")\n";
 				Writer->WriteAt(0, "Child of Crossover: P." + std::to_string(Children[Index]->GetIndex()) + " (" + GetThresholdsStr(Children[Index]) + ")\n");
 
-				//If mutated child scores lower than the worst performing player in the generation, reject it and select a random parent to pass onto the next generation
-				float ChildFitness = MeasureFitness(Children[Index]);
-				float WorstFitness = GetParticipant(PopulationReference[PopulationReference.size() - 1]->GetIndex())->GetFitness();
-
-				std::cout << "Child Fitness: " << ChildFitness << " / Worst Fitness: " << WorstFitness << "\n";
-				Writer->WriteAt(0, "Child Fitness: " + std::to_string(ChildFitness) + " / Worst Fitness: " + std::to_string(WorstFitness) + "\n");
-
-				if (ChildFitness >= WorstFitness)//MeasureFitness(Child) >= GetParticipant(Population[Population.size() - 1]->GetIndex())->GetFitness())
+				bool HasItMutated = false;
+				for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
 				{
-					Population.push_back(Children[Index]);
-					std::cout << "Child P." << Children[Index]->GetIndex() << " will pass onto next generation...\n";
-					Writer->WriteAt(0, "Child P." + std::to_string(Children[Index]->GetIndex()) + " will pass onto next generation...\n");
+					if (Children[Index]->GetAI().GetThresholds()[ThrIndex] != InitialThresholds[ThrIndex])
+					{
+						HasItMutated = true;
+						break;
+					}
+				}
+
+				if (HasItMutated)
+				{
+					std::cout << "Mutation was made, the crossover Child P." << Children[Index]->GetIndex() << " shall be evaluated...\n";
+					Writer->WriteAt(0, "Mutation was made, the crossover Child P." + std::to_string(Children[Index]->GetIndex()) + " shall be evaluated...\n");
+
+					//If mutated child scores lower than the worst performing player in the generation, reject it and select a random parent to pass onto the next generation
+					float ChildFitness = MeasureFitness(Children[Index]);
+					float WorstFitness = GetParticipant(PopulationReference[PopulationReference.size() - 1]->GetIndex())->GetFitness();
+
+					std::cout << "Child Fitness: " << ChildFitness << " / Worst Fitness: " << WorstFitness << "\n";
+					Writer->WriteAt(0, "Child Fitness: " + std::to_string(ChildFitness) + " / Worst Fitness: " + std::to_string(WorstFitness) + "\n");
+
+					if (ChildFitness >= WorstFitness)//MeasureFitness(Child) >= GetParticipant(Population[Population.size() - 1]->GetIndex())->GetFitness())
+					{
+						Population.push_back(Children[Index]);
+						std::cout << "Child P." << Children[Index]->GetIndex() << " will pass onto next generation...\n";
+						Writer->WriteAt(0, "Child P." + std::to_string(Children[Index]->GetIndex()) + " will pass onto next generation...\n");
+					}
+					else
+					{
+						std::cout << "The index of supposed child: P." << Children[Index]->GetIndex() << " / New Child Index: " << (PlayersGenerated - 2 + Index) << "\n";
+						Population.push_back(std::move(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated - 2 + Index)));
+
+						for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+							Population[Population.size() - 1]->GetAI().SetThresholdsByPhase((Phase)PhaseIndex, Parents[Index]->GetAI().GetThresholdsByPhase((Phase)PhaseIndex));
+
+						std::cout << "Child scores lower than the worst player, Parent is selected to pass on...\n";
+						Writer->WriteAt(0, "Child scores lower than the worst player, Parent is selected to pass on...\n");
+					}
 				}
 				else
 				{
-					std::cout << "The index of supposed child: P." << Children[Index]->GetIndex() << " / New Child Index: " << (PlayersGenerated - 2 + Index) << "\n";
-					Population.push_back(std::move(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated - 2 + Index)));
-					
-					for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
-						Population[Population.size() - 1]->GetAI().SetThresholdsByPhase((Phase)PhaseIndex, Parents[Index]->GetAI().GetThresholdsByPhase((Phase)PhaseIndex));
-
-					std::cout << "Child scores lower than the worst player, Parent is selected to pass on...\n";
-					Writer->WriteAt(0, "Child scores lower than the worst player, Parent is selected to pass on...\n");
+					Population.push_back(Children[Index]);
+					std::cout << "No mutation was made, the crossover Child P." << Children[Index]->GetIndex() << " will be passed into next generation...\n";
+					Writer->WriteAt(0, "No mutation was made, the crossover Child P." + std::to_string(Children[Index]->GetIndex()) + " will be passed into next generation...\n");
+					std::cout << "Child P." << Children[Index]->GetIndex() << " will pass onto next generation...\n";
+					Writer->WriteAt(0, "Child P." + std::to_string(Children[Index]->GetIndex()) + " will pass onto next generation...\n");
 				}
+
+				
 			}
 		}
 		else
@@ -988,31 +1016,57 @@ void GeneticTrainer::ReproducePopulation()
 			for (unsigned int Index = 0; Index < 4; Index++)
 				Children[0]->GetAI().SetThresholdsByPhase((Phase)Index, Reference->GetAI().GetThresholdsByPhase((Phase)Index));
 
+			std::array<float, 16> InitialThresholds = Children[0]->GetAI().GetThresholds();
+
 			Mutate(Children[0]);
 			std::cout << "Child W/O Crossover: P." << Children[0]->GetIndex() << " (" << GetThresholdsStr(Children[0]) << ")\n";
 			Writer->WriteAt(0, "Child W/O Crossover: P." + std::to_string(Children[0]->GetIndex()) + " (" + GetThresholdsStr(Children[0]) + ")\n");
 
-			float ChildFitness = MeasureFitness(Children[0]);
-			float WorstFitness = GetParticipant(PopulationReference[PopulationReference.size() - 1]->GetIndex())->GetFitness();
-
-			std::cout << "Child Fitness: " << ChildFitness << " / Worst Fitness: " << WorstFitness << "\n";
-			Writer->WriteAt(0, "Child Fitness: " + std::to_string(ChildFitness) + " / Worst Fitness: " + std::to_string(WorstFitness) + "\n");
-
-			if (ChildFitness >= WorstFitness)//MeasureFitness(Children[0]) >= GetParticipant(Population[Population.size() - 1]->GetIndex())->GetFitness())
+			bool HasItMutated = false;
+			for (unsigned int ThrIndex = 0; ThrIndex < 16; ThrIndex++)
 			{
-				Population.push_back(Children[0]);
-				std::cout << "Child P." << Children[0]->GetIndex() << " will pass onto next generation...\n";
-				Writer->WriteAt(0, "Child P." + std::to_string(Children[0]->GetIndex()) + " will pass onto next generation...\n");
+				if (Children[0]->GetAI().GetThresholds()[ThrIndex] != InitialThresholds[ThrIndex])
+				{
+					HasItMutated = true;
+					break;
+				}
+			}
+
+			if (HasItMutated)
+			{
+				std::cout << "Mutation was made, the crossover Child P." << Children[0]->GetIndex() << " shall be evaluated...\n";
+				Writer->WriteAt(0, "Mutation was made, the crossover Child P." + std::to_string(Children[0]->GetIndex()) + " shall be evaluated...\n");
+
+				float ChildFitness = MeasureFitness(Children[0]);
+				float WorstFitness = GetParticipant(PopulationReference[PopulationReference.size() - 1]->GetIndex())->GetFitness();
+
+				std::cout << "Child Fitness: " << ChildFitness << " / Worst Fitness: " << WorstFitness << "\n";
+				Writer->WriteAt(0, "Child Fitness: " + std::to_string(ChildFitness) + " / Worst Fitness: " + std::to_string(WorstFitness) + "\n");
+
+				if (ChildFitness >= WorstFitness)//MeasureFitness(Children[0]) >= GetParticipant(Population[Population.size() - 1]->GetIndex())->GetFitness())
+				{
+					Population.push_back(Children[0]);
+					std::cout << "Child P." << Children[0]->GetIndex() << " will pass onto next generation...\n";
+					Writer->WriteAt(0, "Child P." + std::to_string(Children[0]->GetIndex()) + " will pass onto next generation...\n");
+				}
+				else
+				{
+					std::cout << "The index of supposed child: P." << Children[0]->GetIndex() << " / New Child Index: " << (PlayersGenerated) << "\n";
+					Population.push_back(std::move(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
+					for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
+						Population[Population.size() - 1]->GetAI().SetThresholdsByPhase((Phase)PhaseIndex, Reference->GetAI().GetThresholdsByPhase((Phase)PhaseIndex));
+
+					std::cout << "Child scores lower than the worst player, Parent is selected to pass on...\n";
+					Writer->WriteAt(0, "Child scores lower than the worst player, Parent is selected to pass on...\n");
+				}
 			}
 			else
 			{
-				std::cout << "The index of supposed child: P." << Children[0]->GetIndex() << " / New Child Index: " << (PlayersGenerated) << "\n";
-				Population.push_back(std::move(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-				for (unsigned int PhaseIndex = 0; PhaseIndex < 4; PhaseIndex++)
-					Population[Population.size() - 1]->GetAI().SetThresholdsByPhase((Phase)PhaseIndex, Reference->GetAI().GetThresholdsByPhase((Phase)PhaseIndex));
-
-				std::cout << "Child scores lower than the worst player, Parent is selected to pass on...\n";
-				Writer->WriteAt(0, "Child scores lower than the worst player, Parent is selected to pass on...\n");
+				Population.push_back(Children[0]);
+				std::cout << "No mutation was made, the crossover Child P." << Children[0]->GetIndex() << " will be passed into next generation...\n";
+				Writer->WriteAt(0, "No mutation was made, the crossover Child P." + std::to_string(Children[0]->GetIndex()) + " will be passed into next generation...\n");
+				std::cout << "Child P." << Children[0]->GetIndex() << " will pass onto next generation...\n";
+				Writer->WriteAt(0, "Child P." + std::to_string(Children[0]->GetIndex()) + " will pass onto next generation...\n");
 			}
 
 			PlayersGenerated++;		

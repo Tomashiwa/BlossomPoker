@@ -51,7 +51,7 @@ private:
 	float MutateRate = 0.1f;
 
 	unsigned int ParentLimit = 2;
-	unsigned int TournamentSize = 4;
+	unsigned int TournamentSize = 2;// 4;
 	unsigned int WinnerPerTouranment = 1;
 
 	unsigned int ElitesLimit;
