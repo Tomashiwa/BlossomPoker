@@ -11,6 +11,8 @@
 #include "../../Player/inc/Randomer.h"
 #include "../../Table/inc/Tournament.h"
 
+#include "../../Tools/inc/Precomputation.h"
+
 GeneticTrainer::GeneticTrainer()
 {
 	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
@@ -23,6 +25,8 @@ GeneticTrainer::GeneticTrainer()
 	RaisingPlayer = std::make_unique<Raiser>(ActiveTable, 300000);
 	RandomPlayer0 = std::make_unique<Randomer>(ActiveTable, 400000);
 	RandomPlayer1 = std::make_unique<Randomer>(ActiveTable, 100000);
+
+	Precomp = std::make_unique<Precomputation>(Evaluator);
 }
 
 GeneticTrainer::~GeneticTrainer()
@@ -32,6 +36,8 @@ GeneticTrainer::~GeneticTrainer()
 
 void GeneticTrainer::Start()
 {
+	//Precomp->ComputePreflopOdds(7, 1000000);
+
 	/*std::array<Card, 2> TestHole{ Card(Suit::Spade,Rank::Ace), Card(Suit::Heart,Rank::Two) };
 	std::vector<Card> TestComm{};// { Card(Suit::Club, Rank::Seven), Card{ Suit::Spade, Rank::Two } };
 

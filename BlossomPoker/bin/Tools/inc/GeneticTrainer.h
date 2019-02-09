@@ -18,6 +18,7 @@ class Raiser;
 class Randomer;
 class Tournament;
 class HandEvaluator;
+class Precomputation;
 
 class GeneticTrainer
 {
@@ -102,5 +103,7 @@ private:
 
 	float GetOverallFitness();
 	float GetGenerationDiversity();
+
+	std::unique_ptr<Precomputation> Precomp;
 };
 

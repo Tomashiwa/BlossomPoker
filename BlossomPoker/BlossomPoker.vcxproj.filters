@@ -114,6 +114,9 @@
     <ClCompile Include="OMPEval\src\Evaluator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bin\Tools\src\Precomputation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Player\Inc\Caller.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OMPEval\inc\Evaluator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\Tools\inc\Precomputation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

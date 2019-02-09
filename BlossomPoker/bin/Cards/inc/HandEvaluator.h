@@ -2,6 +2,7 @@
 #include <array>
 #include <vector>
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <cmath>
 #include <algorithm>
@@ -16,13 +17,21 @@
 
 enum class Hand { High, Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
 
+struct OddsEntry
+{
+	std::array<Card, 2> Hole;
+	std::vector<Card> Communal;
+	std::vector<float> Odds;
+};
+
 class HandEvaluator
 {
 public:
 	HandEvaluator();
 
-	float DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(std::array<Card, 2> _Hole, std::vector<Card> community, unsigned int _PlayerAmt, unsigned int _TrialsAmt);
-	float DetermineOdds_MonteCarlo_Multi_OMPEval(std::array<Card, 2> _Hole, std::vector<Card> community, unsigned int _PlayerAmt, unsigned int _TrialsAmt);
+	float DetermineOdds_Preflop(std::array<Card, 2> _Hole, unsigned int _OppoAmt);
+	float DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt);
+	float DetermineOdds_MonteCarlo_Multi_OMPEval(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt);
 
 	int DetermineValue_Cards(const std::vector<Card>& _Cards);
 	int DetermineValue_5Cards_TwoPlusTwo(const std::array<Card, 5>& _Hand);
@@ -48,6 +57,8 @@ public:
 	std::string GetStr(std::array<Card, 7> _Hand);
 	std::string GetStr(std::vector<Card> _Hand);
 
+	Card GetCardFromStr(std::string _Text);
+
 private:
 	int HR[32487834];
 
@@ -55,6 +66,8 @@ private:
 	std::unique_ptr<omp::Evaluator> Eval;
 
 	std::vector<Card> ReferenceDeck;//std::array <Card,52> ReferenceDeck;
+
+	std::vector<OddsEntry> PreflopOdds;
 
 	void Initialize();
 	

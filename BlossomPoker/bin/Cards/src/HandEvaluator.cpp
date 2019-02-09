@@ -29,6 +29,42 @@ void HandEvaluator::Initialize()
 	}
 
 	Eval = std::make_unique<omp::Evaluator>();
+
+	std::ifstream OddsFile("PreflopOdds.txt");
+	std::string EntryStr;
+
+	while (std::getline(OddsFile, EntryStr))
+	{
+		std::string HoleStr = EntryStr.substr(0, EntryStr.find(' '));
+		std::string OddsStr = EntryStr.substr(EntryStr.find(' ') + 1);
+
+		OddsEntry Entry;
+		Entry.Hole[0] = GetCardFromStr(HoleStr.substr(0, HoleStr.find('s') + 1));
+		Entry.Hole[1] = GetCardFromStr(HoleStr.substr(HoleStr.find('s') + 1));
+
+		std::istringstream Iss(OddsStr);
+		for (std::string OddStr; Iss >> OddStr;)
+			Entry.Odds.push_back(std::atof(OddStr.c_str()));
+
+		/*if (HoleStr == "4s10h")
+		{
+			std::cout << "HoleStr: " << HoleStr << "\n";
+			std::cout << "OddsStr: " << OddsStr << "\n";
+
+			std::cout << "Substr 0: " << HoleStr.substr(0, HoleStr.find('s') + 1) << "\n";
+			std::cout << "Substr 1: " << HoleStr.substr(HoleStr.find('s') + 1) << "\n";
+
+			std::cout << "Hole 0: " << Entry.Hole[0].To_String() << "\n";
+			std::cout << "Hole 1: " << Entry.Hole[1].To_String() << "\n";
+
+			std::cout << "Odds: ";
+			for (auto const Odd : Entry.Odds)
+				std::cout << Odd << " ";
+			std::cout << "\n\n";
+		}*/
+
+		PreflopOdds.push_back(Entry);
+	}
 }
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
@@ -81,6 +117,59 @@ std::array<int, 7> HandEvaluator::Get7CardsInt_OMPEval(const std::array<Card, 7>
 	std::transform(_Hand.begin(), _Hand.end(), CardInts.begin(), [](Card card) { return static_cast<int>(card.Get_Rank()) * 4 - static_cast<int>(card.Get_Suit()) + 3;});
 
 	return CardInts;
+}
+
+float HandEvaluator::DetermineOdds_Preflop(std::array<Card, 2> _Hole, unsigned int _OppoAmt)
+{
+	//std::cout << "Hole: " << _Hole[0].To_String() << ", " << _Hole[1].To_String() << "\n";
+	
+	//Determine type of Hole (ie. Pocket Pair, Suited Cards or Unsuited Cards)
+	if (_Hole[0].Get_Rank() == _Hole[1].Get_Rank())
+	{
+		//std::cout << "They are pocket pairs with rank of " << ((int)_Hole[0].Get_Rank()) + 2 << "...\n";
+		Rank PairRank = _Hole[0].Get_Rank();
+
+		for (auto const& Entry : PreflopOdds)
+		{
+			if (Entry.Hole[0].Get_Rank() == PairRank && Entry.Hole[1].Get_Rank() == PairRank)
+			{
+				//std::cout << "Entry found with " << Entry.Hole[0].To_String() << "," << Entry.Hole[1].To_String() << "... Odds: " << Entry.Odds[0] << "," << Entry.Odds[1] << "," << Entry.Odds[2] << "," << Entry.Odds[3] << "," << Entry.Odds[4] << "," << Entry.Odds[5] << "," << Entry.Odds[6] << "\n";
+				//std::cout << "Odds returned: " << Entry.Odds[_OppoAmt - 1] << "\n";
+				return Entry.Odds[_OppoAmt - 1];
+			}
+		}
+
+		return 0.0f;
+	}
+	else if (_Hole[0].Get_Suit() == _Hole[1].Get_Suit())
+	{
+		//std::cout << "They are suited cards with rank of " << ((int)_Hole[0].Get_Rank()) + 2 << "," << ((int) _Hole[1].Get_Rank()) - 2 << "...\n";
+
+		for (auto const& Entry : PreflopOdds)
+		{
+			if (Entry.Hole[0].Get_Suit() == Entry.Hole[1].Get_Suit() && ((Entry.Hole[0].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[1].Get_Rank() == _Hole[1].Get_Rank()) || (Entry.Hole[1].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[0].Get_Rank() == _Hole[1].Get_Rank())))
+			{
+				//std::cout << "Entry found with " << Entry.Hole[0].To_String() << "," << Entry.Hole[1].To_String() << "... Odds: " << Entry.Odds[0] << "," << Entry.Odds[1] << "," << Entry.Odds[2] << "," << Entry.Odds[3] << "," << Entry.Odds[4] << "," << Entry.Odds[5] << "," << Entry.Odds[6] << "\n";				
+				//std::cout << "Odds returned: " << Entry.Odds[_OppoAmt - 1] << "\n";
+				return Entry.Odds[_OppoAmt - 1];
+			}
+		}
+
+		return 0.0f;
+	}
+
+	//std::cout << "They are unsuited cards with rank of " << ((int)_Hole[0].Get_Rank()) + 2 << "," << ((int)_Hole[1].Get_Rank()) + 2 << "...\n";
+	for (auto const& Entry : PreflopOdds)
+	{
+		if (Entry.Hole[0].Get_Suit() != Entry.Hole[1].Get_Suit() && ((Entry.Hole[0].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[1].Get_Rank() == _Hole[1].Get_Rank()) || (Entry.Hole[1].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[0].Get_Rank() == _Hole[1].Get_Rank())))
+		{
+			//std::cout << "Entry found with " << Entry.Hole[0].To_String() << "," << Entry.Hole[1].To_String() << "... Odds: " << Entry.Odds[0] << "," << Entry.Odds[1] << "," << Entry.Odds[2] << "," << Entry.Odds[3] << "," << Entry.Odds[4] << "," << Entry.Odds[5] << "," << Entry.Odds[6] << "\n";			
+			//std::cout << "Odds returned: " << Entry.Odds[_OppoAmt - 1] << "\n";
+			return Entry.Odds[_OppoAmt - 1];
+		}
+	}
+
+	return 0.0f;
 }
 
 float HandEvaluator::DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt)
@@ -512,4 +601,85 @@ std::string HandEvaluator::GetStr(std::vector<Card> _Hand)
 		str += Card.To_String() + " ";
 
 	return str;
+}
+
+Card HandEvaluator::GetCardFromStr(std::string _Text)
+{
+	if (_Text.size() == 3)
+	{
+		unsigned int SuitVal = 0;
+		
+		switch (_Text[2])
+		{
+		case 'c':
+			SuitVal = 0;
+			break;
+		case 'd':
+			SuitVal = 1;
+			break;
+		case 'h':
+			SuitVal = 2;
+			break;
+		case 's':
+			SuitVal = 3;
+			break;
+		}
+
+		std::string RankStr = _Text.substr(0, 2);
+		unsigned int RankVal = 0;
+
+		if (RankStr == "A")
+			RankVal = 12;
+		else if (RankStr == "K")
+			RankVal = 11;
+		else if (RankStr == "Q")
+			RankVal = 10;
+		else if (RankStr == "J")
+			RankVal = 9;
+		else 
+			RankVal = std::stoul(RankStr) - 2;
+
+		return Card((Suit)SuitVal, (Rank)RankVal);
+	}
+
+	unsigned int RankVal = 0;
+
+	switch (_Text[0])
+	{
+	case 'A':
+		RankVal = 12;
+		break;
+	case 'K':
+		RankVal = 11;
+		break;
+	case 'Q':
+		RankVal = 10;
+		break;
+	case 'J':
+		RankVal = 9;
+		break;
+	default:
+		RankVal = static_cast<unsigned int>(_Text[0]) - 48 - 2;
+		break;
+	}
+
+	unsigned int SuitVal = 0;
+
+	switch (_Text[1])
+	{
+	case 'c':
+		SuitVal = 0;
+		break;
+	case 'd':
+		SuitVal = 1;
+		break;
+	case 'h':
+		SuitVal = 2;
+		break;
+	case 's':
+		SuitVal = 3;
+		break;
+	}
+
+	return Card((Suit)SuitVal, (Rank)RankVal);
 }

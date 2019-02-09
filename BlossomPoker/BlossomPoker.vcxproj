@@ -167,6 +167,7 @@
     <ClCompile Include="OMPEval\src\CombinedRange.cpp" />
     <ClCompile Include="OMPEval\src\EquityCalculator.cpp" />
     <ClCompile Include="OMPEval\src\Evaluator.cpp" />
+    <ClCompile Include="bin\Tools\src\Precomputation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Table\inc\BettingAction.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="OMPEval\inc\Random.h" />
     <ClInclude Include="OMPEval\inc\Util.h" />
     <ClInclude Include="OMPEval\OffsetTable.hxx" />
+    <ClInclude Include="bin\Tools\inc\Precomputation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
