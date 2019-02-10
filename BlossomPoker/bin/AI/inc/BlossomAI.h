@@ -17,7 +17,6 @@ public:
 	~BlossomAI();
 
 	void Initialise();
-	void Reset();
 
 	BettingAction EnquireAction(Snapshot _Snapshot);
 	float DetermineWinRate(std::array<Card,2> _Hole, std::vector<Card> _Communal, unsigned int _OppoAmt);

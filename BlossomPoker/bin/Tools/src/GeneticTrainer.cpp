@@ -784,8 +784,8 @@ void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target)
 void GeneticTrainer::EvaluateMutateRate()
 {
 	//Custom Diversity-based Adaptive Mutation
-	/*float Sensitivity = 0.3f;
-	float Diversity_Min = 0.2f, Diversity_Max = 1.5f;
+	float Sensitivity = 0.1f;
+	float Diversity_Min = 0.2f, Diversity_Max = 0.8f;
 	float Diversity_Current = GetGenerationDiversity();
 
 	if (MutatePhase == 0)
@@ -797,7 +797,9 @@ void GeneticTrainer::EvaluateMutateRate()
 	{
 		MutateRate = MutateRate * (1 + (Sensitivity * ((Diversity_Max - Diversity_Current) / Diversity_Current)));
 		MutatePhase = Diversity_Current >= Diversity_Max ? 0 : 1;
-	}*/
+	}
+
+	MutateRate = std::max(0.0f, std::min(MutateRate, 0.1f));
 
 	//Diversity-based Adaptive Mutation
 	//float Sensitivity = 0.225f;//0.3f;
@@ -808,10 +810,10 @@ void GeneticTrainer::EvaluateMutateRate()
 	//MutateRate = std::max(0.0f, std::min(MutateRate, 0.5f));
 
 	//Gaussian Distribution
-	float a = 2.5f, b = 0.5f, c = 1.5075f;//float a = 2.5f, b = 0.5f, c = 0.15f;
-	float x = (float) Generation / (float) GenerationLimit;
-	float e = std::exp(1.0f);
-	MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2)))) - 0.9f;//pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
+	//float a = 2.5f, b = 0.5f, c = 1.5075f;//float a = 2.5f, b = 0.5f, c = 0.15f;
+	//float x = (float) Generation / (float) GenerationLimit;
+	//float e = std::exp(1.0f);
+	//MutateRate = pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2)))) - 0.9f;//pow((a * e), -(pow((x - b), 2) / (2 * pow(c, 2))));
 
 	//Oscillating Sine Wave
 	/*float Freq = 48.7f;

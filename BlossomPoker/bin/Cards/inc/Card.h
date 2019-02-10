@@ -18,15 +18,15 @@ public:
 	
 	bool operator== (const Card& _Other) const
 	{
-		if (GivenRank == _Other.GivenRank)
-			return GivenSuit > _Other.GivenSuit;
-
-		return GivenRank > _Other.GivenRank;
+		return GivenSuit == _Other.GivenSuit && GivenRank == _Other.GivenRank;
 	}
 
 	bool operator>(const Card& _Other) const
 	{
-		return GivenSuit == _Other.GivenSuit && GivenRank == _Other.GivenRank;
+		if (GivenRank == _Other.GivenRank)
+			return GivenSuit > _Other.GivenSuit;
+
+		return GivenRank > _Other.GivenRank;
 	}
 
 	std::string To_String() const;

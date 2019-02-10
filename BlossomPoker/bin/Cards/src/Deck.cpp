@@ -56,7 +56,7 @@ void Deck::Print() const
 	std::cout << "(Remaining cards): " << Cards.size() << "\n\n";
 	
 	unsigned int Count = 0;
-	for (auto const& Card : Cards)//unsigned int CIndex = 0; CIndex < Cards.size(); CIndex++)
+	for (auto const& Card : Cards)
 	{
 		std::cout << Card.To_String() << "/";
 		Count++;

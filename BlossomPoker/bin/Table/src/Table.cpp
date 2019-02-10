@@ -159,15 +159,6 @@ void Table::EndRound()
 				else
 				{
 					Participant->SetMoneyLost(Participant->GetMoneyLost() - Participant->GetProfits());
-					/*if (Participant->GetMoneyLost() == 0)
-					{
-						std::cout << "Pot: " << Pot << "\n";
-						
-						std::cout << "Has P." << Participant->GetOwner()->GetIndex() << " folded ?" << Participant->GetOwner()->GetIsFolded() << " / broke ? " << Participant->GetOwner()->GetIsBroke() << "\n";
-						std::cout << "P." << Participant->GetOwner()->GetIndex() << " lost this hand, losing $" << Participant->GetProfits() << " from a Pot of $" << Pot << " (Total MoneyLost: " << Participant->GetMoneyLost() << ")...\n";
-
-						std::cout << "\n";
-					}*/
 				}
 			}
 		}
@@ -176,24 +167,11 @@ void Table::EndRound()
 	{
 		for (auto const& Participant : CurrentMatch->GetRankingBoard())
 		{
-			/*CurrentMatch->PrintInfo();
-			std::cout << "\n";*/
-
 			if (!Participant->GetOwner()->GetIsBroke() && !Participant->GetOwner()->GetIsFolded())
-			{
 				Participant->SetHandsWon(Participant->GetHandsWon() + 1);
-				//std::cout << "P." << Participant->GetOwner()->GetIndex() << " won the hand...\n";
-			}
 
 			else if (!Participant->GetOwner()->GetIsBroke() && Participant->GetOwner()->GetIsFolded())
-			{
 				Participant->SetHandsLost(Participant->GetHandsLost() + 1);
-				//std::cout << "P." << Participant->GetOwner()->GetIndex() << " lose the hand...\n";
-			}
-
-			/*std::cout << "\n";
-			CurrentMatch->PrintInfo();
-			std::cout << "\n";*/
 		}
 	}
 	
@@ -378,14 +356,6 @@ void Table::UpdatePhase()
 			RequiredAnte = CurrentPlayer->GetAnte();
 			UpdatePot();
 
-
-			/*unsigned int RaiseAmt = CurrentPlayer->GetRaiseBetAmt();
-			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + RaiseAmt);
-			RequiredAnte = CurrentPlayer->GetAnte();
-			UpdatePot();
-
-			PrevRaiseBet = RaiseAmt;*/
-
 			if (PrintProcess)
 				std::cout << "P." << CurrentPlayer->GetIndex() << " raised Pot to $" << Pot << " w/ $" << RaiseAmt <<"\n";
 
@@ -406,13 +376,6 @@ void Table::UpdatePhase()
 
 			RequiredAnte = CurrentPlayer->GetAnte();
 			UpdatePot();
-
-			/*unsigned int BetAmt = CurrentPlayer->GetRaiseBetAmt();
-			CurrentPlayer->SetAnte(CurrentPlayer->GetAnte() + BetAmt);
-			RequiredAnte = CurrentPlayer->GetAnte();
-			UpdatePot();
-
-			PrevRaiseBet = BetAmt;*/
 
 			if (PrintProcess)
 				std::cout << "P." << CurrentPlayer->GetIndex() << " bet $" << BetAmt << " results in Pot to $" << Pot << " \n";
@@ -489,18 +452,12 @@ bool Table::IsGameEnded()
 void Table::AddPlayer(std::shared_ptr<Player> _AddingPlayer)
 {
 	Players.push_back(_AddingPlayer);
-	//Earnings.push_back(0);
-	//Records.insert(std::make_pair(_AddingPlayer, 0));
-
 	_AddingPlayer->SetStack(EntryStack);
 }
 
 void Table::AddPlayer(std::shared_ptr<Player> _AddingPlayer, unsigned int _EntryStack)
 {
 	Players.push_back(_AddingPlayer);
-	//Earnings.push_back(0);
-	//Records.insert(std::make_pair(_AddingPlayer, 0));
-
 	_AddingPlayer->SetStack(_EntryStack);
 }
 
@@ -546,15 +503,6 @@ std::shared_ptr<Player> Table::GetPreviousPlayer(const std::shared_ptr<Player>& 
 
 	std::cout << "Prev player cannot be found...\n";
 	return nullptr;
-
-
-	/*for (unsigned int Index = 0; Index < Players.size(); Index++)
-	{
-		if (Players[Index] == _Reference)
-			return Index <= 0 ? Players[Players.size() - 1] : Players[Index - 1];
-	}
-
-	return nullptr;*/
 }
 
 std::shared_ptr<Player> Table::GetNextPlayer(const std::shared_ptr<Player>& _Reference)
@@ -618,14 +566,6 @@ std::shared_ptr<Player> Table::GetNextPlayer(const std::shared_ptr<Player>& _Ref
 
 	std::cout << "Next player cannot be found...\n";
 	return nullptr;
-
-	/*for (unsigned int Index = 0; Index < Players.size(); Index++)
-	{
-		if (Players[Index] == _Reference)
-			return Index >= (Players.size() - 1) ? Players[0] : Players[Index + 1];
-	}
-
-	return nullptr;*/
 }
 
 void Table::UpdatePot()

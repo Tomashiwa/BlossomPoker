@@ -33,21 +33,10 @@ void BlossomAI::Initialise()
 		Thresholds[2 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[2];
 		Thresholds[3 + (4 * StratIndex)] = Strategies[StratIndex]->GetThresholds()[3];
 	}
-
-	//std::cout << "Strat 1: " << Strategies[0]->GetThresholds()[0] << "," << Strategies[0]->GetThresholds()[1] << "," << Strategies[0]->GetThresholds()[2] << "," << Strategies[0]->GetThresholds()[3] << "\n";
-	//std::cout << "Strat 2: " << Strategies[1]->GetThresholds()[0] << "," << Strategies[1]->GetThresholds()[1] << "," << Strategies[1]->GetThresholds()[2] << "," << Strategies[1]->GetThresholds()[3] << "\n";
-	//std::cout << "Strat 3: " << Strategies[2]->GetThresholds()[0] << "," << Strategies[2]->GetThresholds()[1] << "," << Strategies[2]->GetThresholds()[2] << "," << Strategies[2]->GetThresholds()[3] << "\n";
-	//std::cout << "Strat 4: " << Strategies[3]->GetThresholds()[0] << "," << Strategies[3]->GetThresholds()[1] << "," << Strategies[3]->GetThresholds()[2] << "," << Strategies[3]->GetThresholds()[3] << "\n";
-	//std::cout << "\n";
-}
-
-void BlossomAI::Reset()
-{
 }
 
 BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 {
-	//std::cout << "Determining Ideal Action...\n";
 	if (CurrentRound != _Snapshot.Rounds)
 	{
 		CurrentRound = _Snapshot.Rounds;
@@ -61,8 +50,6 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 		CurrentWinRate = DetermineWinRate(_Snapshot.Hole, _Snapshot.Communal, _Snapshot.PlayerAmt - 1) / 100.0f;
 	}
 
-	//ActiveStrategy = GetStrategy(_Snapshot.Phase);
-	//BettingAction IdealAction = ActiveStrategy->DetermineAction(_Snapshot.AvaliableActions, DetermineWinRate(_Snapshot.Hole, _Snapshot.Communal, _Snapshot.PlayerAmt - 1) / 100.0f, _Snapshot.PlayerAmt); 
 	BettingAction IdealAction = ActiveStrategy->DetermineAction(_Snapshot.AvaliableActions, CurrentWinRate, _Snapshot.PlayerAmt);
 
 	if (IdealAction == BettingAction::Bet)
