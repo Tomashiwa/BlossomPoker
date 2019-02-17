@@ -66,6 +66,60 @@ void LogWriter::WriteAt(unsigned int _FileIndex, unsigned int _Index, std::strin
 	Entries[_FileIndex]->File << _Index << " " << _Label << " " << _Value << "\n" << std::flush;
 }
 
+bool LogWriter::Overwrite(unsigned int _FileIndex, std::string _ToReplace, std::string _ToReplaceWith)
+{
+	std::ifstream Input(CurrentDir + "\\" + Entries[_FileIndex]->Name);
+	std::ofstream Output(CurrentDir + "\\Overwriting - " + Entries[_FileIndex]->Name);
+
+	if (!Input)
+	{
+		std::cout << "Cannot open " << Entries[_FileIndex]->Name << " from " << CurrentDir << "\n";
+		return false;
+	}
+
+	if (!Output)
+	{
+		std::cout << "Cannot open/create" << CurrentDir + "\\Overwriting - " + Entries[_FileIndex]->Name << "\n";
+		return false;
+	}
+
+	std::string CurrentLine;
+	size_t ReplaceLen = _ToReplace.length();
+
+	while (std::getline(Input, CurrentLine))
+	{
+		if (CurrentLine == _ToReplace)
+			CurrentLine = _ToReplaceWith;
+
+		Output << CurrentLine << "\n";
+	}
+
+	Input.close();
+	Output.close();
+
+	std::ifstream FileToOverwriteWith(CurrentDir + "\\Overwriting - " + Entries[_FileIndex]->Name);
+	
+	std::ofstream FileToOverwrite;
+	FileToOverwrite.open(CurrentDir + "\\" + Entries[_FileIndex]->Name, std::ofstream::out | std::ofstream::trunc);
+	
+	std::string Content = "";
+
+	while (FileToOverwriteWith.eof() != true)
+		Content += FileToOverwriteWith.get();
+
+	Content.erase(Content.end() - 1);
+
+	FileToOverwriteWith.close();
+
+	std::string Dir = CurrentDir + "\\Overwriting - " + Entries[_FileIndex]->Name;
+	std::remove(Dir.c_str());
+
+	FileToOverwrite << Content;
+	FileToOverwrite.close();
+
+	return true;
+}
+
 void LogWriter::GenerateGNUFiles()
 {
 	NewFile(LogType::NONE, "RunGraph - Performance");

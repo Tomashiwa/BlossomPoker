@@ -25,6 +25,8 @@ public:
 	void WriteAt(unsigned int _FileIndex, float _Axis1, float _Axis2);
 	void WriteAt(unsigned int _FileIndex, unsigned int _Index, std::string _Label, float _Value);
 
+	bool Overwrite(unsigned int _FileIndex, std::string _ToReplace, std::string _ToReplaceWith);
+
 	void CloseAt(unsigned int _Index);
 	void Clear();
 

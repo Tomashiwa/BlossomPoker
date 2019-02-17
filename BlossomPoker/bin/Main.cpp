@@ -9,7 +9,7 @@ int main()
 {
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
-	Schedule->Add(32, 300, 32);
+	Schedule->Add(32, 600, 1);
 
 	Schedule->Run(false);
 	system("pause");

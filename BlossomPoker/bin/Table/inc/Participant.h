@@ -17,8 +17,13 @@ public:
 
 	void SetProfits(unsigned int _Profits) { Profits = _Profits; }
 
+	void SetUniqueness(float _Uniqueness) { Uniqueness = _Uniqueness; }
+	void SetPotential(float _Potential) { Potential = _Potential; }
+
 	const std::shared_ptr<Player>& GetOwner() { return Owner; }
 	float GetFitness() { return Fitness; }
+	float GetUniqueness() { return Uniqueness; }
+	float GetPotential() { return Potential; }
 
 	unsigned int GetMoneyWon() { return MoneyWon; }
 	unsigned int GetMoneyLost() { return MoneyLost; }
@@ -36,6 +41,8 @@ private:
 	std::shared_ptr<Player> Owner;
 
 	float Fitness = 0.0f;
+	float Uniqueness = 0.0f;
+	float Potential = 0.0f;
 
 	unsigned int MoneyWon = 0;
 	unsigned int MoneyLost = 0;

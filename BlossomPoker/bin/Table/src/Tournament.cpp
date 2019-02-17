@@ -20,7 +20,7 @@ void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players
 	{
 		Matches.clear();
 		Matches.reserve(_Size);
-		for (unsigned int Index = 0; Index < _Size; Index++)
+		for (unsigned int Index = 0; Index < 1; Index++)//_Size; Index++)
 			Matches.push_back(std::make_shared<Match>(Index, IsDuplicated, _Players));
 	}
 	else
