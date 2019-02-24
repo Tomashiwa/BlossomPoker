@@ -232,7 +232,7 @@ void GeneticTrainer::Run()
 		ArrangeHoF();
 		ClipHoF(PopulationSize / 2);
 
-		#pragma region Couts & Log Writing
+		#pragma region Couts & Log Writing	
 		std::cout << "\nGenerational Ranking: \n";
 		Writer->WriteAt(0, "\nGenerational Ranking: \n");
 		for (auto const& Participant : RankingBoard)
@@ -270,8 +270,12 @@ void GeneticTrainer::Run()
 		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
 		#pragma endregion
 
-		if (!IsTestComplete())
- 			ReproducePopulation();
+		GenerationAverFitness.push_back(GetOverallFitness());
+
+		if (!IsTestComplete() && HasPopulationStagnate())
+			CullCount < MaxCullCount ? CullPopulation() : NukePopulation();
+		else if(!IsTestComplete())
+			ReproducePopulation();
 		else
 			End();
 	}
@@ -1454,6 +1458,165 @@ void GeneticTrainer::ReproducePopulation()
 	}
 
 	Generation++;
+}
+
+void GeneticTrainer::CullPopulation()
+{
+	//Culling players with lowest uniqueness
+	/*//Sort RankiingBoard by ascending uniqueness
+	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetUniqueness() < _Second->GetUniqueness(); });
+
+	float CullRatio = 0.25f;
+	unsigned int TargetIndex = (unsigned int)(CullRatio * (float)PopulationSize);
+
+	//Erase and replace the lowest uniqueness players within RankingBoard and Population
+	for (unsigned int Index = 0; Index < TargetIndex; Index++)
+	{
+		auto Itr = std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return RankingBoard[Index]->GetOwner()->GetIndex() == _Player->GetIndex(); });
+
+		if (Itr != Population.end())
+		{
+			unsigned int ErasedIndex = (*(Itr))->GetIndex();
+
+			Population.erase(Itr);
+			Population.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated));
+
+			GetParticipant(ErasedIndex)->Refresh();
+			GetParticipant(ErasedIndex)->SetOwner(Population[Population.size() - 1]);
+
+			PlayersGenerated++;
+		}
+	}
+
+	//Sort RankingBoard by descending fitness
+	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetFitness() > _Second->GetFitness(); });*/
+
+	//Culling players with lowest fitness
+	Writer->WriteAt(0, "Culling players with lowest fitness...\n");
+
+	//Sort RankingBoard by ascending fitness
+	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetFitness() < _Second->GetFitness(); });
+
+	Writer->WriteAt(0, "Population:\n");
+	for (auto const& Player : Population)
+		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(GetParticipant(Player->GetIndex())->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	Writer->WriteAt(0, "RankingBoard by ascending fitness:\n");
+	for (auto const& Participant : RankingBoard)
+		Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	float CullRatio = 0.25f;
+	unsigned int TargetIndex = (unsigned int)(CullRatio * (float)PopulationSize);
+
+	Writer->WriteAt(0, "CullRatio: " + std::to_string(CullRatio) + " / TargetIndex: " + std::to_string(TargetIndex) + "\n");
+
+	//Erase and replace the lowest fitness players within RankingBoard and Population
+	for (unsigned int Index = 0; Index < TargetIndex; Index++)
+	{
+		auto Itr = std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return RankingBoard[Index]->GetOwner()->GetIndex() == _Player->GetIndex(); });
+
+		if (Itr != Population.end())
+		{
+			unsigned int ErasedIndex = (*(Itr))->GetIndex();
+
+			Population.erase(Itr);
+			Population.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated));
+
+			GetParticipant(ErasedIndex)->Refresh();
+			GetParticipant(ErasedIndex)->SetOwner(Population[Population.size() - 1]);
+
+			PlayersGenerated++;
+		}
+	}
+
+	//Sort RankingBoard by descending fitness
+	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetFitness() > _Second->GetFitness(); });
+
+	Writer->WriteAt(0, "Post-cull Population:\n");
+	for (auto const& Player : Population)
+		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(GetParticipant(Player->GetIndex())->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	Writer->WriteAt(0, "Post-cull RankingBoard by descending fitness:\n");
+	for (auto const& Participant : RankingBoard)
+		Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	CullCount++;
+	Generation++;
+}
+
+void GeneticTrainer::NukePopulation()
+{
+	Writer->WriteAt(0, "Nuking players and leaving " + std::to_string(ElitesLimit) + " elites in Population...\n");
+
+	Writer->WriteAt(0, "Population:\n");
+	for (auto const& Player : Population)
+		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(GetParticipant(Player->GetIndex())->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	Writer->WriteAt(0, "RankingBoard:\n");
+	for (auto const& Participant : RankingBoard)
+		Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	//Erase and replace all players within Population except Elites
+	for (unsigned int Index = ElitesLimit; Index < PopulationSize; Index++)
+	{
+		auto Itr = std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return _Player->GetIndex() == RankingBoard[Index]->GetOwner()->GetIndex(); });
+
+		if (Itr != Population.end())
+		{
+			unsigned int ErasedIndex = (*(Itr))->GetIndex();
+
+			Population.erase(Itr);
+			Population.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated));
+
+			GetParticipant(ErasedIndex)->Refresh();
+			GetParticipant(ErasedIndex)->SetOwner(Population[Population.size() - 1]);
+
+			PlayersGenerated++;
+		}
+	}
+
+	//Sort RankingBoard by descending fitness
+	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetFitness() > _Second->GetFitness(); });
+
+	Writer->WriteAt(0, "Post-nuke Population:\n");
+	for (auto const& Player : Population)
+		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(GetParticipant(Player->GetIndex())->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	Writer->WriteAt(0, "Post-nuke RankingBoard:\n");
+	for (auto const& Participant : RankingBoard)
+		Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "\n");
+	Writer->WriteAt(0, "\n\n");
+
+	CullCount = 0;
+	Generation++;
+}
+
+bool GeneticTrainer::HasPopulationStagnate()
+{
+	std::cout << "Current Generation: " << Generation << " / StagnateInterval: " << StagnateInterval << " / StagnateLength: " << StagnateLength << "\n";
+
+	if (Generation == 0 || Generation % StagnateInterval != 0)
+		return false;
+
+	float CurrentFitness = GetOverallFitness();
+	float InitialFitness = GenerationAverFitness[Generation - StagnateLength];
+
+	Writer->WriteAt(0, "\nChecking for Stagnation (Generation: " + std::to_string(Generation) + " / StaganteInterval: " + std::to_string(StagnateInterval) + " / StagnateLength: " + std::to_string(StagnateLength) + ")...\n");
+	Writer->WriteAt(0, "Generation " + std::to_string(Generation) + "'s Fitness: " + std::to_string(CurrentFitness) + "\n");
+	Writer->WriteAt(0, "Reference Generation " + std::to_string(Generation - StagnateInterval) + "'s Fitness: " + std::to_string(InitialFitness) + "\n");
+	Writer->WriteAt(0, "Absolute Diff: " + std::to_string(std::abs(CurrentFitness - InitialFitness)) + " / Min Fitness Diff: " + std::to_string(MinFitnessDiff) + "\n\n");
+
+	if (std::abs(CurrentFitness - InitialFitness) < MinFitnessDiff)
+		return true;
+
+	return false;
 }
 
 std::string GeneticTrainer::GetPopulationContentStr()
