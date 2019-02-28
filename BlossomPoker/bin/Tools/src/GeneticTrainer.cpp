@@ -174,9 +174,6 @@ void GeneticTrainer::Start()
 	Writer->WriteAt(0, "Players will play " + std::to_string(ToursPerGen) + " Tournaments with " + std::to_string(PopulationSize) + " duplicate matches.\n");
 	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(CrossoverRate) + " with Elitism (" + std::to_string(ElitesLimit) + ") applied and mutate dynamically with delta of " + std::to_string(MutateDelta) + ".\n");
 
-	for (auto const& Player : Population)
-		Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": (" + GetThresholdsStr(Player) + ")\n");
-
 	Writer->NewFile(LogType::Graph_Line, "GenerationPerformance");
 	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
 	Writer->NewFile(LogType::Graph_Line, "MutationRate");
@@ -205,8 +202,17 @@ void GeneticTrainer::Run()
 
 	for (unsigned int GenIndex = 0; GenIndex < GenerationLimit; GenIndex++)
 	{
+		#pragma region Couts & Log Writing
 		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ": (" + std::to_string(PlayersGenerated) + " Players created till now)\n");
 		std::cout << "\nGeneration " << Generation << ": (" << PlayersGenerated << " Players created till now)\n";
+		for (auto const& Player : Population)
+		{
+			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
+			std::cout << "P." << Player->GetIndex() << ": (" << GetThresholdsStr(Player) << ")\n";
+		}
+		std::cout << "\n";
+		Writer->WriteAt(0, "\n");
+		#pragma endregion
 
 		//Initialize/Refresh PlayingPopulation
 		InitializePlayingPopu();
@@ -268,6 +274,27 @@ void GeneticTrainer::Run()
 		Writer->WriteAt(8, Generation, (HoF[0]->GetFitness() + HoF[1]->GetFitness() + HoF[2]->GetFitness()) / 3.0f);
 		std::cout << "Diversity of Generation " << Generation << ": " << GetGenerationDiversity() << "\n";
 		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
+
+		std::cout << "Average Divergence of Thresholds: ";
+		Writer->WriteAt(0, "Average Divergence of Thresholds: ");
+		for (unsigned int Index = 0; Index < 16; Index++)
+		{
+			float Average = 0.0f;
+			for (auto const& Player : Population)
+				Average += Player->GetAI().GetThresholds()[Index];
+			Average /= Population.size();
+
+			float StdDev = 0.0f;
+			for (auto const& Player : Population)
+				StdDev += powf((Player->GetAI().GetThresholds()[Index] - Average), 2.0f);
+			StdDev /= Population.size();
+			StdDev = powf(StdDev, 0.5f);
+
+			std::cout << StdDev << " ";
+			Writer->WriteAt(0, std::to_string(StdDev) + " ");
+		}
+		std::cout << "\n";
+		Writer->WriteAt(0, "\n");
 		#pragma endregion
 
 		GenerationAverFitness.push_back(GetOverallFitness());
@@ -1261,22 +1288,22 @@ void GeneticTrainer::ReproducePopulation()
 	std::shared_ptr<BlossomPlayer> Reference;
 
 	//Elites
-	std::cout << "\n";
-	Writer->WriteAt(0, "\n");
+	std::cout << "\nElites: ";
+	Writer->WriteAt(0, "\nElites: ");
 	float EliteAverageFitness = 0.0f;
 	for (unsigned int Index = 0; Index < ElitesLimit; Index++)
 	{
 		EliteAverageFitness += GetParticipant(Population[Index]->GetIndex())->GetFitness();
 
-		std::cout << "Elite: P." << Population[Index]->GetIndex() << "\n";
-		Writer->WriteAt(0, "Elite: P." + std::to_string(Population[Index]->GetIndex()) + "\n");
+		std::cout << "P." << Population[Index]->GetIndex() << " ";
+		Writer->WriteAt(0, "P." + std::to_string(Population[Index]->GetIndex()) + " ");
 	}
 	EliteAverageFitness /= (float)ElitesLimit;
 	Writer->WriteAt(7, Generation, EliteAverageFitness);
 
 	//NRA
-	std::cout << "\nGenerating Offspring for NRA...\n";
-	Writer->WriteAt(0, "\nGenerating Offspring for NBA...\n");
+	std::cout << "\n\nGenerating Offspring for NRA...\n";
+	Writer->WriteAt(0, "\n\nGenerating Offspring for NBA...\n");
 
 	for (unsigned int Index = 0; Index < PopulationSize - ReserveSize - ElitesLimit; Index++)
 	{
@@ -1296,9 +1323,6 @@ void GeneticTrainer::ReproducePopulation()
 
 		if (HasCrossoverHappen())
 		{
-			std::cout << "Parents: P." << Parents[0]->GetIndex() << " & P." << Parents[1]->GetIndex() << "...\n";
-			Writer->WriteAt(0, "Parents: P." + std::to_string(Parents[0]->GetIndex()) + " & P." + std::to_string(Parents[1]->GetIndex()) + "\n");
-
 			Crossover(Parents[0], Parents[1], Children);
 
 			for (auto& Child : Children)
@@ -1308,15 +1332,15 @@ void GeneticTrainer::ReproducePopulation()
 
 				if (Mutate(Child))
 				{
-					std::cout << "Mutation was made for Child P." << Child->GetIndex() << "...\n";
-					Writer->WriteAt(0, "Mutation was made for Child P." + std::to_string(Child->GetIndex()) + "...\n");
+					std::cout << "Mutation was made...	|	";
+					Writer->WriteAt(0, "Mutation was made...	|	");
 				}
 
 				Population.push_back(Child);
 				PlayersGenerated++;
 
-				std::cout << "Child of Crossover: P." << Child->GetIndex() << " (" << GetThresholdsStr(Child) << ")\n";
-				Writer->WriteAt(0, "Child of Crossover: P." + std::to_string(Child->GetIndex()) + " (" + GetThresholdsStr(Child) + ")\n");
+				std::cout << "P." << Child->GetIndex() << " (Crossover - P." << Parents[0]->GetIndex() << ", P." << Parents[1]->GetIndex() << ")\n";
+				Writer->WriteAt(0, "P." + std::to_string(Child->GetIndex()) + " (Crossover - P." + std::to_string(Parents[0]->GetIndex()) + ", P." + std::to_string(Parents[1]->GetIndex()) + ")\n");
 			}
 
 			for (auto const& Parent : Parents)
@@ -1330,9 +1354,6 @@ void GeneticTrainer::ReproducePopulation()
 			Children.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
 			Reference = Parents[0];
 
-			std::cout << "Reference: P." << Reference->GetIndex() << "\n";
-			Writer->WriteAt(0, "Reference: P." + std::to_string(Reference->GetIndex()) + "\n");
-
 			for (unsigned int Index = 0; Index < 4; Index++)
 				Children[0]->GetAI().SetThresholdsByPhase((Phase)Index, Reference->GetAI().GetThresholdsByPhase((Phase)Index));
 
@@ -1340,15 +1361,15 @@ void GeneticTrainer::ReproducePopulation()
 
 			if(Mutate(Children[0]))
 			{
-				std::cout << "Mutation was made for Child P." << Children[0]->GetIndex() << "...\n";
-				Writer->WriteAt(0, "Mutation was made for Child P." + std::to_string(Children[0]->GetIndex()) + "...\n");
+				std::cout << "Mutation was made...	|	";
+				Writer->WriteAt(0, "Mutation was made...	|	");
 			}
 
 			Population.push_back(Children[0]);
 
-			std::cout << "Child W/O Crossover: P." << Children[0]->GetIndex() << " (" << GetThresholdsStr(Children[0]) << ")\n";
-			Writer->WriteAt(0, "Child W/O Crossover: P." + std::to_string(Children[0]->GetIndex()) + " (" + GetThresholdsStr(Children[0]) + ")\n");
-		
+			std::cout << "P." << Children[0]->GetIndex() << " (W/O Crossover - P." << Reference->GetIndex() << ")\n";
+			Writer->WriteAt(0, "P." + std::to_string(Children[0]->GetIndex()) + " (W/O Crossover - P." + std::to_string(Reference->GetIndex()) + ")\n");
+
 			if (std::find_if(SelectionTable.begin(), SelectionTable.end(), [&](unsigned int _Index) { return Parents[0]->GetIndex() == _Index; }) == SelectionTable.end())
 				SelectionTable.push_back(Parents[0]->GetIndex());
 
@@ -1382,11 +1403,11 @@ void GeneticTrainer::ReproducePopulation()
 					Parents.push_back(Reference);
 			}
 
-			std::cout << "Adapting P." << Parents[0]->GetIndex() << "...\n";
-			Writer->WriteAt(0, "Adapting P." + std::to_string(Parents[0]->GetIndex()) + "...\n");
-			
 			Reference = Adapt(Parents[0], PopulationReference);
 			Population.push_back(Reference);
+			
+			std::cout << "P." << Reference->GetIndex() << " (Adaptation - P." << Parents[0]->GetIndex() << ")\n";
+			Writer->WriteAt(0, "P." + std::to_string(Reference->GetIndex()) + " (Adaptation - P." + std::to_string(Parents[0]->GetIndex()) + ")\n");
 		}
 		else
 		{
@@ -1401,24 +1422,21 @@ void GeneticTrainer::ReproducePopulation()
 
 			if (HasCrossoverHappen())
 			{
-				std::cout << "Parents: P." << Parents[0]->GetIndex() << " & P." << Parents[1]->GetIndex() << "...\n";
-				Writer->WriteAt(0, "Parents: P." + std::to_string(Parents[0]->GetIndex()) + " & P." + std::to_string(Parents[1]->GetIndex()) + "\n");
-
 				Crossover(Parents[0], Parents[1], Children);
 
 				for (auto& Child : Children)
 				{
 					if (Mutate(Child))
 					{
-						std::cout << "Mutation was made for Child P." << Child->GetIndex() << "...\n";
-						Writer->WriteAt(0, "Mutation was made for Child P." + std::to_string(Child->GetIndex()) + "...\n");
+						std::cout << "Mutation was made...	|	";
+						Writer->WriteAt(0, "Mutation was made...	|	");
 					}
 
 					Population.push_back(Child);
 					PlayersGenerated++;
 
-					std::cout << "Child of Crossover: P." << Child->GetIndex() << " (" << GetThresholdsStr(Child) << ")\n";
-					Writer->WriteAt(0, "Child of Crossover: P." + std::to_string(Child->GetIndex()) + " (" + GetThresholdsStr(Child) + ")\n");
+					std::cout << "P." << Child->GetIndex() << " (Crossover - P." << Parents[0]->GetIndex() << ", P." << Parents[1]->GetIndex() << ")\n";
+					Writer->WriteAt(0, "P." + std::to_string(Child->GetIndex()) + " (Crossover - P." + std::to_string(Parents[0]->GetIndex()) + ", P." + std::to_string(Parents[1]->GetIndex()) + ")\n");
 
 					if (Population.size() >= PopulationSize)
 						break;
@@ -1429,21 +1447,19 @@ void GeneticTrainer::ReproducePopulation()
 				Children.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
 				Reference = Parents[0];
 
-				std::cout << "Reference: P." << Reference->GetIndex() << "\n";
-
 				for (unsigned int Index = 0; Index < 4; Index++)
 					Children[0]->GetAI().SetThresholdsByPhase((Phase)Index, Reference->GetAI().GetThresholdsByPhase((Phase)Index));
 
 				if (Mutate(Children[0]))
 				{
-					std::cout << "Mutation was made for Child P." << Children[0]->GetIndex() << "...\n";
-					Writer->WriteAt(0, "Mutation was made for Child P." + std::to_string(Children[0]->GetIndex()) + "...\n");
+					std::cout << "Mutation was made...	|	";
+					Writer->WriteAt(0, "Mutation was made...	|	");
 				}
 
 				Population.push_back(Children[0]);
 
-				std::cout << "Child WO/ Crossover: P." << Children[0]->GetIndex() << " (" << GetThresholdsStr(Children[0]) << ")\n";
-				Writer->WriteAt(0, "Child WO/ Crossover: P." + std::to_string(Children[0]->GetIndex()) + " (" + GetThresholdsStr(Children[0]) + ")\n");
+				std::cout << "P." << Children[0]->GetIndex() << " (W/O Crossover - P." << Reference->GetIndex() << ")\n";
+				Writer->WriteAt(0, "P." + std::to_string(Children[0]->GetIndex()) + " (W/O Crossover - P." + std::to_string(Reference->GetIndex()) + ")\n");
 
 				PlayersGenerated++;
 			}
@@ -1644,5 +1660,6 @@ void GeneticTrainer::SetSpecs(unsigned int _PopulationSize, unsigned int _Genera
 	PopulationSize = _PopulationSize;
 	GenerationLimit = _GenerationLimit;
 	ToursPerGen = _ToursPerGen;
-	ElitesLimit = (unsigned int)(0.125f * (float)PopulationSize);
+	ElitesLimit = (unsigned int)(ElitesRatio * (float)PopulationSize);
+	ReserveSize = (unsigned int)(ReserveRatio * (float)PopulationSize);
 }

@@ -56,16 +56,18 @@ private:
 	unsigned int TournamentSize = 2;// 4;
 	unsigned int WinnerPerTouranment = 1;
 
+	float ElitesRatio = 0.125f;
 	unsigned int ElitesLimit;
 
 	unsigned int MutatePhase = 0;
 
-	unsigned int ReserveSize = 64;
+	float ReserveRatio = 0.125f;
+	unsigned int ReserveSize;
 	unsigned int SamplingBreadth = 5;
 
 	float MinFitnessDiff = 5.0f;
-	unsigned int StagnateInterval = 100;
-	unsigned int StagnateLength = 50;
+	unsigned int StagnateInterval = 200;
+	unsigned int StagnateLength = 200;
 	unsigned int CullCount = 0;
 	unsigned int MaxCullCount = 10;
 
