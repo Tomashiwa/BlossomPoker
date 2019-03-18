@@ -366,3 +366,6 @@ BlossomPoker.VC.db
 BlossomPoker/TestLogs/
 *.etl
 NoRestriction
+BlossomPoker/FlopOdds.txt
+BlossomPoker/PreflopOdds.txt
+BlossomPoker/CardCombos.txt

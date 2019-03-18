@@ -36,7 +36,9 @@ GeneticTrainer::~GeneticTrainer()
 
 void GeneticTrainer::Start()
 {
-	//Precomp->ComputePreflopOdds(7, 1000000);
+	//Precomp->ComputePreflopOdds(7, 2500);
+	Precomp->ComputeFlopOdds(7, 2500);
+	std::cout << "\n";
 
 	/*std::array<Card, 2> TestHole{ Card(Suit::Spade,Rank::Ace), Card(Suit::Heart,Rank::Two) };
 	std::vector<Card> TestComm{};// { Card(Suit::Club, Rank::Seven), Card{ Suit::Spade, Rank::Two } };
