@@ -30,24 +30,83 @@ void HandEvaluator::Initialize()
 
 	Eval = std::make_unique<omp::Evaluator>();
 
-	std::ifstream OddsFile("PreflopOdds.txt");
-	std::string EntryStr;
+	std::string EntryStr, ComboStr, HoleStr, CommStr, OddsStr;
+	std::ifstream File_Preflop("PreflopOdds.txt");
 
-	while (std::getline(OddsFile, EntryStr))
+	PreflopOdds.reserve(170);
+
+	std::cout << "Loading PreflopOdds.txt....\r";
+
+	while (std::getline(File_Preflop, EntryStr))
 	{
-		std::string HoleStr = EntryStr.substr(0, EntryStr.find(' '));
-		std::string OddsStr = EntryStr.substr(EntryStr.find(' ') + 1);
+		HoleStr = EntryStr.substr(0, EntryStr.find(' '));
+		OddsStr = EntryStr.substr(EntryStr.find(' ') + 1);
 
-		OddsEntry Entry;
+		CardCombo Entry;
 		Entry.Hole[0] = GetCardFromStr(HoleStr.substr(0, HoleStr.find('s') + 1));
 		Entry.Hole[1] = GetCardFromStr(HoleStr.substr(HoleStr.find('s') + 1));
 
+		std::vector<float> Odds;
+
 		std::istringstream Iss(OddsStr);
 		for (std::string OddStr; Iss >> OddStr;)
-			Entry.Odds.push_back(std::atof(OddStr.c_str()));
+			Odds.push_back(std::atof(OddStr.c_str()));
 
-		PreflopOdds.push_back(Entry);
+		PreflopOdds.emplace(Entry, Odds);
 	}
+
+	std::cout << "Loaded PreflopOdds.txt     \n";
+
+	std::ifstream File_Flop("FlopOdds.txt");
+	std::size_t OddsStrPos = 0;
+	FlopOdds.reserve(25857174);
+
+	std::cout << "Loading FlopOdds.txt (0/25857174)\r";
+
+	unsigned int Count = 0;
+
+	while (std::getline(File_Flop, EntryStr))
+	{
+		HoleStr = EntryStr.substr(0, EntryStr.find(' '));
+		CommStr = EntryStr.substr(EntryStr.find(' ') + 1, EntryStr.substr(EntryStr.find(' ') + 1).find(' '));
+		OddsStr = EntryStr.substr(EntryStr.find(' ', EntryStr.find(' ') + 1) + 1, std::string::npos);
+
+		CardCombo Entry;
+		for (unsigned int Index = 0; Index < HoleStr.size(); Index++)
+		{
+			if (HoleStr[Index] == 's' || HoleStr[Index] == 'h' || HoleStr[Index] == 'c' || HoleStr[Index] == 'd')
+			{
+				Entry.Hole[0] = GetCardFromStr(HoleStr.substr(0, Index + 1));
+				Entry.Hole[1] = GetCardFromStr(HoleStr.substr(Index + 1, std::string::npos));
+
+				break;
+			}
+		}
+		
+		unsigned int PrevIndex = 0;
+		for (unsigned int Index = 0; Index < CommStr.size(); Index++)
+		{
+			if (CommStr[Index] == 's' || CommStr[Index] == 'h' || CommStr[Index] == 'c' || CommStr[Index] == 'd')
+			{
+				Entry.Community.push_back(GetCardFromStr(CommStr.substr(PrevIndex, (Index - PrevIndex + 1))));
+				PrevIndex = Index + 1;
+			}
+		}
+
+		std::vector<float> Odds;
+
+		std::istringstream Iss(OddsStr);
+		for (std::string OddStr; Iss >> OddStr;)
+			Odds.push_back(std::atof(OddStr.c_str()));
+
+		FlopOdds.emplace(Entry, Odds);
+		Count++;
+
+		if(Count % 1000000 == 0)
+			std::cout << "Loading FlopOdds.txt (" << Count << "/25857174)\r";
+	}
+
+	std::cout << "Loaded FlopOdds.txt                               \n";
 }
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
@@ -103,37 +162,215 @@ std::array<int, 7> HandEvaluator::Get7CardsInt_OMPEval(const std::array<Card, 7>
 
 float HandEvaluator::DetermineOdds_Preflop(std::array<Card, 2> _Hole, unsigned int _OppoAmt)
 {
-	//Determine type of Hole (ie. Pocket Pair, Suited Cards or Unsuited Cards)
+	//std::cout << "Determining Preflop Odds of " << _Hole[0].To_String() << _Hole[1].To_String() << " for " << _OppoAmt << " opponents...\n";
+
+	CardCombo NewEntry;
+
 	if (_Hole[0].Get_Rank() == _Hole[1].Get_Rank())
 	{
-		Rank PairRank = _Hole[0].Get_Rank();
-
-		for (auto const& Entry : PreflopOdds)
-		{
-			if (Entry.Hole[0].Get_Rank() == PairRank && Entry.Hole[1].Get_Rank() == PairRank)
-				return Entry.Odds[_OppoAmt - 1];
-		}
-
-		return 0.0f;
+		NewEntry.Hole[0] = Card(Suit::Spade, _Hole[0].Get_Rank());
+		NewEntry.Hole[1] = Card(Suit::Heart, _Hole[1].Get_Rank());
 	}
 	else if (_Hole[0].Get_Suit() == _Hole[1].Get_Suit())
 	{
-		for (auto const& Entry : PreflopOdds)
+		if (_Hole[0].Get_Rank() < _Hole[1].Get_Rank())
 		{
-			if (Entry.Hole[0].Get_Suit() == Entry.Hole[1].Get_Suit() && ((Entry.Hole[0].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[1].Get_Rank() == _Hole[1].Get_Rank()) || (Entry.Hole[1].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[0].Get_Rank() == _Hole[1].Get_Rank())))
-				return Entry.Odds[_OppoAmt - 1];
+			NewEntry.Hole[0] = Card(Suit::Spade, _Hole[0].Get_Rank());
+			NewEntry.Hole[1] = Card(Suit::Spade, _Hole[1].Get_Rank());
 		}
-
-		return 0.0f;
+		else
+		{
+			NewEntry.Hole[0] = Card(Suit::Spade, _Hole[1].Get_Rank());
+			NewEntry.Hole[1] = Card(Suit::Spade, _Hole[0].Get_Rank());
+		}
 	}
 
-	for (auto const& Entry : PreflopOdds)
+	if (_Hole[0].Get_Rank() < _Hole[1].Get_Rank())
 	{
-		if (Entry.Hole[0].Get_Suit() != Entry.Hole[1].Get_Suit() && ((Entry.Hole[0].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[1].Get_Rank() == _Hole[1].Get_Rank()) || (Entry.Hole[1].Get_Rank() == _Hole[0].Get_Rank() && Entry.Hole[0].Get_Rank() == _Hole[1].Get_Rank())))
-			return Entry.Odds[_OppoAmt - 1];
+		NewEntry.Hole[0] = Card(Suit::Spade, _Hole[0].Get_Rank());
+		NewEntry.Hole[1] = Card(Suit::Heart, _Hole[1].Get_Rank());
+	}
+	else
+	{
+		NewEntry.Hole[0] = Card(Suit::Spade, _Hole[1].Get_Rank());
+		NewEntry.Hole[1] = Card(Suit::Heart, _Hole[0].Get_Rank());
 	}
 
-	return 0.0f;
+	return PreflopOdds[NewEntry][_OppoAmt - 1];
+}
+
+float HandEvaluator::DetermineOdds_Flop(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt)
+{
+	std::array<Card, 5> CurrentHand;
+	CurrentHand[0] = _Hole[0];
+	CurrentHand[1] = _Hole[1];
+	CurrentHand[2] = _Community[0];
+	CurrentHand[3] = _Community[1];
+	CurrentHand[4] = _Community[2];
+
+	Hand Type = DetermineType(DetermineValue_5Cards_OMPEval(CurrentHand));
+
+	/*std::cout << "Hand Pre-masking: " << _Hole[0].To_String() << _Hole[1].To_String() << " " << _Community[0].To_String() << _Community[1].To_String() << _Community[2].To_String() << "\n";
+
+	std::size_t Hash_Premask = 0;
+
+	for (auto const& Card : _Hole)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash_Premask += HashedCard;
+	}
+
+	for (auto const& Card : _Community)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash_Premask += HashedCard;
+	}*/
+
+	if (Type == Hand::RoyalFlush || Type == Hand::StraightFlush || Type == Hand::Flush)
+	{
+		for (auto& Card : _Hole)
+			Card.Set_Suit(Suit::Spade);
+
+		for (auto& Card : _Community)
+			Card.Set_Suit(Suit::Spade);
+	}
+	else if (Type == Hand::FourKind)
+	{
+		if (_Hole[0].Get_Rank() == _Hole[1].Get_Rank())
+		{
+			_Hole[0].Set_Suit(Suit::Spade);
+			_Hole[1].Set_Suit(Suit::Heart);
+
+			unsigned int SuitIndex = 1;
+			for (auto& Card : _Community)
+			{
+				if (Card.Get_Rank() == _Hole[0].Get_Rank())
+				{
+					Card.Set_Suit((Suit) SuitIndex);
+					SuitIndex--;
+				}
+			}
+		}
+		else
+		{
+			for (auto& Card : _Hole)
+				Card.Set_Suit(Suit::Spade);
+
+			_Community[0].Set_Suit(Suit::Heart);
+			_Community[1].Set_Suit(Suit::Club);
+			_Community[2].Set_Suit(Suit::Diamond);
+		}
+	}
+	else if (Type == Hand::FullHouse)
+	{
+		//Hole - Pocket Pair
+		if (_Hole[0].Get_Rank() == _Hole[1].Get_Rank())
+		{
+			_Hole[0].Set_Suit(Suit::Spade);
+			_Hole[1].Set_Suit(Suit::Heart);
+
+			Suit NextSuit = Suit::Spade;
+
+			for (auto& Card_Comm : _Community)
+			{
+				if (Card_Comm.Get_Rank() == _Hole[0].Get_Rank())
+				{
+					Card_Comm.Set_Suit(Suit::Club);
+				}
+				else
+				{
+					Card_Comm.Set_Suit(NextSuit);
+					NextSuit = (Suit)((int)NextSuit - 1);
+
+					if (NextSuit == Suit::Diamond)
+						NextSuit = Suit::Club;
+				}
+			}
+		}
+		//Hole - Differing Rank
+		else
+		{
+			_Hole[0].Set_Suit(Suit::Spade);
+			_Hole[1].Set_Suit(Suit::Spade);
+
+			Suit Suit_H0 = Suit::Heart, Suit_H1 = Suit::Heart;
+
+			for (auto& Card_Comm : _Community)
+			{
+				if (Card_Comm.Get_Rank() == _Hole[0].Get_Rank())
+				{
+					Card_Comm.Set_Suit(Suit_H0);
+					Suit_H0 = (Suit)((int)Suit_H0 - 1);
+
+					if (Suit_H0 == Suit::Diamond)
+						Suit_H0 = Suit::Club;
+				}
+				else if (Card_Comm.Get_Rank() == _Hole[1].Get_Rank())
+				{
+					Card_Comm.Set_Suit(Suit_H1);
+					Suit_H1 = (Suit)((int)Suit_H1 - 1);
+
+					if (Suit_H1 == Suit::Diamond)
+						Suit_H1 = Suit::Club;
+				}
+			}
+		}
+	}
+	else if (Type == Hand::Straight)
+	{
+
+	}
+	else if (Type == Hand::ThreeKind)
+	{
+		if (_Community[0].Get_Rank() == _Community[1].Get_Rank() && _Community[1].Get_Rank() == _Community[2].Get_Rank())
+		{
+			_Community[0].Set_Suit(Suit::Spade);
+			_Community[1].Set_Suit(Suit::Heart);
+			_Community[2].Set_Suit(Suit::Club);
+		}
+	}
+	else if (Type == Hand::TwoPair)
+	{
+
+	}
+	else if (Type == Hand::Pair)
+	{
+	}
+	else if (Type == Hand::High)
+	{
+	}
+
+	/*std::size_t Hash_Postmask = 0;
+
+	for (auto const& Card : _Hole)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash_Postmask += HashedCard;
+	}
+
+	for (auto const& Card : _Community)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash_Postmask += HashedCard;
+	}*/
+
+	return FlopOdds[CardCombo(_Hole, _Community)][_OppoAmt - 1];
 }
 
 float HandEvaluator::DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(std::array<Card, 2> _Hole, std::vector<Card> _Community, unsigned int _OppoAmt, unsigned int _TrialsAmt)

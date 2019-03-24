@@ -36,109 +36,113 @@ GeneticTrainer::~GeneticTrainer()
 
 void GeneticTrainer::Start()
 {
-	//Precomp->ComputePreflopOdds(7, 2500);
-	Precomp->ComputeFlopOdds(7, 2500);
-	std::cout << "\n";
-
-	/*std::array<Card, 2> TestHole{ Card(Suit::Spade,Rank::Ace), Card(Suit::Heart,Rank::Two) };
-	std::vector<Card> TestComm{};// { Card(Suit::Club, Rank::Seven), Card{ Suit::Spade, Rank::Two } };
-
-	unsigned int Iterations = 10000;
-
-	for (unsigned int Index = 0; Index < 10; Index++)
-	{
-		std::cout << "Test " << Index << ": \n";
-		std::vector<float> WinRates;
-		float AverWinRate = 0.0f;
-		float stddev = 0.0f;
-
-		for (unsigned int ItrIndex = 0; ItrIndex < Iterations; ItrIndex++)
-		{
-			WinRates.push_back(Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(TestHole, TestComm, 8, 1000));
-			AverWinRate += WinRates[WinRates.size() - 1];
-		}
-		AverWinRate /= (float)Iterations;
-		std::cout << "Average Win Rate w/ 1000 Trials: " << AverWinRate << "\n";
-		for (unsigned int WRIndex = 0; WRIndex < WinRates.size(); WRIndex++)
-		{
-			stddev += powf((WinRates[WRIndex] - AverWinRate), 2.0f);
-		}
-		stddev /= Iterations;
-		std::cout << "Standard Deviation w/ 1000 Trials: " << stddev << "\n";
-
-		AverWinRate = 0.0f;
-		stddev = 0.0f;
-		WinRates.clear();
-
-		for (unsigned int ItrIndex = 0; ItrIndex < Iterations; ItrIndex++)
-		{
-			WinRates.push_back(Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(TestHole, TestComm, 8, 750));
-			AverWinRate += WinRates[WinRates.size() - 1];
-		}
-		AverWinRate /= (float)Iterations;
-		std::cout << "Average Win Rate w/ 750 Trials: " << AverWinRate << "\n";
-		for (unsigned int WRIndex = 0; WRIndex < WinRates.size(); WRIndex++)
-		{
-			stddev += powf((WinRates[WRIndex] - AverWinRate), 2.0f);
-		}
-		stddev /= Iterations;
-		std::cout << "Standard Deviation w/ 750 Trials: " << stddev << "\n";
-
-		AverWinRate = 0.0f;
-		stddev = 0.0f;
-		WinRates.clear();
-
-		for (unsigned int ItrIndex = 0; ItrIndex < Iterations; ItrIndex++)
-		{
-			WinRates.push_back(Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(TestHole, TestComm, 8, 500));
-			AverWinRate += WinRates[WinRates.size() - 1];
-		}
-		AverWinRate /= (float)Iterations;
-		std::cout << "Average Win Rate w/ 500 Trials: " << AverWinRate << "\n";
-		for (unsigned int WRIndex = 0; WRIndex < WinRates.size(); WRIndex++)
-		{
-			stddev += powf((WinRates[WRIndex] - AverWinRate), 2.0f);
-		}
-		stddev /= Iterations;
-		std::cout << "Standard Deviation w/ 500 Trials: " << stddev << "\n";
-
-		AverWinRate = 0.0f;
-		stddev = 0.0f;
-		WinRates.clear();
-
-		for (unsigned int ItrIndex = 0; ItrIndex < Iterations; ItrIndex++)
-		{
-			WinRates.push_back(Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(TestHole, TestComm, 8, 250));
-			AverWinRate += WinRates[WinRates.size() - 1];
-		}
-		AverWinRate /= (float)Iterations;
-		std::cout << "Average Win Rate w/ 250 Trials: " << AverWinRate << "\n";
-		for (unsigned int WRIndex = 0; WRIndex < WinRates.size(); WRIndex++)
-		{
-			stddev += powf((WinRates[WRIndex] - AverWinRate), 2.0f);
-		}
-		stddev /= Iterations;
-		std::cout << "Standard Deviation w/ 250 Trials: " << stddev << "\n";
-
-		AverWinRate = 0.0f;
-		stddev = 0.0f;
-		WinRates.clear();
-
-		for (unsigned int ItrIndex = 0; ItrIndex < Iterations; ItrIndex++)
-		{
-			WinRates.push_back(Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(TestHole, TestComm, 8, 100));
-			AverWinRate += WinRates[WinRates.size() - 1];
-		}
-		AverWinRate /= (float)Iterations;
-		std::cout << "Average Win Rate w/ 100 Trials: " << AverWinRate << "\n";
-		for (unsigned int WRIndex = 0; WRIndex < WinRates.size(); WRIndex++)
-		{
-			stddev += powf((WinRates[WRIndex] - AverWinRate), 2.0f);
-		}
-		stddev /= Iterations;
-		std::cout << "Standard Deviation w/ 100 Trials: " << stddev << "\n\n";
-	}
+	/*std::array<Card, 2> Hole0;
+	Hole0[0] = Card(Suit::Diamond, Rank::Two);
+	Hole0[1] = Card(Suit::Heart, Rank::Two);
 	
+	std::vector<Card> Comm0;
+	Comm0.push_back(Card(Suit::Club, Rank::Three));
+	Comm0.push_back(Card(Suit::Spade, Rank::Three));
+	Comm0.push_back(Card(Suit::Club, Rank::Four));
+
+	std::size_t Hash = 0;
+
+	for (auto const& Card : Hole0)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash += HashedCard;
+	}
+
+	for (auto const& Card : Comm0)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash += HashedCard;
+	}
+
+	std::cout << Hole0[0].To_String() << Hole0[1].To_String() << " " << Comm0[0].To_String() << Comm0[1].To_String() << Comm0[2].To_String() << " " << Hash << "\n";
+
+	std::array<Card, 2> Hole1;
+	Hole1[0] = Card(Suit::Diamond, Rank::Two);
+	Hole1[1] = Card(Suit::Heart, Rank::Two);
+
+	std::vector<Card> Comm1;
+	Comm1.push_back(Card(Suit::Club, Rank::Three));
+	Comm1.push_back(Card(Suit::Diamond, Rank::Four));
+	Comm1.push_back(Card(Suit::Diamond, Rank::Three));
+
+	Hash = 0;
+
+	for (auto const& Card : Hole1)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash += HashedCard;
+	}
+
+	for (auto const& Card : Comm1)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash += HashedCard;
+	}
+
+	std::cout << Hole1[0].To_String() << Hole1[1].To_String() << " " << Comm1[0].To_String() << Comm1[1].To_String() << Comm1[2].To_String() << " " << Hash << "\n";
+
+	std::array<Card, 2> Hole2;
+	Hole2[0] = Card(Suit::Heart, Rank::Two);
+	Hole2[1] = Card(Suit::Diamond, Rank::Two);
+
+	std::vector<Card> Comm2;
+	Comm2.push_back(Card(Suit::Diamond, Rank::Four));
+	Comm2.push_back(Card(Suit::Diamond, Rank::Three));
+	Comm2.push_back(Card(Suit::Club, Rank::Three));
+
+	Hash = 0;
+
+	for (auto const& Card : Hole2)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash += HashedCard;
+	}
+
+	for (auto const& Card : Comm2)
+	{
+		unsigned int HashedCard = static_cast<int>(Card);
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
+		HashedCard = (HashedCard >> 16) ^ HashedCard;
+
+		Hash += HashedCard;
+	}
+
+	std::cout << Hole2[0].To_String() << Hole2[1].To_String() << " " << Comm2[0].To_String() << Comm2[1].To_String() << Comm2[2].To_String() << " " << Hash << "\n";
+	std::cout << "\n";*/
+
+	/*std::cout << "Odds for " << Hole[0].To_String() << Hole[1].To_String() << " " << Comm[0].To_String() << Comm[1].To_String() << Comm[2].To_String() << ":\n";
+	for (unsigned int Count = 1; Count <= 8; Count++)
+		std::cout << "Against " << Count << " opponents - " << Evaluator->DetermineOdds_Flop(Hole, Comm, Count) << "\n";
+	std::cout << "\n";*/
+
+	//Precomp->ComputePreflopOdds(7, 2500);
+	/*Precomp->ComputeFlopOdds(7, 2500);
 	std::cout << "\n";*/
 
 	InitializePopu(PopulationSize);

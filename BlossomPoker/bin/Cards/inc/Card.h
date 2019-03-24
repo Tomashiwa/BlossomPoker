@@ -16,9 +16,17 @@ public:
 	Suit Get_Suit() const { return GivenSuit; };
 	Rank Get_Rank() const { return GivenRank; };
 	
+	void Set_Suit(Suit _Target) { GivenSuit = _Target; };
+	void Set_Rank(Rank _Target) { GivenRank = _Target; };
+
 	bool operator== (const Card& _Other) const
 	{
 		return GivenSuit == _Other.GivenSuit && GivenRank == _Other.GivenRank;
+	}
+
+	bool operator!= (const Card& _Other) const
+	{
+		return GivenSuit != _Other.GivenSuit || GivenRank != _Other.GivenRank;
 	}
 
 	bool operator>(const Card& _Other) const
@@ -31,7 +39,7 @@ public:
 
 	std::string To_String() const;
 
-	explicit operator int()
+	explicit operator int() const
 	{
 		return (static_cast<int>(GivenRank) * 4) + static_cast<int>(GivenSuit) + 1;
 	}

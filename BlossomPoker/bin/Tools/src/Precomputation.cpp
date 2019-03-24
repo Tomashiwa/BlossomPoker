@@ -26,7 +26,7 @@ void Precomputation::ComputePreflopOdds(unsigned int _OppoAmt, unsigned int _Tri
 	std::ofstream File("PreflopOdds.txt");
 
 	std::array<Card,2> Hole { Card(Suit::Spade, Rank::Two), Card(Suit::Heart, Rank::Two) };
-	std::vector<Card> Communal {};
+	std::vector<Card> Community {};
 
 	std::string HoleStr = "";
 	float Odds = 0.0f;
@@ -43,7 +43,7 @@ void Precomputation::ComputePreflopOdds(unsigned int _OppoAmt, unsigned int _Tri
 
 		for (unsigned int OppoIndex = 1; OppoIndex <= _OppoAmt; OppoIndex++)
 		{
-			Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Communal, OppoIndex, _Trials);
+			Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Community, OppoIndex, _Trials);
 
 			std::cout << HoleStr << " against " << OppoIndex << ": " << Odds << "\n";
 			File << Odds << " ";
@@ -77,7 +77,7 @@ void Precomputation::ComputePreflopOdds(unsigned int _OppoAmt, unsigned int _Tri
 
 			for (unsigned int OppoIndex = 1; OppoIndex <= _OppoAmt; OppoIndex++)
 			{
-				Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Communal, OppoIndex, _Trials);
+				Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Community, OppoIndex, _Trials);
 
 				std::cout << HoleStr << " against " << OppoIndex << ": " << Odds << "\n";
 				File << Odds << " ";
@@ -112,7 +112,7 @@ void Precomputation::ComputePreflopOdds(unsigned int _OppoAmt, unsigned int _Tri
 
 			for (unsigned int OppoIndex = 1; OppoIndex <= _OppoAmt; OppoIndex++)
 			{
-				Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Communal, OppoIndex, _Trials);
+				Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Community, OppoIndex, _Trials);
 				std::cout << HoleStr << " against " << OppoIndex << ": " << Odds << "\n";
 				File << Odds << " ";
 			}
@@ -133,13 +133,12 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 
 	std::string HandStr;
 
-	/*//Royal Flush
-
+	//Royal Flush
 	//Hole: Suited from 10 ~ A
 	//Community: Suited filling in the gap of 10~A straight
 	//Suit Restriction for Hole & Community: Spade
 	//Mask: Any suit will be Spade
-	for (unsigned int Hole_0 = 8; Hole_0 <= 11; Hole_0++)
+	/*for (unsigned int Hole_0 = 8; Hole_0 <= 11; Hole_0++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(Hole_0));
 
@@ -162,17 +161,77 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Straight Flush
-
 	//Hole cards: Suited with rank difference range of 4
-	//Community: Suited filling in the gap of the different straights
+	//Community: Suited filling in the gap of the different straight
 	//Suit Restriction for Hole & Community: Spade
 	//Mask: Any suit will be Spade
-	for (int Hole_0 = 0; Hole_0 <= 11; Hole_0++)
+	/*for (unsigned int Hole_0 = 0; Hole_0 < (13 - 1); Hole_0++)
+	{
+		Hand.emplace_back(Suit::Spade, (Rank)Hole_0);
+
+		for (unsigned int Hole_1 = Hole_0 + 1; Hole_1 < 13; Hole_1++)
+		{
+			if (!IsCardInStraightRange(Card(Suit::Spade, (Rank)Hole_1), Hand))
+				continue;
+
+			Hand.emplace_back(Suit::Spade, (Rank)Hole_1);
+
+			for (unsigned int Comm_0 = 0; Comm_0 < (13 - 2); Comm_0++)
+			{
+				if (!IsCardInStraightRange(Card(Suit::Spade, (Rank)Comm_0), Hand))
+					continue;
+
+				Hand.emplace_back(Suit::Spade, (Rank)Comm_0);
+
+				for (unsigned int Comm_1 = Comm_0 + 1; Comm_1 < (13 - 1); Comm_1++)
+				{
+					if (!IsCardInStraightRange(Card(Suit::Spade, (Rank)Comm_1), Hand))
+						continue;
+
+					Hand.emplace_back(Suit::Spade, (Rank)Comm_1);
+
+					for (unsigned int Comm_2 = Comm_1 + 1; Comm_2 < 13; Comm_2++)
+					{
+						if (!IsCardInStraightRange(Card(Suit::Spade, (Rank)Comm_2), Hand))
+							continue;
+
+						Hand.emplace_back(Suit::Spade, (Rank)Comm_2);
+
+						if (!IsStraightValid(Hand) ||
+							(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+						{
+							//std::cout << "Invalid...\n";
+						}
+						else
+						{
+							std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
+							ComputeOdd(Hand, _OppoAmt, _Trials, File);
+						}
+
+						Hand.pop_back();
+					}
+
+					Hand.pop_back();
+				}
+
+				Hand.pop_back();
+			}
+
+			Hand.pop_back();
+		}
+
+		Hand.clear();
+	}*/
+
+	/*for (int Hole_0 = 0; Hole_0 <= 11; Hole_0++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(Hole_0));
+
+		std::cout << "Hole 0: " << Hand[0].To_String();
 
 		for (int Hole_1 = Hole_0 + 1; Hole_1 <= 12; Hole_1++)
 		{
@@ -182,12 +241,24 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 
 			Hand.emplace_back(Suit::Spade, static_cast<Rank>(Hole_1));
 
+			std::cout << " Hole 1: " << Hand[1].To_String() << "\n";
+			std::cout << "Gap filled: ";
+			for (auto const& Card : Hand)
+				std::cout << Card.To_String() << " ";
+			std::cout << "\n";
+
 			if (RankDiff == 4)
 			{
 				//3 center ie. 5 6 7 8 9
 				FillStraightGap(Hand, Hand[0].Get_Rank(), Hand[1].Get_Rank());
 
-				if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+				if (!IsStraightValid(Hand) ||
+					(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+					std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+				{
+					std::cout << "Invalid...\n";
+				}
+				else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 				{
 					Hands.push_back(Hand);
 					std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -203,7 +274,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 				{
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 1));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -218,7 +295,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 				{
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[1].Get_Rank() + 1));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -238,7 +321,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 1));
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[1].Get_Rank() + 1));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -248,14 +337,20 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 					Hand.pop_back();
 					Hand.pop_back();
 				}
-			
+
 				//1 center, 2 front ie. 5 6 7 8 9
 				if ((int)Hand[0].Get_Rank() > (int)Rank::Three)
 				{
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 1));
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 2));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -272,13 +367,19 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[1].Get_Rank() + 1));
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[1].Get_Rank() + 2));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
 						ComputeOdd(Hand, _OppoAmt, _Trials, File);
 					}
-
+					
 					Hand.pop_back();
 					Hand.pop_back();
 				}
@@ -292,7 +393,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[1].Get_Rank() + 2));
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[1].Get_Rank() + 3));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -312,7 +419,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 1));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -332,7 +445,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 1));
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 2));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -351,7 +470,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 2));
 					Hand.emplace_back(Suit::Spade, static_cast<Rank>((int)Hand[0].Get_Rank() - 3));
 
-					if (IsStraightValid(Hand) && std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
+					if (!IsStraightValid(Hand) ||
+						(std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ten; }) != Hand.end() &&
+							std::find_if(Hand.begin(), Hand.end(), [](Card _ComparedTo) { return _ComparedTo.Get_Rank() == Rank::Ace; }) != Hand.end()))
+					{
+						std::cout << "Invalid...\n";
+					}
+					else if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreCardsIdentical_Order(Hand, _ComparedTo); }) == Hands.end())
 					{
 						Hands.push_back(Hand);
 						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
@@ -371,15 +496,14 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//4-of-a-kind
-
 	//Hole Cards: Pocket Pair
 	//Community: Pair of same rank + 1 random card
 	//Suit Restriction: Suit/Heart/Club/Diamond (4-of-a-kind) Any Suit (Kicker)
 	//Mask: Suits for cards involved in the 4-of-a-kind to the approriate suit
-	for (unsigned int FourKindIndex = 0; FourKindIndex < 13; FourKindIndex++)
+	/*for (unsigned int FourKindIndex = 0; FourKindIndex < 13; FourKindIndex++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(FourKindIndex));
 		Hand.emplace_back(Suit::Heart, static_cast<Rank>(FourKindIndex));
@@ -409,14 +533,14 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Hole Cards: 2 suited/unsuited cards that differ in rank
 	//Community: 3-of-a-kind of same rank as one of the hole cards
 	//Suit Restriction for Hole: Spade (1 out of 4-of-a-kind) Spade (Kicker)
 	//Suit Restriction for Community: Heart / Club / Diamond(3 out of 4 - of - a - kind)
 	//Mask: 1 from the 4-of-a-kind within the hole to be Spade and other 3 be Heart, Club and Diamond respectively, Kicker will be Spade
-	for (unsigned int Hole_0 = 0; Hole_0 < 13; Hole_0++)
+	/*for (unsigned int Hole_0 = 0; Hole_0 < 13; Hole_0++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(Hole_0));
 
@@ -444,16 +568,15 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 	
-	Hands.clear();
+	Hands.clear();*/
 
 	//Full House
-
 	//Hole Cards: Pocket Pair
 	//Community: 3-of-a-kind of a rank differing from the Pair
 	//Suit Restriction for Hole: Spade/Heart
 	//Suit Restriction for Community: Spade/Heart/Club
 	//Mask: Pocket Pair to be Spade/Heart and the 3 cards to be Spade/Heart/Club
-	for (unsigned int PairRank = 0; PairRank < 13; PairRank++)
+	/*for (unsigned int PairRank = 0; PairRank < 13; PairRank++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(PairRank));
 		Hand.emplace_back(Suit::Heart, static_cast<Rank>(PairRank));
@@ -480,14 +603,14 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Hole Cards: 2 Suited/Unsuited of different rank
 	//Community: 2 cards w/ same rank as 1 card within Hole and 1 card w/ same rank as the other card in Hole
 	//Suit restriction for Hole: Spade (Suited Hole Cards), Spade/Heart (Unsuited Hole Cards)
 	//Suit Restriction for community: Heart / Club(2 of 3 - of - a - kind) Heart / Spade(3rd community card)
 	//Mask: Hole card to be Spade (Suited) or Spade/Heart (Unsuited), Community will be Heart/Club to fill up 3-of-a-kind and either Heart/Spade the 1 out of the pair within community
-	for (unsigned int ThreeKindRank = 0; ThreeKindRank < 13; ThreeKindRank++)
+	/*for (unsigned int ThreeKindRank = 0; ThreeKindRank < 13; ThreeKindRank++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(ThreeKindRank));
 
@@ -530,14 +653,61 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
+
+	//Hole Cards: Pocket Pair
+	//Community: Pair of different rank from Hole + 1 card with same rank as Pocket Pair
+	//Suit Restriction for Hole: Spade/Heart (Pocket Pair)
+	//Suit Restriction for Community: Spade/Heart (Pair of different value from Pocket Pair) + Club (Card with same rnak as Pocket Pair)
+	//Mask: Spade/Heart (Pocket Pair) Spade/Heart (Pair of differ rank) Club (Card w/ same rank as Pocket Pair)
+	/*for (unsigned int ThreeKindRank = 0; ThreeKindRank < 13; ThreeKindRank++)
+	{
+		for (unsigned int Hole_0 = 0; Hole_0 < 3; Hole_0++)
+		{
+			Hand.emplace_back((Suit)Hole_0, (Rank)ThreeKindRank);
+
+			for (unsigned int Hole_1 = Hole_0 + 1; Hole_1 < 4; Hole_1++)
+			{
+				Hand.emplace_back((Suit)Hole_1, (Rank)ThreeKindRank);
+
+				for (unsigned Comm_0 = 0; Comm_0 < 4; Comm_0++)
+				{
+					if (Comm_0 == Hole_1 || Comm_0 == Hole_0)
+						continue;
+
+					Hand.emplace_back((Suit)Comm_0, (Rank)ThreeKindRank);
+
+					for (unsigned int PairRank = 0; PairRank < 13; PairRank++)
+					{
+						if (PairRank == ThreeKindRank)
+							continue;
+
+						Hand.emplace_back(Suit::Spade, (Rank)PairRank);
+						Hand.emplace_back(Suit::Heart, (Rank)PairRank);
+
+						std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
+						ComputeOdd(Hand, _OppoAmt, _Trials, File);
+
+						Hand.pop_back();
+						Hand.pop_back();
+					}
+
+					Hand.pop_back();
+				}
+
+				Hand.pop_back();
+			}
+
+			Hand.clear();
+		}
+	}*/
 
 	//Flush
 	//Hole Cards: 2 suited cards
 	//Community: 3 cards w/ same suit as hole cards
 	//Suit restriction for Hole & Community: Spade
 	//Mask: If Hole & Community all share the same suit, convert to Spade
-	for (unsigned int Hole_0 = 0; Hole_0 < 13; Hole_0++)
+	/*for (unsigned int Hole_0 = 0; Hole_0 < 13; Hole_0++)
 	{
 		Hand.emplace_back(Suit::Spade, static_cast<Rank>(Hole_0));
 
@@ -591,14 +761,67 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Straight
 	//Hole Cards: cards with rank difference of 4
 	//Community: 3 cards that filled the gap in straight
 	//Suit restriction for Hole & Community; At least 1 odds suit must exist within the hand
 	//Mask: -
-	for (unsigned int Hole_0 = 0; Hole_0 <= ReferenceDeck.size() - 1; Hole_0++)
+	/*for (unsigned int Hole_0 = 0; Hole_0 < ReferenceDeck.size() - 1; Hole_0++)
+	{
+		Hand.push_back(ReferenceDeck[Hole_0]);
+
+		for (unsigned int Hole_1 = Hole_0 + 1; Hole_1 < ReferenceDeck.size(); Hole_1++)
+		{
+			if (!IsCardInStraightRange(ReferenceDeck[Hole_1], Hand))
+				continue;
+
+			Hand.push_back(ReferenceDeck[Hole_1]);
+
+			for (unsigned int Comm_0 = 0; Comm_0 < ReferenceDeck.size() - 2; Comm_0++)
+			{
+				if (!IsCardInStraightRange(ReferenceDeck[Comm_0], Hand))
+					continue;
+
+				Hand.push_back(ReferenceDeck[Comm_0]);
+
+				for (unsigned int Comm_1 = Comm_0 + 1; Comm_1 < ReferenceDeck.size() - 1; Comm_1++)
+				{
+					if (!IsCardInStraightRange(ReferenceDeck[Comm_1], Hand))
+						continue;
+
+					Hand.push_back(ReferenceDeck[Comm_1]);
+
+					for (unsigned int Comm_2 = Comm_1 + 1; Comm_2 < ReferenceDeck.size(); Comm_2++)
+					{
+						if (!IsCardInStraightRange(ReferenceDeck[Comm_2], Hand))
+							continue;
+
+						Hand.push_back(ReferenceDeck[Comm_2]);
+
+						if (!IsFlushValid(Hand) && IsStraightValid(Hand))
+						{
+							//std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
+							ComputeOdd(Hand, _OppoAmt, _Trials, File);
+						}
+
+						Hand.pop_back();
+					}
+
+					Hand.pop_back();
+				}
+
+				Hand.pop_back();
+			}
+
+			Hand.pop_back();
+		}
+
+		Hand.clear();
+	}*/
+
+	/*for (unsigned int Hole_0 = 0; Hole_0 <= ReferenceDeck.size() - 1; Hole_0++)
 	{
 		Hand.push_back(ReferenceDeck[Hole_0]);
 
@@ -658,14 +881,66 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//3-of-a-kind
 	//Hole Cards: Pocket Pair
 	//Community: 1 card sharing same rank as Pocket Pair & 2 random cards with differing rank
 	//Suit restriction of Hole & Community: -
 	//Mask: -
+	/*std::cout << "Hole Cards: Pocket Pair | Community: 1 card sharing same rank as Pocket Pair & 2 random cards with differing rank\n";
 	for (unsigned int ThreeKind_Rank = 0; ThreeKind_Rank < 13; ThreeKind_Rank++)
+	{
+		for (unsigned int Hole_0 = 0; Hole_0 < 3; Hole_0++)
+		{
+			Hand.emplace_back(static_cast<Suit>(Hole_0), static_cast<Rank>(ThreeKind_Rank));
+
+			for (unsigned int Hole_1 = Hole_0 + 1; Hole_1 < 4; Hole_1++)
+			{
+				Hand.emplace_back(static_cast<Suit>(Hole_1), static_cast<Rank>(ThreeKind_Rank));
+
+				for (unsigned int Comm_0 = 0; Comm_0 < 4; Comm_0++)
+				{
+					if (Comm_0 == Hole_0 || Comm_0 == Hole_1)
+						continue;
+
+					Hand.emplace_back(static_cast<Suit>(Comm_0), static_cast<Rank>(ThreeKind_Rank));
+
+					for (unsigned int Comm_1 = 0; Comm_1 < ReferenceDeck.size() - 1; Comm_1++)
+					{
+						if (ReferenceDeck[Comm_1].Get_Rank() == (Rank)ThreeKind_Rank)
+							continue;
+
+						Hand.push_back(ReferenceDeck[Comm_1]);
+
+						for (unsigned int Comm_2 = Comm_1 + 1; Comm_2 < ReferenceDeck.size(); Comm_2++)
+						{
+							if (ReferenceDeck[Comm_2].Get_Rank() == ReferenceDeck[Comm_1].Get_Rank() || ReferenceDeck[Comm_2].Get_Rank() == (Rank)ThreeKind_Rank)
+								continue;
+
+							Hand.push_back(ReferenceDeck[Comm_2]);
+							//std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
+							ComputeOdd(Hand, _OppoAmt, _Trials, File);
+
+							Hand.pop_back();
+						}
+
+						Hand.pop_back();
+					}
+
+					Hand.pop_back();
+				}
+
+				Hand.pop_back();
+			}
+
+			Hand.clear();
+		}
+	}
+
+	Hands.clear();*/
+
+	/*for (unsigned int ThreeKind_Rank = 0; ThreeKind_Rank < 13; ThreeKind_Rank++)
 	{
 		for (unsigned int ThreeKind_Suit_0 = 0; ThreeKind_Suit_0 < 3; ThreeKind_Suit_0++)
 		{
@@ -722,12 +997,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		}
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Hole Cards: 1 card of 3-of-a-kind & 1 random card of differing rank
 	//Community: 2 cards of 3-of-a-kind & 1 random card of differing rank
 	//Suit restriction of Hole & Community: -
 	//Mask: -
+	/*std::cout << "Hole Cards: 1 card of 3-of-a-kind & 1 random card of differing rank | Community: 2 cards of 3-of-a-kind & 1 random card of differing rank\n";
 	for (unsigned int ThreeKind_Rank = 0; ThreeKind_Rank < 13; ThreeKind_Rank++)
 	{
 		for (unsigned int Hole_0 = 0; Hole_0 < 4; Hole_0++)
@@ -765,7 +1041,7 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 							if (std::find_if(Hands.begin(), Hands.end(), [&](std::vector<Card> _ComparedTo) { return AreHandsIdentical(Hand, _ComparedTo); }) == Hands.end())
 							{
 								Hands.push_back(Hand);
-								std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
+								//std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
 								ComputeOdd(Hand, _OppoAmt, _Trials, File);
 							}
 
@@ -785,13 +1061,49 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		}
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Hole Cards: 2 random cards of differing rank
 	//Community: 3 cards of same rank representating 3-of-a-kind
 	//Suit restriction for Hole & Community: Spade/Heart/Club (3-of-a-kind)
 	//Mask: Any 3-of-a-kind will be Spade/Heart/Club
-	for (unsigned int Hole_0 = 0; Hole_0 < ReferenceDeck.size() - 1; Hole_0++)
+	/*for (unsigned int Hole_0 = 0; Hole_0 < ReferenceDeck.size() - 1; Hole_0++)
+	{
+		Hand.push_back(ReferenceDeck[Hole_0]);
+
+		for (unsigned int Hole_1 = Hole_0 + 1; Hole_1 < ReferenceDeck.size(); Hole_1++)
+		{
+			if (ReferenceDeck[Hole_1].Get_Rank() == ReferenceDeck[Hole_0].Get_Rank())
+				continue;
+
+			Hand.push_back(ReferenceDeck[Hole_1]);
+
+			for (unsigned int ThreeKind_Rank = 0; ThreeKind_Rank < 13; ThreeKind_Rank++)
+			{
+				if ((Rank)ThreeKind_Rank == ReferenceDeck[Hole_1].Get_Rank() || (Rank)ThreeKind_Rank == ReferenceDeck[Hole_0].Get_Rank())
+					continue;
+
+				Hand.emplace_back(Suit::Spade, (Rank)ThreeKind_Rank);
+				Hand.emplace_back(Suit::Heart, (Rank)ThreeKind_Rank);
+				Hand.emplace_back(Suit::Club, (Rank)ThreeKind_Rank);
+
+				//std::cout << "Running " << Hand[0].To_String() << Hand[1].To_String() << " " << Hand[2].To_String() << Hand[3].To_String() << Hand[4].To_String() << "...\n";
+				ComputeOdd(Hand, _OppoAmt, _Trials, File);
+
+				Hand.pop_back();
+				Hand.pop_back();
+				Hand.pop_back();
+			}
+
+			Hand.pop_back();
+		}
+
+		Hand.clear();
+	}
+
+	Hands.clear();*/
+
+	/*for (unsigned int Hole_0 = 0; Hole_0 < ReferenceDeck.size() - 1; Hole_0++)
 	{
 		Hand.push_back(ReferenceDeck[Hole_0]);
 
@@ -829,14 +1141,14 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		Hand.clear();
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Two Pair
 	//Hole Cards: Pocket Pair
 	//Community: Pair of differing Rank from Hole Cards & 1 random card
 	//Suit Restriction for Hole & Community: -
 	//Mask: -
-	for (unsigned int Pair_0 = 0; Pair_0 < 13; Pair_0++)
+	/*for (unsigned int Pair_0 = 0; Pair_0 < 13; Pair_0++)
 	{
 		for (unsigned int Hole_0 = 0; Hole_0 < 3; Hole_0++)
 		{
@@ -896,13 +1208,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		}
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Hole Cards: 1 card of Pair A + 1 card of Pair B
 	//Community: 1 card of Pair A + 1 card of Pair B + 1 random card of differing rank from A & B
 	//Suit Restriction for Hole & Community: -
 	//Mask: -
-	for (unsigned int Pair_0 = 0; Pair_0 < 12; Pair_0++)
+	/*for (unsigned int Pair_0 = 0; Pair_0 < 12; Pair_0++)
 	{
 		for (unsigned int Hole_0 = 0; Hole_0 < 4; Hole_0++)
 		{
@@ -962,13 +1274,13 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		}
 	}
 
-	Hands.clear();
+	Hands.clear();*/
 
 	//Hole Cards: 1 card of Pair A + 1 random card
 	//Community: 1 card of Pair A + 2 cards of Pair B
 	//Suit restriction for Hole & Community: - 
 	//Mask: - 
-	for (unsigned int Pair_0 = 0; Pair_0 < 13; Pair_0++)
+	/*for (unsigned int Pair_0 = 0; Pair_0 < 13; Pair_0++)
 	{
 		for (unsigned int Hole_0 = 0; Hole_0 < 4; Hole_0++)
 		{
@@ -1205,7 +1517,7 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 	//Suit restriction: No flush, at least 1 odd suit
 	//Mask: -
 	//*No common rank or straight are accepted
-	for (unsigned int Hole_0 = 26; Hole_0 < ReferenceDeck.size() - 1; Hole_0++)
+	/*for (unsigned int Hole_0 = 26; Hole_0 < ReferenceDeck.size() - 1; Hole_0++)
 	{
 		Hand.push_back(ReferenceDeck[Hole_0]);
 
@@ -1256,7 +1568,7 @@ void Precomputation::ComputeFlopOdds(unsigned int _OppoAmt, unsigned int _Trials
 		}
 
 		Hand.clear();
-	}
+	}*/
 
 	File.close();
 }
@@ -1391,7 +1703,10 @@ bool Precomputation::IsCardInStraightRange(Card _Card, std::vector<Card> _Straig
 {
 	for (auto const& ComparedTo : _Straight)
 	{
-		if (std::abs((int)ComparedTo.Get_Rank() - (int)_Card.Get_Rank()) > 4)
+		if ((_Card.Get_Rank() == Rank::Ace && (int)ComparedTo.Get_Rank() <= (int)Rank::Five) || ((int)_Card.Get_Rank() <= (int)Rank::Five && ComparedTo.Get_Rank() == Rank::Ace))
+			continue;
+
+		else if (_Card.Get_Rank() == ComparedTo.Get_Rank() || std::abs((int)ComparedTo.Get_Rank() - (int)_Card.Get_Rank()) > 4)
 			return false;
 	}
 
@@ -1480,7 +1795,7 @@ void Precomputation::ComputeOdd(std::vector<Card> _Hand, unsigned int _MaxOppoAm
 
 	for (unsigned int OppoIndex = 1; OppoIndex <= _MaxOppoAmt; OppoIndex++)
 	{
-		std::cout << "Against " << OppoIndex << "...\n";
+		//std::cout << "Against " << OppoIndex << "...\n";
 
 		Odds = Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(Hole, Community, OppoIndex, _Trials);
 		_File << Odds << " ";
