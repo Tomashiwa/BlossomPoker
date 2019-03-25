@@ -44,7 +44,7 @@ void Tournament::Run()
 
 	for (auto const Match : Matches)
 	{
-		std::cout << "\nRunning Match #" << Match->GetIndex() << "...		\n";// \r";
+		//std::cout << "\nRunning Match #" << Match->GetIndex() << "...		\n";// \r";
 
 		ActiveTable->SetMatch(Match);
 
@@ -54,7 +54,7 @@ void Tournament::Run()
 		ActiveTable->Run(true);
 
 		Match->RankPlayers();
-		Match->PrintInfo();
+		//Match->PrintInfo();
 
 		ActiveTable->Reset(false);
 		ActiveTable->ShiftDealer(ActiveTable->GetNextPlayer(ActiveTable->GetFirstPlayer()));

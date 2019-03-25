@@ -101,8 +101,17 @@ float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _
 {
 	if (CurrentPhase == Phase::Preflop)
 		return Evaluator->DetermineOdds_Preflop(_Hole, _OppoAmt);
+	
+	std::array<Card, 5> CurrentHand;
+	CurrentHand[0] = _Hole[0];
+	CurrentHand[1] = _Hole[1];
+	CurrentHand[2] = _Communal[0];
+	CurrentHand[3] = _Communal[1];
+	CurrentHand[4] = _Communal[2];
 
-	else if (CurrentPhase == Phase::Flop)
+	Hand Type = Evaluator->DetermineType(Evaluator->DetermineValue_5Cards_OMPEval(CurrentHand));
+
+	if (CurrentPhase == Phase::Flop && Type != Hand::High)
 		return Evaluator->DetermineOdds_Flop(_Hole, _Communal, _OppoAmt);
 
 	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 250);

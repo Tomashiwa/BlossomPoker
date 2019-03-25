@@ -437,7 +437,7 @@ bool Table::IsGameEnded()
 {
 	if (IsTraining && Players[Players.size() - 1]->GetIsBroke())
 	{
-		std::cout << "Player in training, P." << Players[Players.size() - 1]->GetIndex() << ", has lost the match... Proceed to next match...\n";
+		//std::cout << "Player in training, P." << Players[Players.size() - 1]->GetIndex() << ", has lost the match... Proceed to next match...\n";
 		return true;
 	}
 

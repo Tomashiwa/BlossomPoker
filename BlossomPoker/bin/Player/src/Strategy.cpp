@@ -17,17 +17,17 @@ BettingAction Strategy::DetermineAction(std::vector<BettingAction> _AvaliableAct
 {
 	if (_AvaliableActions.size() == 0)
 	{
-		std::cout << "No avaliable actions???\n";
+		//std::cout << "No avaliable actions???\n";
 		return BettingAction::NONE;
 	}
 	else if (_AvaliableActions.size() == 1)
 	{
-		std::cout << "Only avaliable action is to Fold\n";
+		//std::cout << "Only avaliable action is to Fold\n";
 		return BettingAction::Fold;
 	}
 	else if (_AvaliableActions.size() == 2 && _AvaliableActions[1] == BettingAction::Check)
 	{
-		std::cout << "Only avaliable action other than Fold is Check\n";
+		//std::cout << "Only avaliable action other than Fold is Check\n";
 		return _AvaliableActions[1];
 	}
 

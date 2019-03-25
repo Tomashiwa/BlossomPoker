@@ -47,9 +47,9 @@ private:
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
 
-	float CrossoverRate = 0.7f;
+	float CrossoverRate = 0.6f;
 	float MutateDelta = 0.25f;
-	float MutateRate = 0.1f;
+	float MutateRate = 0.05f;
 	float AdaptationRate = 0.25f;
 
 	unsigned int ParentLimit = 2;

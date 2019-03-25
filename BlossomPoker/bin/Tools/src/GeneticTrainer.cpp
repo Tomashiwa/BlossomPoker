@@ -209,14 +209,14 @@ void GeneticTrainer::Run()
 	for (unsigned int GenIndex = 0; GenIndex < GenerationLimit; GenIndex++)
 	{
 		#pragma region Couts & Log Writing
-		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ": (" + std::to_string(PlayersGenerated) + " Players created till now)\n");
-		std::cout << "\nGeneration " << Generation << ": (" << PlayersGenerated << " Players created till now)\n";
+		Writer->WriteAt(0, "\nGeneration " + std::to_string(Generation) + ": (" + std::to_string(PlayersGenerated) + " Players created till now): \n");
+		std::cout << "\nGeneration " << Generation << ": (" << PlayersGenerated << " Players created till now): \n";
 		for (auto const& Player : Population)
 		{
 			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
-			std::cout << "P." << Player->GetIndex() << ": (" << GetThresholdsStr(Player) << ")\n";
+			//std::cout << "P." << Player->GetIndex() << ": (" << GetThresholdsStr(Player) << ")\n";
 		}
-		std::cout << "\n";
+		//std::cout << "\n";
 		Writer->WriteAt(0, "\n");
 		#pragma endregion
 
@@ -226,7 +226,7 @@ void GeneticTrainer::Run()
 		//Run tournaments for each player and rank them based on their performance
 		for (auto const& Player : Population)
 		{
-			std::cout << "\nP." << Player->GetIndex() << ": \n";
+			//std::cout << "\nP." << Player->GetIndex() << ": \n";
 			MeasureFitness(Player);
 		}
 		
@@ -245,24 +245,24 @@ void GeneticTrainer::Run()
 		ClipHoF(PopulationSize / 2);
 
 		#pragma region Couts & Log Writing	
-		std::cout << "\nGenerational Ranking: \n";
+		//std::cout << "\nGenerational Ranking: \n";
 		Writer->WriteAt(0, "\nGenerational Ranking: \n");
 		for (auto const& Participant : RankingBoard)
 		{
-			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
+			//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
 			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "(Hands W/L: " + std::to_string(Participant->GetHandsWon()) + "/" + std::to_string(Participant->GetHandsLost()) + " Money W/L : " + std::to_string(Participant->GetMoneyWon()) + "/" + std::to_string(Participant->GetMoneyLost()) + ")\n");
 		}
-		std::cout << "\n";
+		//std::cout << "\n";
 		Writer->WriteAt(0, "\n");
 
-		std::cout << "Hall of Fame: \n";
+		//std::cout << "Hall of Fame: \n";
 		Writer->WriteAt(0, "Hall of Fame: \n");
 		for (auto const& Participant : HoF)
 		{
-			std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
+			//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetFitness() << " (Hands W/L: " << Participant->GetHandsWon() << "/" << Participant->GetHandsLost() << " Money W/L: " << Participant->GetMoneyWon() << "/" << Participant->GetMoneyLost() << ")\n";
 			Writer->WriteAt(0, "P." + std::to_string(Participant->GetOwner()->GetIndex()) + ": " + std::to_string(Participant->GetFitness()) + "(Hands W/L: " + std::to_string(Participant->GetHandsWon()) + "/" + std::to_string(Participant->GetHandsLost()) + " Money W/L : " + std::to_string(Participant->GetMoneyWon()) + "/" + std::to_string(Participant->GetMoneyLost()) + ")\n");
 		}
-		std::cout << "\n";
+		//std::cout << "\n";
 		Writer->WriteAt(0, "\n");
 
 		Writer->WriteAt(1, Generation, GetOverallFitness());
@@ -401,7 +401,7 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 	}*/
 	if(PlayingPopulation.size() < TableSize - 1)
 	{
-		std::cout << "PlayingPopulation is not properly initialized...\n";
+		//std::cout << "PlayingPopulation is not properly initialized...\n";
 		return 0.0f;
 	}
 
@@ -411,7 +411,7 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 	{
 		for (auto const& Tournament : Tournaments)
 		{
-			std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
+			//std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
 
 			Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
 			Tournament->Run();
@@ -430,7 +430,7 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 
 	for (auto const& Tournament : Tournaments)
 	{
-		std::cout << "\nMutated Tournament " << Tournament->GetIndex() << ": \n";
+		//std::cout << "\nMutated Tournament " << Tournament->GetIndex() << ": \n";
 
 		Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
 		Tournament->Run();
@@ -452,7 +452,7 @@ float GeneticTrainer::MeasureUniqueness(const std::shared_ptr<BlossomPlayer>& _P
 	
 	if (PlayerItr == Population.begin() || PlayerItr == Population.end() - 1 || PlayerItr == Population.end())
 	{
-		std::cout << "P." << _Player->GetIndex() << " either a boundary player or it cannot be found...\n";
+		//std::cout << "P." << _Player->GetIndex() << " either a boundary player or it cannot be found...\n";
 		return std::numeric_limits<float>::infinity();
 	}
 
@@ -1052,7 +1052,7 @@ bool GeneticTrainer::HasMutationHappen()
 
 void GeneticTrainer::ReproducePopulation()
 {
-	std::cout << "\nReproducing population...\n";
+	//std::cout << "\nReproducing population...\n";
 	Writer->WriteAt(0, "\nReproducing population...\n");
 
 	EvaluateMutateRate();
@@ -1294,21 +1294,21 @@ void GeneticTrainer::ReproducePopulation()
 	std::shared_ptr<BlossomPlayer> Reference;
 
 	//Elites
-	std::cout << "\nElites: ";
+	//std::cout << "\nElites: ";
 	Writer->WriteAt(0, "\nElites: ");
 	float EliteAverageFitness = 0.0f;
 	for (unsigned int Index = 0; Index < ElitesLimit; Index++)
 	{
 		EliteAverageFitness += GetParticipant(Population[Index]->GetIndex())->GetFitness();
 
-		std::cout << "P." << Population[Index]->GetIndex() << " ";
+		//std::cout << "P." << Population[Index]->GetIndex() << " ";
 		Writer->WriteAt(0, "P." + std::to_string(Population[Index]->GetIndex()) + " ");
 	}
 	EliteAverageFitness /= (float)ElitesLimit;
 	Writer->WriteAt(7, Generation, EliteAverageFitness);
 
 	//NRA
-	std::cout << "\n\nGenerating Offspring for NRA...\n";
+	//std::cout << "\n\nGenerating Offspring for NRA...\n";
 	Writer->WriteAt(0, "\n\nGenerating Offspring for NBA...\n");
 
 	for (unsigned int Index = 0; Index < PopulationSize - ReserveSize - ElitesLimit; Index++)
@@ -1338,14 +1338,14 @@ void GeneticTrainer::ReproducePopulation()
 
 				if (Mutate(Child))
 				{
-					std::cout << "Mutation was made...	|	";
+					//std::cout << "Mutation was made...	|	";
 					Writer->WriteAt(0, "Mutation was made...	|	");
 				}
 
 				Population.push_back(Child);
 				PlayersGenerated++;
 
-				std::cout << "P." << Child->GetIndex() << " (Crossover - P." << Parents[0]->GetIndex() << ", P." << Parents[1]->GetIndex() << ")\n";
+				//std::cout << "P." << Child->GetIndex() << " (Crossover - P." << Parents[0]->GetIndex() << ", P." << Parents[1]->GetIndex() << ")\n";
 				Writer->WriteAt(0, "P." + std::to_string(Child->GetIndex()) + " (Crossover - P." + std::to_string(Parents[0]->GetIndex()) + ", P." + std::to_string(Parents[1]->GetIndex()) + ")\n");
 			}
 
@@ -1367,13 +1367,13 @@ void GeneticTrainer::ReproducePopulation()
 
 			if(Mutate(Children[0]))
 			{
-				std::cout << "Mutation was made...	|	";
+				//std::cout << "Mutation was made...	|	";
 				Writer->WriteAt(0, "Mutation was made...	|	");
 			}
 
 			Population.push_back(Children[0]);
 
-			std::cout << "P." << Children[0]->GetIndex() << " (W/O Crossover - P." << Reference->GetIndex() << ")\n";
+			//std::cout << "P." << Children[0]->GetIndex() << " (W/O Crossover - P." << Reference->GetIndex() << ")\n";
 			Writer->WriteAt(0, "P." + std::to_string(Children[0]->GetIndex()) + " (W/O Crossover - P." + std::to_string(Reference->GetIndex()) + ")\n");
 
 			if (std::find_if(SelectionTable.begin(), SelectionTable.end(), [&](unsigned int _Index) { return Parents[0]->GetIndex() == _Index; }) == SelectionTable.end())
@@ -1384,7 +1384,7 @@ void GeneticTrainer::ReproducePopulation()
 	}
 
 	//RA
-	std::cout << "\nGenerating Offsprings for RA...\n";
+	//std::cout << "\nGenerating Offsprings for RA...\n";
 	Writer->WriteAt(0, "\nGenerating Offsprings for RA...\n");
 
 	std::uniform_real_distribution<float> Distribution_Adaptation(0.0f, 1.0f);
@@ -1412,7 +1412,7 @@ void GeneticTrainer::ReproducePopulation()
 			Reference = Adapt(Parents[0], PopulationReference);
 			Population.push_back(Reference);
 			
-			std::cout << "P." << Reference->GetIndex() << " (Adaptation - P." << Parents[0]->GetIndex() << ")\n";
+			//std::cout << "P." << Reference->GetIndex() << " (Adaptation - P." << Parents[0]->GetIndex() << ")\n";
 			Writer->WriteAt(0, "P." + std::to_string(Reference->GetIndex()) + " (Adaptation - P." + std::to_string(Parents[0]->GetIndex()) + ")\n");
 		}
 		else
@@ -1434,14 +1434,14 @@ void GeneticTrainer::ReproducePopulation()
 				{
 					if (Mutate(Child))
 					{
-						std::cout << "Mutation was made...	|	";
+						//std::cout << "Mutation was made...	|	";
 						Writer->WriteAt(0, "Mutation was made...	|	");
 					}
 
 					Population.push_back(Child);
 					PlayersGenerated++;
 
-					std::cout << "P." << Child->GetIndex() << " (Crossover - P." << Parents[0]->GetIndex() << ", P." << Parents[1]->GetIndex() << ")\n";
+					//std::cout << "P." << Child->GetIndex() << " (Crossover - P." << Parents[0]->GetIndex() << ", P." << Parents[1]->GetIndex() << ")\n";
 					Writer->WriteAt(0, "P." + std::to_string(Child->GetIndex()) + " (Crossover - P." + std::to_string(Parents[0]->GetIndex()) + ", P." + std::to_string(Parents[1]->GetIndex()) + ")\n");
 
 					if (Population.size() >= PopulationSize)
@@ -1458,13 +1458,13 @@ void GeneticTrainer::ReproducePopulation()
 
 				if (Mutate(Children[0]))
 				{
-					std::cout << "Mutation was made...	|	";
+					//std::cout << "Mutation was made...	|	";
 					Writer->WriteAt(0, "Mutation was made...	|	");
 				}
 
 				Population.push_back(Children[0]);
 
-				std::cout << "P." << Children[0]->GetIndex() << " (W/O Crossover - P." << Reference->GetIndex() << ")\n";
+				//std::cout << "P." << Children[0]->GetIndex() << " (W/O Crossover - P." << Reference->GetIndex() << ")\n";
 				Writer->WriteAt(0, "P." + std::to_string(Children[0]->GetIndex()) + " (W/O Crossover - P." + std::to_string(Reference->GetIndex()) + ")\n");
 
 				PlayersGenerated++;
@@ -1514,7 +1514,7 @@ void GeneticTrainer::CullPopulation()
 	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetFitness() > _Second->GetFitness(); });*/
 
 	//Culling players with lowest fitness
-	Writer->WriteAt(0, "Culling players with lowest fitness...\n");
+	//Writer->WriteAt(0, "Culling players with lowest fitness...\n");
 
 	//Sort RankingBoard by ascending fitness
 	std::sort(RankingBoard.begin(), RankingBoard.end(), [&](std::shared_ptr<Participant> _First, std::shared_ptr<Participant> _Second) { return _First->GetFitness() < _Second->GetFitness(); });

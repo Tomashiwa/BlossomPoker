@@ -57,7 +57,80 @@ void HandEvaluator::Initialize()
 
 	std::cout << "Loaded PreflopOdds.txt     \n";
 
-	std::ifstream File_Flop("FlopOdds.txt");
+	std::vector<std::unique_ptr<std::ifstream>> Files_Flop;
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Royal Flush.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Straight Flush.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Four Kind.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Full House.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Flush.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Straight.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Three Kind.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Two Pair.txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Pair (Pocket Pair).txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Pair (1 Hole 1 Comm).txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - Pair (Comm).txt"));
+	/*Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - High Card (2c to 10c).txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - High Card (Jc to Ad).txt"));
+	Files_Flop.push_back(std::make_unique<std::ifstream>("FlopOdds - High Card (2h to As).txt"));*/
+
+	//FlopOdds.reserve(25857174);
+	//FlopOdds.reserve(13025400);
+	FlopOdds.reserve(12831774);
+
+	unsigned int Count = 0;
+
+	for (auto& File : Files_Flop)
+	{
+		std::cout << "Loading FlopOdds (" << Count << "/" << Files_Flop.size() << ")" << "...\r";
+
+		while (std::getline(*File, EntryStr))
+		{
+			if (EntryStr == " " || EntryStr == "")
+				continue;
+
+			//std::cout << "EntryStr: " << EntryStr << "\n";
+
+			HoleStr = EntryStr.substr(0, EntryStr.find(' '));
+			CommStr = EntryStr.substr(EntryStr.find(' ') + 1, EntryStr.substr(EntryStr.find(' ') + 1).find(' '));
+			OddsStr = EntryStr.substr(EntryStr.find(' ', EntryStr.find(' ') + 1) + 1, std::string::npos);
+
+			CardCombo Entry;
+			for (unsigned int Index = 0; Index < HoleStr.size(); Index++)
+			{
+				if (HoleStr[Index] == 's' || HoleStr[Index] == 'h' || HoleStr[Index] == 'c' || HoleStr[Index] == 'd')
+				{
+					Entry.Hole[0] = GetCardFromStr(HoleStr.substr(0, Index + 1));
+					Entry.Hole[1] = GetCardFromStr(HoleStr.substr(Index + 1, std::string::npos));
+
+					break;
+				}
+			}
+
+			unsigned int PrevIndex = 0;
+			for (unsigned int Index = 0; Index < CommStr.size(); Index++)
+			{
+				if (CommStr[Index] == 's' || CommStr[Index] == 'h' || CommStr[Index] == 'c' || CommStr[Index] == 'd')
+				{
+					Entry.Community.push_back(GetCardFromStr(CommStr.substr(PrevIndex, (Index - PrevIndex + 1))));
+					PrevIndex = Index + 1;
+				}
+			}
+
+			std::vector<float> Odds;
+
+			std::istringstream Iss(OddsStr);
+			for (std::string OddStr; Iss >> OddStr;)
+				Odds.push_back(std::atof(OddStr.c_str()));
+
+			FlopOdds.emplace(Entry, Odds);
+		}
+		
+		Count++;
+	}
+	
+	std::cout << "Loaded FlopOdds                                  \n"; 
+
+	/*std::ifstream File_Flop("FlopOdds.txt");
 	std::size_t OddsStrPos = 0;
 	FlopOdds.reserve(25857174);
 
@@ -106,7 +179,7 @@ void HandEvaluator::Initialize()
 			std::cout << "Loading FlopOdds.txt (" << Count << "/25857174)\r";
 	}
 
-	std::cout << "Loaded FlopOdds.txt                               \n";
+	std::cout << "Loaded FlopOdds.txt                               \n";*/
 }
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
