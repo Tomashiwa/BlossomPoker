@@ -6,6 +6,7 @@
 #include <time.h>
 
 #include "../../Table/inc/Phase.h"
+#include "../inc//TrainingModel.h"
 #include "../inc/LogWriter.h"
 
 class Table;
@@ -31,7 +32,7 @@ public:
 	void End();
 	void Reset();
 
-	void SetSpecs(unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen);
+	void SetSpecs(TrainingModel _Model, Layer _Layer);// unsigned int _PopulationSize, unsigned int _GenerationLimit, unsigned int _ToursPerGen);
 
 	bool IsTestComplete();
 	
@@ -39,37 +40,21 @@ public:
 	std::string GetThresholdsStr(const std::shared_ptr<BlossomPlayer>& _Target);
 
 private:
-	unsigned int PopulationSize;
-	unsigned int GenerationLimit;
-	unsigned int ToursPerGen;
+	TrainingModel Model;
+	Layer FeedbackLayer;
+
 	unsigned int TableSize = 8;
 	
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;
 
-	float CrossoverRate = 0.6f;
-	float MutateDelta = 0.25f;
-	float MutateRate = 0.05f;
-	float AdaptationRate = 0.25f;
-
-	unsigned int ParentLimit = 2;
-	unsigned int TournamentSize = 2;// 4;
-	unsigned int WinnerPerTouranment = 1;
-
-	float ElitesRatio = 0.125f;
 	unsigned int ElitesLimit;
 
 	unsigned int MutatePhase = 0;
 
-	float ReserveRatio = 0.125f;
 	unsigned int ReserveSize;
-	unsigned int SamplingBreadth = 5;
 
-	float MinFitnessDiff = 5.0f;
-	unsigned int StagnateInterval = 200;
-	unsigned int StagnateLength = 200;
 	unsigned int CullCount = 0;
-	unsigned int MaxCullCount = 10;
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Population;
 	std::vector<std::shared_ptr<BlossomPlayer>> NRAPopulation;
@@ -90,11 +75,13 @@ private:
 	std::shared_ptr<Randomer> RandomPlayer0;
 	std::shared_ptr<Randomer> RandomPlayer1;
 
+	std::shared_ptr<BlossomPlayer> BestPlayer;
+
 	std::mt19937 MTGenerator;
 	std::shared_ptr<HandEvaluator> Evaluator;
 	std::unique_ptr<LogWriter> Writer;
 
-	void InitializePopu(unsigned int _Size);
+	void InitializePopulation(unsigned int _Size);
 
 	void InitializePlayingPopu();
 

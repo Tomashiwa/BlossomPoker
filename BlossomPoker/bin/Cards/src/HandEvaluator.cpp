@@ -129,57 +129,6 @@ void HandEvaluator::Initialize()
 	}
 	
 	std::cout << "Loaded FlopOdds                                  \n"; 
-
-	/*std::ifstream File_Flop("FlopOdds.txt");
-	std::size_t OddsStrPos = 0;
-	FlopOdds.reserve(25857174);
-
-	std::cout << "Loading FlopOdds.txt (0/25857174)\r";
-
-	unsigned int Count = 0;
-
-	while (std::getline(File_Flop, EntryStr))
-	{
-		HoleStr = EntryStr.substr(0, EntryStr.find(' '));
-		CommStr = EntryStr.substr(EntryStr.find(' ') + 1, EntryStr.substr(EntryStr.find(' ') + 1).find(' '));
-		OddsStr = EntryStr.substr(EntryStr.find(' ', EntryStr.find(' ') + 1) + 1, std::string::npos);
-
-		CardCombo Entry;
-		for (unsigned int Index = 0; Index < HoleStr.size(); Index++)
-		{
-			if (HoleStr[Index] == 's' || HoleStr[Index] == 'h' || HoleStr[Index] == 'c' || HoleStr[Index] == 'd')
-			{
-				Entry.Hole[0] = GetCardFromStr(HoleStr.substr(0, Index + 1));
-				Entry.Hole[1] = GetCardFromStr(HoleStr.substr(Index + 1, std::string::npos));
-
-				break;
-			}
-		}
-		
-		unsigned int PrevIndex = 0;
-		for (unsigned int Index = 0; Index < CommStr.size(); Index++)
-		{
-			if (CommStr[Index] == 's' || CommStr[Index] == 'h' || CommStr[Index] == 'c' || CommStr[Index] == 'd')
-			{
-				Entry.Community.push_back(GetCardFromStr(CommStr.substr(PrevIndex, (Index - PrevIndex + 1))));
-				PrevIndex = Index + 1;
-			}
-		}
-
-		std::vector<float> Odds;
-
-		std::istringstream Iss(OddsStr);
-		for (std::string OddStr; Iss >> OddStr;)
-			Odds.push_back(std::atof(OddStr.c_str()));
-
-		FlopOdds.emplace(Entry, Odds);
-		Count++;
-
-		if(Count % 1000000 == 0)
-			std::cout << "Loading FlopOdds.txt (" << Count << "/25857174)\r";
-	}
-
-	std::cout << "Loaded FlopOdds.txt                               \n";*/
 }
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
@@ -282,30 +231,6 @@ float HandEvaluator::DetermineOdds_Flop(std::array<Card, 2> _Hole, std::vector<C
 	CurrentHand[4] = _Community[2];
 
 	Hand Type = DetermineType(DetermineValue_5Cards_OMPEval(CurrentHand));
-
-	/*std::cout << "Hand Pre-masking: " << _Hole[0].To_String() << _Hole[1].To_String() << " " << _Community[0].To_String() << _Community[1].To_String() << _Community[2].To_String() << "\n";
-
-	std::size_t Hash_Premask = 0;
-
-	for (auto const& Card : _Hole)
-	{
-		unsigned int HashedCard = static_cast<int>(Card);
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = (HashedCard >> 16) ^ HashedCard;
-
-		Hash_Premask += HashedCard;
-	}
-
-	for (auto const& Card : _Community)
-	{
-		unsigned int HashedCard = static_cast<int>(Card);
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = (HashedCard >> 16) ^ HashedCard;
-
-		Hash_Premask += HashedCard;
-	}*/
 
 	if (Type == Hand::RoyalFlush || Type == Hand::StraightFlush || Type == Hand::Flush)
 	{
@@ -416,32 +341,12 @@ float HandEvaluator::DetermineOdds_Flop(std::array<Card, 2> _Hole, std::vector<C
 	}
 	else if (Type == Hand::Pair)
 	{
+
 	}
 	else if (Type == Hand::High)
 	{
+
 	}
-
-	/*std::size_t Hash_Postmask = 0;
-
-	for (auto const& Card : _Hole)
-	{
-		unsigned int HashedCard = static_cast<int>(Card);
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = (HashedCard >> 16) ^ HashedCard;
-
-		Hash_Postmask += HashedCard;
-	}
-
-	for (auto const& Card : _Community)
-	{
-		unsigned int HashedCard = static_cast<int>(Card);
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = ((HashedCard >> 16) ^ HashedCard) * 0x45d9f3b;
-		HashedCard = (HashedCard >> 16) ^ HashedCard;
-
-		Hash_Postmask += HashedCard;
-	}*/
 
 	return FlopOdds[CardCombo(_Hole, _Community)][_OppoAmt - 1];
 }
@@ -526,7 +431,6 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi_TwoPlusTwo(std::array<Card, 
 			Hole.clear();
 	}
 
-	//std::cout << "\nWin Rate: " << Win << "/" << GameCount << " = " << ((float)Win / (float)GameCount) * 100.0f;
 	return ((float)Win / (float)GameCount) * 100.0f;
 }
 

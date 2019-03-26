@@ -227,6 +227,9 @@
     <ClInclude Include="bin\Tools\inc\Precomputation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bin\Tools\inc\TrainingModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

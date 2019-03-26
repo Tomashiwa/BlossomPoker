@@ -1,0 +1,54 @@
+#pragma once
+
+enum Selection { Tour, Truncation, Ranking, StochasticSampling};
+enum Crossover { KPoint, Uniform, Blending };
+enum Mutation  { GaussianOffset };
+
+enum Scaling { Static, Gaussian};
+
+enum Layer { Generation, Individual };
+
+struct TrainingModel
+{
+	unsigned int PopulationSize = 8;
+	unsigned int GenerationLimit = 100;
+	unsigned int TournamentsPerGen = 8;
+
+	Selection SelectMethod = Selection::Tour;
+	unsigned int ParentsAmt = 2;
+	unsigned int TournamentSize = 2;
+
+	Selection SelectChildMethod = Selection::Truncation;
+
+	Crossover CrossMethod = Crossover::KPoint;
+	unsigned int KPointCount = 2;
+	float CrossoverRate = 0.5f;
+	Scaling CrossoverScale = Scaling::Static;
+
+	Mutation MutateMethod = Mutation::GaussianOffset;
+	float GaussianOffset = 0.25f;
+	float MutationRate = 0.01f;
+	Scaling MutationScale = Scaling::Static;
+
+	bool IsOverlapping = true;
+	unsigned int ChildPopulationSize = 0;
+
+	bool HasElite = false;
+	float EliteRatio = 0.125f;
+
+	bool HasHoF = false;
+	float HoFRatio = 0.5f;
+
+	bool HasCulling = false;
+	bool HasNuking = false;
+	float MinimumFitnessDiff = 5.0f;
+	unsigned int StagnateInterval = 200;
+	unsigned int StagnatePeriod = 200;
+	unsigned int MaxCullCount = 10;
+
+	bool HasReserveSelection = false;
+	float AdaptationRate = 0.25f;
+	float ReserveRatio = 0.125f;
+	unsigned int SamplingBreadth = 5;
+
+};

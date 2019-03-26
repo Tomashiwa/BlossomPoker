@@ -194,6 +194,7 @@
     <ClInclude Include="Bin\Cards\inc\ComparisonResult.h" />
     <ClInclude Include="Bin\AI\inc\Snapshot.h" />
     <ClInclude Include="Bin\Table\inc\Tournament.h" />
+    <ClInclude Include="bin\Tools\inc\TrainingModel.h" />
     <ClInclude Include="Bin\Tools\inc\xoroshiro128+.h" />
     <ClInclude Include="OMPEval\inc\CardRange.h" />
     <ClInclude Include="OMPEval\inc\CombinedRange.h" />
