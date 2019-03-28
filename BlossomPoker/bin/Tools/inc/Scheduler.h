@@ -16,7 +16,7 @@ public:
 	Scheduler();
 	~Scheduler();
 
-	void Start();
+	void Initialize();
 	void Run(bool _TerminateAfterComp);
 	void End();
 

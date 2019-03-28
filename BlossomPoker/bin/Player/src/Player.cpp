@@ -6,7 +6,7 @@ Player::Player(const std::shared_ptr<Table>& _Table, unsigned int _Index)
 	: ResidingTable(_Table), Index(_Index), Stack(0), Ante(0), CurrentAction(BettingAction::NONE)
 {}
 
-void Player::Start()
+void Player::Initialize()
 {
 }
 

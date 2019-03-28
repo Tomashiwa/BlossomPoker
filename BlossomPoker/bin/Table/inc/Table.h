@@ -21,7 +21,7 @@ public:
 
 	void Run(bool _IsTraining);
 
-	void Start();
+	void Initialize();
 	void Update();
 	void End();
 

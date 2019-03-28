@@ -9,14 +9,14 @@ Scheduler::~Scheduler()
 {
 }
 
-void Scheduler::Start()
+void Scheduler::Initialize()
 {
 
 }
 
 void Scheduler::Run(bool _TerminateAfterComp)
 {
-	Start();
+	Initialize();
 
 	for (auto const& Entry : Specs)
 	{

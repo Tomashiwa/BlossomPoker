@@ -17,7 +17,7 @@ class Player
 public:
 	Player(const std::shared_ptr<Table>& _Table, unsigned int _Index);
 
-	virtual void Start();
+	virtual void Initialize();
 	virtual void Update();
 	virtual void End();
 	virtual void Reset();

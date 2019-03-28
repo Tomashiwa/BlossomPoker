@@ -16,7 +16,7 @@ void Table::Run(bool _IsTraining)
 {
 	IsTraining = _IsTraining;
 
-	Start();
+	Initialize();
 
 	FirstPlayer = DealingPlayer;
 	
@@ -26,7 +26,7 @@ void Table::Run(bool _IsTraining)
 	End();
 }
 
-void Table::Start()
+void Table::Initialize()
 {
 	StartRound();
 }

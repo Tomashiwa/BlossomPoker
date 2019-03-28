@@ -21,36 +21,24 @@ GeneticTrainer::GeneticTrainer()
 	ActiveTable = std::make_shared<Table>(Evaluator, 20, false);
 	Writer = std::make_unique<LogWriter>();
 
-	CallingPlayer = std::make_unique<Caller>(ActiveTable, 200000);
-	RaisingPlayer = std::make_unique<Raiser>(ActiveTable, 300000);
-	RandomPlayer0 = std::make_unique<Randomer>(ActiveTable, 400000);
-	RandomPlayer1 = std::make_unique<Randomer>(ActiveTable, 100000);
-
-	Precomp = std::make_unique<Precomputation>(Evaluator);
+	//Precomp = std::make_unique<Precomputation>(Evaluator);
 }
 
 GeneticTrainer::~GeneticTrainer()
+{}
+
+void GeneticTrainer::Initialize()
 {
-
-}
-
-void GeneticTrainer::Start()
-{
-	//Precomp->ComputePreflopOdds(7, 2500);
-	//Precomp->ComputeFlopOdds(7, 2500);
-	//std::cout << "\n";
-
 	InitializePopulation(Model.PopulationSize);
-
 	BestPlayer = Population[0];
 
 	PlayingPopulation.clear();
 	PlayingPopulation.reserve(TableSize);
 	
-	PlayingPopulation.push_back(CallingPlayer);
-	PlayingPopulation.push_back(RaisingPlayer);
-	PlayingPopulation.push_back(RandomPlayer0);
-	PlayingPopulation.push_back(RandomPlayer1);
+	PlayingPopulation.push_back(std::make_unique<Caller>(ActiveTable, 100000));
+	PlayingPopulation.push_back(std::make_unique<Raiser>(ActiveTable, 200000));
+	PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 300000));
+	PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 400000));
 
 	Tournaments.clear();
 	Tournaments.reserve(Model.TournamentsPerGen);
@@ -62,8 +50,11 @@ void GeneticTrainer::Start()
 	for (auto const Player : Population)
 		RankingBoard.push_back(std::make_shared<Participant>(Player));
 
-	if(Model.HasHoF)
+	if (Model.HasHoF)
+	{
 		HoF.clear();
+		HoF.reserve(Model.HoFRatio);
+	}
 
 	#pragma region Logging & Comments
 	std::cout << "Simulating a Population of " << Model.PopulationSize << " Players for " << Model.GenerationLimit<< " generations.\n";
@@ -102,7 +93,7 @@ void GeneticTrainer::Start()
 
 void GeneticTrainer::Run()
 {
-	Start();
+	Initialize();
 
 	for (unsigned int GenIndex = 0; GenIndex < Model.GenerationLimit; GenIndex++)
 	{
@@ -132,7 +123,7 @@ void GeneticTrainer::Run()
 		}
 
 		//Add the top players into HoF if they perform sufficently well
-		AddPlayersToHoF(Model.PopulationSize);
+		AddToHoF(Model.PopulationSize);
 		ArrangeHoF();
 		ClipHoF(Model.PopulationSize / 2);
 
@@ -192,9 +183,9 @@ void GeneticTrainer::Run()
 
 		GenerationAverFitness.push_back(GetOverallFitness());
 
-		if (!IsTestComplete() && HasPopulationStagnate())
+		if (!IsTrainingCompleted() && HasPopulationStagnate())
 			CullCount < Model.MaxCullCount ? CullPopulation() : NukePopulation();
-		else if(!IsTestComplete())
+		else if(!IsTrainingCompleted())
 			ReproducePopulation();
 		else
 			End();
@@ -203,28 +194,24 @@ void GeneticTrainer::Run()
 
 void GeneticTrainer::End()
 {
-	std::cout << "Test ended at Generation " << Generation << "\n";
-	Writer->WriteAt(0, "Test ended at Generation " + std::to_string(Generation) + "\n\n");
-
 	Writer->CloseAt(0);
 	Writer->CloseAt(1);
 	Writer->CloseAt(2);
 	Writer->CloseAt(3);
-
 	Writer->Clear();
 }
 
 void GeneticTrainer::Reset()
 {
+	Population.clear();
+
 	Generation = 0;
 	PlayersGenerated = 0;
 
 	MTGenerator.seed(std::chrono::high_resolution_clock::now().time_since_epoch().count());
-
-	Population.clear();
 }
 
-bool GeneticTrainer::IsTestComplete()
+bool GeneticTrainer::IsTrainingCompleted()
 {
 	return (Model.GenerationLimit > 0 && Generation >= (Model.GenerationLimit - 1));
 }
@@ -242,7 +229,37 @@ void GeneticTrainer::InitializePopulation(unsigned int _Size)
 
 void GeneticTrainer::InitializePlayingPopu()
 {
-	if (HoF.size() == 0)
+	if (Model.HasHoF)
+	{
+		PlayingPopulation.erase(PlayingPopulation.begin() + 4, PlayingPopulation.end());
+
+		if (HoF.size() == 0)
+		{
+			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001));
+			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800002));
+			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800003));
+			return;
+		}
+
+		for (auto const& Participant : HoF)
+		{
+			if (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == Participant->GetOwner()->GetIndex(); }) == PlayingPopulation.end() && std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return _Player->GetIndex() == Participant->GetOwner()->GetIndex(); }) == Population.end())
+				PlayingPopulation.push_back(Participant->GetOwner());
+
+			if (PlayingPopulation.size() >= TableSize - 1)
+				break;
+		}
+
+		if (PlayingPopulation.size() < TableSize - 1)
+		{
+			unsigned int ToBeAdded = (TableSize - 1) - PlayingPopulation.size();
+
+			for (unsigned int Index = 0; Index < ToBeAdded; Index++)
+				PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001 + Index));
+		}
+	}
+
+	/*if (HoF.size() == 0)
 	{
 		PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001));
 		PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800002));
@@ -277,20 +294,13 @@ void GeneticTrainer::InitializePlayingPopu()
 		}
 		
 		std::cout << "\n";
-	}
+	}*/
 }
 
 float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Player)
 {
-	/*if (PlayingPopulation.size() >= TableSize)
-	{
-		PlayingPopulation.erase(PlayingPopulation.begin() + TableSize - 1, PlayingPopulation.end());
-	}*/
 	if(PlayingPopulation.size() < TableSize - 1)
-	{
-		//std::cout << "PlayingPopulation is not properly initialized...\n";
 		return 0.0f;
-	}
 
 	PlayingPopulation.push_back(_Player);
 
@@ -298,8 +308,6 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 	{
 		for (auto const& Tournament : Tournaments)
 		{
-			//std::cout << "\nTournament " << Tournament->GetIndex() << ": \n";
-
 			Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
 			Tournament->Run();
 		}
@@ -307,9 +315,6 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 		RankPlayer(_Player);
 		PlayingPopulation.pop_back();
 		
-		if (GetParticipant(_Player->GetIndex())->GetHandsWon() == 0 && GetParticipant(_Player->GetIndex())->GetHandsLost() == 0)
-			std::cout << "\n";
-
 		return GetParticipant(_Player->GetIndex())->GetFitness();
 	}
 		
@@ -317,8 +322,6 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 
 	for (auto const& Tournament : Tournaments)
 	{
-		//std::cout << "\nMutated Tournament " << Tournament->GetIndex() << ": \n";
-
 		Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
 		Tournament->Run();
 
@@ -338,11 +341,8 @@ float GeneticTrainer::MeasureUniqueness(const std::shared_ptr<BlossomPlayer>& _P
 	auto PlayerItr = std::find_if(Population.begin(), Population.end(), [&](const std::shared_ptr<BlossomPlayer>& _Comparison) { return _Player->GetIndex() == _Comparison->GetIndex(); });
 	
 	if (PlayerItr == Population.begin() || PlayerItr == Population.end() - 1 || PlayerItr == Population.end())
-	{
-		//std::cout << "P." << _Player->GetIndex() << " either a boundary player or it cannot be found...\n";
 		return std::numeric_limits<float>::infinity();
-	}
-
+	
 	//Order is reversed as the Population is sorted in descending fitness
 	std::shared_ptr<Participant> Current = GetParticipant(_Player->GetIndex());
 	std::shared_ptr<Participant> Inferior = GetParticipant((*(std::next(PlayerItr, 1)))->GetIndex());
@@ -422,7 +422,7 @@ void GeneticTrainer::ArrangePlayers(std::vector<std::shared_ptr<BlossomPlayer>>&
 	std::sort(_Players.begin(), _Players.end(), [&](std::shared_ptr<BlossomPlayer> _First, std::shared_ptr<BlossomPlayer> _Second) { return GetParticipant(_First->GetIndex())->GetFitness() > GetParticipant(_Second->GetIndex())->GetFitness(); });
 }
 
-void GeneticTrainer::AddPlayersToHoF(unsigned int _Amt)
+void GeneticTrainer::AddToHoF(unsigned int _Amt)
 {
 	for (unsigned int Index = 0; Index < _Amt; Index++)
 	{
@@ -655,118 +655,6 @@ void GeneticTrainer::Crossover(const std::shared_ptr<BlossomPlayer>& _First, con
 			}
 		}
 	}
-
-	/*std::uniform_int_distribution<int> Distribution_Method(0, 1);
-	unsigned int MethodIndex = Distribution_Method(MTGenerator);
-
-	if (MethodIndex == 0)
-	{
-		std::cout << "Crossover: Single-set Binary Crossover\n";
-		//Writer->WriteAt(0, "Crossover: Single-set Binary Crossover\n");
-
-		//Single-Set Binary Crossover
-		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-		PlayersGenerated++;
-		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-		PlayersGenerated++;
-
-		std::uniform_int_distribution<int> Distribution_Set(0, 3);
-		std::uniform_int_distribution<int> Distribution_Choice(0, 1);
-
-		Phase TargetPhase = (Phase)Distribution_Set(MTGenerator);
-
-		std::array<float, 4> ThresholdSet_0, ThresholdSet_1;
-
-		for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
-		{
-			switch (Distribution_Choice(MTGenerator))
-			{
-			case 0:
-				ThresholdSet_0[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-				ThresholdSet_1[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-				break;
-			case 1:
-				ThresholdSet_0[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-				ThresholdSet_1[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase)[ThrIndex];
-				break;
-			}
-		}
-
-		for (unsigned int ResIndex = 0; ResIndex < _Results.size(); ResIndex++)
-		{
-			for (unsigned int PhIndex = 0; PhIndex < 4; PhIndex++)
-			{
-				if (ResIndex == 0)
-				{
-					if (PhIndex == (unsigned int)TargetPhase)
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_0);
-					else
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _First->GetAI().GetThresholdsByPhase((Phase)PhIndex));
-				}
-				else
-				{
-					if (PhIndex == (unsigned int)TargetPhase)
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_1);
-					else
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _Second->GetAI().GetThresholdsByPhase((Phase)PhIndex));
-				}
-			}
-		}
-	}
-	else if(MethodIndex == 1)
-	{
-		std::cout << "Crossover: Cross-set Binary Crossover\n";
-		//Writer->WriteAt(0, "Crossover: Cross-set Binary Crossover\n");
-
-		//Cross-Set Binary Crossover
-		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-		PlayersGenerated++;
-		_Results.push_back(std::move(std::make_shared <BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated)));
-		PlayersGenerated++;
-
-		std::uniform_int_distribution<int> Distribution_Set(0, 3);
-		std::uniform_int_distribution<int> Distribution_Choice(0, 1);
-
-		Phase TargetPhase_0 = (Phase)Distribution_Set(MTGenerator), TargetPhase_1 = (Phase)Distribution_Set(MTGenerator);
-
-		std::array<float, 4> ThresholdSet_0, ThresholdSet_1;
-
-		for (unsigned int ThrIndex = 0; ThrIndex < 4; ThrIndex++)
-		{
-			switch (Distribution_Choice(MTGenerator))
-			{
-			case 0:
-				ThresholdSet_0[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase_0)[ThrIndex];
-				ThresholdSet_1[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase_1)[ThrIndex];
-				break;
-			case 1:
-				ThresholdSet_0[ThrIndex] = _Second->GetAI().GetThresholdsByPhase(TargetPhase_1)[ThrIndex];
-				ThresholdSet_1[ThrIndex] = _First->GetAI().GetThresholdsByPhase(TargetPhase_0)[ThrIndex];
-				break;
-			}
-		}
-
-		for (unsigned int ResIndex = 0; ResIndex < _Results.size(); ResIndex++)
-		{
-			for (unsigned int PhIndex = 0; PhIndex < 4; PhIndex++)
-			{
-				if (ResIndex == 0)
-				{
-					if (PhIndex == (unsigned int)TargetPhase_0)
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_0);
-					else
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _First->GetAI().GetThresholdsByPhase((Phase)PhIndex));
-				}
-				else
-				{
-					if (PhIndex == (unsigned int)TargetPhase_1)
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, ThresholdSet_1);
-					else
-						_Results[ResIndex]->GetAI().SetThresholdsByPhase((Phase)PhIndex, _Second->GetAI().GetThresholdsByPhase((Phase)PhIndex));
-				}
-			}
-		}
-	}	*/
 }	
 
 //Mutating a Threshold Set
@@ -857,7 +745,6 @@ std::shared_ptr<BlossomPlayer> GeneticTrainer::Adapt(const std::shared_ptr<Bloss
 	std::shared_ptr<BlossomPlayer> ImprovedPlayer = std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated);
 	ImprovedPlayer->GetAI().SetThresholds(SuperiorNeighbour->GetAI().GetThresholds());
 
-	//std::cout << "Newly adapted player P." << ImprovedPlayer->GetIndex() << " is created based on P." << SuperiorNeighbour->GetIndex() << "\n";
 	Writer->WriteAt(0, "Newly adapted player P." + std::to_string(ImprovedPlayer->GetIndex()) + " is created based on P." + std::to_string(SuperiorNeighbour->GetIndex()) + "\n");
 
 	PlayersGenerated++;
@@ -909,22 +796,6 @@ void GeneticTrainer::EvaluateMutateRate()
 	Writer->WriteAt(3, (float)Generation, Model.MutationRate);
 }
 
-//Mutating a specific threshold
-/*void GeneticTrainer::Mutate(std::shared_ptr<BlossomPlayer>& _Target, Phase _Phase, unsigned int _ParaIndex)
-{
-	std::uniform_real_distribution<float> Distribution_Mutation(-Model.GaussianOffset, Model.GaussianOffset);
-
-	float MutatedThreshold = _Target->GetAI().GetThresholdsByPhase(_Phase)[_ParaIndex] + Distribution_Mutation(MTGenerator);
-	
-	if (MutatedThreshold < 0)
-	{
-		std::uniform_real_distribution<float> Distribution_Backtrack(0.0, Model.GaussianOffset);
-		MutatedThreshold = Distribution_Backtrack(MTGenerator);
-	}
-
-	_Target->GetAI().SetThresholdByPhase(_Phase, _ParaIndex, MutatedThreshold);
-}*/
-
 bool GeneticTrainer::HasCrossoverHappen()
 {
 	std::uniform_real_distribution<float> Distribution_CrossChance(0.0f, 1.0f);
@@ -939,7 +810,6 @@ bool GeneticTrainer::HasMutationHappen()
 
 void GeneticTrainer::ReproducePopulation()
 {
-	//std::cout << "\nReproducing population...\n";
 	Writer->WriteAt(0, "\nReproducing population...\n");
 
 	EvaluateMutateRate();
@@ -1554,5 +1424,38 @@ void GeneticTrainer::SetSpecs(TrainingModel _Model, Layer _Layer)//unsigned int 
 	FeedbackLayer = _Layer;
 
 	ElitesLimit = (unsigned int)(Model.EliteRatio * (float)Model.PopulationSize);
+	HoFSize = (unsigned int)(Model.HoFRatio * (float)Model.PopulationSize);
 	ReserveSize = (unsigned int)(Model.ReserveRatio * (float)Model.PopulationSize);
+}
+
+void GeneticTrainer::PrintPlayerResult(std::shared_ptr<BlossomPlayer>& _Player)
+{
+	std::cout << "P." << _Player->GetIndex() << ":\n\n";
+
+	std::shared_ptr<Participant> CurrentParticipant = GetParticipant(_Player->GetIndex());
+
+	std::cout << "Fitness: " << CurrentParticipant->GetFitness() << "\n\n";
+	std::cout << "Hands Won/Lost: " << CurrentParticipant->GetHandsWon() << "/" << CurrentParticipant->GetHandsLost() << "\n";
+	std::cout << "Money Won/Lost: " << CurrentParticipant->GetMoneyWon() << "/" << CurrentParticipant->GetMoneyLost() << "\n";
+}
+
+void GeneticTrainer::PrintGenerationResult()
+{
+	std::cout << "Generation " << Generation << ":\n\n";
+	
+	std::cout << "Top 5 Players: \n";
+	for (unsigned int Index = 0; Index < 5; Index++)
+	{
+		std::shared_ptr<Participant> CurrentParticipant = GetParticipant(Population[Index]->GetIndex());
+		std::cout << "P." << Population[Index]->GetIndex() << ": " << CurrentParticipant->GetFitness() << " (Hands W/L: " << CurrentParticipant->GetHandsWon() << "/" << CurrentParticipant->GetHandsLost() << " Money W/L: " << CurrentParticipant->GetMoneyWon() << "/" << CurrentParticipant->GetMoneyLost() << ")\n";
+	}
+	std::cout << "\n";
+	
+	std::cout << "Diversity: " << GetGenerationDiversity() << "\n\n";
+	
+	std::cout << "Lowest Fitness: " << RankingBoard[RankingBoard.size() - 1]->GetFitness() << "\n";
+	std::cout << "Average Fitness: " << GetOverallFitness() << "\n";
+	std::cout << "Highest Fitness: " << RankingBoard[0]->GetFitness() << "\n\n";
+
+	std::cout << "Best Player so far: P." << BestPlayer->GetIndex() << " - " << BestFitness << "\n";
 }
