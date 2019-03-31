@@ -38,14 +38,7 @@ void Table::Update()
 }
 
 void Table::End()
-{
-	//std::cout << "\n";
-	//for (auto const& CurrentPlayer : Players)
-	//{
-	//	if (!CurrentPlayer->GetIsBroke())
-	//		std::cout << "Winner: P." << CurrentPlayer->GetIndex() << " ($" << CurrentPlayer->GetStack() << ") \n";
-	//}
-}
+{}
 
 void Table::Reset(bool _IsHard)
 {
@@ -130,54 +123,54 @@ void Table::EndRound()
 	//std::cout << "Round " << Round << ":\n";
 	DistributeWinnings();
 
-	int HighestProfit = CurrentMatch->GetParticipant(0)->GetProfits();
-	for (auto const& Participant : CurrentMatch->GetRankingBoard()) 
+	int HighestProfit = CurrentMatch->GetPlayer(0)->GetProfits();
+	for (auto const& Player : CurrentMatch->GetRankingBoard()) 
 	{
-		if (!Participant->GetOwner()->GetIsBroke() && !Participant->GetOwner()->GetIsFolded() && Participant->GetProfits() > HighestProfit)
-			HighestProfit = Participant->GetProfits();
+		if (!Player->GetIsBroke() && !Player->GetIsFolded() && Player->GetProfits() > HighestProfit)
+			HighestProfit = Player->GetProfits();
 	}
 
 	if (HighestProfit > 0)
 	{
-		for (auto const& Participant : CurrentMatch->GetRankingBoard())
+		for (auto const& Player : CurrentMatch->GetRankingBoard())
 		{
-			if (Participant->GetProfits() == HighestProfit)
+			if (Player->GetProfits() == HighestProfit)
 			{
-				Participant->SetMoneyWon(Participant->GetMoneyWon() + Participant->GetProfits());
-				Participant->SetHandsWon(Participant->GetHandsWon() + 1);
+				Player->SetMoneyWon(Player->GetMoneyWon() + Player->GetProfits());
+				Player->SetHandsWon(Player->GetHandsWon() + 1);
 			}
 		}
 
-		for (auto const& Participant : CurrentMatch->GetRankingBoard())
+		for (auto const& Player : CurrentMatch->GetRankingBoard())
 		{
-			if (!Participant->GetOwner()->GetIsBroke() && Participant->GetProfits() < HighestProfit)
+			if (!Player->GetIsBroke() && Player->GetProfits() < HighestProfit)
 			{
-				Participant->SetHandsLost(Participant->GetHandsLost() + 1);
+				Player->SetHandsLost(Player->GetHandsLost() + 1);
 
-				if (Participant->GetProfits() > 0)
-					Participant->SetMoneyWon(Participant->GetMoneyWon() + Participant->GetProfits());
+				if (Player->GetProfits() > 0)
+					Player->SetMoneyWon(Player->GetMoneyWon() + Player->GetProfits());
 				else
 				{
-					Participant->SetMoneyLost(Participant->GetMoneyLost() - Participant->GetProfits());
+					Player->SetMoneyLost(Player->GetMoneyLost() - Player->GetProfits());
 				}
 			}
 		}
 	}
 	else if (HighestProfit == 0)
 	{
-		for (auto const& Participant : CurrentMatch->GetRankingBoard())
+		for (auto const& Player : CurrentMatch->GetRankingBoard())
 		{
-			if (!Participant->GetOwner()->GetIsBroke() && !Participant->GetOwner()->GetIsFolded())
-				Participant->SetHandsWon(Participant->GetHandsWon() + 1);
+			if (!Player->GetIsBroke() && !Player->GetIsFolded())
+				Player->SetHandsWon(Player->GetHandsWon() + 1);
 
-			else if (!Participant->GetOwner()->GetIsBroke() && Participant->GetOwner()->GetIsFolded())
-				Participant->SetHandsLost(Participant->GetHandsLost() + 1);
+			else if (!Player->GetIsBroke() && Player->GetIsFolded())
+				Player->SetHandsLost(Player->GetHandsLost() + 1);
 		}
 	}
 	
 
-	for (auto const& Participant : CurrentMatch->GetRankingBoard())
-		Participant->SetProfits(0);
+	for (auto const& Player : CurrentMatch->GetRankingBoard())
+		Player->SetProfits(0);
 
 	CommunalCards.clear();
 	EmptyPot();
@@ -195,6 +188,11 @@ void Table::EndRound()
 				std::cout << "P." << Player->GetIndex() << " is broke...\n";
 		}
 	}
+
+	/*std::cout << "Round Ended:\n";
+	for(auto const& Player : Players)
+		std::cout << "P." << Player->GetIndex() << ": Hands W/L - " << Player->GetHandsWon() << "/" << Player->GetHandsLost() << " Money W/L - " << Player->GetMoneyWon() << "/" << Player->GetMoneyLost() << ")\n";
+	std::cout << "\n";*/
 
 	if (IsGameEnded())
 	{
@@ -632,66 +630,66 @@ void Table::SplitPot(std::vector<unsigned int> &_Pots, std::vector<std::vector<s
 
 void Table::DistributeWinnings()
 {
-	std::vector<std::shared_ptr<Participant>> Participants;
-	Participants.reserve(CurrentMatch->GetRankingBoard().size());
+	std::vector<std::shared_ptr<Player>> Players;
+	Players.reserve(CurrentMatch->GetRankingBoard().size());
 
 	//std::cout << "Pot Contri (1) :\n";
-	for (auto const& Participant : CurrentMatch->GetRankingBoard())
+	for (auto const& Player : CurrentMatch->GetRankingBoard())
 	{
-		if(Participant->GetOwner()->GetPotContribution() > 0)
-			Participants.push_back(Participant);
+		if(Player->GetPotContribution() > 0)
+			Players.push_back(Player);
 
 		//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetOwner()->GetPotContribution() << "\n";
 	}
 
 	//std::cout << "Initial Profit:\n";
-	for (auto const& Participant : Participants)
+	for (auto const& Player : Players)
 	{
-		Participant->SetProfits(-Participant->GetOwner()->GetPotContribution());
+		Player->SetProfits(-Player->GetPotContribution());
 
 		//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetProfits() << "\n";
 	}
 
 	unsigned int MinStack = 0, CurrentPot = 0;
 
-	while (Participants.size() > 1)
+	while (Players.size() > 1)
 	{
-		MinStack = Participants[0]->GetOwner()->GetPotContribution();
-		for (auto const& Participant : Participants)
-			MinStack = Participant->GetOwner()->GetPotContribution() < MinStack ? Participant->GetOwner()->GetPotContribution() : MinStack;
+		MinStack = Players[0]->GetPotContribution();
+		for (auto const& Player : Players)
+			MinStack = Player->GetPotContribution() < MinStack ? Player->GetPotContribution() : MinStack;
 
 		//std::cout << "MinStack: " << MinStack << "\n";
 		//std::cout << "Participants: " << Participants.size() << "\n";
 
-		CurrentPot += MinStack * (unsigned int) Participants.size();
+		CurrentPot += MinStack * (unsigned int) Players.size();
 
 		//std::cout << "CurrentPot: " << CurrentPot << "\n";
 
 		//std::cout << "Pot Contri (2) :\n";
-		for (auto const& Participant : Participants)
+		for (auto const& Player : Players)
 		{
-			Participant->GetOwner()->SetPotContribution(Participant->GetOwner()->GetPotContribution() - MinStack);
+			Player->SetPotContribution(Player->GetPotContribution() - MinStack);
 			//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetOwner()->GetPotContribution() << "\n";
 			//std::cout << "P." << Participant->GetOwner()->GetIndex() << ": " << Participant->GetOwner()->GetIsBroke() << " (Broke?) " << Participant->GetOwner()->GetIsFolded() << " (Folded?) \n";
 		}
 
-		std::vector<std::shared_ptr<Participant>> Winners;
-		DetermineWinningPlayers(Participants, Winners);
+		std::vector<std::shared_ptr<Player>> Winners;
+		DetermineWinningPlayers(Players, Winners);
 
  		for (auto const& Winner : Winners)
 		{
 			Winner->SetProfits(Winner->GetProfits() + (CurrentPot / (unsigned int) Winners.size()));
-			AwardPlayer(Winner->GetOwner(), (CurrentPot / (unsigned int) Winners.size()));
+			AwardPlayer(Winner, (CurrentPot / (unsigned int) Winners.size()));
 
 			//std::cout << "P." << Winner->GetOwner()->GetIndex() << " won " << (CurrentPot / Winners.size()) << "\n";
 		}
 
-		auto Itr = std::begin(Participants);
+		auto Itr = std::begin(Players);
 
-		while(Itr != Participants.end())
+		while(Itr != Players.end())
 		{
-			if ((*Itr)->GetOwner()->GetPotContribution() <= 0)
-				Itr = Participants.erase(Itr);
+			if ((*Itr)->GetPotContribution() <= 0)
+				Itr = Players.erase(Itr);
 			else
 				++Itr;
 		}
@@ -699,10 +697,10 @@ void Table::DistributeWinnings()
 		CurrentPot = 0;
 	}
 
-	if (Participants.size() == 1)
+	if (Players.size() == 1)
 	{
-		Participants[0]->SetProfits(Participants[0]->GetProfits() + Participants[0]->GetOwner()->GetPotContribution());
-		AwardPlayer(Participants[0]->GetOwner(), Participants[0]->GetOwner()->GetPotContribution());
+		Players[0]->SetProfits(Players[0]->GetProfits() + Players[0]->GetPotContribution());
+		AwardPlayer(Players[0], Players[0]->GetPotContribution());
 
 		//std::cout << "P." << Participants[0]->GetOwner()->GetIndex() << " get back contribution leftover of " << Participants[0]->GetOwner()->GetPotContribution() << "\n";
 	}
@@ -797,62 +795,22 @@ void Table::GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Parti
 	}
 }
 
-void Table::DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& _Contestants, std::vector<std::shared_ptr<Player>>& _Winners)
-{
-	if (_Contestants.size() == 1)
-	{
-		_Winners = _Contestants;
-		return;
-	}
-
-	std::vector<std::array<Card,5>> BettingHands;
-
-	for (auto const& Contestant : _Contestants)
-		BettingHands.push_back(Evaluator->GetBestCommunalHand(Contestant->GetHand(), CommunalCards));
-
-	std::array<Card,5> BestHand = BettingHands[0];
-
-	_Winners.push_back(_Contestants[0]);
-
-	for (unsigned int Index = 1; Index < BettingHands.size(); Index++)
-	{
-		switch (Evaluator->IsBetter5Cards(BettingHands[Index],BestHand))
-		{
-			case ComparisonResult::Win:
-			{
-				BestHand = BettingHands[Index];
-
-				_Winners.clear();
-				_Winners.push_back(_Contestants[Index]);
-				break;
-			}
-			case ComparisonResult::Draw:
-			{
-				_Winners.push_back(_Contestants[Index]);
-				break;
-			}
-			default:
-				break;
-		}
-	}
-}
-
-void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _Participants, std::vector<std::shared_ptr<Participant>>& _Winners)
+void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Player>>& _Players, std::vector<std::shared_ptr<Player>>& _Winners)
 {
 	//std::cout << "Participants pre-removal via itr: " << _Participants.size() << "\n";
 
-	auto Itr = _Participants.begin();
-	while (Itr != _Participants.end())
+	auto Itr = _Players.begin();
+	while (Itr != _Players.end())
 	{
-		if ((*Itr)->GetOwner()->GetIsBroke() || (*Itr)->GetOwner()->GetIsFolded())
-			Itr = _Participants.erase(Itr);
+		if ((*Itr)->GetIsBroke() || (*Itr)->GetIsFolded())
+			Itr = _Players.erase(Itr);
 		else
 			++Itr;
 	}
 
-	if (_Participants.size() == 1)
+	if (_Players.size() == 1)
 	{
-		_Winners = _Participants;
+		_Winners = _Players;
 		return;
 	}
 
@@ -860,26 +818,26 @@ void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _
 	{
 		std::cout << "RankingBoard:\n";
 		for (auto const& Player : CurrentMatch->GetRankingBoard())
-			std::cout << "P." << Player->GetOwner()->GetIndex() << " ";
+			std::cout << "P." << Player->GetIndex() << " ";
 		std::cout << "\n";
 
 		std::cout << "Current Phase: " << GetStateStr() << "\n";
 		std::cout << "Current Player: P." << CurrentPlayer->GetIndex() << "\n";
 		std::cout << "Hand: " << CurrentPlayer->GetHandInfo() << "\n";
-		std::cout << "Participants: \n";
-		for (auto const& Player : _Participants)
-			std::cout << "P." << Player->GetOwner()->GetIndex() << " ";
+		std::cout << "Players: \n";
+		for (auto const& Player : _Players)
+			std::cout << "P." << Player->GetIndex() << " ";
 		std::cout << "\n";
 	}
 
 	std::vector<std::array<Card, 5>> BettingHands;
 
-	for (auto const& Participant : _Participants)
-		BettingHands.push_back(Evaluator->GetBestCommunalHand(Participant->GetOwner()->GetHand(), CommunalCards));
+	for (auto const& Player : _Players)
+		BettingHands.push_back(Evaluator->GetBestCommunalHand(Player->GetHand(), CommunalCards));
 
 	std::array<Card, 5> BestHand = BettingHands[0];
 
-	_Winners.push_back(_Participants[0]);
+	_Winners.push_back(_Players[0]);
 
 	for (unsigned int Index = 1; Index < BettingHands.size(); Index++)
 	{
@@ -890,12 +848,12 @@ void Table::DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _
 			BestHand = BettingHands[Index];
 
 			_Winners.clear();
-			_Winners.push_back(_Participants[Index]);
+			_Winners.push_back(_Players[Index]);
 			break;
 		}
 		case ComparisonResult::Draw:
 		{
-			_Winners.push_back(_Participants[Index]);
+			_Winners.push_back(_Players[Index]);
 			break;
 		}
 		default:

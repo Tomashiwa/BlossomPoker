@@ -9,10 +9,13 @@
 #include "../inc//TrainingModel.h"
 #include "../inc/LogWriter.h"
 
+#include "Selector.h"
+#include "Crossoverer.h"
+#include "Mutator.h"
+
 class Table;
 class Player;
 class BlossomPlayer;
-class Participant;
 class Folder;
 class Caller;
 class Raiser;
@@ -47,10 +50,13 @@ private:
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Population;
 	std::vector<std::shared_ptr<Player>> PlayingPopulation;
-	std::vector<std::shared_ptr<Participant>> RankingBoard;
 
 	std::shared_ptr<Table> ActiveTable;
 	std::vector<std::unique_ptr<Tournament>> Tournaments;
+
+	std::unique_ptr<Selector> ActiveSelector;
+	std::unique_ptr<Crossoverer> ActiveCrossoverer;
+	std::unique_ptr<Mutator> ActiveMutator;
 
 	void InitializePopulation(unsigned int _Size);
 	void InitializePlayingPopu();
@@ -63,15 +69,7 @@ private:
 
 	void ReproducePopulation();
 
-	bool HasCrossoverHappen();
-	void Crossover(const std::shared_ptr<BlossomPlayer>& _First, const std::shared_ptr<BlossomPlayer>& _Second, std::vector<std::shared_ptr<BlossomPlayer>>& _Results);
-	
-	void EvaluateMutateRate();
-	bool HasMutationHappen();
-	bool Mutate(std::shared_ptr<BlossomPlayer>& _Target);// , Phase _Phase);
-
-	void RankPlayer(const std::shared_ptr<BlossomPlayer>& _Player);
-	void ArrangePlayers(std::vector<std::shared_ptr<BlossomPlayer>>& _Players);
+	void RankPlayers(std::vector<std::shared_ptr<BlossomPlayer>>& _Players);
 
 	float GetOverallFitness();
 	float GetGenerationDiversity();
@@ -81,7 +79,7 @@ private:
 	
 	//Hall-of-Fame
 	unsigned int HoFSize;
-	std::vector<std::shared_ptr<Participant>> HoF;
+	std::vector<std::shared_ptr<BlossomPlayer>> HoF;
 
 	void AddToHoF(unsigned int _Amt);
 	void ArrangeHoF();
@@ -97,8 +95,6 @@ private:
 	std::vector<std::shared_ptr<BlossomPlayer>> NRAPopulation;
 	std::vector<std::shared_ptr<BlossomPlayer>> RAPopulation;
 
-	float MeasureUniqueness(const std::shared_ptr<BlossomPlayer>& _Player);
-	float MeasurePotential(const std::shared_ptr<BlossomPlayer>& _Player);
 	std::shared_ptr<BlossomPlayer> Adapt(const std::shared_ptr<BlossomPlayer>& _Target, const std::vector<std::shared_ptr<BlossomPlayer>> _RefPopulation);
 
 	//Tools
@@ -117,10 +113,8 @@ private:
 
 	std::string GetPopulationContentStr();
 	std::string GetThresholdsStr(const std::shared_ptr<BlossomPlayer>& _Target);
-	const std::shared_ptr<Participant>& GetParticipant(unsigned int _Index);
 
 	//Variables to track
-	float BestFitness = 0.0f;
 	unsigned int MutatePhase = 0;
 	std::shared_ptr<BlossomPlayer> BestPlayer;
 };

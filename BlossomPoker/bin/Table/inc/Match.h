@@ -17,13 +17,13 @@ public:
 	unsigned int GetIndex() { return Index; }
 	bool GetIsDuplicated() { return IsDuplicated; }
 
-	const std::shared_ptr<Participant>& GetParticipant(unsigned int _Index);
-	const std::vector<std::shared_ptr<Participant>>& GetRankingBoard() { return RankingBoard; }
+	const std::shared_ptr<Player>& GetPlayer(unsigned int _Index);
+	const std::vector<std::shared_ptr<Player>>& GetRankingBoard() { return RankingBoard; }
 
 	void PrintInfo();
 
 private:
 	unsigned int Index = 0;
 	bool IsDuplicated = false;
-	std::vector<std::shared_ptr<Participant>> RankingBoard;
+	std::vector<std::shared_ptr<Player>> RankingBoard;
 };

@@ -163,11 +163,14 @@
     <ClCompile Include="Bin\Main.cpp" />
     <ClCompile Include="Bin\Player\Src\Player.cpp" />
     <ClCompile Include="Bin\Table\src\Tournament.cpp" />
+    <ClCompile Include="bin\Tools\src\Crossoverer.cpp" />
+    <ClCompile Include="bin\Tools\src\Mutator.cpp" />
     <ClCompile Include="OMPEval\src\CardRange.cpp" />
     <ClCompile Include="OMPEval\src\CombinedRange.cpp" />
     <ClCompile Include="OMPEval\src\EquityCalculator.cpp" />
     <ClCompile Include="OMPEval\src\Evaluator.cpp" />
     <ClCompile Include="bin\Tools\src\Precomputation.cpp" />
+    <ClCompile Include="bin\Tools\src\Selector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Table\inc\BettingAction.h" />
@@ -196,6 +199,8 @@
     <ClInclude Include="Bin\Table\inc\Tournament.h" />
     <ClInclude Include="bin\Tools\inc\TrainingModel.h" />
     <ClInclude Include="Bin\Tools\inc\xoroshiro128+.h" />
+    <ClInclude Include="bin\Tools\inc\Crossoverer.h" />
+    <ClInclude Include="bin\Tools\inc\Mutator.h" />
     <ClInclude Include="OMPEval\inc\CardRange.h" />
     <ClInclude Include="OMPEval\inc\CombinedRange.h" />
     <ClInclude Include="OMPEval\inc\Constants.h" />
@@ -207,6 +212,7 @@
     <ClInclude Include="OMPEval\inc\Util.h" />
     <ClInclude Include="OMPEval\OffsetTable.hxx" />
     <ClInclude Include="bin\Tools\inc\Precomputation.h" />
+    <ClInclude Include="bin\Tools\inc\Selector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

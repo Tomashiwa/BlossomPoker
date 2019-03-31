@@ -1,15 +1,17 @@
 #pragma once
 
-enum Selection { Tour, Truncation, Ranking, StochasticSampling};
+enum Selection { Tour, Truncation, Roulette, StochasticSampling};
 enum Crossover { KPoint, Uniform, Blending };
 enum Mutation  { GaussianOffset };
 
 enum Scaling { Static, Gaussian};
 
-enum Layer { Generation, Individual };
+enum Layer { Generational, Individual };
 
 struct TrainingModel
 {
+	Layer FeedbackLayer = Layer::Generational;
+
 	unsigned int PopulationSize = 8;
 	unsigned int GenerationLimit = 100;
 	unsigned int TournamentsPerGen = 8;

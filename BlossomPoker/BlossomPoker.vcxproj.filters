@@ -117,6 +117,15 @@
     <ClCompile Include="bin\Tools\src\Precomputation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bin\Tools\src\Selector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\Tools\src\Crossoverer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bin\Tools\src\Mutator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Player\Inc\Caller.h">
@@ -228,6 +237,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bin\Tools\inc\TrainingModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\Tools\inc\Selector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\Tools\inc\Crossoverer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\Tools\inc\Mutator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

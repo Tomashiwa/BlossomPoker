@@ -7,8 +7,7 @@ Player::Player(const std::shared_ptr<Table>& _Table, unsigned int _Index)
 {}
 
 void Player::Initialize()
-{
-}
+{}
 
 void Player::Update()
 {
@@ -16,8 +15,7 @@ void Player::Update()
 }
 
 void Player::End()
-{
-}
+{}
 
 void Player::Reset()
 {
@@ -41,6 +39,25 @@ void Player::SetHand(Card&  _First, Card& _Second)
 std::string Player::GetHandInfo()
 {
 	return Hand[0].To_String() + "," + Hand[1].To_String();
+}
+
+float Player::CalculateFitness()
+{
+	//Profit per Hand = (MoneyWon - MoneyLost) / (HandsWon + HandsLost)
+	Fitness = ((float)MoneyWon - (float)MoneyLost) / (float)(HandsWon + HandsLost);
+	return Fitness;
+}
+
+void Player::ClearStats()
+{
+	Fitness = 0.0f;
+
+	MoneyWon = 0;
+	MoneyLost = 0;
+	HandsWon = 0;
+	HandsLost = 0;
+
+	Profits = 0;
 }
 
 void Player::GetAvaliableActions(std::vector<BettingAction>& _PossibleActions)

@@ -62,8 +62,7 @@ public:
 
 	void GetActivePlayers(std::vector<std::shared_ptr<Player>>& _ActivePlayers);
 	void GetParticipatingPlayers(std::vector<std::shared_ptr<Player>>& _Participants);
-	void DetermineWinningPlayers(const std::vector<std::shared_ptr<Player>>& _Participants, std::vector<std::shared_ptr<Player>>& _Winners);
-	void DetermineWinningPlayers(std::vector<std::shared_ptr<Participant>>& _Participants, std::vector<std::shared_ptr<Participant>>& _Winners);
+	void DetermineWinningPlayers(std::vector<std::shared_ptr<Player>>& _Participants, std::vector<std::shared_ptr<Player>>& _Winners);
 	void AwardPlayer(const std::shared_ptr<Player>& _Player, unsigned int _Amt);
 
 	void Print();

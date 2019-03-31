@@ -10,7 +10,7 @@ int main()
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
 	TrainingModel Model;
-	Model.PopulationSize = 1000;
+	Model.PopulationSize = 1000;//1000;
 	Model.GenerationLimit = 500;
 	Model.TournamentsPerGen = 8;
 
@@ -18,14 +18,14 @@ int main()
 	Model.TournamentSize = 2;
 
 	Model.CrossMethod = Crossover::KPoint;
-	Model.KPointCount = 2;
+	Model.KPointCount = 3;
 	Model.CrossoverRate = 0.5f;
 
 	Model.MutateMethod = Mutation::GaussianOffset;
 	Model.GaussianOffset = 0.25f;
 	Model.MutationRate = 0.01f;
 
-	Layer FeedbackLayer = Layer::Generation;
+	Layer FeedbackLayer = Layer::Generational;
 
 	Schedule->Add(Model, FeedbackLayer);
 

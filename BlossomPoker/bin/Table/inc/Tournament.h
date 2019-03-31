@@ -24,20 +24,15 @@ public:
 	void PrintRankings();
 
 	unsigned int GetIndex() { return Index; }
-
-	const std::shared_ptr<Participant>& GetParticipant(unsigned int _Index);
-	void GetBestPlayer(std::shared_ptr<Player>& _BestPlayer);
-	void GetBestParticipant(std::shared_ptr<Participant>& _BestParti);
-	void GetArrangedPlayers(std::vector<std::shared_ptr<Player>>& _ArrangedPlayers);
-
-	std::vector<std::shared_ptr<Participant>> GetRankingBoard() { return RankingBoard; }
+	const std::shared_ptr<Player>& GetPlayer(unsigned int _Index);
+	std::vector<std::shared_ptr<Player>> GetRankingBoard() { return RankingBoard; }
 
 private:
 	unsigned int Index = 0;
 	
 	std::shared_ptr<Table> ActiveTable;
 	std::vector<std::shared_ptr<Match>> Matches;
-	std::vector<std::shared_ptr<Participant>> RankingBoard;
+	std::vector<std::shared_ptr<Player>> RankingBoard;
 
 	bool IsDuplicated = false;
 };
