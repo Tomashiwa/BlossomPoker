@@ -9,6 +9,7 @@
 #include "../../Player/inc/Caller.h"
 #include "../../Player/inc/Raiser.h"
 #include "../../Player/inc/Randomer.h"
+#include "../../Player/inc/CallRaiser.h"
 #include "../../Table/inc/Tournament.h"
 
 #include "../../Tools/inc/Precomputation.h"
@@ -31,6 +32,7 @@ void GeneticTrainer::Initialize()
 {
 	InitializePopulation(Model.PopulationSize);
 	BestPlayer = Population[0];
+	WorstPlayer = Population[Population.size() - 1];
 
 	PlayingPopulation.clear();
 	PlayingPopulation.reserve(TableSize);
@@ -38,13 +40,22 @@ void GeneticTrainer::Initialize()
 	PlayingPopulation.push_back(std::make_unique<Caller>(ActiveTable, 100000));
 	PlayingPopulation.push_back(std::make_unique<Raiser>(ActiveTable, 200000));
 	PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 300000));
-	PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 400000));
+
+	//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 400000));
+	//PlayingPopulation.push_back(std::make_unique<Folder>(ActiveTable, 400000));
+	PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 400000));
+	//PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 400000)); 
 
 	if (!Model.HasHoF)
 	{
-		PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 400000));
-		PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 500000));
-		PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 600000));
+		//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 500000));
+		//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 600000));
+		//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 700000));
+
+		//PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 500000));
+		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 500000));
+		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 600000));
+		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 700000));
 	}
 
 	Tournaments.clear();
@@ -75,9 +86,9 @@ void GeneticTrainer::Initialize()
 	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
 	Writer->NewFile(LogType::Graph_Line, "MutationRate");
 	Writer->NewFile(LogType::Graph_Bar, "HallOfFame");
-	Writer->NewFile(LogType::Graph_Line, "GenBestFitness");
 
-	Writer->NewFile(LogType::Graph_Line, "GenWorstFitness");
+	Writer->NewFile(LogType::Graph_Line, "BestSoFarFitness");
+	Writer->NewFile(LogType::Graph_Line, "WorstSoFarFitness");
 	Writer->NewFile(LogType::Graph_Line, "GenEliteAverFitness");
 	Writer->NewFile(LogType::Graph_Line, "GenHoFTop3AverFitness");
 
@@ -85,10 +96,10 @@ void GeneticTrainer::Initialize()
 	Writer->WriteAt(2, "#Generation | Variance\n");
 	Writer->WriteAt(3, "#Generation | Mutation Rate\n");
 	Writer->WriteAt(4, "#Player Index | Fitness\n");
-	Writer->WriteAt(5, "#Generation | Best Fitness\n");
 
-	Writer->WriteAt(6, "#Generation | Worst Fitness\n");
-	Writer->WriteAt(7, "#Generation | Average Fitness\n");
+	Writer->WriteAt(5, "#Generation | Best-so-far Fitness\n");
+	Writer->WriteAt(6, "#Generation | Worst-so-far Fitness\n");
+	Writer->WriteAt(7, "#Generation | Elites Average Fitness\n");
 	Writer->WriteAt(8, "#Generation | Top 3 Average Fitness\n");
 	#pragma endregion
 }
@@ -165,8 +176,8 @@ void GeneticTrainer::Run()
 
 		Writer->WriteAt(0, "Top Players: P." + std::to_string(Population[0]->GetIndex()) + " (" + std::to_string(Population[0]->GetFitness()) + ") P." + std::to_string(Population[1]->GetIndex()) + " (" + std::to_string(Population[1]->GetFitness()) + ") P." + std::to_string(Population[2]->GetIndex()) + " (" + std::to_string(Population[2]->GetFitness()) + ")\n");
 		Writer->WriteAt(0, "Overall Fitness of Generation " + std::to_string(Generation) + ": " + std::to_string(GetOverallFitness()) + "\n");
-		Writer->WriteAt(5, Generation, Population[0]->GetFitness());
-		Writer->WriteAt(6, Generation, Population[Population.size() - 1]->GetFitness());
+		Writer->WriteAt(5, Generation, BestPlayer->GetFitness());
+		Writer->WriteAt(6, Generation, WorstPlayer->GetFitness());
 		Writer->WriteAt(0, "Diversity of Generation " + std::to_string(Generation) + ": " + std::to_string(GetGenerationDiversity()) + "\n");
 
 		Writer->WriteAt(0, "Average Divergence of Thresholds: ");
@@ -335,8 +346,18 @@ void GeneticTrainer::RankPlayers(std::vector<std::shared_ptr<BlossomPlayer>>& _P
 {
 	std::sort(_Players.begin(), _Players.end(), [&](std::shared_ptr<BlossomPlayer> _First, std::shared_ptr<BlossomPlayer> _Second) { return _First->GetFitness() > _Second->GetFitness(); });
 
+	if (Generation == 0)
+	{
+		BestPlayer = _Players[0];
+		WorstPlayer = _Players[_Players.size() - 1];
+		return;
+	}
+
 	if (_Players[0]->GetFitness() > BestPlayer->GetFitness())
 		BestPlayer = _Players[0];
+
+	else if (_Players[_Players.size() - 1]->GetFitness() < WorstPlayer->GetFitness())
+		WorstPlayer = _Players[_Players.size() - 1];
 }
 
 void GeneticTrainer::AddToHoF(unsigned int _Amt)
@@ -545,8 +566,13 @@ void GeneticTrainer::ReproducePopulation()
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Children;
 			Children[0] = std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated);
 			PlayersGenerated++;
+			while (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == PlayersGenerated; }) != PlayingPopulation.end())
+				PlayersGenerated++;
+
 			Children[1] = std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated);
 			PlayersGenerated++;
+			while (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == PlayersGenerated; }) != PlayingPopulation.end())
+				PlayersGenerated++;
 
 			//std::cout << "\nChildren:\n";
 
@@ -591,8 +617,13 @@ void GeneticTrainer::ReproducePopulation()
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Children;
 			Children[0] = std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated);
 			PlayersGenerated++;
+			while (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == PlayersGenerated; }) != PlayingPopulation.end())
+				PlayersGenerated++;
+
 			Children[1] = std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated);
 			PlayersGenerated++;
+			while (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == PlayersGenerated; }) != PlayingPopulation.end())
+				PlayersGenerated++;
 
 			ActiveCrossoverer->Cross(Parents, Children);
 
@@ -1019,4 +1050,5 @@ void GeneticTrainer::PrintGenerationResult()
 	std::cout << "Highest Fitness: " << Population[0]->GetFitness() << "\n\n";
 
 	std::cout << "Best Player so far: P." << BestPlayer->GetIndex() << " - " << BestPlayer->GetFitness() << "\n";
+	std::cout << "Worst Player so far: P." << WorstPlayer->GetIndex() << " - " << WorstPlayer->GetFitness() << "\n";
 }

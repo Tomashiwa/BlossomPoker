@@ -16,6 +16,10 @@ void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players
 {
 	IsDuplicated = _IsDuplicated;
 
+	//Wipe Template Players' statistics that may remain from previous tournaments
+	for (unsigned int Index = 0; Index < _Players.size() - 1; Index++)
+		_Players[Index]->ClearStats();
+
 	if (Matches.size() != _Size)
 	{
 		Matches.clear();
@@ -76,19 +80,6 @@ void Tournament::Refresh()
 
 void Tournament::RankPlayers()
 {
-	//CHECK IF THE POINTER WITHIN MATCH AND TOURNAMENT THAT REFER TO A PLAYER ARE THE SAME. THEREFORE, THE CHANGE IN STATS WITHIN THE MATCH SCOPE AUTOMATICALLY UPDATES THE ONE WITHIN THE TOURNAMENT SCOPE
-	/*for (auto const& Match : Matches)
-	{
-		for (auto const& Player : RankingBoard)
-		{
-			Player->SetMoneyWon(Player->GetMoneyWon() + Match->GetPlayer(Player->GetIndex())->GetMoneyWon());
-			Player->SetMoneyLost(Player->GetMoneyLost() + Match->GetPlayer(Player->GetIndex())->GetMoneyLost());
-
-			Player->SetHandsWon(Player->GetHandsWon() + Match->GetPlayer(Player->GetIndex())->GetHandsWon());
-			Player->SetHandsLost(Player->GetHandsLost() + Match->GetPlayer(Player->GetIndex())->GetHandsLost());
-		}
-	}*/
-
 	//Average out Players' stats as the matches are duplicates
 	for (auto const& Player : RankingBoard)
 		Player->CalculateFitness();
@@ -96,10 +87,10 @@ void Tournament::RankPlayers()
 	//Sort the RankingBoard's participant from highest profit to lowest profit
 	std::sort(RankingBoard.begin(), RankingBoard.end(), [](const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second) {return _First->GetFitness() > _Second->GetFitness(); });
 
-	/*std::cout << "Tournament Ended:\n";
-	for (auto const& Player : RankingBoard)
-		std::cout << "P." << Player->GetIndex() << ": " << Player->GetFitness() << " Hands W/L - " << Player->GetHandsWon() << "/" << Player->GetHandsLost() << " Money W/L - " << Player->GetMoneyWon() << "/" << Player->GetMoneyLost() << ")\n";
-	std::cout << "\n";*/
+	//std::cout << "Tournament Ended:\n";
+	//for (auto const& Player : RankingBoard)
+	//	std::cout << "P." << Player->GetIndex() << ": " << Player->GetFitness() << " Hands W/L - " << Player->GetHandsWon() << "/" << Player->GetHandsLost() << " Money W/L - " << Player->GetMoneyWon() << "/" << Player->GetMoneyLost() << ")\n";
+	//std::cout << "\n";
 }
 
 void Tournament::PrintRankings()

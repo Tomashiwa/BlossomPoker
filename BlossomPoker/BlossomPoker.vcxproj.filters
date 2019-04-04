@@ -126,6 +126,9 @@
     <ClCompile Include="bin\Tools\src\Mutator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bin\Player\src\CallRaiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Player\Inc\Caller.h">
@@ -246,6 +249,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bin\Tools\inc\Mutator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\Player\inc\CallRaiser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,6 +20,7 @@ class Folder;
 class Caller;
 class Raiser;
 class Randomer;
+class CallRaiser;
 class Tournament;
 class HandEvaluator;
 class Precomputation;
@@ -116,6 +117,7 @@ private:
 
 	//Variables to track
 	unsigned int MutatePhase = 0;
+	std::shared_ptr<BlossomPlayer> WorstPlayer;
 	std::shared_ptr<BlossomPlayer> BestPlayer;
 };
 

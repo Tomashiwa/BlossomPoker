@@ -165,6 +165,7 @@
     <ClCompile Include="Bin\Table\src\Tournament.cpp" />
     <ClCompile Include="bin\Tools\src\Crossoverer.cpp" />
     <ClCompile Include="bin\Tools\src\Mutator.cpp" />
+    <ClCompile Include="bin\Player\src\CallRaiser.cpp" />
     <ClCompile Include="OMPEval\src\CardRange.cpp" />
     <ClCompile Include="OMPEval\src\CombinedRange.cpp" />
     <ClCompile Include="OMPEval\src\EquityCalculator.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Bin\Tools\inc\xoroshiro128+.h" />
     <ClInclude Include="bin\Tools\inc\Crossoverer.h" />
     <ClInclude Include="bin\Tools\inc\Mutator.h" />
+    <ClInclude Include="bin\Player\inc\CallRaiser.h" />
     <ClInclude Include="OMPEval\inc\CardRange.h" />
     <ClInclude Include="OMPEval\inc\CombinedRange.h" />
     <ClInclude Include="OMPEval\inc\Constants.h" />
