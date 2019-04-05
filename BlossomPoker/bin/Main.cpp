@@ -14,6 +14,8 @@ int main()
 	Model.GenerationLimit = 500;
 	Model.TournamentsPerGen = 8;
 
+	Model.HasHoF = true;
+
 	Model.SelectMethod = Selection::Tour;
 	Model.TournamentSize = 2;
 

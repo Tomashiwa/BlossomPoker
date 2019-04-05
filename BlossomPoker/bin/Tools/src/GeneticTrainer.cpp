@@ -41,18 +41,11 @@ void GeneticTrainer::Initialize()
 	PlayingPopulation.push_back(std::make_unique<Raiser>(ActiveTable, 200000));
 	PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 300000));
 
-	//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 400000));
-	//PlayingPopulation.push_back(std::make_unique<Folder>(ActiveTable, 400000));
-	PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 400000));
-	//PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 400000)); 
+	PlayingPopulation.push_back(std::make_unique<Folder>(ActiveTable, 400000));
+	//PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 400000));
 
 	if (!Model.HasHoF)
 	{
-		//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 500000));
-		//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 600000));
-		//PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 700000));
-
-		//PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 500000));
 		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 500000));
 		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 600000));
 		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 700000));
@@ -136,9 +129,9 @@ void GeneticTrainer::Run()
 		//Add the top players into HoF if they perform sufficently well
 		if (Model.HasHoF)
 		{
-			AddToHoF(Model.PopulationSize);
+			AddToHoF(HoFSize);
 			ArrangeHoF();
-			ClipHoF(Model.PopulationSize / 2);
+			//ClipHoF(Model.PopulationSize / 2);
 		}
 
 		if (Model.HasReserveSelection)
@@ -332,7 +325,7 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 		
 	for (auto const& Tournament : Tournaments)
 	{
-		Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), true);
+		Tournament->Initialise(PlayingPopulation, PlayingPopulation.size(), Model.HasHoF);
 		Tournament->Run();
 	}
 
@@ -373,7 +366,7 @@ void GeneticTrainer::AddToHoF(unsigned int _Amt)
 
 			Writer->WriteAt(4, std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()) + "\n");
 		}
-		else if (TopItr != HoF.end())
+		/*else if (TopItr != HoF.end())
 		{
 			float PrevFitness = (*TopItr)->GetFitness();
 
@@ -381,7 +374,7 @@ void GeneticTrainer::AddToHoF(unsigned int _Amt)
 			
 			if ((*TopItr)->GetFitness() != PrevFitness)
 				Writer->Overwrite(4, std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(PrevFitness), std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()));
-		}
+		}*/
 	}
 }
 
@@ -1038,7 +1031,12 @@ void GeneticTrainer::PrintGenerationResult()
 {
 	std::cout << "\nGeneration " << Generation << ":\n\n";
 	
-	std::cout << "Top 5 Players: \n";
+	std::cout << "PlayingPopulation used:\n";
+	for (auto const& Player : PlayingPopulation)
+		std::cout << "P." << Player->GetIndex() << " ";
+	std::cout << "\n";
+
+	std::cout << "\nTop 5 Players: \n";
 	for (unsigned int Index = 0; Index < 5; Index++)
 		std::cout << "P." << Population[Index]->GetIndex() << ": " << Population[Index]->GetFitness() << " (Hands W/L: " << Population[Index]->GetHandsWon() << "/" << Population[Index]->GetHandsLost() << " Money W/L: " << Population[Index]->GetMoneyWon() << "/" << Population[Index]->GetMoneyLost() << ")\n";
 	std::cout << "\n";

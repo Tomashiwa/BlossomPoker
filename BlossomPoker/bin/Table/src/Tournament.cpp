@@ -12,13 +12,22 @@ Tournament::Tournament(unsigned int _Index, unsigned int _BigBlind, const std::s
 Tournament::~Tournament()
 {}
 
-void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players, unsigned int _Size, bool _IsDuplicated)
+void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players, unsigned int _Size, bool _InheritHoF)
 {
-	IsDuplicated = _IsDuplicated;
-
 	//Wipe Template Players' statistics that may remain from previous tournaments
-	for (unsigned int Index = 0; Index < _Players.size() - 1; Index++)
-		_Players[Index]->ClearStats();
+	if (_InheritHoF)
+	{
+		for (unsigned int Index = 0; Index < _Players.size() - 4; Index++)
+		{
+			_Players[Index]->ClearStats();
+			//std::cout << "Cleared P." << _Players[Index]->GetIndex() << "\n";
+		}
+	}
+	else
+	{
+		for (unsigned int Index = 0; Index < _Players.size() - 1; Index++)
+			_Players[Index]->ClearStats();
+	}
 
 	if (Matches.size() != _Size)
 	{
@@ -30,7 +39,7 @@ void Tournament::Initialise(const std::vector<std::shared_ptr<Player>>& _Players
 	else
 	{
 		for (unsigned int Index = 0; Index < _Size; Index++)
-			Matches[Index]->Reload(_IsDuplicated, _Players);
+			Matches[Index]->Reload(IsDuplicated, _Players);
 	}
 
 	RankingBoard.clear();

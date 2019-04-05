@@ -15,7 +15,7 @@ public:
 	Tournament(unsigned int _Index, unsigned int _BigBlind, const std::shared_ptr<Table>& _Table);
 	~Tournament();
 
-	void Initialise(const std::vector<std::shared_ptr<Player>>& _Players, unsigned int _Size, bool _IsDuplicated);
+	void Initialise(const std::vector<std::shared_ptr<Player>>& _Players, unsigned int _Size, bool _InheritHoF);
 	void Run();
 	void Refresh();
 
