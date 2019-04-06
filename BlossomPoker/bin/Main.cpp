@@ -12,7 +12,7 @@ int main()
 	TrainingModel Model;
 	Model.PopulationSize = 1000;
 	Model.GenerationLimit = 500;
-	Model.TournamentsPerGen = 8;
+	Model.TournamentsPerGen = 9;
 
 	Model.HasHoF = true;
 

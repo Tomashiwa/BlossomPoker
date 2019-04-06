@@ -12,9 +12,9 @@ struct TrainingModel
 {
 	Layer FeedbackLayer = Layer::Generational;
 
-	unsigned int PopulationSize = 8;
+	unsigned int PopulationSize = 9;
 	unsigned int GenerationLimit = 100;
-	unsigned int TournamentsPerGen = 8;
+	unsigned int TournamentsPerGen = 9;
 
 	Selection SelectMethod = Selection::Tour;
 	unsigned int ParentsAmt = 2;

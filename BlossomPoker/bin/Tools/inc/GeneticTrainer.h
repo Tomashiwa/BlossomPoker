@@ -44,7 +44,7 @@ private:
 	TrainingModel Model;
 	Layer FeedbackLayer;
 
-	unsigned int TableSize = 8;
+	unsigned int TableSize = 9;
 	
 	unsigned int Generation = 0;
 	unsigned int PlayersGenerated = 0;

@@ -42,13 +42,13 @@ void GeneticTrainer::Initialize()
 	PlayingPopulation.push_back(std::make_unique<Randomer>(ActiveTable, 300000));
 
 	PlayingPopulation.push_back(std::make_unique<Folder>(ActiveTable, 400000));
-	//PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 400000));
+	PlayingPopulation.push_back(std::make_unique<CallRaiser>(ActiveTable, 500000));
 
 	if (!Model.HasHoF)
 	{
-		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 500000));
 		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 600000));
 		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 700000));
+		PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800000));
 	}
 
 	Tournaments.clear();
@@ -245,7 +245,7 @@ void GeneticTrainer::InitializePlayingPopu()
 {
 	if (Model.HasHoF)
 	{
-		PlayingPopulation.erase(PlayingPopulation.begin() + 4, PlayingPopulation.end());
+		PlayingPopulation.erase(PlayingPopulation.begin() + 5, PlayingPopulation.end());
 
 		if (HoF.size() == 0)
 		{
