@@ -7,6 +7,13 @@ BlossomPlayer::BlossomPlayer(const std::shared_ptr<Table>& _Table, const std::sh
 	AI.SetEvalutor(_Evaluator);
 }
 
+BlossomPlayer::BlossomPlayer(const std::shared_ptr<BlossomPlayer>& _Reference, unsigned int _Index) : Player(_Reference->GetTable(), _Index)
+{
+	AI.Initialise();
+	AI.SetEvalutor(_Reference->GetAI().GetEvaluator());
+	AI.SetThresholds(_Reference->GetAI().GetThresholds());
+}
+
 BettingAction BlossomPlayer::DetermineAction()
 {
 	Snapshot NewShot;

@@ -6,6 +6,7 @@ class BlossomPlayer : public Player
 {
 public:
 	BlossomPlayer(const std::shared_ptr<Table>& _Table, const std::shared_ptr<HandEvaluator>& _Evaluator, unsigned int _Index);
+	BlossomPlayer(const std::shared_ptr<BlossomPlayer>& _Reference, unsigned int _Index);
 
 	BettingAction DetermineAction();
 
@@ -25,7 +26,6 @@ public:
 
 private:
 	BlossomAI AI;
-
 	float Uniqueness = 0.0f;
 	float Potential = 0.0f;
 };

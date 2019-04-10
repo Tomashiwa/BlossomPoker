@@ -50,6 +50,7 @@ private:
 	unsigned int PlayersGenerated = 0;
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Population;
+	std::vector<std::shared_ptr<BlossomPlayer>> EvaluatingPopulation;
 	std::vector<std::shared_ptr<Player>> PlayingPopulation;
 
 	std::shared_ptr<Table> ActiveTable;
@@ -60,6 +61,7 @@ private:
 	std::unique_ptr<Mutator> ActiveMutator;
 
 	void InitializePopulation(unsigned int _Size);
+	void InitializeEvaluatingPopu();
 	void InitializePlayingPopu();
 
 	float MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Player);
@@ -70,7 +72,7 @@ private:
 
 	void ReproducePopulation();
 
-	void RankPlayers(std::vector<std::shared_ptr<BlossomPlayer>>& _Players);
+	void RankPlayers();
 
 	float GetOverallFitness();
 	float GetGenerationDiversity();

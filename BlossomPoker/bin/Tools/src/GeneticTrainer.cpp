@@ -112,27 +112,65 @@ void GeneticTrainer::Run()
 		Writer->WriteAt(0, "\n");
 		#pragma endregion
 
-		//Initialize/Refresh PlayingPopulation
+		//Initialize/Refresh Populations
 		InitializePlayingPopu();
 
+		/*std::cout << "\nPopulation:\n";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";
+
+		std::cout << "HoF:\n";
+		for (auto const& Player : HoF)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
+
+		InitializeEvaluatingPopu();
+
+		/*std::cout << "EvaluatingPopu:\n";
+		for (auto const& Player : EvaluatingPopulation)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n\n";*/
+
 		//Run tournaments for each player and rank them based on their performance
-		for (auto& Player : Population)
+		for (auto& Player : EvaluatingPopulation)
 		{
 			MeasureFitness(Player);
+
+			//std::cout << "Fitness of P." << Player->GetIndex() << ": " << Player->GetFitness() << "(Average Rank) " << Player->GetRanking() << " (Total Ranking) " << (Model.TournamentsPerGen * TableSize) << " (Total Matches)\n";
 
 			if (Model.FeedbackLayer == Layer::Individual)
 				PrintPlayerResult(Player);
 		}
 		
-		RankPlayers(Population);
+		/*std::cout << "\nPre-arranged Population:\n";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " - " << Player->GetFitness() << " ";
+		std::cout << "\n";
+
+		std::cout << "Pre-arranged HoF:\n";
+		for (auto const& Player : HoF)
+			std::cout << "P." << Player->GetIndex() << " - " << Player->GetFitness() << " ";
+		std::cout << "\n";*/
+
+		RankPlayers();
 
 		//Add the top players into HoF if they perform sufficently well
 		if (Model.HasHoF)
 		{
-			AddToHoF(HoFSize);
 			ArrangeHoF();
-			//ClipHoF(Model.PopulationSize / 2);
+			AddToHoF(HoFSize);
 		}
+
+		/*std::cout << "\nPost-arranged Population:\n";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " - " << Player->GetFitness() << " ";
+		std::cout << "\n";
+
+		std::cout << "Post-arranged HoF:\n";
+		for (auto const& Player : HoF)
+			std::cout << "P." << Player->GetIndex() << " - " << Player->GetFitness() << " ";
+		std::cout << "\n";*/
 
 		if (Model.HasReserveSelection)
 		{
@@ -241,6 +279,13 @@ void GeneticTrainer::InitializePopulation(unsigned int _Size)
 	}
 }
 
+void GeneticTrainer::InitializeEvaluatingPopu()
+{
+	EvaluatingPopulation.clear();
+	EvaluatingPopulation.insert(EvaluatingPopulation.end(), Population.begin(), Population.end());
+	EvaluatingPopulation.insert(EvaluatingPopulation.end(), HoF.begin(), HoF.end());
+}
+
 void GeneticTrainer::InitializePlayingPopu()
 {
 	if (Model.HasHoF)
@@ -249,17 +294,19 @@ void GeneticTrainer::InitializePlayingPopu()
 
 		if (HoF.size() == 0)
 		{
-			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001));
-			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800002));
-			PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800003));
+			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800001));
+			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800002));
+			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800003));
 			return;
 		}
+
+		unsigned int Index = 800001;
 
 		for (auto const& CurrentPlayer : HoF)
 		{
 			if (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _ComparedTo) { return _ComparedTo->GetIndex() == CurrentPlayer->GetIndex(); }) == PlayingPopulation.end()
 				&& std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _ComparedTo) { return _ComparedTo->GetIndex() == CurrentPlayer->GetIndex(); }) == Population.end())
-				PlayingPopulation.push_back(CurrentPlayer);
+				PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(CurrentPlayer, Index++));
 
 			if (PlayingPopulation.size() >= TableSize - 1)
 				break;
@@ -270,50 +317,13 @@ void GeneticTrainer::InitializePlayingPopu()
 			unsigned int ToBeAdded = (TableSize - 1) - PlayingPopulation.size();
 
 			for (unsigned int Index = 0; Index < ToBeAdded; Index++)
-				PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001 + Index));
+				PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800001 + Index));
 		}
 	}
 	else
 	{
 			
 	}
-
-	/*if (HoF.size() == 0)
-	{
-		PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001));
-		PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800002));
-		PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800003));
-	}
-	else
-	{
-		PlayingPopulation.erase(PlayingPopulation.begin() + 4, PlayingPopulation.end());
-
-		for (auto const& Participant : HoF)
-		{
-			if (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == Participant->GetOwner()->GetIndex(); }) == PlayingPopulation.end() &&
-				std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return _Player->GetIndex() == Participant->GetOwner()->GetIndex(); }) == Population.end())
-			{
-				PlayingPopulation.push_back(Participant->GetOwner());
-			}
-
-			if (PlayingPopulation.size() >= TableSize - 1)
-				break;
-		}
-
-		if (PlayingPopulation.size() < TableSize - 1)
-		{
-			std::cout << "Insufficient players from HoF, supplementing with random BlossomPlayer...\n";
-			unsigned int ToBeAdded = (TableSize - 1) - PlayingPopulation.size();
-			
-			for (unsigned int Index = 0; Index < ToBeAdded; Index++)
-			{
-				PlayingPopulation.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, 800001 + Index));
-				std::cout << "Added supplement player P." << PlayingPopulation[PlayingPopulation.size() - 1]->GetIndex() << "\n";
-			}
-		}
-		
-		std::cout << "\n";
-	}*/
 }
 
 float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Player)
@@ -321,6 +331,7 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 	if(PlayingPopulation.size() < TableSize - 1)
 		return 0.0f;
 
+	_Player->SetInQuestion(true);
 	PlayingPopulation.push_back(_Player);
 		
 	for (auto const& Tournament : Tournaments)
@@ -329,39 +340,67 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 		Tournament->Run();
 	}
 
-	_Player->CalculateFitness();
+	_Player->SetFitnessAsOverallRank(Model.TournamentsPerGen);
+	//_Player->CalculateFitness();
 
 	PlayingPopulation.pop_back();
+	_Player->SetInQuestion(false);
+
 	return _Player->GetFitness();
 }
 
-void GeneticTrainer::RankPlayers(std::vector<std::shared_ptr<BlossomPlayer>>& _Players)
+void GeneticTrainer::RankPlayers()
 {
-	std::sort(_Players.begin(), _Players.end(), [&](std::shared_ptr<BlossomPlayer> _First, std::shared_ptr<BlossomPlayer> _Second) { return _First->GetFitness() > _Second->GetFitness(); });
+	std::sort(Population.begin(), Population.end(), [&](std::shared_ptr<BlossomPlayer> _First, std::shared_ptr<BlossomPlayer> _Second) { return _First->GetFitness() < _Second->GetFitness(); });
 
 	if (Generation == 0)
 	{
-		BestPlayer = _Players[0];
-		WorstPlayer = _Players[_Players.size() - 1];
+		BestPlayer = Population[0];
+		WorstPlayer = Population[Population.size() - 1];
 		return;
 	}
 
-	if (_Players[0]->GetFitness() > BestPlayer->GetFitness())
-		BestPlayer = _Players[0];
+	if (Population[0]->GetFitness() < BestPlayer->GetFitness())
+		BestPlayer = Population[0];
 
-	else if (_Players[_Players.size() - 1]->GetFitness() < WorstPlayer->GetFitness())
-		WorstPlayer = _Players[_Players.size() - 1];
+	else if (Population[Population.size() - 1]->GetFitness() > WorstPlayer->GetFitness())
+		WorstPlayer = Population[Population.size() - 1];
 }
 
 void GeneticTrainer::AddToHoF(unsigned int _Amt)
 {
-	for (unsigned int Index = 0; Index < _Amt; Index++)
+	if (HoF.size() == 0)
+	{
+		for (unsigned int Index = 0; Index < _Amt; Index++)
+		{
+			Population[Index]->SetInHoF(true);
+			HoF.push_back(Population[Index]);
+		}
+
+		return;
+	}
+
+	for (auto const& PopuPlayer : Population)
+	{
+		for (unsigned int Index = HoF.size() - 1; Index > 0; Index--)
+		{
+			if (PopuPlayer->GetRanking() < HoF[Index]->GetRanking() && (Index == 1 || PopuPlayer->GetRanking() > HoF[Index - 1]->GetRanking()))
+			{
+				HoF[Index] = PopuPlayer;
+				return;
+			}
+		}
+	}
+
+	/*for (unsigned int Index = 0; Index < _Amt; Index++)
 	{
 		auto TopItr = std::find_if(HoF.begin(), HoF.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return _Player->GetIndex() == Population[Index]->GetIndex(); });
 
 		if (TopItr == HoF.end())
 		{
+			Population[Index]->SetInHoF(true);
 			HoF.push_back(Population[Index]);
+
 			HoF[HoF.size() - 1]->CalculateFitness();
 
 			Writer->WriteAt(4, std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()) + "\n");
@@ -374,14 +413,14 @@ void GeneticTrainer::AddToHoF(unsigned int _Amt)
 			
 			if ((*TopItr)->GetFitness() != PrevFitness)
 				Writer->Overwrite(4, std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(PrevFitness), std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()));
-		}*/
-	}
+		}
+	}*/
 }
 
 void GeneticTrainer::ArrangeHoF()
 {
 	std::sort(HoF.begin(), HoF.end(),
-		[&](std::shared_ptr<BlossomPlayer>& _First, std::shared_ptr<BlossomPlayer>& _Second) { return _First->GetFitness() > _Second->GetFitness(); });
+		[&](std::shared_ptr<BlossomPlayer>& _First, std::shared_ptr<BlossomPlayer>& _Second) { return _First->GetFitness() < _Second->GetFitness(); });
 }
 
 void GeneticTrainer::ClipHoF(unsigned int _Size)

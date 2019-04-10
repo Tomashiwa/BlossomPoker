@@ -53,18 +53,18 @@ std::shared_ptr<BlossomPlayer> Selector::TournamentSelect(std::vector<std::share
 	for (unsigned int Index = 0; Index < TournamentSize; Index++)
 		Tournament.push_back(_Population[Distribution_Tournament(MTGenerator)]);
 
-	//std::cout << "Performing Tournament Selection...\n";
+	/*std::cout << "\nPerforming Tournament Selection...\n";
 
-	//std::cout << "Selected for Tournament comparison of size " << TournamentSize << ":\n";
-	//for (auto const& Player : Tournament)
-	//	std::cout << "P." << Player->GetIndex() << " - " << Player->GetFitness() << "\n";
-	//std::cout << "\n";
+	std::cout << "Selected for Tournament comparison of size " << TournamentSize << ":\n";
+	for (auto const& Player : Tournament)
+		std::cout << "P." << Player->GetIndex() << " - " << Player->GetFitness() << "\n";
+	std::cout << "\n";*/
 
 	std::shared_ptr<BlossomPlayer> BestPlayer = Tournament[0];
 
 	for (auto const& Player : Tournament)
 	{
-		if (Player->GetFitness() > BestPlayer->GetFitness())
+		if (Player->GetFitness() < BestPlayer->GetFitness())//> BestPlayer->GetFitness())
 			BestPlayer = Player;
 	}
 	

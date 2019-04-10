@@ -10,7 +10,7 @@ int main()
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
 	TrainingModel Model;
-	Model.PopulationSize = 1000;
+	Model.PopulationSize = 500;
 	Model.GenerationLimit = 500;
 	Model.TournamentsPerGen = 9;
 

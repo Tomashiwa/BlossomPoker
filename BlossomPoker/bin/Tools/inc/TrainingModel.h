@@ -39,7 +39,7 @@ struct TrainingModel
 	float EliteRatio = 0.125f;
 
 	bool HasHoF = false;
-	float HoFRatio = 0.1f;
+	float HoFRatio = 1.0f;
 
 	bool HasCulling = false;
 	bool HasNuking = false;

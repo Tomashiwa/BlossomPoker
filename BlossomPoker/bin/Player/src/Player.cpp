@@ -41,6 +41,12 @@ std::string Player::GetHandInfo()
 	return Hand[0].To_String() + "," + Hand[1].To_String();
 }
 
+float Player::SetFitnessAsOverallRank(unsigned int _TourAmt)
+{
+	Fitness = ((float) Ranking / (float) (_TourAmt * 9));
+	return Fitness;
+}
+
 float Player::CalculateFitness()
 {
 	//Profit per Hand = (MoneyWon - MoneyLost) / (HandsWon + HandsLost)

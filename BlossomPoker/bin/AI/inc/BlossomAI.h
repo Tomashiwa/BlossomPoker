@@ -33,6 +33,7 @@ public:
 	void SetEvalutor(const std::shared_ptr<HandEvaluator>& _Evaluator) { Evaluator = _Evaluator; }
 
 	unsigned int GetRaiseBetAmt() { return RaiseBetAmt; }
+	std::shared_ptr<HandEvaluator> GetEvaluator() { return Evaluator; }
 
 private:
 	std::shared_ptr<Strategy> ActiveStrategy;

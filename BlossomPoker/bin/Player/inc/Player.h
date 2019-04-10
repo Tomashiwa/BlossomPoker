@@ -25,12 +25,16 @@ public:
 	std::string GetHandInfo();
 	virtual void ClearStats();
 
+	virtual float SetFitnessAsOverallRank(unsigned int _TourAmt);
 	virtual float CalculateFitness();
 
 	virtual BettingAction DetermineAction() = 0;
 
 	//Getters
 	const unsigned int GetIndex() { return Index; }
+
+	bool GetIsInQuestion() { return IsInQuestion; }
+	bool GetIsInHoF() { return IsInHoF; }
 
 	unsigned int GetStack() { return Stack; }
 	unsigned int GetAnte() { return Ante; }
@@ -47,6 +51,7 @@ public:
 	unsigned int GetHandsLost() { return HandsLost; }
 	int GetProfits() { return Profits; }
 
+	int GetRanking() { return Ranking; }
 	float GetFitness() { return Fitness; }
 
 	std::array<Card, 2> GetHand() { return Hand; }
@@ -58,6 +63,11 @@ public:
 	std::shared_ptr<Table> GetTable() { return ResidingTable; }
 
 	//Setters
+	void SetRanking(int _Ranking) { Ranking = _Ranking; }
+
+	void SetInQuestion(bool _InQuestion) { IsInQuestion = _InQuestion; }
+	void SetInHoF(bool _InHoF) { IsInHoF = _InHoF; }
+
 	void SetStack(unsigned int _Stack) { Stack = _Stack; }
 	void SetAnte(unsigned int _Amt);
 	void SetPotContribution(unsigned int _PotContri) { PotContribution = _PotContri; }
@@ -85,9 +95,14 @@ protected:
 	std::array<Card, 2> Hand;
 	BettingAction CurrentAction;
 
+	bool IsInQuestion = false;
+	bool IsInHoF = false;
+
 	bool IsContributing = true;
 	bool IsFolded = false;
 	bool IsBroke = false;
+
+	int Ranking = -1;
 
 	unsigned int Stack = 0;
 	unsigned int Ante = 0;

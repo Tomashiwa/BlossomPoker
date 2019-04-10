@@ -47,6 +47,8 @@ void Table::Reset(bool _IsHard)
 	Round = 0;
 	CurrentState = Phase::Preflop;
 
+	PlayersLost = 0;
+
 	Pot = 0;
 	RequiredAnte = 0;
 
@@ -183,6 +185,13 @@ void Table::EndRound()
 		if (Player->GetStack() <= 0 && !Player->GetIsBroke())
 		{
 			Player->SetIsBroke(true);
+			PlayersLost++;
+
+			if (Player->GetIsInQuestion())
+			{
+				Player->SetRanking(Player->GetRanking() + (Players.size() - PlayersLost));
+				//std::cout << "P." << Player->GetIndex() << " attain ranking of " << (Players.size() - PlayersLost) << "\n";
+			}
 
 			if (PrintProcess)
 				std::cout << "P." << Player->GetIndex() << " is broke...\n";
@@ -196,6 +205,22 @@ void Table::EndRound()
 
 	if (IsGameEnded())
 	{
+		for (auto const& Player : Players)
+		{
+			/*if (Player->GetIsInQuestion())
+			{
+				Player->SetRanking(Player->GetRanking() + (Players.size() - PlayersLost));
+				std::cout << "P." << Player->GetIndex() << " attain ranking of " << (Players.size() - PlayersLost) << "\n";
+			}*/
+
+			/*if (!Player->GetIsBroke())
+			{
+				Player->SetRanking(Player->GetRanking() + (Players.size() - PlayersLost));
+
+				
+			}*/
+		}
+
 		IsActive = false;
 		return;
 	}
@@ -434,10 +459,7 @@ bool Table::IsRoundEnded()
 bool Table::IsGameEnded()
 {
 	if (IsTraining && Players[Players.size() - 1]->GetIsBroke())
-	{
-		//std::cout << "Player in training, P." << Players[Players.size() - 1]->GetIndex() << ", has lost the match... Proceed to next match...\n";
 		return true;
-	}
 
 	unsigned int Count = 0;
 	
