@@ -25,8 +25,8 @@ public:
 	std::string GetHandInfo();
 	virtual void ClearStats();
 
-	virtual float SetFitnessAsOverallRank(unsigned int _TourAmt);
 	virtual float CalculateFitness();
+	virtual float CalculateEarnings();
 
 	virtual BettingAction DetermineAction() = 0;
 
@@ -52,6 +52,9 @@ public:
 	int GetProfits() { return Profits; }
 
 	int GetRanking() { return Ranking; }
+	unsigned int GetMatchesJoined() { return MatchesJoined; }
+
+	float GetEarnings() { return Earnings; }
 	float GetFitness() { return Fitness; }
 
 	std::array<Card, 2> GetHand() { return Hand; }
@@ -64,6 +67,7 @@ public:
 
 	//Setters
 	void SetRanking(int _Ranking) { Ranking = _Ranking; }
+	void SetMatchesJoined(int _Matches) { MatchesJoined = _Matches; }
 
 	void SetInQuestion(bool _InQuestion) { IsInQuestion = _InQuestion; }
 	void SetInHoF(bool _InHoF) { IsInHoF = _InHoF; }
@@ -103,6 +107,7 @@ protected:
 	bool IsBroke = false;
 
 	int Ranking = -1;
+	unsigned int MatchesJoined = 0;
 
 	unsigned int Stack = 0;
 	unsigned int Ante = 0;
@@ -115,6 +120,7 @@ protected:
 	unsigned int HandsLost = 0;
 
 	int Profits = 0;
+	float Earnings = 0.0f;
 
 	float Fitness = 0.0f;
 

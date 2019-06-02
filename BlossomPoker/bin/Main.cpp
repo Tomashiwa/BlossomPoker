@@ -10,9 +10,12 @@ int main()
 	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
 	TrainingModel Model;
-	Model.PopulationSize = 500;
+	
+	Model.IsOverlapping = false;
+
+	Model.PopulationSize = 250;
 	Model.GenerationLimit = 500;
-	Model.TournamentsPerGen = 9;
+	Model.TournamentsPerGen = 9;	
 
 	Model.HasHoF = true;
 
@@ -20,7 +23,7 @@ int main()
 	Model.TournamentSize = 2;
 
 	Model.CrossMethod = Crossover::KPoint;
-	Model.KPointCount = 3;
+	Model.KPointCount = 1;
 	Model.CrossoverRate = 0.5f;
 
 	Model.MutateMethod = Mutation::GaussianOffset;

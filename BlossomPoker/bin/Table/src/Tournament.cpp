@@ -64,6 +64,9 @@ void Tournament::Run()
 
 		ActiveTable->Run(true);
 
+		for (auto Player : ActiveTable->GetPlayers())
+			Player->SetMatchesJoined(Player->GetMatchesJoined() + 1);
+
 		Match->RankPlayers();
 
 		ActiveTable->Reset(false);
@@ -91,10 +94,10 @@ void Tournament::RankPlayers()
 {
 	//Average out Players' stats as the matches are duplicates
 	for (auto const& Player : RankingBoard)
-		Player->CalculateFitness();
+		Player->CalculateEarnings();//CalculateFitness();
 
 	//Sort the RankingBoard's participant from highest profit to lowest profit
-	std::sort(RankingBoard.begin(), RankingBoard.end(), [](const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second) {return _First->GetFitness() > _Second->GetFitness(); });
+	std::sort(RankingBoard.begin(), RankingBoard.end(), [](const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second) {return _First->GetEarnings() > _Second->GetEarnings(); });//GetFitness() > _Second->GetFitness(); });
 
 	//std::cout << "Tournament Ended:\n";
 	//for (auto const& Player : RankingBoard)

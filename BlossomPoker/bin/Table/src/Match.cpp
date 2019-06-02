@@ -14,11 +14,11 @@ Match::~Match()
 void Match::RankPlayers()
 {
 	for (auto const Player : RankingBoard)
-		Player->CalculateFitness();
+		Player->CalculateEarnings();//CalculateFitness();
 
 	//Sort Participants by Fitness from largest to smallest
 	std::sort(RankingBoard.begin(), RankingBoard.end(),
-		[](const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second) {return _First->GetFitness() > _Second->GetFitness(); });
+		[](const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second) {return _First->GetEarnings() > _Second->GetEarnings(); });//GetFitness() > _Second->GetFitness(); });
 
 	/*std::cout << "Match Ended:\n";
 	for (auto const& Player : RankingBoard)

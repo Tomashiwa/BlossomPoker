@@ -41,17 +41,21 @@ std::string Player::GetHandInfo()
 	return Hand[0].To_String() + "," + Hand[1].To_String();
 }
 
-float Player::SetFitnessAsOverallRank(unsigned int _TourAmt)
-{
-	Fitness = ((float) Ranking / (float) (_TourAmt * 9));
-	return Fitness;
-}
-
 float Player::CalculateFitness()
 {
 	//Profit per Hand = (MoneyWon - MoneyLost) / (HandsWon + HandsLost)
-	Fitness = ((float)MoneyWon - (float)MoneyLost) / (float)(HandsWon + HandsLost);
+	//Fitness = CalculateEarnings();
+
+	//Average Match Ranking = AccumulatedRankings / MatchesJoined
+	Fitness = (float)Ranking / (float)MatchesJoined;
+
 	return Fitness;
+}
+
+float Player::CalculateEarnings()
+{
+	Earnings = ((float)MoneyWon - (float)MoneyLost) / (float)(HandsWon + HandsLost);
+	return Earnings;
 }
 
 void Player::ClearStats()

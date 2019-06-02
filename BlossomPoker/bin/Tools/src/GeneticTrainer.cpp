@@ -115,17 +115,17 @@ void GeneticTrainer::Run()
 		//Initialize/Refresh Populations
 		InitializePlayingPopu();
 
-		/*std::cout << "\nPopulation:\n";
+		/*std::cout << "\nPopulation of " << Population.size() << ":\n";
 		for (auto const& Player : Population)
 			std::cout << "P." << Player->GetIndex() << " ";
 		std::cout << "\n";
 
-		std::cout << "HoF:\n";
+		std::cout << "HoF of " << HoF.size() << ":\n";
 		for (auto const& Player : HoF)
 			std::cout << "P." << Player->GetIndex() << " ";
 		std::cout << "\n";*/
 
-		InitializeEvaluatingPopu();
+		//InitializeEvaluatingPopu();
 
 		/*std::cout << "EvaluatingPopu:\n";
 		for (auto const& Player : EvaluatingPopulation)
@@ -133,7 +133,17 @@ void GeneticTrainer::Run()
 		std::cout << "\n\n";*/
 
 		//Run tournaments for each player and rank them based on their performance
-		for (auto& Player : EvaluatingPopulation)
+		/*for (auto& Player : EvaluatingPopulation)
+		{
+			MeasureFitness(Player);
+
+			//std::cout << "Fitness of P." << Player->GetIndex() << ": " << Player->GetFitness() << "(Average Rank) " << Player->GetRanking() << " (Total Ranking) " << (Model.TournamentsPerGen * TableSize) << " (Total Matches)\n";
+
+			if (Model.FeedbackLayer == Layer::Individual)
+				PrintPlayerResult(Player);
+		}*/
+
+		for (auto& Player : Population)
 		{
 			MeasureFitness(Player);
 
@@ -189,14 +199,14 @@ void GeneticTrainer::Run()
 		#pragma region Couts & Log Writing	
 		Writer->WriteAt(0, "\nGenerational Ranking: \n");
 		for (auto const& Player : Population)
-			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Hands W/L: " + std::to_string(Player->GetHandsWon()) + "/" + std::to_string(Player->GetHandsLost()) + " Money W/L : " + std::to_string(Player->GetMoneyWon()) + "/" + std::to_string(Player->GetMoneyLost()) + ")\n");
+			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Accumluated Rankings: " + std::to_string(Player->GetRanking()) + "/ Games Finished: " + std::to_string(Model.TournamentsPerGen * 9 * (Generation + 1)) + ")\n");
 		Writer->WriteAt(0, "\n");
 
 		if (Model.HasHoF)
 		{
 			Writer->WriteAt(0, "Hall of Fame: \n");
 			for (auto const& Player : HoF)
-				Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Hands W/L: " + std::to_string(Player->GetHandsWon()) + "/" + std::to_string(Player->GetHandsLost()) + " Money W/L : " + std::to_string(Player->GetMoneyWon()) + "/" + std::to_string(Player->GetMoneyLost()) + ")\n");
+				Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Accumluated Rankings: " + std::to_string(Player->GetRanking()) + "/ Games Finished: " + std::to_string(Model.TournamentsPerGen * 9 * (Generation + 1)) + ")\n");
 			Writer->WriteAt(0, "\n");
 
 			Writer->WriteAt(8, Generation, (HoF[0]->GetFitness() + HoF[1]->GetFitness() + HoF[2]->GetFitness()) / 3.0f);
@@ -241,7 +251,10 @@ void GeneticTrainer::Run()
 
 		else
 			End();
-	}
+	}/*std::cout << "\nPost-production Population: ";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
 }
 
 void GeneticTrainer::End()
@@ -288,17 +301,21 @@ void GeneticTrainer::InitializeEvaluatingPopu()
 
 void GeneticTrainer::InitializePlayingPopu()
 {
+	//std::cout << "\nInitializing PlayingPopu...\n";
+	
+	/*std::cout << "Pre-erased PlayingPopu: ";
+	for (auto const& Player : PlayingPopulation)
+		std::cout << "P." << Player->GetIndex() << " ";
+	std::cout << "\n";*/
+
 	if (Model.HasHoF)
 	{
 		PlayingPopulation.erase(PlayingPopulation.begin() + 5, PlayingPopulation.end());
 
-		if (HoF.size() == 0)
-		{
-			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800001));
-			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800002));
-			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800003));
-			return;
-		}
+		/*std::cout << "\nPost-erased PlayingPopu: ";
+		for (auto const& Player : PlayingPopulation)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
 
 		unsigned int Index = 800001;
 
@@ -319,6 +336,11 @@ void GeneticTrainer::InitializePlayingPopu()
 			for (unsigned int Index = 0; Index < ToBeAdded; Index++)
 				PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800001 + Index));
 		}
+
+		/*std::cout << "\nAdded HOFs into PlayingPopu: ";
+		for (auto const& Player : PlayingPopulation)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
 	}
 	else
 	{
@@ -340,8 +362,7 @@ float GeneticTrainer::MeasureFitness(const std::shared_ptr<BlossomPlayer>& _Play
 		Tournament->Run();
 	}
 
-	_Player->SetFitnessAsOverallRank(Model.TournamentsPerGen);
-	//_Player->CalculateFitness();
+	_Player->CalculateFitness();
 
 	PlayingPopulation.pop_back();
 	_Player->SetInQuestion(false);
@@ -384,8 +405,10 @@ void GeneticTrainer::AddToHoF(unsigned int _Amt)
 	{
 		for (unsigned int Index = HoF.size() - 1; Index > 0; Index--)
 		{
-			if (PopuPlayer->GetRanking() < HoF[Index]->GetRanking() && (Index == 1 || PopuPlayer->GetRanking() > HoF[Index - 1]->GetRanking()))
+			if (PopuPlayer->GetRanking() < HoF[Index]->GetRanking() && (Index == 0 || PopuPlayer->GetRanking() > HoF[Index - 1]->GetRanking()))
 			{
+				HoF[Index]->SetInHoF(false);
+				PopuPlayer->SetInHoF(true);
 				HoF[Index] = PopuPlayer;
 				return;
 			}
@@ -567,7 +590,7 @@ std::shared_ptr<BlossomPlayer> GeneticTrainer::Adapt(const std::shared_ptr<Bloss
 
 void GeneticTrainer::ReproducePopulation()
 {
-	Writer->WriteAt(0, "\nReproducing population...\n");
+	//Writer->WriteAt(0, "\nReproducing population...\n");
 
 	if (Model.IsOverlapping)
 	{
@@ -582,6 +605,11 @@ void GeneticTrainer::ReproducePopulation()
 			Population.erase(Population.begin() + ElitesLimit, Population.end());
 		else
 			Population.clear();
+
+		/*std::cout << "\nPre-production Population: ";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
 
 		//std::cout << "Reproducing Population...\n";
 
@@ -624,6 +652,11 @@ void GeneticTrainer::ReproducePopulation()
 			Population.insert(Population.end(), Children.begin(), Children.end());	
 		}
 
+		/*std::cout << "\nPost-production Population: ";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
+
 		/*Writer->WriteAt(0, "Post-reproduction Population:\n");
 		for (auto const& Player : PopulationReference)
 			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
@@ -638,8 +671,14 @@ void GeneticTrainer::ReproducePopulation()
 			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
 		std::cout << "\n";*/
 
+		/*std::cout << "\nPre-production Population: ";
+		for (auto const& Player : Population)
+		std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
+
 		ActiveSelector->SetMethod(Model.SelectMethod);
 
+		//Reproduce Children based on the population in current generation
 		for (unsigned int Count = 0; Count < Model.ChildPopulationSize; Count++)
 		{
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Parents;
@@ -665,25 +704,92 @@ void GeneticTrainer::ReproducePopulation()
 			Population.insert(Population.end(), Children.begin(), Children.end());
 		}
 
+		//Construct PlayingPopulation (Top 5 players from Population Reference + Players from HoF)
 		PopulationReference.clear();
 		PopulationReference.insert(PopulationReference.end(), Population.begin(), Population.end());
+
+		InitializePlayingPopu();
+
+		for (unsigned int Index = Model.ChildPopulationSize; Index < Population.size(); Index++)
+		{
+			MeasureFitness(Population[Index]);
+		}
+
+		/*std::cout << "\nNon-overlapped Population: ";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
 
 		if (Model.HasElite)
 		{
 			Population.erase(Population.begin() + ElitesLimit, Population.end());
 			PopulationReference.erase(PopulationReference.begin(), PopulationReference.begin() + ElitesLimit);
 
-			while (Population.size() < Model.PopulationSize)
-				Population.push_back(ActiveSelector->SelectFrom(PopulationReference));
+			/*while (Population.size() < Model.PopulationSize)
+				Population.push_back(ActiveSelector->SelectFrom(PopulationReference));*/
 		}
 			
 		else
 		{
 			Population.clear();
 
-			while (Population.size() < Model.PopulationSize)
+			/*while (Population.size() < Model.PopulationSize)
+			{
 				Population.push_back(ActiveSelector->SelectFrom(PopulationReference));
+			}*/
 		}
+
+		while (Population.size() < Model.PopulationSize)
+		{
+			std::shared_ptr<BlossomPlayer> SelectedPlayer = ActiveSelector->SelectFrom(PopulationReference);
+
+			if (std::find_if(Population.begin(), Population.end(), [&](std::shared_ptr<Player> _ComparedTo) { return _ComparedTo->GetIndex() == SelectedPlayer->GetIndex(); }) != Population.end())
+			{
+				Population.push_back(std::make_shared<BlossomPlayer>(ActiveTable, Evaluator, PlayersGenerated));
+				Population[Population.size() - 1]->GetAI().SetThresholds(SelectedPlayer->GetAI().GetThresholds());
+				PlayersGenerated++;
+
+				//std::cout << "Duplicated player (P." << SelectedPlayer->GetIndex() << ") was selected.... A new player (P." << Population[Population.size() - 1]->GetIndex() << ") has been added...\n";
+			}
+			else
+			{
+				Population.push_back(SelectedPlayer);
+			}
+		}
+
+		/*bool HasDuplication = false;
+		unsigned int FoundCount = 0;
+		std::cout << "Check for any duplicated players in Population: ";
+
+		for (auto RefPlayer : Population)
+		{
+			for (auto SearchedPlayer : Population)
+			{
+				if (SearchedPlayer->GetIndex() == RefPlayer->GetIndex())
+					FoundCount++;
+
+				if (FoundCount >= 2)
+				{
+					std::cout << "P." << SearchedPlayer->GetIndex() << " ";
+					HasDuplication = true;
+					break;
+				}
+			}
+
+			FoundCount = 0;
+			if (HasDuplication)
+				break;
+		}*/
+
+		/*if (HasDuplication)
+			std::cout << "FOUND\n";
+		else
+			std::cout << "NOT FOUND\n";
+
+		std::cout << "\nPost-production Population: ";
+		for (auto const& Player : Population)
+			std::cout << "P." << Player->GetIndex() << " ";
+		std::cout << "\n";*/
 
 		/*Writer->WriteAt(0, "Post-reproduction Population:\n");
 		for (auto const& Player : PopulationReference)
@@ -1070,14 +1176,16 @@ void GeneticTrainer::PrintGenerationResult()
 {
 	std::cout << "\nGeneration " << Generation << ":\n\n";
 	
-	std::cout << "PlayingPopulation used:\n";
+	std::cout << "Population size: " << Population.size() << "\n\n";
+
+	std::cout << "PlayingPopulation used (Size of " << PlayingPopulation.size() << "):\n";
 	for (auto const& Player : PlayingPopulation)
 		std::cout << "P." << Player->GetIndex() << " ";
 	std::cout << "\n";
 
-	std::cout << "\nTop 5 Players: \n";
+	std::cout << "\nTop 5 Players (HoF Size of " << HoF.size() << "): \n";
 	for (unsigned int Index = 0; Index < 5; Index++)
-		std::cout << "P." << Population[Index]->GetIndex() << ": " << Population[Index]->GetFitness() << " (Hands W/L: " << Population[Index]->GetHandsWon() << "/" << Population[Index]->GetHandsLost() << " Money W/L: " << Population[Index]->GetMoneyWon() << "/" << Population[Index]->GetMoneyLost() << ")\n";
+		std::cout << "P." << Population[Index]->GetIndex() << ": " << Population[Index]->GetFitness() << " (Accumluated Rankings: " << std::to_string(Population[Index]->GetRanking()) << "/ Games Finished: " + std::to_string(Model.TournamentsPerGen * 9 * (Generation + 1)) + ")\n";
 	std::cout << "\n";
 	
 	std::cout << "Diversity: " << GetGenerationDiversity() << "\n\n";
