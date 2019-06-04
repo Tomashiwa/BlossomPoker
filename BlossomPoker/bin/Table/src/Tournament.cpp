@@ -99,10 +99,10 @@ void Tournament::RankPlayers()
 	//Sort the RankingBoard's participant from highest profit to lowest profit
 	std::sort(RankingBoard.begin(), RankingBoard.end(), [](const std::shared_ptr<Player>& _First, const std::shared_ptr<Player>& _Second) {return _First->GetEarnings() > _Second->GetEarnings(); });//GetFitness() > _Second->GetFitness(); });
 
-	//std::cout << "Tournament Ended:\n";
-	//for (auto const& Player : RankingBoard)
-	//	std::cout << "P." << Player->GetIndex() << ": " << Player->GetFitness() << " Hands W/L - " << Player->GetHandsWon() << "/" << Player->GetHandsLost() << " Money W/L - " << Player->GetMoneyWon() << "/" << Player->GetMoneyLost() << ")\n";
-	//std::cout << "\n";
+	/*std::cout << "Tournament Ended:\n";
+	for (auto const& Player : RankingBoard)
+		std::cout << "P." << Player->GetIndex() << ": " << Player->GetFitness() << " Hands W/L - " << Player->GetHandsWon() << "/" << Player->GetHandsLost() << " Money W/L - " << Player->GetMoneyWon() << "/" << Player->GetMoneyLost() << ")\n";
+	std::cout << "\n";*/
 }
 
 void Tournament::PrintRankings()

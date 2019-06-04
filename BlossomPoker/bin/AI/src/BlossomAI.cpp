@@ -99,20 +99,21 @@ BettingAction BlossomAI::EnquireAction(Snapshot _Snapshot)
 
 float BlossomAI::DetermineWinRate(std::array<Card, 2> _Hole, std::vector<Card> _Communal, unsigned int _OppoAmt)
 {
-	if (CurrentPhase == Phase::Preflop)
+	if (CurrentPhase == Phase::Preflop && Evaluator->GetUsePrecompPreflop())
 		return Evaluator->DetermineOdds_Preflop(_Hole, _OppoAmt);
-	
-	std::array<Card, 5> CurrentHand;
-	CurrentHand[0] = _Hole[0];
-	CurrentHand[1] = _Hole[1];
-	CurrentHand[2] = _Communal[0];
-	CurrentHand[3] = _Communal[1];
-	CurrentHand[4] = _Communal[2];
 
-	Hand Type = Evaluator->DetermineType(Evaluator->DetermineValue_5Cards_OMPEval(CurrentHand));
+	else if (CurrentPhase == Phase::Flop && Evaluator->GetUsePrecompFlop())
+	{
+		std::array<Card, 5> CurrentHand;
+		CurrentHand[0] = _Hole[0];
+		CurrentHand[1] = _Hole[1];
+		CurrentHand[2] = _Communal[0];
+		CurrentHand[3] = _Communal[1];
+		CurrentHand[4] = _Communal[2];
 
-	if (CurrentPhase == Phase::Flop && Type != Hand::High)
-		return Evaluator->DetermineOdds_Flop(_Hole, _Communal, _OppoAmt);
+		if (Evaluator->DetermineType(Evaluator->DetermineValue_5Cards_OMPEval(CurrentHand)) != Hand::High)
+			return Evaluator->DetermineOdds_Flop(_Hole, _Communal, _OppoAmt);
+	}
 
 	return Evaluator->DetermineOdds_MonteCarlo_Multi_OMPEval(_Hole, _Communal, _OppoAmt, 250);
 }

@@ -11,19 +11,22 @@ int main()
 
 	TrainingModel Model;
 	
-	Model.IsOverlapping = false;
+	Model.FeedbackLayer = Layer::Generational;
 
-	Model.PopulationSize = 250;
+	Model.IsOverlapping = false;
+	Model.ChildPopulationRatio = 1.0f;
+
+	Model.PopulationSize = 500;
 	Model.GenerationLimit = 500;
 	Model.TournamentsPerGen = 9;	
 
-	Model.HasHoF = true;
+	Model.HasHoF = true;//true;
 
 	Model.SelectMethod = Selection::Tour;
 	Model.TournamentSize = 2;
 
 	Model.CrossMethod = Crossover::KPoint;
-	Model.KPointCount = 1;
+	Model.KPointCount = 2;
 	Model.CrossoverRate = 0.5f;
 
 	Model.MutateMethod = Mutation::GaussianOffset;

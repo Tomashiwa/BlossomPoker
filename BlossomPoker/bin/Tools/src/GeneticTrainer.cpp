@@ -63,7 +63,9 @@ void GeneticTrainer::Initialize()
 	}
 
 	#pragma region Logging & Comments
-	std::cout << "Simulating a Population of " << Model.PopulationSize << " Players for " << Model.GenerationLimit<< " generations.\n";
+	std::cout << "Simulation starts...\n";
+
+	std::cout << "Population:" << Model.PopulationSize << " GenerationLimit:" << Model.GenerationLimit << "\n";
 	std::cout << "Players will play " << Model.TournamentsPerGen << " Tournaments with " << TableSize << " duplicate matches.\n";
 	std::cout << "Each generation will crossover at a probability of " << Model.CrossoverRate << " with Elitism (" << ElitesLimit << ") applied and mutate dynamically with delta of " << Model.GaussianOffset << ".\n";
 
@@ -301,21 +303,21 @@ void GeneticTrainer::InitializeEvaluatingPopu()
 
 void GeneticTrainer::InitializePlayingPopu()
 {
-	//std::cout << "\nInitializing PlayingPopu...\n";
+	std::cout << "\nInitializing PlayingPopu...\n";
 	
-	/*std::cout << "Pre-erased PlayingPopu: ";
+	std::cout << "Pre-erased PlayingPopu: ";
 	for (auto const& Player : PlayingPopulation)
 		std::cout << "P." << Player->GetIndex() << " ";
-	std::cout << "\n";*/
+	std::cout << "\n";
 
 	if (Model.HasHoF)
 	{
 		PlayingPopulation.erase(PlayingPopulation.begin() + 5, PlayingPopulation.end());
 
-		/*std::cout << "\nPost-erased PlayingPopu: ";
+		std::cout << "\nPost-erased PlayingPopu: ";
 		for (auto const& Player : PlayingPopulation)
 			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";*/
+		std::cout << "\n";
 
 		unsigned int Index = 800001;
 
@@ -329,22 +331,20 @@ void GeneticTrainer::InitializePlayingPopu()
 				break;
 		}
 
-		if (PlayingPopulation.size() < TableSize - 1)
-		{
-			unsigned int ToBeAdded = (TableSize - 1) - PlayingPopulation.size();
+		while (PlayingPopulation.size() < TableSize - 1)
+			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, Index++));
 
-			for (unsigned int Index = 0; Index < ToBeAdded; Index++)
-				PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, 800001 + Index));
-		}
-
-		/*std::cout << "\nAdded HOFs into PlayingPopu: ";
+		std::cout << "\nAdded HOFs into PlayingPopu: ";
 		for (auto const& Player : PlayingPopulation)
 			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";*/
+		std::cout << "\n";
 	}
 	else
 	{
-			
+		unsigned int Index = 900001;
+
+		while (PlayingPopulation.size() < TableSize - 1)
+			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, Index++));
 	}
 }
 
@@ -679,7 +679,9 @@ void GeneticTrainer::ReproducePopulation()
 		ActiveSelector->SetMethod(Model.SelectMethod);
 
 		//Reproduce Children based on the population in current generation
-		for (unsigned int Count = 0; Count < Model.ChildPopulationSize; Count++)
+		unsigned int ChildPopuSize = Model.PopulationSize * Model.ChildPopulationRatio;
+
+		for (unsigned int Count = 0; Count < ChildPopuSize; Count++)
 		{
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Parents;
 			Parents[0] = ActiveSelector->SelectFrom(PopulationReference);
@@ -710,7 +712,7 @@ void GeneticTrainer::ReproducePopulation()
 
 		InitializePlayingPopu();
 
-		for (unsigned int Index = Model.ChildPopulationSize; Index < Population.size(); Index++)
+		for (unsigned int Index = Model.PopulationSize - 1; Index < Model.PopulationSize + ChildPopuSize; Index++)
 		{
 			MeasureFitness(Population[Index]);
 		}
@@ -1165,9 +1167,9 @@ void GeneticTrainer::SetSpecs(TrainingModel _Model, Layer _Layer)//unsigned int 
 
 void GeneticTrainer::PrintPlayerResult(std::shared_ptr<BlossomPlayer>& _Player)
 {
-	std::cout << "P." << _Player->GetIndex() << ":\n\n";
+	std::cout << "\nP." << _Player->GetIndex() << ":\n\n";
 
-	std::cout << "Fitness: " << _Player->GetFitness() << "\n\n";
+	std::cout << "Fitness: " << _Player->GetFitness() << "\n";
 	std::cout << "Hands Won/Lost: " << _Player->GetHandsWon() << "/" << _Player->GetHandsLost() << "\n";
 	std::cout << "Money Won/Lost: " << _Player->GetMoneyWon() << "/" << _Player->GetMoneyLost() << "\n";
 }

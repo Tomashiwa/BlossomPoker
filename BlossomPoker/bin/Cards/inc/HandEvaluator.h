@@ -15,6 +15,7 @@
 #include "Card.h"
 #include "ComparisonResult.h"
 #include "../../../OMPEval/inc/Evaluator.h"
+#include "../../Tools/inc/TrainingModel.h"
 
 enum class Hand { High, Pair, TwoPair, ThreeKind, Straight, Flush, FullHouse, FourKind, StraightFlush, RoyalFlush };
 
@@ -117,8 +118,13 @@ public:
 
 	Card GetCardFromStr(std::string _Text);
 
+	bool GetUsePrecompPreflop() { return UsePrecompPreflop; }
+	bool GetUsePrecompFlop() { return UsePrecompFlop;  }
 private:
 	int HR[32487834];
+
+	bool UsePrecompPreflop = true;
+	bool UsePrecompFlop = false;
 
 	std::mt19937 MTGenerator;
 	std::unique_ptr<omp::Evaluator> Eval;
