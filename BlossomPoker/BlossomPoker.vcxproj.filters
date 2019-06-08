@@ -129,6 +129,9 @@
     <ClCompile Include="bin\Player\src\CallRaiser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="bin\Tools\src\PRNGlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Player\Inc\Caller.h">
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="bin\Player\inc\CallRaiser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bin\Tools\inc\PRNGlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

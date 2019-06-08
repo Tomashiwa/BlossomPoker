@@ -1,10 +1,18 @@
 #include "../inc/HandEvaluator.h"
-#include "../../Tools/inc/xoroshiro128+.h"
+//#include "../../Tools/inc/xoroshiro128+.h"
+#include "../../Tools/inc/PRNGlib.h"
 
 HandEvaluator::HandEvaluator()
 {
-	s[0] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	s[1] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	//s[0] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	//s[1] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+	PRNGlib::xoroshiro128::s[0] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	PRNGlib::xoroshiro128::s[1] = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+	//std::cout << "Default seeds: " << s[0] << " / " << s[1] << "\n";
+	//std::cout << "PRNGlib seeds: " << PRNGlib::xoroshiro128::s[0] << " / " << PRNGlib::xoroshiro128::s[1] << "\n";
+
 	Initialize();
 }
 
@@ -144,7 +152,16 @@ void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead
 	auto Lamb_GenerateCard = [&]() {
 		while (true)
 		{
-			Card NewCard = ReferenceDeck[next() % 51];
+			//std::cout << "Seeds used: ";
+			//std::cout << s[0] << " & " << s[1] << " (Default) ";
+			//std::cout << PRNGlib::xoroshiro128::s[0] << " & " << PRNGlib::xoroshiro128::s[1] << " (PRNGlib)\n";
+			
+			//std::cout << "Default next(): " << next() % 51;
+			//std::cout << " PRNGlib next(): " << PRNGlib::xoroshiro128::next() % 51 << " \n";
+
+			//Card NewCard = ReferenceDeck[next() % 51];
+			Card NewCard = ReferenceDeck[PRNGlib::xoroshiro128::next() % 51];
+
 			bool IsValid = std::find_if(_Dead.begin(), _Dead.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Dead.end() &&
 				std::find_if(_Set.begin(), _Set.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Set.end();
 					
@@ -447,7 +464,9 @@ float HandEvaluator::DetermineOdds_MonteCarlo_Multi_OMPEval(std::array<Card, 2> 
 	std::vector<std::vector<Card>> OpponentHoles(_OppoAmt);
 
 	std::vector<Card> Dead;
+	Dead.reserve(7);
 	std::vector<Card> Community(_Community);
+	Community.reserve(5);
 
 	unsigned int PlayerScore = 0;
 	std::vector<unsigned int> OpponentScores(_OppoAmt);

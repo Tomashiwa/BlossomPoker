@@ -4,6 +4,7 @@
 
 #include "../inc/Card.h"
 #include "../inc/Deck.h"
+#include "../../Tools/inc/PRNGlib.h"
 
 Deck::Deck()
 {
@@ -27,8 +28,14 @@ void Deck::Refill()
 
 void Deck::Shuffle()
 {
-	std::mt19937_64 Twister{ std::random_device{}() };
-	std::shuffle(Cards.begin(), Cards.end(), Twister);
+	for (unsigned int Index = Cards.size(); Index > 1; Index--)
+	{
+		unsigned int RandIndex = PRNGlib::xoroshiro128::next() % 51;
+		std::swap(Cards[Index - 1], Cards[RandIndex]);
+	}
+
+	//std::mt19937_64 Twister{ std::random_device{}() };
+	//std::shuffle(Cards.begin(), Cards.end(), Twister);
 }
 
 Card Deck::Draw()

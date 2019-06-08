@@ -172,6 +172,7 @@
     <ClCompile Include="OMPEval\src\Evaluator.cpp" />
     <ClCompile Include="bin\Tools\src\Precomputation.cpp" />
     <ClCompile Include="bin\Tools\src\Selector.cpp" />
+    <ClCompile Include="bin\Tools\src\PRNGlib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bin\Table\inc\BettingAction.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="OMPEval\OffsetTable.hxx" />
     <ClInclude Include="bin\Tools\inc\Precomputation.h" />
     <ClInclude Include="bin\Tools\inc\Selector.h" />
+    <ClInclude Include="bin\Tools\inc\PRNGlib.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

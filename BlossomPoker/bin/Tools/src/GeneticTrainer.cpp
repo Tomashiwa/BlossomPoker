@@ -201,14 +201,14 @@ void GeneticTrainer::Run()
 		#pragma region Couts & Log Writing	
 		Writer->WriteAt(0, "\nGenerational Ranking: \n");
 		for (auto const& Player : Population)
-			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Accumluated Rankings: " + std::to_string(Player->GetRanking()) + "/ Games Finished: " + std::to_string(Model.TournamentsPerGen * 9 * (Generation + 1)) + ")\n");
+			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Accumluated Rankings: " + std::to_string(Player->GetRanking()) + "/ Matches Finished: " + std::to_string(Player->GetMatchesJoined()) + ")\n");
 		Writer->WriteAt(0, "\n");
 
 		if (Model.HasHoF)
 		{
 			Writer->WriteAt(0, "Hall of Fame: \n");
 			for (auto const& Player : HoF)
-				Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Accumluated Rankings: " + std::to_string(Player->GetRanking()) + "/ Games Finished: " + std::to_string(Model.TournamentsPerGen * 9 * (Generation + 1)) + ")\n");
+				Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + std::to_string(Player->GetFitness()) + "(Accumluated Rankings: " + std::to_string(Player->GetRanking()) + "/ Matches Finished : " + std::to_string(Player->GetMatchesJoined()) + ")\n");
 			Writer->WriteAt(0, "\n");
 
 			Writer->WriteAt(8, Generation, (HoF[0]->GetFitness() + HoF[1]->GetFitness() + HoF[2]->GetFitness()) / 3.0f);
@@ -303,21 +303,21 @@ void GeneticTrainer::InitializeEvaluatingPopu()
 
 void GeneticTrainer::InitializePlayingPopu()
 {
-	std::cout << "\nInitializing PlayingPopu...\n";
+	/*std::cout << "\nInitializing PlayingPopu...\n";
 	
 	std::cout << "Pre-erased PlayingPopu: ";
 	for (auto const& Player : PlayingPopulation)
 		std::cout << "P." << Player->GetIndex() << " ";
-	std::cout << "\n";
+	std::cout << "\n";*/
 
 	if (Model.HasHoF)
 	{
 		PlayingPopulation.erase(PlayingPopulation.begin() + 5, PlayingPopulation.end());
 
-		std::cout << "\nPost-erased PlayingPopu: ";
+		/*std::cout << "\nPost-erased PlayingPopu: ";
 		for (auto const& Player : PlayingPopulation)
 			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";
+		std::cout << "\n";*/
 
 		unsigned int Index = 800001;
 
@@ -334,10 +334,10 @@ void GeneticTrainer::InitializePlayingPopu()
 		while (PlayingPopulation.size() < TableSize - 1)
 			PlayingPopulation.push_back(std::make_unique<BlossomPlayer>(ActiveTable, Evaluator, Index++));
 
-		std::cout << "\nAdded HOFs into PlayingPopu: ";
+		/*std::cout << "\nAdded HOFs into PlayingPopu: ";
 		for (auto const& Player : PlayingPopulation)
 			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";
+		std::cout << "\n";*/
 	}
 	else
 	{
@@ -1187,7 +1187,7 @@ void GeneticTrainer::PrintGenerationResult()
 
 	std::cout << "\nTop 5 Players (HoF Size of " << HoF.size() << "): \n";
 	for (unsigned int Index = 0; Index < 5; Index++)
-		std::cout << "P." << Population[Index]->GetIndex() << ": " << Population[Index]->GetFitness() << " (Accumluated Rankings: " << std::to_string(Population[Index]->GetRanking()) << "/ Games Finished: " + std::to_string(Model.TournamentsPerGen * 9 * (Generation + 1)) + ")\n";
+		std::cout << "P." << Population[Index]->GetIndex() << ": " << Population[Index]->GetFitness() << " (Accumluated Rankings: " << std::to_string(Population[Index]->GetRanking()) << "/ Matches Finished: " + std::to_string(Population[Index]->GetMatchesJoined()) + ")\n";
 	std::cout << "\n";
 	
 	std::cout << "Diversity: " << GetGenerationDiversity() << "\n\n";

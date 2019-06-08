@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 class Card;
 
