@@ -147,30 +147,14 @@ void HandEvaluator::Initialize()
 
 void HandEvaluator::RandomFill(std::vector<Card>& _Set, std::vector<Card>& _Dead, std::size_t _Target)
 {
-	std::size_t RequiredAmt = _Target - _Set.size();
+	while (_Set.size() < _Target)
+	{
+		Card NewCard = ReferenceDeck[PRNGlib::xoroshiro128::next() % 51];
 
-	auto Lamb_GenerateCard = [&]() {
-		while (true)
-		{
-			//std::cout << "Seeds used: ";
-			//std::cout << s[0] << " & " << s[1] << " (Default) ";
-			//std::cout << PRNGlib::xoroshiro128::s[0] << " & " << PRNGlib::xoroshiro128::s[1] << " (PRNGlib)\n";
-			
-			//std::cout << "Default next(): " << next() % 51;
-			//std::cout << " PRNGlib next(): " << PRNGlib::xoroshiro128::next() % 51 << " \n";
-
-			//Card NewCard = ReferenceDeck[next() % 51];
-			Card NewCard = ReferenceDeck[PRNGlib::xoroshiro128::next() % 51];
-
-			bool IsValid = std::find_if(_Dead.begin(), _Dead.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Dead.end() &&
-				std::find_if(_Set.begin(), _Set.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Set.end();
-					
-			if (IsValid)
-				return NewCard;
-		}
-	};
-
-	std::generate_n(std::back_inserter(_Set), RequiredAmt, Lamb_GenerateCard);
+		if (std::find_if(_Dead.begin(), _Dead.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Dead.end() &&
+			std::find_if(_Set.begin(), _Set.end(), [&](Card& _Card) { return _Card.Get_Rank() == NewCard.Get_Rank() && _Card.Get_Suit() == NewCard.Get_Suit(); }) == _Set.end())
+			_Set.push_back(NewCard);
+	}
 }
 
 int HandEvaluator::GetCardInt_TwoPlusTwo(Card& _Card)
