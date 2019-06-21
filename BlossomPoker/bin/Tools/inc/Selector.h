@@ -18,6 +18,8 @@ public:
 	std::shared_ptr<BlossomPlayer> SelectFrom(std::vector<std::shared_ptr<BlossomPlayer>>& _Population);
 	void ErasePrecomputation();
 
+	std::string GetMethodStr(Selection _Method);
+
 private:
 	Selection Method;
 

@@ -63,19 +63,79 @@ void GeneticTrainer::Initialize()
 	}
 
 	#pragma region Logging & Comments
-	std::cout << "Simulation starts...\n";
+	std::cout << "\nSimulation starts...\n";
 
-	std::cout << "Population:" << Model.PopulationSize << " GenerationLimit:" << Model.GenerationLimit << "\n";
-	std::cout << "Players will play " << Model.TournamentsPerGen << " Tournaments with " << TableSize << " duplicate matches.\n";
-	std::cout << "Each generation will crossover at a probability of " << Model.CrossoverRate << " with Elitism (" << ElitesLimit << ") applied and mutate dynamically with delta of " << Model.GaussianOffset << ".\n";
+	std::cout << "Model Type: ";
+	if (Model.IsOverlapping)
+		std::cout << "Overlapping with Child Ratio of " << Model.ChildPopulationRatio << "\n";
+	else
+		std::cout << "Non-overlapping\n";
+	std::cout << "\n";
 
+	std::cout << "Population Size: " << Model.PopulationSize << "\n";
+	std::cout << "Generation Limit: " << Model.GenerationLimit << "\n";
+	std::cout << "Tournaments Per Gen: " << Model.TournamentsPerGen << "\n\n";
+
+	std::cout << "Selection: " << ActiveSelector->GetMethodStr(Model.SelectMethod) << " ";
+	if (Model.IsOverlapping)
+		std::cout << "/ " << ActiveSelector->GetMethodStr(Model.SelectChildMethod) << "\n";
+	else
+		std::cout << "\n";
+	std::cout << "Crossover: " << ActiveCrossoverer->GetMethodStr(Model.CrossMethod) << "\n";
+	std::cout << "Mutation: " << ActiveMutator->GetMethodStr(Model.MutateMethod) << "\n\n";
+
+	std::cout << "Features: \n";
+	if (Model.HasElite)
+		std::cout << "Elitism - " << Model.EliteRatio * 100.0f << "%\n";
+	if (Model.HasHoF)
+		std::cout << "Hall of Fame - " << Model.EliteRatio * 100.0f << "%\n";
+	if (Model.HasCulling)
+		std::cout << "Culling - " << Model.StagnateInterval << " (Interval) " << Model.StagnatePeriod << " (Period)\n";
+	if (Model.HasNuking)
+		std::cout << "Nuking - " << Model.MaxCullCount << " (Max Culls)\n";
+	if (Model.HasReserveSelection)
+		std::cout << "Reserve Selection - " << Model.ReserveRatio * 100.0f << "% (Ratio) " << Model.AdaptationRate * 100.0f << "% (AdaptationRate) " << Model.SamplingBreadth << " (Breadth)\n";
+	std::cout << "\n";
+		
 	Writer->NewDir();
 	Writer->GenerateGNUFiles();
 
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(Model.PopulationSize) + " GenLimit_" + std::to_string(Model.GenerationLimit) + " ToursPerGen_" + std::to_string(Model.TournamentsPerGen));
-	Writer->WriteAt(0, "Simulating a Population of " + std::to_string(Model.PopulationSize) + " Players for " + std::to_string(Model.GenerationLimit) + " generations.\n");
-	Writer->WriteAt(0, "Players will play " + std::to_string(Model.TournamentsPerGen) + " Tournaments with " + std::to_string(Model.PopulationSize) + " duplicate matches.\n");
-	Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(Model.CrossoverRate) + " with Elitism (" + std::to_string(ElitesLimit) + ") applied and mutate dynamically with delta of " + std::to_string(Model.GaussianOffset) + ".\n");
+	Writer->WriteAt(0, "Model Type: ");
+	if (Model.IsOverlapping)
+		Writer->WriteAt(0, "Overlapping with Child Ratio of " + std::to_string(Model.ChildPopulationRatio) + "\n");
+	else
+		Writer->WriteAt(0, "Non-overlapping\n");
+	Writer->WriteAt(0, "\n");
+	
+	Writer->WriteAt(0, "Population Size: " + std::to_string(Model.PopulationSize) + "\n");
+	Writer->WriteAt(0, "Generation Limit: " + std::to_string(Model.GenerationLimit) + "\n");
+	Writer->WriteAt(0, "Tournaments Per Gen: " + std::to_string(Model.TournamentsPerGen) + "\n\n");
+
+	Writer->WriteAt(0, "Selection: " + ActiveSelector->GetMethodStr(Model.SelectMethod) + " ");
+	if (Model.IsOverlapping)
+		Writer->WriteAt(0, "/ " + ActiveSelector->GetMethodStr(Model.SelectChildMethod) + "\n");
+	else
+		Writer->WriteAt(0, "\n");
+	Writer->WriteAt(0, "Crossover: " + ActiveCrossoverer->GetMethodStr(Model.CrossMethod) + "\n");
+	Writer->WriteAt(0, "Mutation: " + ActiveMutator->GetMethodStr(Model.MutateMethod) + "\n\n");
+
+	Writer->WriteAt(0, "Features: \n");
+	if (Model.HasElite)
+		Writer->WriteAt(0, "Elitism - " + std::to_string(Model.EliteRatio * 100.0f) + "%\n");
+	if (Model.HasHoF)
+		Writer->WriteAt(0, "Hall of Fame - " + std::to_string(Model.EliteRatio * 100.0f) + "%\n");
+	if (Model.HasCulling)
+		Writer->WriteAt(0, "Culling - " + std::to_string(Model.StagnateInterval) + " (Interval) " + std::to_string(Model.StagnatePeriod) + " (Period)\n");
+	if (Model.HasNuking)
+		Writer->WriteAt(0, "Nuking - " + std::to_string(Model.MaxCullCount) + " (Max Culls)\n");
+	if (Model.HasReserveSelection)
+		Writer->WriteAt(0, "Reserve Selection - " + std::to_string(Model.ReserveRatio * 100.0f) + "% (Ratio) " + std::to_string(Model.AdaptationRate * 100.0f) + "% (AdaptationRate) " + std::to_string(Model.SamplingBreadth) + " (Breadth)\n");
+	Writer->WriteAt(0, "\n");
+
+	//Writer->WriteAt(0, "Simulating a Population of " + std::to_string(Model.PopulationSize) + " Players for " + std::to_string(Model.GenerationLimit) + " generations.\n");
+	//Writer->WriteAt(0, "Players will play " + std::to_string(Model.TournamentsPerGen) + " Tournaments with " + std::to_string(Model.PopulationSize) + " duplicate matches.\n");
+	//Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(Model.CrossoverRate) + " with Elitism (" + std::to_string(ElitesLimit) + ") applied and mutate dynamically with delta of " + std::to_string(Model.GaussianOffset) + ".\n");
 
 	Writer->NewFile(LogType::Graph_Line, "GenerationPerformance");
 	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
@@ -590,35 +650,25 @@ std::shared_ptr<BlossomPlayer> GeneticTrainer::Adapt(const std::shared_ptr<Bloss
 
 void GeneticTrainer::ReproducePopulation()
 {
-	//Writer->WriteAt(0, "\nReproducing population...\n");
+	/*std::cout << "PreProduce Population (" << Population.size() << "): \n";
+	for (auto const Player : Population)
+		std::cout << "P." << Player->GetIndex() << ": " << Player->GetFitness() << " ";
+	std::cout << "\n";*/
 
-	if (Model.IsOverlapping)
+	if (!Model.IsOverlapping)
 	{
 		std::vector<std::shared_ptr<BlossomPlayer>> PopulationReference(Population.begin(), Population.end());
 		
-		/*Writer->WriteAt(0, "Pre-reproduction Population:\n");
-		for (auto const& Player : PopulationReference)
-			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
-		std::cout << "\n";*/
-
 		if (Model.HasElite)
 			Population.erase(Population.begin() + ElitesLimit, Population.end());
 		else
 			Population.clear();
-
-		/*std::cout << "\nPre-production Population: ";
-		for (auto const& Player : Population)
-			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";*/
-
-		//std::cout << "Reproducing Population...\n";
 
 		while (Population.size() < Model.PopulationSize)
 		{
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Parents;
 			Parents[0] = ActiveSelector->SelectFrom(PopulationReference);
 			Parents[1] = ActiveSelector->SelectFrom(PopulationReference);
-
 			/*std::cout << "\nParents:\n";
 			std::cout << "P." << Parents[0]->GetIndex() << ": " << GetThresholdsStr(Parents[0]) << "\n";
 			std::cout << "P." << Parents[1]->GetIndex() << ": " << GetThresholdsStr(Parents[1]) << "\n";*/
@@ -634,54 +684,33 @@ void GeneticTrainer::ReproducePopulation()
 			while (std::find_if(PlayingPopulation.begin(), PlayingPopulation.end(), [&](std::shared_ptr<Player> _Player) { return _Player->GetIndex() == PlayersGenerated; }) != PlayingPopulation.end())
 				PlayersGenerated++;
 
-			//std::cout << "\nChildren:\n";
 
 			ActiveCrossoverer->Cross(Parents, Children);
-			
+			//std::cout << "\nChildren:\n";
 			/*std::cout << "\nPost-crossover: \n";
 			std::cout << "P." << Children[0]->GetIndex() << " - " << GetThresholdsStr(Children[0]) << "\n";
 			std::cout << "P." << Children[1]->GetIndex() << " - " << GetThresholdsStr(Children[1]) << "\n";*/
 
 			for (auto& Child : Children)
 				ActiveMutator->Mutate(Child);
-
 			/*std::cout << "\nPost-mutation: \n";
 			std::cout << "P." << Children[0]->GetIndex() << " - " << GetThresholdsStr(Children[0]) << "\n";
 			std::cout << "P." << Children[1]->GetIndex() << " - " << GetThresholdsStr(Children[1]) << "\n";*/
 
 			Population.insert(Population.end(), Children.begin(), Children.end());	
 		}
-
-		/*std::cout << "\nPost-production Population: ";
-		for (auto const& Player : Population)
-			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";*/
-
-		/*Writer->WriteAt(0, "Post-reproduction Population:\n");
-		for (auto const& Player : PopulationReference)
-			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
-		std::cout << "\n";*/
 	}
 	else
 	{
 		std::vector<std::shared_ptr<BlossomPlayer>> PopulationReference(Population.begin(), Population.end());
 
-		/*Writer->WriteAt(0, "Pre-reproduction Population:\n");
-		for (auto const& Player : PopulationReference)
-			Writer->WriteAt(0, "P." + std::to_string(Player->GetIndex()) + ": " + GetThresholdsStr(Player) + "\n");
-		std::cout << "\n";*/
-
-		/*std::cout << "\nPre-production Population: ";
-		for (auto const& Player : Population)
-		std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";*/
-
 		ActiveSelector->SetMethod(Model.SelectMethod);
+		//Model.TournamentSize = 2;
 
 		//Reproduce Children based on the population in current generation
 		unsigned int ChildPopuSize = Model.PopulationSize * Model.ChildPopulationRatio;
 
-		for (unsigned int Count = 0; Count < ChildPopuSize; Count++)
+		for (unsigned int Count = 0; Count < ChildPopuSize / 2; Count++)
 		{
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Parents;
 			Parents[0] = ActiveSelector->SelectFrom(PopulationReference);
@@ -717,29 +746,18 @@ void GeneticTrainer::ReproducePopulation()
 			MeasureFitness(Population[Index]);
 		}
 
-		/*std::cout << "\nNon-overlapped Population: ";
-		for (auto const& Player : Population)
-			std::cout << "P." << Player->GetIndex() << " ";
-		std::cout << "\n";*/
-
 		if (Model.HasElite)
 		{
 			Population.erase(Population.begin() + ElitesLimit, Population.end());
 			PopulationReference.erase(PopulationReference.begin(), PopulationReference.begin() + ElitesLimit);
-
-			/*while (Population.size() < Model.PopulationSize)
-				Population.push_back(ActiveSelector->SelectFrom(PopulationReference));*/
 		}
-			
 		else
 		{
 			Population.clear();
-
-			/*while (Population.size() < Model.PopulationSize)
-			{
-				Population.push_back(ActiveSelector->SelectFrom(PopulationReference));
-			}*/
 		}
+
+		ActiveSelector->SetMethod(Model.SelectChildMethod);
+		//Model.TournamentSize = 3;
 
 		while (Population.size() < Model.PopulationSize)
 		{
@@ -985,6 +1003,11 @@ void GeneticTrainer::ReproducePopulation()
 			}
 		}
 	}*/
+
+	/*std::cout << "Post-Produce Population (" << Population.size() << "): \n";
+	for (auto const Player : Population)
+		std::cout << "P." << Player->GetIndex() << ": " << Player->GetFitness() << " ";
+	std::cout << "\n";*/
 
 	Generation++;
 }

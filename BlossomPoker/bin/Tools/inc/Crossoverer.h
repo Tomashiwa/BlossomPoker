@@ -18,6 +18,7 @@ public:
 	void Cross(std::array<std::shared_ptr<BlossomPlayer>, 2>& _Parents, std::array<std::shared_ptr<BlossomPlayer>, 2>& _Children);
 
 	float GetProbability() { return Probability; }
+	std::string GetMethodStr(Crossover _Method);
 
 private:
 	Crossover Method;

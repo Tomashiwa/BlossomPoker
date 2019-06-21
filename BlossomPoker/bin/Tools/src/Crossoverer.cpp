@@ -136,3 +136,22 @@ void Crossoverer::BlendingCross(std::array<std::shared_ptr<BlossomPlayer>, 2>& _
 	_Children[0]->GetAI().SetThresholds(Thresholds_Child_0);
 	_Children[1]->GetAI().SetThresholds(Thresholds_Child_1);
 }
+
+std::string Crossoverer::GetMethodStr(Crossover _Method)
+{
+	std::string MethodName;
+
+	if (_Method == Crossover::KPoint)
+		MethodName = "K-Point (" + std::to_string(PointsAmt) + ") - " + std::to_string(Probability * 100.0f) + "%";
+
+	else if (_Method == Crossover::Uniform)
+		MethodName = "Uniform - " + std::to_string(Probability * 100.0f) + "%";
+
+	else if (_Method == Crossover::Blending)
+		MethodName = "Blending - " + std::to_string(Probability * 100.0f) + "%";
+
+	else
+		MethodName = "UNDEFINED";
+
+	return MethodName;
+}

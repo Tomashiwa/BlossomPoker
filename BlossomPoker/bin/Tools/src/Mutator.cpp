@@ -80,3 +80,16 @@ void Mutator::GaussianOffset(std::shared_ptr<BlossomPlayer>& _Target)
 
 	_Target->GetAI().SetThresholds(Thresholds);
 }
+
+std::string Mutator::GetMethodStr(Mutation _Method)
+{
+	std::string MethodName;
+
+	if (_Method == Mutation::GaussianOffset)
+		MethodName = "Gaussian Offset from -" + std::to_string(OffsetAmt) + " to " + std::to_string(OffsetAmt) + " - " + std::to_string(Probability * 100.0f) + "%";
+
+	else
+		MethodName = "UNDEFINED";
+
+	return MethodName;
+}

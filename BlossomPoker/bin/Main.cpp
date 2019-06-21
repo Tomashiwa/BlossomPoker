@@ -20,9 +20,12 @@ int main()
 	Model.GenerationLimit = 500;
 	Model.TournamentsPerGen = 9;	
 
-	Model.HasHoF = true;
+	Model.HasElite = false;
+
+	Model.HasHoF = false;
 
 	Model.SelectMethod = Selection::Tour;
+	Model.SelectChildMethod = Selection::Tour;
 	Model.TournamentSize = 2;
 
 	Model.CrossMethod = Crossover::KPoint;

@@ -19,6 +19,7 @@ public:
 	void AdaptProbability();
 
 	float GetProbability() { return Probability; }
+	std::string GetMethodStr(Mutation _Method);
 
 private:
 	Mutation Method;

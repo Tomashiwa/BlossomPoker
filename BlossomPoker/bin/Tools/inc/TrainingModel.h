@@ -32,7 +32,7 @@ struct TrainingModel
 	float MutationRate = 0.01f;
 	Scaling MutationScale = Scaling::Static;
 
-	bool IsOverlapping = true;
+	bool IsOverlapping = false;
 	float ChildPopulationRatio = 1.0f;
 
 	bool HasElite = false;

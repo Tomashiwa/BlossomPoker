@@ -135,3 +135,25 @@ std::shared_ptr<BlossomPlayer> Selector::UniversalSamplingSelect(std::vector<std
 
 	return _Population[_Population.size() - 1];
 }
+
+std::string Selector::GetMethodStr(Selection _Method)
+{
+	std::string MethodName;
+
+	if (_Method == Selection::Tour)
+		MethodName = "Tournament (" + std::to_string(TournamentSize) + ")";
+
+	else if (_Method == Selection::Truncation)
+		MethodName = "Truncation (Ratio - " + std::to_string(TruncationRatio) + ")";
+
+	else if (_Method == Selection::Roulette)
+		MethodName = "Roulette";
+
+	else if (_Method == Selection::StochasticSampling)
+		MethodName = "Stochastic Sampling";
+
+	else
+		MethodName = "UNDEFINED";
+
+	return MethodName;
+}
