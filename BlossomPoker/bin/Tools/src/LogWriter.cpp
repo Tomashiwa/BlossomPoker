@@ -122,7 +122,55 @@ bool LogWriter::Overwrite(unsigned int _FileIndex, std::string _ToReplace, std::
 
 void LogWriter::GenerateGNUFiles()
 {
-	NewFile(LogType::NONE, "RunGraph - Performance");
+	NewFile(LogType::NONE, "Run");
+
+	WriteAt(Entries.size() - 1, "ind_start = strstrt(ARG0, \"Run.txt\") - 1\n");
+	WriteAt(Entries.size() - 1, "dir_ori = ARG0[0:ind_start]\n\n");
+	WriteAt(Entries.size() - 1, "print dir_ori\n\n");
+
+	WriteAt(Entries.size() - 1, "dat_bestsofar = 'BestSoFar.txt'\n");
+	WriteAt(Entries.size() - 1, "dat_aver = 'Average.txt'\n");
+	WriteAt(Entries.size() - 1, "dat_worstsofar = 'WorstSoFar.txt'\n\n");
+
+	WriteAt(Entries.size() - 1, "dat_variance = 'Variance.txt'\n");
+	WriteAt(Entries.size() - 1, "dat_mutrate = 'MutationRate.txt'\n\n");
+
+	WriteAt(Entries.size() - 1, "dat_hof = 'HallOfFame.txt'\n");
+	WriteAt(Entries.size() - 1, "dat_elitaver = 'EliteAver.txt'\n");
+	WriteAt(Entries.size() - 1, "dat_top3aver = 'Top3Aver.txt'\n\n");
+
+	WriteAt(Entries.size() - 1, "#Graph - Performance\n");
+	WriteAt(Entries.size() - 1, "set terminal wxt 0\n\n");
+	WriteAt(Entries.size() - 1, "set title \"Fitness\" font \", 20\"\n");
+	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
+	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
+	WriteAt(Entries.size() - 1, "plot dir_ori.dat_bestsofar with linespoints title 'Best-so-far', dir_ori.dat_aver with linespoints title 'Average', dir_ori.dat_worstsofar with linespoints title 'Worst-so-far'\n\n");
+
+	WriteAt(Entries.size() - 1, "#Graph - Mutation\n");
+	WriteAt(Entries.size() - 1, "set terminal wxt 1\n\n");
+	WriteAt(Entries.size() - 1, "set title \"Mutation vs Variance\" font \", 20\"\n");
+	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
+	WriteAt(Entries.size() - 1, "set ylabel \"Rate\"\n");
+	WriteAt(Entries.size() - 1, "plot dir_ori.dat_variance with linespoints title 'Population Variance', dir_ori.dat_mutrate with linespoints title 'Mutation Rate'\n\n");
+
+	WriteAt(Entries.size() - 1, "#Graph - HOF\n");
+	WriteAt(Entries.size() - 1, "set terminal wxt 2\n\n");
+	WriteAt(Entries.size() - 1, "set title \"Hall of Fame\" font \", 20\"\n");
+	WriteAt(Entries.size() - 1, "set xlabel \"Index (P.)\"\n");
+	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
+	WriteAt(Entries.size() - 1, "plot dir_ori.dat_hof with points title 'Player'\n\n");
+
+	WriteAt(Entries.size() - 1, "#Graph - Elitism vs HoF\n");
+	WriteAt(Entries.size() - 1, "set terminal wxt 3\n\n");
+	WriteAt(Entries.size() - 1, "set title \"Elitism vs Top 3 HoF Players\" font \", 20\"\n");
+	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
+	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
+	WriteAt(Entries.size() - 1, "plot dir_ori.dat_elitaver with linespoints title 'Elite Average Fitness', dir_ori.dat_top3aver with linespoints title 'Top 3 Average Fitness'\n\n");
+
+	WriteAt(Entries.size() - 1, "pause 1");
+	CloseAt(Entries.size() - 1);
+	Entries.pop_back();
+	/*NewFile(LogType::NONE, "RunGraph - Performance");
 	WriteAt(Entries.size() - 1, "set title \"Fitness\" font \", 20\"\n");
 	WriteAt(Entries.size() - 1, "set xlabel \"Generation\"\n");
 	WriteAt(Entries.size() - 1, "set ylabel \"Fitness\"\n");
@@ -160,7 +208,7 @@ void LogWriter::GenerateGNUFiles()
 	WriteAt(Entries.size() - 1, "pause 1\n");
 	WriteAt(Entries.size() - 1, "reread");
 	CloseAt(Entries.size() - 1);
-	Entries.pop_back();
+	Entries.pop_back();*/
 }
 
 void LogWriter::CloseAt(unsigned int _Index)

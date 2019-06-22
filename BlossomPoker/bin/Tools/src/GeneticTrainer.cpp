@@ -137,15 +137,15 @@ void GeneticTrainer::Initialize()
 	//Writer->WriteAt(0, "Players will play " + std::to_string(Model.TournamentsPerGen) + " Tournaments with " + std::to_string(Model.PopulationSize) + " duplicate matches.\n");
 	//Writer->WriteAt(0, "Each generation will crossover at a probability of " + std::to_string(Model.CrossoverRate) + " with Elitism (" + std::to_string(ElitesLimit) + ") applied and mutate dynamically with delta of " + std::to_string(Model.GaussianOffset) + ".\n");
 
-	Writer->NewFile(LogType::Graph_Line, "GenerationPerformance");
-	Writer->NewFile(LogType::Graph_Line, "PopulationVariance");
+	Writer->NewFile(LogType::Graph_Line, "Average");
+	Writer->NewFile(LogType::Graph_Line, "Variance");
 	Writer->NewFile(LogType::Graph_Line, "MutationRate");
 	Writer->NewFile(LogType::Graph_Bar, "HallOfFame");
 
-	Writer->NewFile(LogType::Graph_Line, "BestSoFarFitness");
-	Writer->NewFile(LogType::Graph_Line, "WorstSoFarFitness");
-	Writer->NewFile(LogType::Graph_Line, "GenEliteAverFitness");
-	Writer->NewFile(LogType::Graph_Line, "GenHoFTop3AverFitness");
+	Writer->NewFile(LogType::Graph_Line, "BestSoFar");
+	Writer->NewFile(LogType::Graph_Line, "WorstSoFar");
+	Writer->NewFile(LogType::Graph_Line, "EliteAver");
+	Writer->NewFile(LogType::Graph_Line, "Top3Aver");
 
 	Writer->WriteAt(1, "#Generation | Average Fitness\n");
 	Writer->WriteAt(2, "#Generation | Variance\n");
