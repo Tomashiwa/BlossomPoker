@@ -47,7 +47,7 @@ void Table::Reset(bool _IsHard)
 	Round = 0;
 	CurrentState = Phase::Preflop;
 
-	PlayersLost = 0;
+	OpponentsLost = 0;
 
 	Pot = 0;
 	RequiredAnte = 0;
@@ -185,39 +185,28 @@ void Table::EndRound()
 		if (Player->GetStack() <= 0 && !Player->GetIsBroke())
 		{
 			Player->SetIsBroke(true);
-			PlayersLost++;
 
-			if (Player->GetIsInQuestion())
-			{
-				Player->SetRanking(Player->GetRanking() + (Players.size() - PlayersLost));
-				//std::cout << "P." << Player->GetIndex() << " attain ranking of " << (Players.size() - PlayersLost) << "\n";
-			}
+			if(!Player->GetIsInQuestion())
+				OpponentsLost++;
 
 			if (PrintProcess)
 				std::cout << "P." << Player->GetIndex() << " is broke...\n";
 		}
 	}
 
-	/*std::cout << "Round Ended:\n";
-	for(auto const& Player : Players)
-		std::cout << "P." << Player->GetIndex() << ": Hands W/L - " << Player->GetHandsWon() << "/" << Player->GetHandsLost() << " Money W/L - " << Player->GetMoneyWon() << "/" << Player->GetMoneyLost() << ")\n";
-	std::cout << "\n";*/
-
 	if (IsGameEnded())
 	{
 		for (auto const& Player : Players)
 		{
-			/*if (Player->GetIsInQuestion())
+			if (Player->GetIsInQuestion())
 			{
-				Player->SetRanking(Player->GetRanking() + (Players.size() - PlayersLost));
-				std::cout << "P." << Player->GetIndex() << " attain ranking of " << (Players.size() - PlayersLost) << "\n";
-			}*/
+				Player->SetRanking(Player->GetRanking() + (Players.size() - OpponentsLost));
+				break;
+			}
 
 			/*if (!Player->GetIsBroke())
 			{
-				Player->SetRanking(Player->GetRanking() + (Players.size() - PlayersLost));
-
-				
+				Player->SetRanking(Player->GetRanking() + (Players.size() - OpponentsLost));
 			}*/
 		}
 

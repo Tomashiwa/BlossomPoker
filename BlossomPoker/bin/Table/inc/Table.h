@@ -120,7 +120,7 @@ private:
 	Deck ArrangedDeck;
 	std::vector<Card> CommunalCards;
 
-	unsigned int PlayersLost = 0;
+	unsigned int OpponentsLost = 0;
 
 	unsigned int Round = 0;
 	unsigned int EntryStack = BigBlind * 20;

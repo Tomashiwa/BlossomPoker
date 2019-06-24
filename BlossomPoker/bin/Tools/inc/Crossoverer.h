@@ -17,6 +17,7 @@ public:
 	void SetMethod(Crossover _Method, float _Probability);
 	void Cross(std::array<std::shared_ptr<BlossomPlayer>, 2>& _Parents, std::array<std::shared_ptr<BlossomPlayer>, 2>& _Children);
 
+	void SetPointsAmt(unsigned int _Amt) { PointsAmt = _Amt; }
 	float GetProbability() { return Probability; }
 	std::string GetMethodStr(Crossover _Method);
 
@@ -25,7 +26,7 @@ private:
 	float Probability = 0.5f;
 
 	//K-Point Crossover
-	unsigned int PointsAmt = 3;
+	unsigned int PointsAmt = 2;
 
 	//Tools
 	std::mt19937 MTGenerator;

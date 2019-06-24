@@ -13,10 +13,10 @@ int main()
 	
 	Model.FeedbackLayer = Layer::Generational;
 
-	Model.IsOverlapping = false;
+	Model.IsOverlapping = true;
 	Model.ChildPopulationRatio = 1.0f;
 
-	Model.PopulationSize = 500;
+	Model.PopulationSize = 125; 
 	Model.GenerationLimit = 100;
 	Model.TournamentsPerGen = 9;	
 

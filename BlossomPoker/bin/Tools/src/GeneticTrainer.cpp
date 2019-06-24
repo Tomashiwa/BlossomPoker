@@ -67,7 +67,7 @@ void GeneticTrainer::Initialize()
 
 	std::cout << "Model Type: ";
 	if (Model.IsOverlapping)
-		std::cout << "Overlapping with Child Ratio of " << Model.ChildPopulationRatio << "\n";
+		std::cout << "Overlapping with Children Percentage of " << Model.ChildPopulationRatio * 100.0f << "\n";
 	else
 		std::cout << "Non-overlapping\n";
 	std::cout << "\n";
@@ -88,7 +88,7 @@ void GeneticTrainer::Initialize()
 	if (Model.HasElite)
 		std::cout << "Elitism - " << Model.EliteRatio * 100.0f << "%\n";
 	if (Model.HasHoF)
-		std::cout << "Hall of Fame - " << Model.EliteRatio * 100.0f << "%\n";
+		std::cout << "Hall of Fame - " << Model.HoFRatio * 100.0f << "%\n";
 	if (Model.HasCulling)
 		std::cout << "Culling - " << Model.StagnateInterval << " (Interval) " << Model.StagnatePeriod << " (Period)\n";
 	if (Model.HasNuking)
@@ -98,7 +98,7 @@ void GeneticTrainer::Initialize()
 	std::cout << "\n";
 		
 	Writer->NewDir();
-	Writer->GenerateGNUFiles();
+	Writer->GenerateGNUFiles(Model);
 
 	Writer->NewFile(LogType::NONE, "Tournament - PopS_" + std::to_string(Model.PopulationSize) + " GenLimit_" + std::to_string(Model.GenerationLimit) + " ToursPerGen_" + std::to_string(Model.TournamentsPerGen));
 	Writer->WriteAt(0, "Model Type: ");
@@ -457,47 +457,44 @@ void GeneticTrainer::AddToHoF(unsigned int _Amt)
 			Population[Index]->SetInHoF(true);
 			HoF.push_back(Population[Index]);
 		}
-
-		return;
 	}
-
-	for (auto const& PopuPlayer : Population)
+	else
 	{
-		for (unsigned int Index = HoF.size() - 1; Index > 0; Index--)
+		for (auto const& PopuPlayer : Population)
 		{
-			if (PopuPlayer->GetRanking() < HoF[Index]->GetRanking() && (Index == 0 || PopuPlayer->GetRanking() > HoF[Index - 1]->GetRanking()))
+			for (unsigned int Index = HoF.size() - 1; Index >= 1; Index--)
 			{
-				HoF[Index]->SetInHoF(false);
-				PopuPlayer->SetInHoF(true);
-				HoF[Index] = PopuPlayer;
-				return;
+				if (PopuPlayer->GetFitness() < HoF[Index]->GetFitness())
+				{
+					if (PopuPlayer->GetFitness() > HoF[Index - 1]->GetFitness())
+					{
+						HoF[Index]->SetInHoF(false);
+						PopuPlayer->SetInHoF(true);
+						HoF[Index] = PopuPlayer;
+						break;
+					}
+					else if (Index - 1 == 0 && PopuPlayer->GetFitness() < HoF[Index - 1]->GetFitness())
+					{
+						HoF[Index - 1]->SetInHoF(false);
+						PopuPlayer->SetInHoF(true);
+						HoF[Index - 1] = PopuPlayer;
+						break;
+					}
+				}
 			}
 		}
 	}
 
-	/*for (unsigned int Index = 0; Index < _Amt; Index++)
+	for (unsigned int Index = 0; Index < _Amt; Index++)
 	{
 		auto TopItr = std::find_if(HoF.begin(), HoF.end(), [&](std::shared_ptr<BlossomPlayer> _Player) { return _Player->GetIndex() == Population[Index]->GetIndex(); });
 
 		if (TopItr == HoF.end())
-		{
-			Population[Index]->SetInHoF(true);
-			HoF.push_back(Population[Index]);
-
-			HoF[HoF.size() - 1]->CalculateFitness();
-
 			Writer->WriteAt(4, std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()) + "\n");
-		}
-		/*else if (TopItr != HoF.end())
-		{
-			float PrevFitness = (*TopItr)->GetFitness();
-
-			(*TopItr)->CalculateFitness();
-			
-			if ((*TopItr)->GetFitness() != PrevFitness)
-				Writer->Overwrite(4, std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(PrevFitness), std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()));
-		}
-	}*/
+		
+		else if (TopItr != HoF.end())
+			Writer->Overwrite(4, std::to_string((*TopItr)->GetIndex()) + " " + std::to_string((*TopItr)->GetFitness()), std::to_string(Population[Index]->GetIndex()) + " " + std::to_string(Population[Index]->GetFitness()));
+	}
 }
 
 void GeneticTrainer::ArrangeHoF()
@@ -709,8 +706,8 @@ void GeneticTrainer::ReproducePopulation()
 
 		//Reproduce Children based on the population in current generation
 		unsigned int ChildPopuSize = Model.PopulationSize * Model.ChildPopulationRatio;
-
-		for (unsigned int Count = 0; Count < ChildPopuSize / 2; Count++)
+	
+		while(Population.size() < Model.PopulationSize + ChildPopuSize)//for (unsigned int Count = 0; Count < (Model.PopulationSize + ChildPopuSize) - Population.size(); Count++)
 		{
 			std::array<std::shared_ptr<BlossomPlayer>, 2> Parents;
 			Parents[0] = ActiveSelector->SelectFrom(PopulationReference);
@@ -730,9 +727,13 @@ void GeneticTrainer::ReproducePopulation()
 			ActiveCrossoverer->Cross(Parents, Children);
 
 			for (auto& Child : Children)
-				ActiveMutator->Mutate(Child);
-
-			Population.insert(Population.end(), Children.begin(), Children.end());
+			{
+				if (Population.size() < Model.PopulationSize + ChildPopuSize)
+				{
+					ActiveMutator->Mutate(Child);
+					Population.push_back(Child);
+				}
+			}
 		}
 
 		//Construct PlayingPopulation (Top 5 players from Population Reference + Players from HoF)
@@ -823,24 +824,29 @@ void GeneticTrainer::ReproducePopulation()
 
 	std::vector<std::shared_ptr<BlossomPlayer>> Parents;
 	std::vector<std::shared_ptr<BlossomPlayer>> Children;
-	std::shared_ptr<BlossomPlayer> Reference;
+	std::shared_ptr<BlossomPlayer> Reference;*/
 
 	//Elites
-	//std::cout << "\nElites: ";
-	Writer->WriteAt(0, "\nElites: ");
-	float EliteAverageFitness = 0.0f;
-	for (unsigned int Index = 0; Index < ElitesLimit; Index++)
+	if (Model.HasElite)
 	{
-		EliteAverageFitness += Population[Index]->GetFitness();
+		//std::cout << "\nElites: ";
+		Writer->WriteAt(0, "\nElites: ");
 
-		//std::cout << "P." << Population[Index]->GetIndex() << " ";
-		Writer->WriteAt(0, "P." + std::to_string(Population[Index]->GetIndex()) + " ");
+		float EliteAverageFitness = 0.0f;
+		
+		for (unsigned int Index = 0; Index < ElitesLimit; Index++)
+		{
+			EliteAverageFitness += Population[Index]->GetFitness();
+			//std::cout << "P." << Population[Index]->GetIndex() << " ";
+			Writer->WriteAt(0, "P." + std::to_string(Population[Index]->GetIndex()) + " ");
+		}
+
+		EliteAverageFitness /= (float)ElitesLimit;
+		Writer->WriteAt(7, Generation, EliteAverageFitness);
 	}
-	EliteAverageFitness /= (float)ElitesLimit;
-	Writer->WriteAt(7, Generation, EliteAverageFitness);
 
 	//NRA
-	//std::cout << "\n\nGenerating Offspring for NRA...\n";
+	/*std::cout << "\n\nGenerating Offspring for NRA...\n";
 	Writer->WriteAt(0, "\n\nGenerating Offspring for NBA...\n");
 
 	for (unsigned int Index = 0; Index < Model.PopulationSize - ReserveSize - ElitesLimit; Index++)
@@ -1186,6 +1192,8 @@ void GeneticTrainer::SetSpecs(TrainingModel _Model, Layer _Layer)//unsigned int 
 	ActiveSelector = std::make_unique<Selector>(Model.SelectMethod);
 	ActiveCrossoverer = std::make_unique<Crossoverer>(Model.CrossMethod, Model.CrossoverRate);
 	ActiveMutator = std::make_unique<Mutator>(Model.MutateMethod, Model.MutationRate);
+
+	ActiveCrossoverer->SetPointsAmt(Model.KPointCount);
 }
 
 void GeneticTrainer::PrintPlayerResult(std::shared_ptr<BlossomPlayer>& _Player)
