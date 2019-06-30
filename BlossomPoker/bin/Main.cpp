@@ -13,28 +13,28 @@ int main()
 	
 	Model.FeedbackLayer = Layer::Generational;
 
-	Model.IsOverlapping = true;
+	Model.IsOverlapping = false; 
 	Model.ChildPopulationRatio = 1.0f;
 
-	Model.PopulationSize = 125; 
+	Model.PopulationSize = 500; 
 	Model.GenerationLimit = 100;
-	Model.TournamentsPerGen = 9;	
+	Model.TournamentsPerGen = 9;
 
 	Model.HasElite = false;
 
 	Model.HasHoF = false;
 
-	Model.SelectMethod = Selection::Tour;
+	Model.SelectMethod = Selection::FitnessUniform;
 	Model.SelectChildMethod = Selection::Tour;
 	Model.TournamentSize = 2;
 
 	Model.CrossMethod = Crossover::KPoint;
 	Model.KPointCount = 2;
-	Model.CrossoverRate = 0.5f;
+	Model.CrossoverRate = 1.0f;//0.5f;
 
 	Model.MutateMethod = Mutation::GaussianOffset;
 	Model.GaussianOffset = 0.25f;
-	Model.MutationRate = 0.01f;
+	Model.MutationRate = 0.0625f;//0.01f;
 
 	Layer FeedbackLayer = Layer::Generational;
 

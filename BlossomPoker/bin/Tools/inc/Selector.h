@@ -4,6 +4,7 @@
 #include <memory>
 #include <chrono>
 #include <random>
+#include <time.h>
 
 #include "../../AI/inc/BlossomPlayer.h"
 #include "../inc/TrainingModel.h"
@@ -42,5 +43,8 @@ private:
 	std::shared_ptr<BlossomPlayer> TournamentSelect(std::vector<std::shared_ptr<BlossomPlayer>>& _Population);
 	std::shared_ptr<BlossomPlayer> RouletteSelect(std::vector<std::shared_ptr<BlossomPlayer>>& _Population);
 	std::shared_ptr<BlossomPlayer> UniversalSamplingSelect(std::vector<std::shared_ptr<BlossomPlayer>>& _Population);
+
+	std::shared_ptr<BlossomPlayer> FitnessUniformSelect(std::vector<std::shared_ptr<BlossomPlayer>>& _Population);
+	std::shared_ptr<BlossomPlayer> FUS_GetNearestAgent(std::vector<std::shared_ptr<BlossomPlayer>>& _Population, float _RefFitness);
 };
 

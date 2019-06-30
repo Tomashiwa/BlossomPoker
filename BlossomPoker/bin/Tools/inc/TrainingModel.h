@@ -1,6 +1,6 @@
 #pragma once
 
-enum Selection { Tour, Truncation, Roulette, StochasticSampling};
+enum Selection { Tour, Truncation, Roulette, StochasticSampling, FitnessUniform};
 enum Crossover { KPoint, Uniform, Blending };
 enum Mutation  { GaussianOffset };
 
@@ -20,7 +20,7 @@ struct TrainingModel
 	unsigned int ParentsAmt = 2;
 	unsigned int TournamentSize = 2;
 
-	Selection SelectChildMethod = Selection::Truncation;
+	Selection SelectChildMethod = Selection::Tour;
 
 	Crossover CrossMethod = Crossover::KPoint;
 	unsigned int KPointCount = 2;
