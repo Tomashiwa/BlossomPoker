@@ -24,13 +24,16 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/ai.h"
 
-//Naive AI, not fun to play against. This AI will do a random action, completely independent of its cards.
-class AIRandom : public AI
+namespace OOPoker
 {
-  public:
+	//Naive AI, not fun to play against. This AI will do a random action, completely independent of its cards.
+	class AIRandom : public AI
+	{
+	  public:
 
-    virtual Action doTurn(const Info& info);
-    virtual bool boastCards(const Info& info);
+		virtual Action doTurn(const Info& info);
+		virtual bool boastCards(const Info& info);
 
-    virtual std::string getAIName();
-};
+		virtual std::string getAIName();
+	};
+}

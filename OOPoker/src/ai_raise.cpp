@@ -23,17 +23,20 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/ai_raise.h"
 #include "../inc/info.h"
 
-Action AIRaise::doTurn(const Info& info)
+namespace OOPoker
 {
-  (void)info;
+	Action AIRaise::doTurn(const Info& info)
+	{
+		(void)info;
 
-  if(info.turn > 0) return Action(A_CALL, 0); //avoid infinite raises
+		if (info.turn > 0) return Action(A_CALL, 0); //avoid infinite raises
 
-  return info.getRaiseAction(info.minRaiseAmount);
-}
+		return info.getRaiseAction(info.minRaiseAmount);
+	}
 
 
-std::string AIRaise::getAIName()
-{
-  return "Raise";
+	std::string AIRaise::getAIName()
+	{
+		return "Raise";
+	}
 }

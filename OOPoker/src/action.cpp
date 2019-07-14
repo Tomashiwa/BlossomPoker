@@ -23,75 +23,78 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/action.h"
 #include "../inc/info.h"
 
-Action::Action(Command command, int amount)
-: command(command)
-, amount(amount)
+namespace OOPoker
 {
-}
+	Action::Action(Command command, int amount)
+		: command(command)
+		, amount(amount)
+	{
+	}
 
-Action::Action()
-: command(A_FOLD)
-, amount(0)
-{
-}
+	Action::Action()
+		: command(A_FOLD)
+		, amount(0)
+	{
+	}
 
 
-bool isValidAllInAction(const Action& action, int stack, int wager, int highestWager, int highestRaise)
-{
-  (void)highestRaise;
+	bool isValidAllInAction(const Action& action, int stack, int wager, int highestWager, int highestRaise)
+	{
+		(void)highestRaise;
 
-  int callAmount = highestWager - wager;
+		int callAmount = highestWager - wager;
 
-  switch(action.command)
-  {
-    case A_FOLD:
-    {
-      return false;
-    }
-    case A_CHECK:
-    {
-      return false;
-    }
-    case A_CALL:
-    {
-      return callAmount >= stack;
-    }
-    case A_RAISE:
-    {
-      return action.amount > 0 && action.amount == stack; //must be exact. If higher, it's an invalid action.
-      break;
-    }
-    default: return false;
-  }
-}
+		switch (action.command)
+		{
+		case A_FOLD:
+		{
+			return false;
+		}
+		case A_CHECK:
+		{
+			return false;
+		}
+		case A_CALL:
+		{
+			return callAmount >= stack;
+		}
+		case A_RAISE:
+		{
+			return action.amount > 0 && action.amount == stack; //must be exact. If higher, it's an invalid action.
+			break;
+		}
+		default: return false;
+		}
+	}
 
-bool isValidAction(const Action& action, int stack, int wager, int highestWager, int highestRaise)
-{
-  int callAmount = highestWager - wager;
+	bool isValidAction(const Action& action, int stack, int wager, int highestWager, int highestRaise)
+	{
+		int callAmount = highestWager - wager;
 
-  switch(action.command)
-  {
-    case A_FOLD:
-    {
-      return true;
-    }
-    case A_CHECK:
-    {
-      return callAmount == 0;
-    }
-    case A_CALL:
-    {
-      if(callAmount == 0) return false; //you should use check in this case. Otherwise player statistics get messed up. So, disallowed!
-      return stack > 0; //it's always valid for the rest, as long as your stack isn't empty. If call amount is bigger than your stack, you go all-in, it's still a valid call.
-    }
-    case A_RAISE:
-    {
-      int raiseAmount = action.amount - callAmount;
-      return (action.amount <= stack && raiseAmount >= highestRaise)
-          || isValidAllInAction(action, stack, wager, highestWager, highestRaise);
-      break;
-    }
-  }
+		switch (action.command)
+		{
+		case A_FOLD:
+		{
+			return true;
+		}
+		case A_CHECK:
+		{
+			return callAmount == 0;
+		}
+		case A_CALL:
+		{
+			if (callAmount == 0) return false; //you should use check in this case. Otherwise player statistics get messed up. So, disallowed!
+			return stack > 0; //it's always valid for the rest, as long as your stack isn't empty. If call amount is bigger than your stack, you go all-in, it's still a valid call.
+		}
+		case A_RAISE:
+		{
+			int raiseAmount = action.amount - callAmount;
+			return (action.amount <= stack && raiseAmount >= highestRaise)
+				|| isValidAllInAction(action, stack, wager, highestWager, highestRaise);
+			break;
+		}
+		}
 
-  return false;
+		return false;
+	}
 }

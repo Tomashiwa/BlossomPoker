@@ -25,63 +25,67 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
-/*
-This file contains utility methods for using the terminal in Windows
-and in Linux. It contains functions for detecting if a key was pressed,
-getting the current date and time as a string, drawing the table using
-ASCII art, etc...
-*/
+namespace OOPoker
+{
+	/*
+	This file contains utility methods for using the terminal in Windows
+	and in Linux. It contains functions for detecting if a key was pressed,
+	getting the current date and time as a string, drawing the table using
+	ASCII art, etc...
+	*/
 
-struct Info;
-class Card;
+	struct Info;
+	class Card;
 
-void drawTable(const Info& info);
-std::string cardsToAsciiArt(const std::vector<Card>& cards);
+	void drawTable(const Info& info);
+	std::string cardsToAsciiArt(const std::vector<Card>& cards);
 
-/*
-getChar should do the following:
-When the function is just called, wait, until the user presses a key. Then
-return the code of that key.
-Keys pressed before getChar() is called shouldn't have an influence.
-No pressing enter after pressed the key is required.
+	/*
+	getChar should do the following:
+	When the function is just called, wait, until the user presses a key. Then
+	return the code of that key.
+	Keys pressed before getChar() is called shouldn't have an influence.
+	No pressing enter after pressed the key is required.
 
-The correct behaviour of getChar() is guaranteed only if you use only getChar()
-and getLine() as input functions. If you use std::cin directly, it'll mess up getChar(),
-so always use getLine() instead of std::cin, even for integers!
-*/
-int getChar();
+	The correct behaviour of getChar() is guaranteed only if you use only getChar()
+	and getLine() as input functions. If you use std::cin directly, it'll mess up getChar(),
+	so always use getLine() instead of std::cin, even for integers!
+	*/
+	int getChar();
 
-/*
-Gets a char without waiting. Returns 0 if no key is pressed so far. For the rest similar to getChar().
-*/
-int getCharNonBlocking();
+	/*
+	Gets a char without waiting. Returns 0 if no key is pressed so far. For the rest similar to getChar().
+	*/
+	int getCharNonBlocking();
 
-/*
-getLine should do the following:
-allow the user to type characters on the keyboard, and when pressing enter, return
-that line as a string.
-To convert this line to a number, use strtoval from util.h
-Never use std::cin, always use getLine() instead, it's designed to not mess up getChar(), which
-can have problems with keyboard or input buffers.
-*/
-std::string getLine(); //use this instead of std::cin, or getChar() will not work properly after getting a line
+	/*
+	getLine should do the following:
+	allow the user to type characters on the keyboard, and when pressing enter, return
+	that line as a string.
+	To convert this line to a number, use strtoval from util.h
+	Never use std::cin, always use getLine() instead, it's designed to not mess up getChar(), which
+	can have problems with keyboard or input buffers.
+	*/
+	std::string getLine(); //use this instead of std::cin, or getChar() will not work properly after getting a line
 
-/*
-Pauses the program until the user presses a key. If the user presses "q" it means he wants to quit.
-It returns true if the user wants to quit, false otherwise.
-Also displays a message indicating q will quit.
-*/
-bool pressAnyKeyOrQuit();
+						   /*
+						   Pauses the program until the user presses a key. If the user presses "q" it means he wants to quit.
+						   It returns true if the user wants to quit, false otherwise.
+						   Also displays a message indicating q will quit.
+						   */
+	bool pressAnyKeyOrQuit();
 
-/*
-Shows message "press any key to continue", then waits for key press
-*/
-void pressAnyKey();
+	/*
+	Shows message "press any key to continue", then waits for key press
+	*/
+	void pressAnyKey();
 
-/*
-Pause for that many milliseconds.
-*/
-void sleepMS(int milliSeconds);
+	/*
+	Pause for that many milliseconds.
+	*/
+	void sleepMS(int milliSeconds);
 
-//returns time and date in human readable format
-std::string getDateString();
+	//returns time and date in human readable format
+	std::string getDateString();
+
+}

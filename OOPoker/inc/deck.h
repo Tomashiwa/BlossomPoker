@@ -24,22 +24,24 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/card.h"
 
-
-class Deck
+namespace OOPoker
 {
-  /*
-  Deck of cards, that can be randomly shuffled using the true random.h, and
-  allows easily selecting next cards.
-  */
+	class Deck
+	{
+		/*
+		Deck of cards, that can be randomly shuffled using the true random.h, and
+		allows easily selecting next cards.
+		*/
 
-  private:
+	private:
 
-    Card cards[52]; //card 0 is the top card
-    int index;
+		Card cards[52]; //card 0 is the top card
+		int index;
 
-  public:
+	public:
 
-    Deck();
-    void shuffle();
-    Card next(); //never call this more than 52 times in a row.
-};
+		Deck();
+		void shuffle();
+		Card next(); //never call this more than 52 times in a row.
+	};
+}

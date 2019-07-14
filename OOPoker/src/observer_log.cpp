@@ -26,32 +26,34 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/event.h"
 #include "../inc/io_terminal.h"
 
-
-ObserverLog::ObserverLog(const std::string& logFileName)
+namespace OOPoker
 {
-  logfile.open(logFileName.c_str(), std::ios::app);
+	ObserverLog::ObserverLog(const std::string& logFileName)
+	{
+		logfile.open(logFileName.c_str(), std::ios::app);
 
-  //logfile << std::endl << std::endl << "======================OOPoker Log=======================" << std::endl << std::endl;
-  s += "\n\n======================OOPoker Log=======================\n\n";
+		//logfile << std::endl << std::endl << "======================OOPoker Log=======================" << std::endl << std::endl;
+		s += "\n\n======================OOPoker Log=======================\n\n";
 
-  s += "Date: " + getDateString() + "\n\n";
-}
+		s += "Date: " + getDateString() + "\n\n";
+	}
 
-ObserverLog::~ObserverLog()
-{
-  logfile << s;
-  s.clear();
-  logfile.close();
-}
+	ObserverLog::~ObserverLog()
+	{
+		logfile << s;
+		s.clear();
+		logfile.close();
+	}
 
-void ObserverLog::onEvent(const Event& event)
-{
-  //logfile << eventToString(event) << std::endl;
-  s += eventToString(event) + "\n";
+	void ObserverLog::onEvent(const Event& event)
+	{
+		//logfile << eventToString(event) << std::endl;
+		s += eventToString(event) + "\n";
 
-  if(s.size() > 1000000) //not sure if this has a point or not, but I don't want it to access disk non-stop all the time, only write every million characters.
-  {
-    logfile << s;
-    s.clear();
-  }
+		if (s.size() > 1000000) //not sure if this has a point or not, but I don't want it to access disk non-stop all the time, only write every million characters.
+		{
+			logfile << s;
+			s.clear();
+		}
+	}
 }

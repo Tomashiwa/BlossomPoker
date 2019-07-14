@@ -2,7 +2,7 @@
 
 int main()
 {
-	GameManager Manager;
+	OOPoker::GameManager Manager;
 	Manager.DoGame();
 
 	system("pause");

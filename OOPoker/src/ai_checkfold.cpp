@@ -23,16 +23,17 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/ai_checkfold.h"
 #include "../inc/info.h"
 
-Action AICheckFold::doTurn(const Info& info)
+namespace OOPoker
 {
-  (void)info;
+	Action AICheckFold::doTurn(const Info& info)
+	{
+		(void)info;
 
-  return info.amountToAction(0);
-}
+		return info.amountToAction(0);
+	}
 
-
-
-std::string AICheckFold::getAIName()
-{
-  return "CheckFold";
+	std::string AICheckFold::getAIName()
+	{
+		return "CheckFold";
+	}
 }

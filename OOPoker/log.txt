@@ -14925,3 +14925,3707 @@ Pre-Flop Stats: VP$IP: 0.357616, PFR: 0.0838852, 3Bet: 0.0816777
 Post-Flop Stats: AF: 1.78788, WSD: 0.680851, WSDW: 0.416667
 
 
+
+
+======================OOPoker Log=======================
+
+Date: 2019/07/14 23:18:12
+
+The game begins. The AI's of the players are: 
+Blossom: Blossom
+Gudonhif: Smart
+Peetuho: Smart
+Laroerluv: Smart
+Beetanhee: Smart
+Wilal: Smart
+Jeettoerli: Smart
+Hehobup: Smart
+Jeminny: Smart
+Rubewro: Smart
+
+Joins: Blossom, chips: 1000
+Joins: Gudonhif, chips: 1000
+Joins: Peetuho, chips: 1000
+Joins: Laroerluv, chips: 1000
+Joins: Beetanhee, chips: 1000
+Joins: Wilal, chips: 1000
+Joins: Jeettoerli, chips: 1000
+Joins: Hehobup, chips: 1000
+Joins: Jeminny, chips: 1000
+Joins: Rubewro, chips: 1000
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Laroerluv, chips: 5
+Big Blind: Beetanhee, chips: 10
+Folds: Wilal
+Calls: Jeettoerli
+Calls: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Calls: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Checks: Beetanhee
+Flop: 4s As Ah
+Checks: Beetanhee
+Checks: Jeettoerli
+Checks: Hehobup
+Checks: Jeminny
+Checks: Gudonhif
+Turn: 4d
+Checks: Beetanhee
+Checks: Jeettoerli
+Checks: Hehobup
+Checks: Jeminny
+Checks: Gudonhif
+River: Qh
+Checks: Beetanhee
+Checks: Jeettoerli
+Checks: Hehobup
+Checks: Jeminny
+Checks: Gudonhif
+Pot size: 55
+Showdown Reached
+Shows: Gudonhif, Kd Jc
+Combination: Gudonhif, Two Pair ( As Ah 4s 4d Kd )
+Shows: Beetanhee, 2c Ks
+Combination: Beetanhee, Two Pair ( As Ah 4s 4d Ks )
+Shows: Jeettoerli, Kh Jd
+Combination: Jeettoerli, Two Pair ( As Ah 4s 4d Kh )
+Shows: Hehobup, Qd Tc
+Combination: Hehobup, Two Pair ( As Ah Qd Qh Tc )
+Shows: Jeminny, 7h 4h
+Combination: Jeminny, Full House ( 4h 4s 4d As Ah )
+Wins: Jeminny, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Laroerluv
+Small Blind: Beetanhee, chips: 5
+Big Blind: Wilal, chips: 10
+Folds: Jeettoerli
+Calls: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Calls: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Checks: Wilal
+Flop: 3h Kh Qc
+Checks: Beetanhee
+Checks: Wilal
+Checks: Hehobup
+Checks: Peetuho
+Turn: 2c
+Checks: Beetanhee
+Checks: Wilal
+Checks: Hehobup
+Checks: Peetuho
+River: 5h
+Checks: Beetanhee
+Checks: Wilal
+Checks: Hehobup
+Checks: Peetuho
+Pot size: 40
+Showdown Reached
+Shows: Peetuho, 2s As
+Combination: Peetuho, Pair ( 2s 2c As Kh Qc )
+Shows: Beetanhee, 9h Jd
+Combination: Beetanhee, High Card ( Kh Qc Jd 9h 5h )
+Shows: Wilal, 3s Kd
+Combination: Wilal, Two Pair ( Kd Kh 3s 3h Qc )
+Shows: Hehobup, 6c 6d
+Combination: Hehobup, Pair ( 6c 6d Kh Qc 5h )
+Wins: Wilal, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Beetanhee
+Small Blind: Wilal, chips: 5
+Big Blind: Jeettoerli, chips: 10
+Calls: Hehobup
+Folds: Jeminny
+Raises: Rubewro, chips: 10
+Folds: Blossom
+Raises: Gudonhif, chips: 30
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Beetanhee
+Folds: Wilal
+Folds: Jeettoerli
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 95
+Wins: Gudonhif, chips: 95
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Wilal
+Small Blind: Jeettoerli, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Folds: Wilal
+Folds: Jeettoerli
+Checks: Hehobup
+Flop: 5c Td Jc
+Checks: Hehobup
+Checks: Blossom
+Checks: Beetanhee
+Turn: Ac
+Checks: Hehobup
+Checks: Blossom
+Checks: Beetanhee
+River: 7h
+Checks: Hehobup
+Raises: Blossom, chips: 10
+Raises: Beetanhee, chips: 20
+Folds: Hehobup
+Calls: Blossom
+Pot size: 95
+Showdown Reached
+Shows: Blossom, Jh 8d
+Combination: Blossom, Pair ( Jh Jc Ac Td 8d )
+Shows: Beetanhee, Kh Qh
+Combination: Beetanhee, Straight ( Ac Kh Qh Jc Td )
+Wins: Beetanhee, chips: 95
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeettoerli
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Calls: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Calls: Peetuho
+Calls: Laroerluv
+Folds: Beetanhee
+Raises: Wilal, chips: 20
+Calls: Jeettoerli
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Peetuho
+Calls: Laroerluv
+Flop: Td Ah Ad
+Checks: Laroerluv
+Raises: Wilal, chips: 995
+Folds: Jeettoerli
+Folds: Laroerluv
+Pot size: 1120
+Wins: Wilal, chips: 1120
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Calls: Wilal
+Raises: Jeettoerli, chips: 10
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Calls: Beetanhee
+Folds: Wilal
+Flop: 8d 7c 9c
+Checks: Blossom
+Checks: Beetanhee
+Checks: Jeettoerli
+Turn: 7d
+Checks: Blossom
+Checks: Beetanhee
+Checks: Jeettoerli
+River: 4d
+Checks: Blossom
+Checks: Beetanhee
+Checks: Jeettoerli
+Pot size: 85
+Showdown Reached
+Shows: Blossom, Qh Ac
+Combination: Blossom, Pair ( 7c 7d Ac Qh 9c )
+Shows: Beetanhee, Kc Ts
+Combination: Beetanhee, Pair ( 7c 7d Kc Ts 9c )
+Shows: Jeettoerli, Tc Th
+Combination: Jeettoerli, Two Pair ( Tc Th 7c 7d 9c )
+Wins: Jeettoerli, chips: 85
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Calls: Wilal
+Calls: Jeettoerli
+Calls: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Checks: Blossom
+Flop: 8h 2s 3h
+Checks: Blossom
+Checks: Beetanhee
+Checks: Wilal
+Checks: Jeettoerli
+Checks: Hehobup
+Checks: Jeminny
+Turn: Jh
+Checks: Blossom
+Checks: Beetanhee
+Checks: Wilal
+Checks: Jeettoerli
+Checks: Hehobup
+Checks: Jeminny
+River: 7h
+Checks: Blossom
+Checks: Beetanhee
+Checks: Wilal
+Checks: Jeettoerli
+Checks: Hehobup
+Checks: Jeminny
+Pot size: 65
+Showdown Reached
+Shows: Blossom, Jd 9c
+Combination: Blossom, Pair ( Jd Jh 9c 8h 7h )
+Shows: Beetanhee, 4s 5d
+Combination: Beetanhee, High Card ( Jh 8h 7h 5d 4s )
+Shows: Wilal, Kd Kc
+Combination: Wilal, Pair ( Kd Kc Jh 8h 7h )
+Shows: Jeettoerli, Qd 9s
+Combination: Jeettoerli, High Card ( Qd Jh 9s 8h 7h )
+Shows: Hehobup, 7s 8c
+Combination: Hehobup, Two Pair ( 8c 8h 7s 7h Jh )
+Shows: Jeminny, 6s 6c
+Combination: Jeminny, Pair ( 6s 6c Jh 8h 7h )
+Wins: Hehobup, chips: 65
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Gudonhif, chips: 10
+Raises: Peetuho, chips: 20
+Folds: Laroerluv
+Calls: Beetanhee
+Folds: Wilal
+Folds: Jeettoerli
+Folds: Hehobup
+Raises: Jeminny, chips: 40
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Beetanhee
+Pot size: 145
+Wins: Jeminny, chips: 145
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Gudonhif, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Laroerluv
+Folds: Beetanhee
+Raises: Wilal, chips: 10
+Folds: Jeettoerli
+Folds: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Raises: Gudonhif, chips: 15
+Folds: Peetuho
+Calls: Wilal
+Calls: Jeminny
+Flop: Qd Qs 9c
+Checks: Gudonhif
+Checks: Wilal
+Checks: Jeminny
+Turn: Jd
+DEBUG MESSAGE: INVALID ACTION FROM Gudonhif (2 0)
+Folds: Gudonhif
+Raises: Wilal, chips: 1065
+Calls: Jeminny
+River: 6s
+Pot size: 2240
+Showdown Reached
+Shows: Wilal, 8h Th
+Combination: Wilal, Straight ( Qd Jd Th 9c 8h )
+Shows: Jeminny, Kc Td
+Combination: Jeminny, Straight ( Kc Qd Jd Td 9c )
+Wins: Wilal, chips: 5
+Wins: Jeminny, chips: 2235
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Gudonhif
+Small Blind: Peetuho, chips: 5
+Big Blind: Laroerluv, chips: 10
+Calls: Beetanhee
+Calls: Wilal
+Folds: Jeettoerli
+Folds: Hehobup
+Raises: Jeminny, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Flop: 2c Ad Ts
+Checks: Beetanhee
+Checks: Jeminny
+Turn: 3h
+Checks: Beetanhee
+Checks: Jeminny
+River: Qc
+Checks: Beetanhee
+Checks: Jeminny
+Pot size: 60
+Showdown Reached
+Shows: Beetanhee, Kd Jd
+Combination: Beetanhee, Straight ( Ad Kd Qc Jd Ts )
+Shows: Wilal, Qd 9d
+Combination: Wilal, Pair ( Qd Qc Ad Ts 9d )
+Shows: Jeminny, Js Qs
+Combination: Jeminny, Pair ( Qs Qc Ad Js Ts )
+Wins: Beetanhee, chips: 60
+Quits: Wilal, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Laroerluv, chips: 5
+Big Blind: Beetanhee, chips: 10
+Raises: Jeettoerli, chips: 990
+Raises: Hehobup, chips: 10
+Raises: Jeminny, chips: 890
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Beetanhee
+Flop: Jh Kd Ts
+Turn: 2d
+River: Ad
+Pot size: 3925
+Showdown Reached
+Shows: Jeettoerli, As Kc
+Combination: Jeettoerli, Two Pair ( As Ad Kc Kd Jh )
+Shows: Hehobup, Ac Qc
+Combination: Hehobup, Straight ( Ac Kd Qc Jh Ts )
+Shows: Jeminny, Tc Jc
+Combination: Jeminny, Two Pair ( Jc Jh Tc Ts Ad )
+Wins: Hehobup, chips: 3035
+Wins: Jeminny, chips: 890
+Quits: Jeettoerli, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Laroerluv
+Small Blind: Beetanhee, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Jeminny
+Raises: Rubewro, chips: 20
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Flop: 6s 6d 3h
+Checks: Beetanhee
+Raises: Rubewro, chips: 20
+Calls: Beetanhee
+Turn: Ah
+Checks: Beetanhee
+Checks: Rubewro
+River: Th
+Checks: Beetanhee
+Checks: Rubewro
+Pot size: 120
+Showdown Reached
+Shows: Beetanhee, Jd Qh
+Combination: Beetanhee, Pair ( 6s 6d Ah Qh Jd )
+Shows: Rubewro, Kh Kd
+Combination: Rubewro, Two Pair ( Kh Kd 6s 6d Ah )
+Wins: Rubewro, chips: 120
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Beetanhee
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Calls: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Folds: Hehobup
+Raises: Jeminny, chips: 10
+Folds: Gudonhif
+Folds: Beetanhee
+Pot size: 45
+Wins: Jeminny, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Calls: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Checks: Rubewro
+Flop: Qd 7s Ad
+Checks: Rubewro
+Checks: Gudonhif
+Checks: Beetanhee
+Turn: Ks
+Checks: Rubewro
+Checks: Gudonhif
+Checks: Beetanhee
+River: Qh
+Checks: Rubewro
+Checks: Gudonhif
+Raises: Beetanhee, chips: 10
+Folds: Rubewro
+Folds: Gudonhif
+Pot size: 45
+Wins: Beetanhee, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Raises: Gudonhif, chips: 20
+Folds: Peetuho
+Calls: Laroerluv
+Folds: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Flop: 5s Ks 9c
+Checks: Gudonhif
+Checks: Laroerluv
+Turn: 8c
+Checks: Gudonhif
+Checks: Laroerluv
+River: Ts
+Checks: Gudonhif
+Checks: Laroerluv
+Pot size: 75
+Showdown Reached
+Shows: Gudonhif, Ad 7d
+Combination: Gudonhif, High Card ( Ad Ks Ts 9c 8c )
+Shows: Laroerluv, Ac 2c
+Combination: Laroerluv, High Card ( Ac Ks Ts 9c 8c )
+Wins: Gudonhif, chips: 38
+Wins: Laroerluv, chips: 37
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Gudonhif, chips: 10
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Beetanhee
+Calls: Hehobup
+Folds: Jeminny
+Calls: Rubewro
+Folds: Blossom
+Checks: Gudonhif
+Flop: 2c 8h 7s
+Checks: Gudonhif
+Checks: Hehobup
+Checks: Rubewro
+Turn: Td
+Checks: Gudonhif
+Checks: Hehobup
+Checks: Rubewro
+River: Ks
+Checks: Gudonhif
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 35
+Showdown Reached
+Shows: Gudonhif, 6c Qh
+Combination: Gudonhif, High Card ( Ks Qh Td 8h 7s )
+Shows: Hehobup, 3d 3h
+Combination: Hehobup, Pair ( 3d 3h Ks Td 8h )
+Shows: Rubewro, Th Qd
+Combination: Rubewro, Pair ( Th Td Ks Qd 8h )
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Gudonhif, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Laroerluv
+Folds: Beetanhee
+Folds: Hehobup
+Raises: Jeminny, chips: 10
+Folds: Rubewro
+Calls: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Flop: Qs 4s 6c
+Raises: Jeminny, chips: 10
+Calls: Blossom
+Turn: 8h
+Raises: Jeminny, chips: 10
+Calls: Blossom
+River: 2h
+Checks: Jeminny
+Checks: Blossom
+Pot size: 95
+Showdown Reached
+Shows: Blossom, Ad Jd
+Combination: Blossom, High Card ( Ad Qs Jd 8h 6c )
+Shows: Jeminny, 7s As
+Combination: Jeminny, High Card ( As Qs 8h 7s 6c )
+Wins: Blossom, chips: 95
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Gudonhif
+Small Blind: Peetuho, chips: 5
+Big Blind: Laroerluv, chips: 10
+Calls: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Raises: Rubewro, chips: 20
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Beetanhee
+Pot size: 55
+Wins: Rubewro, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Laroerluv, chips: 5
+Big Blind: Beetanhee, chips: 10
+Calls: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Calls: Gudonhif
+Raises: Peetuho, chips: 10
+Folds: Laroerluv
+Folds: Beetanhee
+Folds: Hehobup
+Folds: Gudonhif
+Pot size: 55
+Wins: Peetuho, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Laroerluv
+Small Blind: Beetanhee, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Jeminny
+Raises: Rubewro, chips: 10
+Folds: Blossom
+Calls: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Beetanhee
+Raises: Hehobup, chips: 20
+Folds: Jeminny
+Calls: Rubewro
+Raises: Gudonhif, chips: 50
+Calls: Hehobup
+Raises: Rubewro, chips: 70
+Calls: Gudonhif
+Calls: Hehobup
+Flop: Ah 7d Kc
+Raises: Hehobup, chips: 2840
+Folds: Rubewro
+Folds: Gudonhif
+Pot size: 3335
+Wins: Hehobup, chips: 3335
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Beetanhee
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Calls: Rubewro
+Folds: Blossom
+Calls: Gudonhif
+Raises: Peetuho, chips: 10
+Folds: Laroerluv
+Folds: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Gudonhif
+Pot size: 55
+Wins: Peetuho, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Raises: Gudonhif, chips: 10
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Beetanhee
+Calls: Hehobup
+Folds: Jeminny
+Raises: Rubewro, chips: 10
+Folds: Blossom
+Raises: Gudonhif, chips: 10
+Calls: Hehobup
+Raises: Rubewro, chips: 10
+Calls: Gudonhif
+Raises: Hehobup, chips: 20
+Raises: Rubewro, chips: 40
+Raises: Gudonhif, chips: 60
+Calls: Hehobup
+Calls: Rubewro
+Flop: 9h As 2d
+Checks: Rubewro
+Checks: Gudonhif
+Checks: Hehobup
+Turn: Qd
+Checks: Rubewro
+Raises: Gudonhif, chips: 90
+Calls: Hehobup
+Calls: Rubewro
+River: Jc
+Checks: Rubewro
+Checks: Gudonhif
+Raises: Hehobup, chips: 100
+Raises: Rubewro, chips: 180
+Folds: Gudonhif
+Calls: Hehobup
+Pot size: 1355
+Showdown Reached
+Shows: Hehobup, Ks Qs
+Combination: Hehobup, Pair ( Qs Qd As Ks Jc )
+Shows: Rubewro, Js Ah
+Combination: Rubewro, Two Pair ( Ah As Js Jc Qd )
+Wins: Rubewro, chips: 1355
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Gudonhif
+Calls: Peetuho
+Folds: Laroerluv
+Calls: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Checks: Blossom
+Flop: Ks 5c 8s
+Checks: Blossom
+Checks: Gudonhif
+Checks: Peetuho
+Checks: Beetanhee
+Turn: 9s
+Checks: Blossom
+Checks: Gudonhif
+Checks: Peetuho
+Checks: Beetanhee
+River: 5d
+Raises: Blossom, chips: 10
+Calls: Gudonhif
+Folds: Peetuho
+Folds: Beetanhee
+Pot size: 65
+Showdown Reached
+Shows: Blossom, 3d Kh
+Combination: Blossom, Two Pair ( Kh Ks 5c 5d 9s )
+Shows: Gudonhif, 5s 4h
+Combination: Gudonhif, Three Of A Kind ( 5s 5c 5d Ks 9s )
+Wins: Gudonhif, chips: 65
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Gudonhif, chips: 10
+Calls: Peetuho
+Raises: Laroerluv, chips: 932
+Calls: Beetanhee
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Flop: 8c 3d 9s
+Turn: 5h
+River: 6d
+Pot size: 1902
+Showdown Reached
+Shows: Laroerluv, As Ac
+Combination: Laroerluv, Pair ( As Ac 9s 8c 6d )
+Shows: Beetanhee, Ah Ks
+Combination: Beetanhee, High Card ( Ah Ks 9s 8c 6d )
+Wins: Laroerluv, chips: 1902
+Quits: Beetanhee, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Gudonhif, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Laroerluv
+Folds: Hehobup
+Calls: Jeminny
+Calls: Rubewro
+Folds: Blossom
+Calls: Gudonhif
+Checks: Peetuho
+Flop: 4c 4s 2c
+Checks: Gudonhif
+Checks: Peetuho
+Checks: Jeminny
+Checks: Rubewro
+Turn: Th
+Checks: Gudonhif
+Checks: Peetuho
+Checks: Jeminny
+Checks: Rubewro
+River: 8s
+Checks: Gudonhif
+Checks: Peetuho
+Checks: Jeminny
+Checks: Rubewro
+Pot size: 40
+Showdown Reached
+Shows: Gudonhif, 7c 8c
+Combination: Gudonhif, Two Pair ( 8c 8s 4c 4s Th )
+Shows: Peetuho, 5s 6s
+Combination: Peetuho, Pair ( 4c 4s Th 8s 6s )
+Shows: Jeminny, Qh Kd
+Combination: Jeminny, Pair ( 4c 4s Kd Qh Th )
+Shows: Rubewro, 9s Ah
+Combination: Rubewro, Pair ( 4c 4s Ah Th 9s )
+Wins: Gudonhif, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Gudonhif
+Small Blind: Peetuho, chips: 5
+Big Blind: Laroerluv, chips: 10
+Folds: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Calls: Peetuho
+Checks: Laroerluv
+Flop: 2h 6c 4s
+Checks: Peetuho
+Checks: Laroerluv
+Checks: Jeminny
+Turn: 9c
+Checks: Peetuho
+Checks: Laroerluv
+Checks: Jeminny
+River: 5s
+Raises: Peetuho, chips: 10
+Calls: Laroerluv
+Folds: Jeminny
+Pot size: 50
+Showdown Reached
+Shows: Peetuho, 3h Kh
+Combination: Peetuho, Straight ( 6c 5s 4s 3h 2h )
+Shows: Laroerluv, 3s 2c
+Combination: Laroerluv, Straight ( 6c 5s 4s 3s 2c )
+Wins: Peetuho, chips: 25
+Wins: Laroerluv, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Laroerluv, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Laroerluv
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Calls: Rubewro
+Folds: Blossom
+Folds: Gudonhif
+Calls: Peetuho
+Folds: Laroerluv
+Calls: Hehobup
+Checks: Jeminny
+Flop: 8h 6d 5s
+Checks: Hehobup
+Checks: Jeminny
+Checks: Rubewro
+Checks: Peetuho
+Turn: 6s
+Checks: Hehobup
+Checks: Jeminny
+Checks: Rubewro
+Checks: Peetuho
+River: Ts
+Raises: Hehobup, chips: 10
+Folds: Jeminny
+Folds: Rubewro
+Folds: Peetuho
+Pot size: 50
+Wins: Hehobup, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Gudonhif
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Hehobup
+Calls: Jeminny
+Checks: Rubewro
+Flop: Ts Qh 3s
+Checks: Jeminny
+Checks: Rubewro
+Checks: Blossom
+Checks: Hehobup
+Turn: 9h
+Checks: Jeminny
+Checks: Rubewro
+Checks: Blossom
+Checks: Hehobup
+River: Jc
+Checks: Jeminny
+Checks: Rubewro
+Checks: Blossom
+Checks: Hehobup
+Pot size: 40
+Showdown Reached
+Shows: Blossom, 9d 7d
+Combination: Blossom, Pair ( 9d 9h Qh Jc Ts )
+Shows: Hehobup, Tc 8c
+Combination: Hehobup, Straight ( Qh Jc Tc 9h 8c )
+Shows: Jeminny, 4d 4h
+Combination: Jeminny, Pair ( 4d 4h Qh Jc Ts )
+Shows: Rubewro, Qd Td
+Combination: Rubewro, Two Pair ( Qd Qh Td Ts Jc )
+Wins: Hehobup, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Raises: Gudonhif, chips: 10
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Hehobup
+Folds: Jeminny
+Calls: Rubewro
+Folds: Blossom
+Flop: 4h 7c Ks
+Checks: Rubewro
+Raises: Gudonhif, chips: 568
+Folds: Rubewro
+Pot size: 618
+Wins: Gudonhif, chips: 618
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Gudonhif, chips: 10
+Calls: Peetuho
+Folds: Laroerluv
+Folds: Hehobup
+Calls: Jeminny
+Calls: Rubewro
+Calls: Blossom
+Raises: Gudonhif, chips: 10
+Calls: Peetuho
+Raises: Jeminny, chips: 1090
+Folds: Rubewro
+Folds: Blossom
+Calls: Gudonhif
+Calls: Peetuho
+Flop: 9s 9d 3s
+Turn: 2h
+River: 3d
+Pot size: 2703
+Showdown Reached
+Shows: Gudonhif, Ks Qs
+Combination: Gudonhif, Two Pair ( 9s 9d 3s 3d Ks )
+Shows: Peetuho, 9h Jh
+Combination: Peetuho, Full House ( 9h 9s 9d 3s 3d )
+Shows: Jeminny, Qd Qc
+Combination: Jeminny, Two Pair ( Qd Qc 9s 9d 3s )
+Wins: Peetuho, chips: 2548
+Wins: Jeminny, chips: 155
+Quits: Gudonhif, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Laroerluv, chips: 10
+Folds: Hehobup
+Folds: Jeminny
+Calls: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Checks: Laroerluv
+Flop: 6h 2h 9c
+Checks: Laroerluv
+Checks: Rubewro
+Turn: 2s
+Checks: Laroerluv
+Checks: Rubewro
+River: 7h
+Checks: Laroerluv
+Checks: Rubewro
+Pot size: 25
+Showdown Reached
+Shows: Laroerluv, Qs 5d
+Combination: Laroerluv, Pair ( 2h 2s Qs 9c 7h )
+Shows: Rubewro, Th Jd
+Combination: Rubewro, Pair ( 2h 2s Jd Th 9c )
+Wins: Laroerluv, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Laroerluv, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Calls: Peetuho
+Calls: Laroerluv
+Checks: Hehobup
+Flop: 4s 7d 6d
+Checks: Laroerluv
+Checks: Hehobup
+Checks: Jeminny
+Checks: Peetuho
+Turn: Ts
+Checks: Laroerluv
+Checks: Hehobup
+Checks: Jeminny
+Checks: Peetuho
+River: 3s
+Checks: Laroerluv
+Checks: Hehobup
+Checks: Jeminny
+Checks: Peetuho
+Pot size: 40
+Showdown Reached
+Shows: Peetuho, 2h Ah
+Combination: Peetuho, High Card ( Ah Ts 7d 6d 4s )
+Shows: Laroerluv, 8h Jd
+Combination: Laroerluv, High Card ( Jd Ts 8h 7d 6d )
+Shows: Hehobup, Kh 2d
+Combination: Hehobup, High Card ( Kh Ts 7d 6d 4s )
+Shows: Jeminny, 5s 7s
+Combination: Jeminny, Flush ( Ts 7s 5s 4s 3s )
+Wins: Jeminny, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Laroerluv
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Folds: Rubewro
+Calls: Blossom
+Folds: Peetuho
+Folds: Laroerluv
+Calls: Hehobup
+Checks: Jeminny
+Flop: 7c 8h Kd
+Checks: Hehobup
+Checks: Jeminny
+Checks: Blossom
+Turn: Kh
+Raises: Hehobup, chips: 10
+Folds: Jeminny
+Calls: Blossom
+River: 2s
+Checks: Hehobup
+Checks: Blossom
+Pot size: 50
+Showdown Reached
+Shows: Blossom, 7s 8c
+Combination: Blossom, Two Pair ( Kd Kh 8c 8h 7s )
+Shows: Hehobup, Ah Kc
+Combination: Hehobup, Three Of A Kind ( Kc Kd Kh Ah 8h )
+Wins: Hehobup, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Hehobup
+Raises: Jeminny, chips: 15
+Folds: Rubewro
+Folds: Blossom
+Pot size: 45
+Wins: Jeminny, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Folds: Laroerluv
+Folds: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Checks: Blossom
+Flop: Th Ts 9s
+Raises: Blossom, chips: 10
+Calls: Jeminny
+Turn: 6s
+Checks: Blossom
+Checks: Jeminny
+River: 2h
+Checks: Blossom
+Checks: Jeminny
+Pot size: 45
+Showdown Reached
+Shows: Blossom, 5c Ac
+Combination: Blossom, Pair ( Th Ts Ac 9s 6s )
+Shows: Jeminny, 9c Qh
+Combination: Jeminny, Two Pair ( Th Ts 9c 9s Qh )
+Wins: Jeminny, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Laroerluv
+Calls: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Checks: Peetuho
+Flop: Ks 3d 8d
+Raises: Blossom, chips: 10
+Folds: Peetuho
+Folds: Laroerluv
+Raises: Hehobup, chips: 20
+Folds: Jeminny
+Raises: Blossom, chips: 810
+Calls: Hehobup
+Turn: 2c
+River: 5c
+Pot size: 1730
+Showdown Reached
+Shows: Blossom, Kc Td
+Combination: Blossom, Pair ( Kc Ks Td 8d 5c )
+Shows: Hehobup, 8s Js
+Combination: Hehobup, Pair ( 8s 8d Ks Js 5c )
+Wins: Blossom, chips: 1730
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Laroerluv, chips: 10
+Calls: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Folds: Peetuho
+Checks: Laroerluv
+Flop: Js 9d Kd
+Checks: Laroerluv
+Checks: Hehobup
+Checks: Blossom
+Turn: Ts
+Checks: Laroerluv
+Checks: Hehobup
+Checks: Blossom
+River: 5c
+Checks: Laroerluv
+Checks: Hehobup
+Checks: Blossom
+Pot size: 35
+Showdown Reached
+Shows: Blossom, As Th
+Combination: Blossom, Pair ( Th Ts As Kd Js )
+Shows: Laroerluv, 8h 6c
+Combination: Laroerluv, High Card ( Kd Js Ts 9d 8h )
+Shows: Hehobup, Jd Qs
+Combination: Hehobup, Straight ( Kd Qs Jd Ts 9d )
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Laroerluv, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Calls: Peetuho
+Raises: Laroerluv, chips: 15
+Folds: Hehobup
+Calls: Blossom
+Calls: Peetuho
+Flop: Qc 7s 4s
+Checks: Laroerluv
+Checks: Blossom
+Checks: Peetuho
+Turn: 8d
+Checks: Laroerluv
+Checks: Blossom
+Checks: Peetuho
+River: As
+Checks: Laroerluv
+Checks: Blossom
+Raises: Peetuho, chips: 20
+Calls: Laroerluv
+Folds: Blossom
+Pot size: 125
+Showdown Reached
+Shows: Peetuho, Ad Qd
+Combination: Peetuho, Two Pair ( Ad As Qd Qc 8d )
+Shows: Laroerluv, Ah Jc
+Combination: Laroerluv, Pair ( Ah As Qc Jc 8d )
+Wins: Peetuho, chips: 125
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Laroerluv
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Folds: Rubewro
+Calls: Blossom
+Folds: Peetuho
+Raises: Laroerluv, chips: 1832
+Raises: Hehobup, chips: 198
+Folds: Jeminny
+Folds: Blossom
+Flop: 4h 3s Ah
+Turn: 9s
+River: 5d
+Pot size: 3902
+Showdown Reached
+Shows: Laroerluv, Ts Td
+Combination: Laroerluv, Pair ( Ts Td Ah 9s 5d )
+Shows: Hehobup, Ad Kd
+Combination: Hehobup, Pair ( Ad Ah Kd 9s 5d )
+Wins: Hehobup, chips: 3902
+Quits: Laroerluv, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Calls: Peetuho
+Folds: Hehobup
+Folds: Jeminny
+Checks: Rubewro
+Flop: 9h 4s 4h
+Checks: Rubewro
+Checks: Peetuho
+Turn: Qc
+Checks: Rubewro
+Checks: Peetuho
+River: 6d
+Checks: Rubewro
+Checks: Peetuho
+Pot size: 25
+Showdown Reached
+Shows: Peetuho, 5c Kc
+Combination: Peetuho, Pair ( 4s 4h Kc Qc 9h )
+Shows: Rubewro, 7d Qs
+Combination: Rubewro, Two Pair ( Qs Qc 4s 4h 9h )
+Wins: Rubewro, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Raises: Peetuho, chips: 20
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Pot size: 45
+Wins: Peetuho, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Checks: Peetuho
+Flop: Jh 8s 9h
+Checks: Blossom
+Checks: Peetuho
+Checks: Hehobup
+Turn: 4c
+Checks: Blossom
+Checks: Peetuho
+Checks: Hehobup
+River: Qc
+Checks: Blossom
+Raises: Peetuho, chips: 10
+Calls: Hehobup
+Folds: Blossom
+Pot size: 50
+Showdown Reached
+Shows: Peetuho, Qd 3s
+Combination: Peetuho, Pair ( Qd Qc Jh 9h 8s )
+Shows: Hehobup, Ah Tc
+Combination: Hehobup, Straight ( Qc Jh Tc 9h 8s )
+Wins: Hehobup, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Jeminny
+Raises: Rubewro, chips: 10
+Folds: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 35
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Calls: Hehobup
+Checks: Jeminny
+Flop: Qh 7h Kh
+Checks: Hehobup
+Raises: Jeminny, chips: 10
+Calls: Hehobup
+Turn: 7d
+Checks: Hehobup
+Checks: Jeminny
+River: Js
+Checks: Hehobup
+Checks: Jeminny
+Pot size: 40
+Showdown Reached
+Shows: Hehobup, 8h 8s
+Combination: Hehobup, Two Pair ( 8h 8s 7h 7d Kh )
+Shows: Jeminny, Jh 8c
+Combination: Jeminny, Two Pair ( Jh Js 7h 7d Kh )
+Wins: Jeminny, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Folds: Jeminny
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Raises: Hehobup, chips: 10
+Folds: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Pot size: 35
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Calls: Jeminny
+Calls: Rubewro
+Folds: Blossom
+Checks: Peetuho
+Flop: 4c 9h 3s
+Checks: Peetuho
+Checks: Hehobup
+Checks: Jeminny
+Checks: Rubewro
+Turn: 8c
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Folds: Jeminny
+Raises: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+River: 4h
+Raises: Hehobup, chips: 10
+Calls: Rubewro
+Pot size: 105
+Showdown Reached
+Shows: Hehobup, As 9s
+Combination: Hehobup, Two Pair ( 9s 9h 4c 4h As )
+Shows: Rubewro, 8d 8s
+Combination: Rubewro, Full House ( 8d 8s 8c 4c 4h )
+Wins: Rubewro, chips: 105
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Jeminny
+Calls: Rubewro
+Calls: Blossom
+Folds: Peetuho
+Checks: Hehobup
+Flop: 3c Qc Qd
+Checks: Hehobup
+Checks: Jeminny
+Checks: Rubewro
+Checks: Blossom
+Turn: As
+Checks: Hehobup
+Checks: Jeminny
+Checks: Rubewro
+Checks: Blossom
+River: 7h
+Checks: Hehobup
+Checks: Jeminny
+Checks: Rubewro
+Checks: Blossom
+Pot size: 45
+Showdown Reached
+Shows: Blossom, 9h 6h
+Combination: Blossom, Pair ( Qc Qd As 9h 7h )
+Shows: Hehobup, 5d Th
+Combination: Hehobup, Pair ( Qc Qd As Th 7h )
+Shows: Jeminny, Jh Ks
+Combination: Jeminny, Pair ( Qc Qd As Ks Jh )
+Shows: Rubewro, 7d 8d
+Combination: Rubewro, Two Pair ( Qc Qd 7d 7h As )
+Wins: Rubewro, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Calls: Rubewro
+Folds: Blossom
+Calls: Peetuho
+Folds: Hehobup
+Checks: Jeminny
+Flop: Td 3s 4s
+Checks: Jeminny
+Checks: Rubewro
+Checks: Peetuho
+Turn: 4h
+Checks: Jeminny
+Checks: Rubewro
+Checks: Peetuho
+River: 7s
+Checks: Jeminny
+Checks: Rubewro
+Checks: Peetuho
+Pot size: 35
+Showdown Reached
+Shows: Peetuho, 8h 7d
+Combination: Peetuho, Two Pair ( 7d 7s 4s 4h Td )
+Shows: Jeminny, 6s 8d
+Combination: Jeminny, Pair ( 4s 4h Td 8d 7s )
+Shows: Rubewro, 5c Ac
+Combination: Rubewro, Pair ( 4s 4h Ac Td 7s )
+Wins: Peetuho, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Folds: Jeminny
+Checks: Rubewro
+Flop: Qs Ad Js
+Checks: Rubewro
+Checks: Blossom
+Turn: Tc
+Raises: Rubewro, chips: 10
+Folds: Blossom
+Pot size: 35
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Peetuho
+Folds: Hehobup
+Raises: Jeminny, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Pot size: 45
+Wins: Jeminny, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Calls: Jeminny
+Calls: Rubewro
+Calls: Blossom
+Checks: Peetuho
+Flop: 7h 4c 8d
+Checks: Blossom
+Checks: Peetuho
+Checks: Jeminny
+Checks: Rubewro
+Turn: 3s
+Checks: Blossom
+Checks: Peetuho
+Checks: Jeminny
+Checks: Rubewro
+River: 8h
+Checks: Blossom
+Checks: Peetuho
+Checks: Jeminny
+Checks: Rubewro
+Pot size: 40
+Showdown Reached
+Shows: Blossom, 9c Qc
+Combination: Blossom, Pair ( 8d 8h Qc 9c 7h )
+Shows: Peetuho, 3h 5s
+Combination: Peetuho, Two Pair ( 8d 8h 3h 3s 7h )
+Shows: Jeminny, Qd Kh
+Combination: Jeminny, Pair ( 8d 8h Kh Qd 7h )
+Shows: Rubewro, 4h 5h
+Combination: Rubewro, Two Pair ( 8d 8h 4h 4c 7h )
+Wins: Rubewro, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Jeminny
+Calls: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Checks: Hehobup
+Flop: 4s 9d 4c
+Checks: Hehobup
+Checks: Rubewro
+Turn: Qh
+Checks: Hehobup
+Checks: Rubewro
+River: 7s
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 25
+Showdown Reached
+Shows: Hehobup, 2d 8h
+Combination: Hehobup, Pair ( 4s 4c Qh 9d 8h )
+Shows: Rubewro, 5d 6s
+Combination: Rubewro, Pair ( 4s 4c Qh 9d 7s )
+Wins: Hehobup, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Calls: Rubewro
+Folds: Blossom
+Calls: Peetuho
+Folds: Hehobup
+Checks: Jeminny
+Flop: Qh 2h 6c
+Checks: Jeminny
+Checks: Rubewro
+Checks: Peetuho
+Turn: Kd
+Raises: Jeminny, chips: 10
+Folds: Rubewro
+Raises: Peetuho, chips: 10
+Calls: Jeminny
+River: 3h
+Checks: Jeminny
+Raises: Peetuho, chips: 10
+Calls: Jeminny
+Pot size: 95
+Showdown Reached
+Shows: Peetuho, 8c Kc
+Combination: Peetuho, Pair ( Kc Kd Qh 8c 6c )
+Shows: Jeminny, Jc Qd
+Combination: Jeminny, Pair ( Qd Qh Kd Jc 6c )
+Wins: Peetuho, chips: 95
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Folds: Jeminny
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Checks: Blossom
+Flop: 2c Jc 4h
+Checks: Blossom
+Checks: Jeminny
+Turn: Kh
+Checks: Blossom
+Checks: Jeminny
+River: 6d
+Checks: Blossom
+Checks: Jeminny
+Pot size: 25
+Showdown Reached
+Shows: Blossom, Ts Jd
+Combination: Blossom, Pair ( Jd Jc Kh Ts 6d )
+Shows: Jeminny, Ah 5h
+Combination: Jeminny, High Card ( Ah Kh Jc 6d 5h )
+Wins: Blossom, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Checks: Peetuho
+Flop: 6d 3s Jh
+Checks: Blossom
+Checks: Peetuho
+Turn: 3c
+Checks: Blossom
+Checks: Peetuho
+River: 9d
+Checks: Blossom
+Checks: Peetuho
+Pot size: 20
+Showdown Reached
+Shows: Blossom, Ks 9s
+Combination: Blossom, Two Pair ( 9s 9d 3s 3c Ks )
+Shows: Peetuho, Qc 5c
+Combination: Peetuho, Pair ( 3s 3c Qc Jh 9d )
+Wins: Blossom, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Jeminny
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Checks: Hehobup
+Flop: Ks 8s 5d
+Raises: Hehobup, chips: 10
+Calls: Jeminny
+Turn: 4s
+Raises: Hehobup, chips: 10
+Calls: Jeminny
+River: Ah
+Checks: Hehobup
+Checks: Jeminny
+Pot size: 65
+Showdown Reached
+Shows: Hehobup, Kh 9s
+Combination: Hehobup, Pair ( Kh Ks Ah 9s 8s )
+Shows: Jeminny, Qs Tc
+Combination: Jeminny, High Card ( Ah Ks Qs Tc 8s )
+Wins: Hehobup, chips: 65
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Calls: Peetuho
+Calls: Hehobup
+Checks: Jeminny
+Flop: 4d 2c 8s
+Checks: Hehobup
+Checks: Jeminny
+Checks: Peetuho
+Turn: 7d
+Checks: Hehobup
+Checks: Jeminny
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Jeminny
+Pot size: 40
+Wins: Peetuho, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Calls: Peetuho
+Calls: Hehobup
+Folds: Jeminny
+Checks: Rubewro
+Flop: Js Jc Jh
+Checks: Rubewro
+Checks: Peetuho
+Checks: Hehobup
+Turn: 3h
+Checks: Rubewro
+Checks: Peetuho
+Checks: Hehobup
+River: 7d
+Checks: Rubewro
+Checks: Peetuho
+Checks: Hehobup
+Pot size: 35
+Showdown Reached
+Shows: Peetuho, Qd Tc
+Combination: Peetuho, Three Of A Kind ( Js Jc Jh Qd Tc )
+Shows: Hehobup, 9h Ac
+Combination: Hehobup, Three Of A Kind ( Js Jc Jh Ac 9h )
+Shows: Rubewro, 4s 2h
+Combination: Rubewro, Three Of A Kind ( Js Jc Jh 7d 4s )
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Peetuho
+Folds: Hehobup
+Folds: Jeminny
+Calls: Rubewro
+Checks: Blossom
+Flop: 7c Qh Tc
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Turn: 7s
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+River: 8d
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Pot size: 30
+Showdown Reached
+Shows: Blossom, 9h Kc
+Combination: Blossom, Pair ( 7c 7s Kc Qh Tc )
+Shows: Peetuho, 6h 6d
+Combination: Peetuho, Two Pair ( 7c 7s 6h 6d Qh )
+Shows: Rubewro, 2s 2c
+Combination: Rubewro, Two Pair ( 7c 7s 2s 2c Qh )
+Wins: Peetuho, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Folds: Jeminny
+Folds: Rubewro
+Raises: Blossom, chips: 15
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 45
+Wins: Blossom, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Jeminny
+Folds: Rubewro
+Calls: Blossom
+Folds: Peetuho
+Checks: Hehobup
+Flop: Ts 9d Tc
+Raises: Hehobup, chips: 10
+Calls: Blossom
+Turn: 5c
+Checks: Hehobup
+Checks: Blossom
+River: 4h
+Raises: Hehobup, chips: 10
+Raises: Blossom, chips: 10
+Raises: Hehobup, chips: 10
+Raises: Blossom, chips: 1595
+Folds: Hehobup
+Pot size: 1700
+Wins: Blossom, chips: 1700
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Jeminny, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Calls: Hehobup
+Checks: Jeminny
+Flop: 4d 5c 6s
+Raises: Hehobup, chips: 10
+Calls: Jeminny
+Turn: 2h
+Raises: Hehobup, chips: 10
+Folds: Jeminny
+Pot size: 50
+Wins: Hehobup, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Jeminny, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Calls: Peetuho
+Folds: Hehobup
+Folds: Jeminny
+Raises: Rubewro, chips: 1720
+Folds: Peetuho
+Pot size: 1745
+Wins: Rubewro, chips: 1745
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Jeminny
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Calls: Jeminny
+Folds: Rubewro
+Checks: Blossom
+Flop: 9d 3h 8d
+Checks: Blossom
+Checks: Jeminny
+Turn: 4s
+Checks: Blossom
+Raises: Jeminny, chips: 10
+Raises: Blossom, chips: 20
+Raises: Jeminny, chips: 25
+Calls: Blossom
+River: Qd
+Pot size: 135
+Showdown Reached
+Shows: Blossom, 3d Qh
+Combination: Blossom, Two Pair ( Qh Qd 3d 3h 9d )
+Shows: Jeminny, Ks 9c
+Combination: Jeminny, Pair ( 9c 9d Ks Qd 8d )
+Wins: Blossom, chips: 135
+Quits: Jeminny, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Calls: Rubewro
+Folds: Blossom
+Checks: Peetuho
+Flop: 6h Kh 3h
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: Qh
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 45
+Wins: Peetuho, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Checks: Rubewro
+Flop: 8s Ac Jd
+Checks: Rubewro
+Checks: Blossom
+Turn: Qc
+Checks: Rubewro
+Checks: Blossom
+River: 8d
+Raises: Rubewro, chips: 10
+Calls: Blossom
+Pot size: 45
+Showdown Reached
+Shows: Blossom, Kh Th
+Combination: Blossom, Straight ( Ac Kh Qc Jd Th )
+Shows: Rubewro, 3h Js
+Combination: Rubewro, Two Pair ( Js Jd 8s 8d Ac )
+Wins: Blossom, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 15
+Wins: Blossom, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Raises: Hehobup, chips: 20
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Pot size: 45
+Wins: Hehobup, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Checks: Rubewro
+Flop: 4d 7d Kd
+Checks: Rubewro
+Checks: Blossom
+Turn: 5s
+Checks: Rubewro
+Checks: Blossom
+River: Ah
+Checks: Rubewro
+Checks: Blossom
+Pot size: 25
+Showdown Reached
+Shows: Blossom, Ac Td
+Combination: Blossom, Pair ( Ac Ah Kd Td 7d )
+Shows: Rubewro, 7h 8d
+Combination: Rubewro, Pair ( 7h 7d Ah Kd 8d )
+Wins: Blossom, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Peetuho
+Calls: Hehobup
+Folds: Rubewro
+Checks: Blossom
+Flop: Js Qd 6d
+Checks: Blossom
+Checks: Peetuho
+Checks: Hehobup
+Turn: 9s
+Checks: Blossom
+Checks: Peetuho
+Checks: Hehobup
+River: 7c
+Checks: Blossom
+Checks: Peetuho
+Checks: Hehobup
+Pot size: 35
+Showdown Reached
+Shows: Blossom, Kd Jh
+Combination: Blossom, Pair ( Jh Js Kd Qd 9s )
+Shows: Peetuho, Ks 2s
+Combination: Peetuho, High Card ( Ks Qd Js 9s 7c )
+Shows: Hehobup, 6c 7s
+Combination: Hehobup, Two Pair ( 7s 7c 6c 6d Qd )
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Folds: Blossom
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Calls: Peetuho
+Checks: Hehobup
+Flop: 5h 7d 9h
+Checks: Peetuho
+Checks: Hehobup
+Turn: Qh
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+River: 5s
+Checks: Peetuho
+Checks: Hehobup
+Pot size: 40
+Showdown Reached
+Shows: Peetuho, Kd Ah
+Combination: Peetuho, Pair ( 5h 5s Ah Kd Qh )
+Shows: Hehobup, 7c 4d
+Combination: Hehobup, Two Pair ( 7c 7d 5h 5s Qh )
+Wins: Hehobup, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Calls: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: Qc 2d Jd
+Checks: Hehobup
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Turn: 6h
+Checks: Hehobup
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+River: 8h
+Checks: Hehobup
+Checks: Rubewro
+Checks: Blossom
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Raises: Rubewro, chips: 10
+Folds: Blossom
+Calls: Peetuho
+Pot size: 80
+Showdown Reached
+Shows: Peetuho, Ts Qh
+Combination: Peetuho, Pair ( Qh Qc Jd Ts 8h )
+Shows: Rubewro, Jh 9s
+Combination: Rubewro, Pair ( Jh Jd Qc 9s 8h )
+Wins: Peetuho, chips: 80
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Peetuho
+Folds: Hehobup
+Calls: Rubewro
+Checks: Blossom
+Flop: 9d Jd 2d
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Turn: As
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+River: 5c
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Pot size: 30
+Showdown Reached
+Shows: Blossom, 3c 4d
+Combination: Blossom, Straight ( 5c 4d 3c 2d As )
+Shows: Peetuho, Qs 9h
+Combination: Peetuho, Pair ( 9h 9d As Qs Jd )
+Shows: Rubewro, 7h 8s
+Combination: Rubewro, High Card ( As Jd 9d 8s 7h )
+Wins: Blossom, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Raises: Rubewro, chips: 10
+Calls: Blossom
+Raises: Peetuho, chips: 20
+Raises: Rubewro, chips: 30
+Calls: Blossom
+Folds: Peetuho
+Flop: 6d As Jd
+Raises: Blossom, chips: 40
+Raises: Rubewro, chips: 40
+Raises: Blossom, chips: 1650
+Folds: Rubewro
+Pot size: 1990
+Wins: Blossom, chips: 1990
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Calls: Blossom
+Calls: Peetuho
+Checks: Hehobup
+Flop: 8h 3s Jc
+Checks: Peetuho
+Checks: Hehobup
+Checks: Blossom
+Turn: 7s
+Checks: Peetuho
+Checks: Hehobup
+Checks: Blossom
+River: Ad
+Checks: Peetuho
+Checks: Hehobup
+Checks: Blossom
+Pot size: 30
+Showdown Reached
+Shows: Blossom, 8c 7d
+Combination: Blossom, Two Pair ( 8c 8h 7d 7s Ad )
+Shows: Peetuho, Ac 5c
+Combination: Peetuho, Pair ( Ac Ad Jc 8h 7s )
+Shows: Hehobup, 8d Kd
+Combination: Hehobup, Pair ( 8d 8h Ad Kd Jc )
+Wins: Blossom, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Calls: Rubewro
+Checks: Blossom
+Flop: Ks Kd As
+Checks: Rubewro
+Raises: Blossom, chips: 10
+Calls: Rubewro
+Turn: 9d
+Checks: Rubewro
+Checks: Blossom
+River: 4c
+Checks: Rubewro
+Checks: Blossom
+Pot size: 40
+Showdown Reached
+Shows: Blossom, Jd Ac
+Combination: Blossom, Two Pair ( Ac As Ks Kd Jd )
+Shows: Rubewro, Jh Th
+Combination: Rubewro, Pair ( Ks Kd As Jh Th )
+Wins: Blossom, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Folds: Blossom
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Calls: Blossom
+Folds: Peetuho
+Checks: Hehobup
+Flop: 6c Kc 9s
+Checks: Hehobup
+Raises: Blossom, chips: 2015
+Folds: Hehobup
+Pot size: 2040
+Wins: Blossom, chips: 2040
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Calls: Peetuho
+Folds: Hehobup
+Checks: Rubewro
+Flop: Tc 2h 3c
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Turn: 6d
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+River: 7c
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Pot size: 35
+Showdown Reached
+Shows: Blossom, Jh 9s
+Combination: Blossom, High Card ( Jh Tc 9s 7c 6d )
+Shows: Peetuho, Jc Ks
+Combination: Peetuho, High Card ( Ks Jc Tc 7c 6d )
+Shows: Rubewro, 9h Ad
+Combination: Rubewro, High Card ( Ad Tc 9h 7c 6d )
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Peetuho
+Folds: Hehobup
+Calls: Rubewro
+Checks: Blossom
+Flop: 7c Js 7d
+Checks: Rubewro
+Checks: Blossom
+Checks: Peetuho
+Turn: 8h
+Checks: Rubewro
+Raises: Blossom, chips: 10
+Folds: Peetuho
+Calls: Rubewro
+River: 8s
+Checks: Rubewro
+Raises: Blossom, chips: 10
+Calls: Rubewro
+Pot size: 70
+Showdown Reached
+Shows: Blossom, Jh 2c
+Combination: Blossom, Two Pair ( Jh Js 8h 8s 7c )
+Shows: Rubewro, 2s As
+Combination: Rubewro, Two Pair ( 8h 8s 7c 7d As )
+Wins: Blossom, chips: 70
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Folds: Blossom
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Folds: Blossom
+Calls: Peetuho
+Checks: Hehobup
+Flop: Jd 6d Ac
+Raises: Peetuho, chips: 2553
+Folds: Hehobup
+Pot size: 2573
+Wins: Peetuho, chips: 2573
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Calls: Rubewro
+Checks: Blossom
+Flop: Td 6h 6c
+Raises: Rubewro, chips: 10
+Calls: Blossom
+Turn: 3s
+Checks: Rubewro
+Checks: Blossom
+River: 7d
+Checks: Rubewro
+Checks: Blossom
+Pot size: 40
+Showdown Reached
+Shows: Blossom, 3h Kc
+Combination: Blossom, Two Pair ( 6h 6c 3h 3s Kc )
+Shows: Rubewro, Ks Th
+Combination: Rubewro, Two Pair ( Th Td 6h 6c Ks )
+Wins: Rubewro, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Blossom, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Calls: Rubewro
+Folds: Blossom
+Checks: Peetuho
+Flop: 3s 8s 4c
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: Ah
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+River: 8c
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 35
+Showdown Reached
+Shows: Peetuho, Qh 2s
+Combination: Peetuho, Pair ( 8s 8c Ah Qh 4c )
+Shows: Hehobup, As 5s
+Combination: Hehobup, Two Pair ( As Ah 8s 8c 5s )
+Shows: Rubewro, 9s Kh
+Combination: Rubewro, Pair ( 8s 8c Ah Kh 9s )
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Raises: Rubewro, chips: 20
+Folds: Blossom
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 45
+Wins: Rubewro, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Blossom
+Folds: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: 4c Td 9s
+Checks: Hehobup
+Checks: Rubewro
+Checks: Blossom
+Turn: 5c
+Checks: Hehobup
+Checks: Rubewro
+Checks: Blossom
+River: 4s
+Checks: Hehobup
+Checks: Rubewro
+Raises: Blossom, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 40
+Wins: Blossom, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+Folds: Rubewro
+Checks: Blossom
+Flop: 2d As 6s
+Checks: Blossom
+Checks: Hehobup
+Turn: 5c
+Checks: Blossom
+Raises: Hehobup, chips: 10
+Calls: Blossom
+River: Tc
+Raises: Blossom, chips: 2040
+Raises: Hehobup, chips: 1822
+Pot size: 5947
+Showdown Reached
+Shows: Blossom, 5s Ts
+Combination: Blossom, Two Pair ( Ts Tc 5s 5c As )
+Shows: Hehobup, 6d Ad
+Combination: Hehobup, Two Pair ( Ad As 6d 6s Tc )
+Wins: Hehobup, chips: 5947
+Quits: Blossom, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Peetuho
+Folds: Hehobup
+Checks: Rubewro
+Flop: 6h Tc Th
+Checks: Rubewro
+Raises: Peetuho, chips: 10
+Folds: Rubewro
+Pot size: 35
+Wins: Peetuho, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Calls: Peetuho
+Checks: Hehobup
+Flop: Kc Jd 5h
+Checks: Peetuho
+Checks: Hehobup
+Raises: Rubewro, chips: 10
+Raises: Peetuho, chips: 20
+Folds: Hehobup
+Calls: Rubewro
+Turn: Ah
+Raises: Peetuho, chips: 20
+Calls: Rubewro
+River: 4d
+Checks: Peetuho
+Checks: Rubewro
+Pot size: 130
+Showdown Reached
+Shows: Peetuho, Kd Ks
+Combination: Peetuho, Three Of A Kind ( Kd Ks Kc Ah Jd )
+Shows: Rubewro, Jc 8s
+Combination: Rubewro, Pair ( Jc Jd Ah Kc 8s )
+Wins: Peetuho, chips: 130
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: 2d Tc Js
+Checks: Hehobup
+Checks: Rubewro
+Checks: Peetuho
+Turn: 7h
+Checks: Hehobup
+Checks: Rubewro
+Checks: Peetuho
+River: Qc
+Checks: Hehobup
+Checks: Rubewro
+Checks: Peetuho
+Pot size: 30
+Showdown Reached
+Shows: Peetuho, 3h 2h
+Combination: Peetuho, Pair ( 2h 2d Qc Js Tc )
+Shows: Hehobup, 9c Ts
+Combination: Hehobup, Pair ( Ts Tc Qc Js 9c )
+Shows: Rubewro, 5d 6h
+Combination: Rubewro, High Card ( Qc Js Tc 7h 6h )
+Wins: Hehobup, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Calls: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+Flop: Td Qh 8h
+Checks: Peetuho
+Checks: Hehobup
+Turn: 6s
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+River: Kc
+Checks: Peetuho
+Raises: Hehobup, chips: 5927
+Folds: Peetuho
+Pot size: 5987
+Wins: Hehobup, chips: 5987
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Folds: Rubewro
+Checks: Peetuho
+Flop: 8s 8c 4s
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+Turn: 8h
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+River: 7d
+Checks: Peetuho
+Checks: Hehobup
+Pot size: 65
+Showdown Reached
+Shows: Peetuho, 6d Kc
+Combination: Peetuho, Three Of A Kind ( 8s 8c 8h Kc 7d )
+Shows: Hehobup, Jh Qh
+Combination: Hehobup, Three Of A Kind ( 8s 8c 8h Qh Jh )
+Wins: Peetuho, chips: 65
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Calls: Peetuho
+Checks: Hehobup
+Flop: 3c 5h 8s
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: 6c
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+River: 2h
+Raises: Hehobup, chips: 5932
+Folds: Rubewro
+Pot size: 5982
+Wins: Hehobup, chips: 5982
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Raises: Peetuho, chips: 10
+Raises: Hehobup, chips: 25
+Folds: Rubewro
+Raises: Peetuho, chips: 45
+Raises: Hehobup, chips: 115
+Raises: Peetuho, chips: 155
+Raises: Hehobup, chips: 305
+Calls: Peetuho
+Flop: Js 6h 3d
+Checks: Hehobup
+Checks: Peetuho
+Turn: 5h
+Raises: Hehobup, chips: 550
+Calls: Peetuho
+River: Qc
+Checks: Hehobup
+Checks: Peetuho
+Pot size: 2440
+Showdown Reached
+Shows: Peetuho, As Ah
+Combination: Peetuho, Pair ( As Ah Qc Js 6h )
+Shows: Hehobup, Kh Kd
+Combination: Hehobup, Pair ( Kh Kd Qc Js 6h )
+Wins: Peetuho, chips: 2440
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Raises: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 35
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: Kd Ah 5s
+Checks: Hehobup
+Checks: Rubewro
+Turn: Qc
+Checks: Hehobup
+Checks: Rubewro
+River: 3c
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 20
+Showdown Reached
+Shows: Hehobup, 5d 6d
+Combination: Hehobup, Pair ( 5d 5s Ah Kd Qc )
+Shows: Rubewro, 4s 8c
+Combination: Rubewro, High Card ( Ah Kd Qc 8c 5s )
+Wins: Hehobup, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Calls: Rubewro
+Checks: Peetuho
+Flop: Ac Qc 6s
+Checks: Rubewro
+Checks: Peetuho
+Turn: 7s
+Checks: Rubewro
+Checks: Peetuho
+River: Js
+Checks: Rubewro
+Checks: Peetuho
+Pot size: 20
+Showdown Reached
+Shows: Peetuho, 6h 4d
+Combination: Peetuho, Pair ( 6h 6s Ac Qc Js )
+Shows: Rubewro, 3d 3s
+Combination: Rubewro, Pair ( 3d 3s Ac Qc Js )
+Wins: Peetuho, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+Checks: Hehobup
+Flop: 7c Kh Qs
+Checks: Hehobup
+Checks: Rubewro
+Turn: 4h
+Checks: Hehobup
+Checks: Rubewro
+River: 2s
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 25
+Showdown Reached
+Shows: Hehobup, 2c Jc
+Combination: Hehobup, Pair ( 2c 2s Kh Qs Jc )
+Shows: Rubewro, 9d Ac
+Combination: Rubewro, High Card ( Ac Kh Qs 9d 7c )
+Wins: Hehobup, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Calls: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: 4d 3c 7h
+Checks: Hehobup
+Checks: Rubewro
+Checks: Peetuho
+Turn: 8s
+Checks: Hehobup
+Checks: Rubewro
+Checks: Peetuho
+River: 7c
+Checks: Hehobup
+Raises: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+Pot size: 50
+Showdown Reached
+Shows: Hehobup, 9c Ah
+Combination: Hehobup, Pair ( 7h 7c Ah 9c 8s )
+Shows: Rubewro, 6h 5d
+Combination: Rubewro, Straight ( 8s 7h 6h 5d 4d )
+Wins: Rubewro, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Calls: Peetuho
+Checks: Hehobup
+Flop: 2d 3h 2h
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: 6d
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+River: 5s
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 30
+Showdown Reached
+Shows: Peetuho, 8s Jd
+Combination: Peetuho, Pair ( 2d 2h Jd 8s 6d )
+Shows: Hehobup, Ah 4s
+Combination: Hehobup, Straight ( 6d 5s 4s 3h 2d )
+Shows: Rubewro, 7d 8c
+Combination: Rubewro, Pair ( 2d 2h 8c 7d 6d )
+Wins: Hehobup, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Raises: Rubewro, chips: 15
+Calls: Peetuho
+Flop: 6c Qs 3s
+Checks: Rubewro
+Checks: Peetuho
+Turn: 3h
+Raises: Rubewro, chips: 20
+Folds: Peetuho
+Pot size: 70
+Wins: Rubewro, chips: 70
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+Checks: Hehobup
+Flop: Td Qd 6d
+Checks: Hehobup
+Raises: Rubewro, chips: 10
+Folds: Hehobup
+Pot size: 35
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Calls: Rubewro
+Checks: Peetuho
+Flop: 6s 6d 9d
+Checks: Rubewro
+Checks: Peetuho
+Turn: 2h
+Checks: Rubewro
+Checks: Peetuho
+River: 8d
+Checks: Rubewro
+Raises: Peetuho, chips: 3808
+Folds: Rubewro
+Pot size: 3828
+Wins: Peetuho, chips: 3828
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Calls: Peetuho
+Checks: Hehobup
+Flop: 2d 6d 3h
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: 2c
+Checks: Peetuho
+Checks: Hehobup
+Raises: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+River: Jc
+Checks: Hehobup
+Raises: Rubewro, chips: 10
+Folds: Hehobup
+Pot size: 60
+Wins: Rubewro, chips: 60
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: 5d 3c Ad
+Checks: Hehobup
+Checks: Rubewro
+Turn: Ah
+Raises: Hehobup, chips: 4732
+Folds: Rubewro
+Pot size: 4752
+Wins: Hehobup, chips: 4752
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Calls: Rubewro
+Checks: Peetuho
+Flop: Ks 8h 9d
+Raises: Rubewro, chips: 10
+Raises: Peetuho, chips: 10
+Raises: Rubewro, chips: 1400
+Folds: Peetuho
+Pot size: 1460
+Wins: Rubewro, chips: 1460
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+Checks: Hehobup
+Flop: 4s Qs 2c
+Checks: Hehobup
+Checks: Rubewro
+Turn: 8h
+Checks: Hehobup
+Checks: Rubewro
+River: 6h
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 25
+Showdown Reached
+Shows: Hehobup, 8c 3s
+Combination: Hehobup, Pair ( 8c 8h Qs 6h 4s )
+Shows: Rubewro, Td Js
+Combination: Rubewro, High Card ( Qs Js Td 8h 6h )
+Wins: Hehobup, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Calls: Rubewro
+Checks: Peetuho
+Flop: Ac 3c 6s
+Checks: Rubewro
+Checks: Peetuho
+Checks: Hehobup
+Turn: Tc
+Checks: Rubewro
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Raises: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+River: 6d
+Checks: Rubewro
+Checks: Hehobup
+Pot size: 70
+Showdown Reached
+Shows: Hehobup, Jd Th
+Combination: Hehobup, Two Pair ( Th Tc 6s 6d Ac )
+Shows: Rubewro, Kd Td
+Combination: Rubewro, Two Pair ( Td Tc 6s 6d Ac )
+Wins: Hehobup, chips: 35
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+Checks: Hehobup
+Flop: 5c Kd Qd
+Checks: Hehobup
+Raises: Rubewro, chips: 10
+Folds: Hehobup
+Pot size: 35
+Wins: Rubewro, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+Checks: Hehobup
+Flop: 9c Jh 9s
+Checks: Hehobup
+Checks: Rubewro
+Turn: 2d
+Raises: Hehobup, chips: 4742
+Folds: Rubewro
+Pot size: 4767
+Wins: Hehobup, chips: 4767
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Raises: Hehobup, chips: 10
+Raises: Rubewro, chips: 25
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 75
+Wins: Rubewro, chips: 75
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Calls: Peetuho
+Checks: Hehobup
+Flop: Ad Qs 4d
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: 2h
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+River: 8d
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 40
+Wins: Peetuho, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Raises: Peetuho, chips: 20
+Folds: Hehobup
+Folds: Rubewro
+Pot size: 45
+Wins: Peetuho, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Folds: Rubewro
+Checks: Peetuho
+Flop: 2c Th 4d
+Checks: Peetuho
+Checks: Hehobup
+Turn: 3c
+Raises: Peetuho, chips: 10
+Calls: Hehobup
+River: 9c
+Raises: Peetuho, chips: 3773
+Folds: Hehobup
+Pot size: 3818
+Wins: Peetuho, chips: 3818
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Calls: Peetuho
+Checks: Hehobup
+Flop: 2h 5h 7d
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Turn: Tc
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+River: 3d
+Checks: Peetuho
+Checks: Hehobup
+Checks: Rubewro
+Pot size: 30
+Showdown Reached
+Shows: Peetuho, Ad 9s
+Combination: Peetuho, High Card ( Ad Tc 9s 7d 5h )
+Shows: Hehobup, Kc Ts
+Combination: Hehobup, Pair ( Ts Tc Kc 7d 5h )
+Shows: Rubewro, 9h Qd
+Combination: Rubewro, High Card ( Qd Tc 9h 7d 5h )
+Wins: Hehobup, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Folds: Hehobup
+Pot size: 15
+Wins: Rubewro, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Raises: Hehobup, chips: 10
+Folds: Rubewro
+Folds: Peetuho
+Pot size: 35
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Rubewro
+Calls: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+Flop: 6d 9c 9s
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+Turn: 3h
+Checks: Peetuho
+Checks: Hehobup
+River: 8h
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 70
+Wins: Peetuho, chips: 70
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Raises: Peetuho, chips: 20
+Folds: Hehobup
+Raises: Rubewro, chips: 40
+Raises: Peetuho, chips: 110
+Calls: Rubewro
+Flop: 9h 8s Kd
+Raises: Rubewro, chips: 1285
+Raises: Peetuho, chips: 1495
+Turn: 5d
+River: 4d
+Pot size: 4430
+Showdown Reached
+Shows: Peetuho, Ks As
+Combination: Peetuho, Pair ( Ks Kd As 9h 8s )
+Shows: Rubewro, 9s 9c
+Combination: Rubewro, Three Of A Kind ( 9s 9c 9h Kd 8s )
+Wins: Peetuho, chips: 1495
+Wins: Rubewro, chips: 2935
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Rubewro, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Calls: Rubewro
+Checks: Peetuho
+Flop: 9s Ah 3s
+Raises: Rubewro, chips: 10
+Calls: Peetuho
+Turn: 2h
+Checks: Rubewro
+Checks: Peetuho
+River: 4s
+Raises: Rubewro, chips: 10
+Calls: Peetuho
+Pot size: 60
+Showdown Reached
+Shows: Peetuho, 8s Ad
+Combination: Peetuho, Pair ( Ad Ah 9s 8s 4s )
+Shows: Rubewro, Kd Ks
+Combination: Rubewro, Pair ( Kd Ks Ah 9s 4s )
+Wins: Peetuho, chips: 60
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rubewro
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Rubewro
+Folds: Peetuho
+Checks: Hehobup
+Flop: 4d 3c 8h
+Raises: Hehobup, chips: 4692
+Folds: Rubewro
+Pot size: 4717
+Wins: Hehobup, chips: 4717
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Hehobup, chips: 5
+Big Blind: Rubewro, chips: 10
+Folds: Peetuho
+Calls: Hehobup
+Checks: Rubewro
+Flop: 8s Qc 6c
+Checks: Hehobup
+Checks: Rubewro
+Turn: 7d
+Raises: Hehobup, chips: 10
+Raises: Rubewro, chips: 20
+Raises: Hehobup, chips: 40
+Calls: Rubewro
+River: 6h
+Checks: Hehobup
+Raises: Rubewro, chips: 2815
+Calls: Hehobup
+Pot size: 5790
+Showdown Reached
+Shows: Hehobup, 4h 5d
+Combination: Hehobup, Straight ( 8s 7d 6c 5d 4h )
+Shows: Rubewro, Js Qd
+Combination: Rubewro, Two Pair ( Qd Qc 6c 6h Js )
+Wins: Hehobup, chips: 5790
+Quits: Rubewro, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Raises: Peetuho, chips: 15
+Folds: Hehobup
+Pot size: 35
+Wins: Peetuho, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: Jh 6s Ac
+Checks: Peetuho
+Checks: Hehobup
+Turn: 7d
+Checks: Peetuho
+Checks: Hehobup
+River: 8c
+Checks: Peetuho
+Checks: Hehobup
+Pot size: 20
+Showdown Reached
+Shows: Peetuho, Qs 4h
+Combination: Peetuho, High Card ( Ac Qs Jh 8c 7d )
+Shows: Hehobup, 2d 3d
+Combination: Hehobup, High Card ( Ac Jh 8c 7d 6s )
+Wins: Peetuho, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Tc 9d 5h
+Checks: Hehobup
+Checks: Peetuho
+Turn: Ks
+Raises: Hehobup, chips: 10
+Raises: Peetuho, chips: 10
+Calls: Hehobup
+River: Jc
+Checks: Hehobup
+Raises: Peetuho, chips: 2383
+Folds: Hehobup
+Pot size: 2443
+Wins: Peetuho, chips: 2443
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: 5s 8h Kh
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 30
+Wins: Hehobup, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Ac 2d 5s
+Checks: Hehobup
+Checks: Peetuho
+Turn: Qh
+Checks: Hehobup
+Raises: Peetuho, chips: 2423
+Folds: Hehobup
+Pot size: 2443
+Wins: Peetuho, chips: 2443
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: Ks Jc Qc
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 30
+Wins: Peetuho, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: 6c 7h 7c
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+Turn: 8h
+Checks: Hehobup
+Checks: Peetuho
+River: 9c
+Checks: Hehobup
+Checks: Peetuho
+Pot size: 40
+Showdown Reached
+Shows: Peetuho, Ah Kc
+Combination: Peetuho, Pair ( 7h 7c Ah Kc 9c )
+Shows: Hehobup, 4d Kh
+Combination: Hehobup, Pair ( 7h 7c Kh 9c 8h )
+Wins: Peetuho, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: 2h 7d 2c
+Raises: Peetuho, chips: 2463
+Raises: Hehobup, chips: 1657
+Turn: 4c
+River: 8s
+Pot size: 6603
+Showdown Reached
+Shows: Peetuho, 5h 2s
+Combination: Peetuho, Three Of A Kind ( 2s 2h 2c 8s 7d )
+Shows: Hehobup, Kd Jd
+Combination: Hehobup, Pair ( 2h 2c Kd Jd 8s )
+Wins: Peetuho, chips: 4946
+Wins: Hehobup, chips: 1657
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Tc 5d Ac
+Checks: Hehobup
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 30
+Wins: Peetuho, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: 3h Ad 8s
+Checks: Hehobup
+Checks: Peetuho
+Turn: 5d
+Raises: Hehobup, chips: 10
+Calls: Peetuho
+River: 5s
+Checks: Hehobup
+Checks: Peetuho
+Pot size: 40
+Showdown Reached
+Shows: Peetuho, Jh Jc
+Combination: Peetuho, Two Pair ( Jh Jc 5d 5s Ad )
+Shows: Hehobup, 2s 3c
+Combination: Hehobup, Two Pair ( 5d 5s 3c 3h Ad )
+Wins: Peetuho, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Th 6c Kh
+Checks: Hehobup
+Checks: Peetuho
+Turn: 3s
+Checks: Hehobup
+Checks: Peetuho
+River: 8c
+Checks: Hehobup
+Checks: Peetuho
+Pot size: 20
+Showdown Reached
+Shows: Peetuho, 9c Qh
+Combination: Peetuho, High Card ( Kh Qh Th 9c 8c )
+Shows: Hehobup, Jc 7c
+Combination: Hehobup, High Card ( Kh Jc Th 8c 7c )
+Wins: Peetuho, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Raises: Hehobup, chips: 15
+Folds: Peetuho
+Pot size: 35
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Ts Ks Ac
+Checks: Hehobup
+Checks: Peetuho
+Turn: 9h
+Checks: Hehobup
+Checks: Peetuho
+River: 3d
+Checks: Hehobup
+Checks: Peetuho
+Pot size: 20
+Showdown Reached
+Shows: Peetuho, 5c 7c
+Combination: Peetuho, High Card ( Ac Ks Ts 9h 7c )
+Shows: Hehobup, 8d 3s
+Combination: Hehobup, Pair ( 3s 3d Ac Ks Ts )
+Wins: Hehobup, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Raises: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 30
+Wins: Hehobup, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: 6h 8c 2s
+Checks: Peetuho
+Raises: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 30
+Wins: Hehobup, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Qh 2c Qs
+Checks: Hehobup
+Raises: Peetuho, chips: 4951
+Folds: Hehobup
+Pot size: 4971
+Wins: Peetuho, chips: 4971
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: Qd 6h 8d
+Checks: Peetuho
+Checks: Hehobup
+Turn: 4h
+Checks: Peetuho
+Checks: Hehobup
+River: 4s
+Raises: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 30
+Wins: Peetuho, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: Ad 5h 3c
+Raises: Peetuho, chips: 4966
+Folds: Hehobup
+Pot size: 4986
+Wins: Peetuho, chips: 4986
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Calls: Hehobup
+Checks: Peetuho
+Flop: 3s 4h Tc
+Checks: Peetuho
+Checks: Hehobup
+Turn: 6h
+Checks: Peetuho
+Checks: Hehobup
+River: 4s
+Checks: Peetuho
+Checks: Hehobup
+Pot size: 20
+Showdown Reached
+Shows: Peetuho, 8h 2s
+Combination: Peetuho, Pair ( 4h 4s Tc 8h 6h )
+Shows: Hehobup, 8d 6d
+Combination: Hehobup, Two Pair ( 6d 6h 4h 4s Tc )
+Wins: Hehobup, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Calls: Peetuho
+Checks: Hehobup
+Flop: Tc Jh Qd
+Checks: Hehobup
+Raises: Peetuho, chips: 10
+Raises: Hehobup, chips: 20
+Calls: Peetuho
+Turn: 6s
+Checks: Hehobup
+Raises: Peetuho, chips: 30
+Folds: Hehobup
+Pot size: 110
+Wins: Peetuho, chips: 110
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Raises: Hehobup, chips: 15
+Folds: Peetuho
+Pot size: 35
+Wins: Hehobup, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Folds: Peetuho
+Pot size: 15
+Wins: Hehobup, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Hehobup
+Small Blind: Hehobup, chips: 5
+Big Blind: Peetuho, chips: 10
+Folds: Hehobup
+Pot size: 15
+Wins: Peetuho, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Peetuho
+Small Blind: Peetuho, chips: 5
+Big Blind: Hehobup, chips: 10
+Ranking: Peetuho, Place: 1, Score: 3996
+Reveal AI: Peetuho, AI: Smart
+Ranking: Hehobup, Place: 2, Score: 3989
+Reveal AI: Hehobup, AI: Smart
+Ranking: Rubewro, Place: 3, Score: -1000
+Reveal AI: Rubewro, AI: Smart
+Ranking: Blossom, Place: 4, Score: -1000
+Reveal AI: Blossom, AI: Blossom
+Ranking: Jeminny, Place: 5, Score: -1000
+Reveal AI: Jeminny, AI: Smart
+Ranking: Laroerluv, Place: 6, Score: -1000
+Reveal AI: Laroerluv, AI: Smart
+Ranking: Gudonhif, Place: 7, Score: -1000
+Reveal AI: Gudonhif, AI: Smart
+Ranking: Beetanhee, Place: 8, Score: -1000
+Reveal AI: Beetanhee, AI: Smart
+Ranking: Jeettoerli, Place: 9, Score: -1000
+Reveal AI: Jeettoerli, AI: Smart
+Ranking: Wilal, Place: 10, Score: -1000
+Reveal AI: Wilal, AI: Smart
+
+Player Stats for Beetanhee, AI: Smart
+General: deals: 24, actions: 57, preflop actions: 29
+Rounds Seen: flops: 108, turns: 93, rivers: 84, showdowns: 70
+Wins: total: 3, showdown: 2, bluff: 1
+Chips: won: 200, lost: 1207, bought: 1000, forced bets: 45
+Pre-Flop Stats: VP$IP: 0.5, PFR: 0, 3Bet: 0
+Post-Flop Stats: AF: 2, WSD: 0.648148, WSDW: 0.0285714
+
+
+Player Stats for Blossom, AI: Blossom
+General: deals: 95, actions: 205, preflop actions: 101
+Rounds Seen: flops: 81, turns: 68, rivers: 62, showdowns: 48
+Wins: total: 17, showdown: 11, bluff: 6
+Chips: won: 8075, lost: 9075, bought: 1000, forced bets: 265
+Pre-Flop Stats: VP$IP: 0.284211, PFR: 0.0105263, 3Bet: 0.0105263
+Post-Flop Stats: AF: 1.77778, WSD: 0.592593, WSDW: 0.229167
+
+
+Player Stats for Gudonhif, AI: Smart
+General: deals: 31, actions: 67, preflop actions: 40
+Rounds Seen: flops: 103, turns: 87, rivers: 77, showdowns: 64
+Wins: total: 5, showdown: 3, bluff: 2
+Chips: won: 856, lost: 2348, bought: 1000, forced bets: 55
+Pre-Flop Stats: VP$IP: 0.451613, PFR: 0.225806, 3Bet: 0.193548
+Post-Flop Stats: AF: 2, WSD: 0.621359, WSDW: 0.046875
+
+
+Player Stats for Hehobup, AI: Smart
+General: deals: 192, actions: 394, preflop actions: 185
+Rounds Seen: flops: 75, turns: 62, rivers: 55, showdowns: 42
+Wins: total: 58, showdown: 25, bluff: 33
+Chips: won: 51211, lost: 47222, bought: 1000, forced bets: 885
+Pre-Flop Stats: VP$IP: 0.28125, PFR: 0.0729167, 3Bet: 0.0572917
+Post-Flop Stats: AF: 3.16667, WSD: 0.56, WSDW: 0.595238
+
+
+Player Stats for Jeettoerli, AI: Smart
+General: deals: 11, actions: 21, preflop actions: 11
+Rounds Seen: flops: 112, turns: 95, rivers: 86, showdowns: 73
+Wins: total: 1, showdown: 1, bluff: 0
+Chips: won: 85, lost: 1085, bought: 1000, forced bets: 15
+Pre-Flop Stats: VP$IP: 0.454545, PFR: 0.181818, 3Bet: 0.181818
+Post-Flop Stats: AF: -nan(ind), WSD: 0.651786, WSDW: 0.0136986
+
+
+Player Stats for Jeminny, AI: Smart
+General: deals: 67, actions: 139, preflop actions: 71
+Rounds Seen: flops: 91, turns: 76, rivers: 66, showdowns: 54
+Wins: total: 11, showdown: 7, bluff: 4
+Chips: won: 3740, lost: 4745, bought: 1000, forced bets: 165
+Pre-Flop Stats: VP$IP: 0.373134, PFR: 0.119403, 3Bet: 0.104478
+Post-Flop Stats: AF: 0.857143, WSD: 0.593407, WSDW: 0.12963
+
+
+Player Stats for Laroerluv, AI: Smart
+General: deals: 40, actions: 63, preflop actions: 41
+Rounds Seen: flops: 94, turns: 78, rivers: 69, showdowns: 58
+Wins: total: 4, showdown: 4, bluff: 0
+Chips: won: 1989, lost: 2989, bought: 1000, forced bets: 80
+Pre-Flop Stats: VP$IP: 0.175, PFR: 0.075, 3Bet: 0.075
+Post-Flop Stats: AF: 0, WSD: 0.617021, WSDW: 0.0689655
+
+
+Player Stats for Peetuho, AI: Smart
+General: deals: 192, actions: 364, preflop actions: 184
+Rounds Seen: flops: 67, turns: 57, rivers: 47, showdowns: 37
+Wins: total: 62, showdown: 18, bluff: 44
+Chips: won: 38286, lost: 34445, bought: 1000, forced bets: 850
+Pre-Flop Stats: VP$IP: 0.291667, PFR: 0.046875, 3Bet: 0.046875
+Post-Flop Stats: AF: 2.5, WSD: 0.552239, WSDW: 0.486486
+
+
+Player Stats for Rubewro, AI: Smart
+General: deals: 142, actions: 305, preflop actions: 142
+Rounds Seen: flops: 74, turns: 60, rivers: 52, showdowns: 43
+Wins: total: 35, showdown: 12, bluff: 23
+Chips: won: 8670, lost: 9670, bought: 1000, forced bets: 505
+Pre-Flop Stats: VP$IP: 0.359155, PFR: 0.0915493, 3Bet: 0.084507
+Post-Flop Stats: AF: 2.55556, WSD: 0.581081, WSDW: 0.27907
+
+
+Player Stats for Wilal, AI: Smart
+General: deals: 10, actions: 21, preflop actions: 12
+Rounds Seen: flops: 113, turns: 96, rivers: 87, showdowns: 74
+Wins: total: 3, showdown: 2, bluff: 1
+Chips: won: 1165, lost: 2170, bought: 1000, forced bets: 15
+Pre-Flop Stats: VP$IP: 0.5, PFR: 0.2, 3Bet: 0.2
+Post-Flop Stats: AF: inf, WSD: 0.654867, WSDW: 0.027027
+
+

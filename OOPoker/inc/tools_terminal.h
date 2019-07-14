@@ -22,5 +22,8 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-void runConsolePotEquityCalculator(); //console user interface to calculate pot equity against N opponents
-void runConsoleShowdownCalculator(); //console user interface to calculate chance players with known hands win
+namespace OOPoker
+{
+	void runConsolePotEquityCalculator(); //console user interface to calculate pot equity against N opponents
+	void runConsoleShowdownCalculator(); //console user interface to calculate chance players with known hands win
+}

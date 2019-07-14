@@ -7,16 +7,19 @@ Cleaned up a bit, made work with g++ compiler, and placed two .c files in one .c
 
 #include <stdint.h>
 
-namespace PokerEval2
+namespace OOPoker
 {
+	namespace PokerEval2
+	{
 
-typedef uint64_t HandMask;
+		typedef uint64_t HandMask;
 
-extern HandMask HandMasksTable[52];
+		extern HandMask HandMasksTable[52];
 
-typedef unsigned int HandVal;
+		typedef unsigned int HandVal;
 
-void InitializeHandRankingTables(void);
-extern HandVal RankHand(HandMask hand);
+		void InitializeHandRankingTables(void);
+		extern HandVal RankHand(HandMask hand);
 
+	}
 }

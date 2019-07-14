@@ -24,11 +24,14 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/observer.h"
 
-/*
-Similar to ObserverTerminal, but displays less events in the terminal.
-*/
-class ObserverTerminalQuiet : public Observer
+namespace OOPoker
 {
-  public:
-    virtual void onEvent(const Event& event);
-};
+	/*
+	Similar to ObserverTerminal, but displays less events in the terminal.
+	*/
+	class ObserverTerminalQuiet : public Observer
+	{
+	public:
+		virtual void onEvent(const Event& event);
+	};
+}

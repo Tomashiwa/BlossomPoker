@@ -26,56 +26,57 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/info.h"
 
-
-//forward declarations
-class Host;
-class Table;
-struct Player;
-class Observer;
-struct Event;
-
-void makeInfo(Info& info, const Table& table, const Rules& rules, int playerViewPoint);
-
-void dividePot(std::vector<int>& wins, const std::vector<int>& bet, const std::vector<int>& score, const std::vector<bool>& folded);
-int getNumActivePlayers(const std::vector<Player>& players);
-bool betsSettled(int lastRaiseIndex, int current, int prev_current, const std::vector<Player>& players);
-
-class Game
+namespace OOPoker
 {
-  private:
-    Host* host;
-    std::vector<Player> playersOut; //players who quit the table (remembered in order to give the win rankings at the end). Not used if rebuys are allowed, since players then stay.
+	//forward declarations
+	class Host;
+	class Table;
+	struct Player;
+	class Observer;
+	struct Event;
 
-    std::vector<Player> players;
-    std::vector<Observer*> observers;
-    std::vector<Event> events;
+	void makeInfo(Info& info, const Table& table, const Rules& rules, int playerViewPoint);
 
-    size_t eventCounter;
-    int numDeals; //how much deals are done since the game started
+	void dividePot(std::vector<int>& wins, const std::vector<int>& bet, const std::vector<int>& score, const std::vector<bool>& folded);
+	int getNumActivePlayers(const std::vector<Player>& players);
+	bool betsSettled(int lastRaiseIndex, int current, int prev_current, const std::vector<Player>& players);
 
-    Rules rules;
-    
-    Info infoForPlayers; //this is to speed up the game a lot, by not recreating the Info object everytime
+	class Game
+	{
+	private:
+		Host* host;
+		std::vector<Player> playersOut; //players who quit the table (remembered in order to give the win rankings at the end). Not used if rebuys are allowed, since players then stay.
 
-  protected:
-    void settleBets(Table& table, Rules& rules);
-    void kickOutPlayers(Table& table);
-    void declareWinners(Table& table);
-    void sendEvents(Table& table);
-    const Info& getInfoForPlayers(Table& table, int viewPoint = -1); //rather heavy-weight function! Copies entire Info object.
+		std::vector<Player> players;
+		std::vector<Observer*> observers;
+		std::vector<Event> events;
 
-  public:
+		size_t eventCounter;
+		int numDeals; //how much deals are done since the game started
 
-    Game(Host* host); //The game class will NOT delete the host, you have to clean up this variable yourself if needed.
-    ~Game();
+		Rules rules;
 
-    //The Game class will take care of deleting the AI's and observers in its desctructor.
-    void addPlayer(const Player& player);
-    void addObserver(Observer* observer);
-    void setRules(const Rules& rules);
+		Info infoForPlayers; //this is to speed up the game a lot, by not recreating the Info object everytime
 
-    void runTable(Table& table);
+	protected:
+		void settleBets(Table& table, Rules& rules);
+		void kickOutPlayers(Table& table);
+		void declareWinners(Table& table);
+		void sendEvents(Table& table);
+		const Info& getInfoForPlayers(Table& table, int viewPoint = -1); //rather heavy-weight function! Copies entire Info object.
 
-    void doGame();
-};
+	public:
 
+		Game(Host* host); //The game class will NOT delete the host, you have to clean up this variable yourself if needed.
+		~Game();
+
+		//The Game class will take care of deleting the AI's and observers in its desctructor.
+		void addPlayer(const Player& player);
+		void addObserver(Observer* observer);
+		void setRules(const Rules& rules);
+
+		void runTable(Table& table);
+
+		void doGame();
+	};
+}

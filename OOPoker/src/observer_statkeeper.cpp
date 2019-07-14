@@ -25,14 +25,16 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/event.h"
 #include "../inc/io_terminal.h"
 
-
-void ObserverStatKeeper::onEvent(const Event& event)
+namespace OOPoker
 {
-  (void)event;
-  keeper.onEvent(event);
-}
+	void ObserverStatKeeper::onEvent(const Event& event)
+	{
+		(void)event;
+		keeper.onEvent(event);
+	}
 
-StatKeeper& ObserverStatKeeper::getStatKeeper()
-{
-  return keeper;
+	StatKeeper& ObserverStatKeeper::getStatKeeper()
+	{
+		return keeper;
+	}
 }

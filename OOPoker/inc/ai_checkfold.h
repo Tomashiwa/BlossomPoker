@@ -25,12 +25,15 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/ai.h"
 
-//Naive AI, not fun to play against. This AI will always checkfold.
-class AICheckFold : public AI
+namespace OOPoker
 {
-  public:
+	//Naive AI, not fun to play against. This AI will always checkfold.
+	class AICheckFold : public AI
+	{
+	public:
 
-    virtual Action doTurn(const Info& info);
+		virtual Action doTurn(const Info& info);
 
-    virtual std::string getAIName();
-};
+		virtual std::string getAIName();
+	};
+}

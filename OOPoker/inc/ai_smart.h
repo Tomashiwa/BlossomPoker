@@ -24,17 +24,19 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/ai.h"
 
-class AISmart : public AI
+namespace OOPoker
 {
-  private:
-    double tightness; //this determines how tight the player is: 0.0=very loose, 1.0=very tight. Good values: 0.7-0.99
+	class AISmart : public AI
+	{
+	  private:
+		double tightness; //this determines how tight the player is: 0.0=very loose, 1.0=very tight. Good values: 0.7-0.99
 
-  public:
+	  public:
 
-    AISmart(double tightness = 0.8);
+		AISmart(double tightness = 0.8);
 
-    virtual Action doTurn(const Info& info);
+		virtual Action doTurn(const Info& info);
 
-    virtual std::string getAIName();
-};
-
+		virtual std::string getAIName();
+	};
+}

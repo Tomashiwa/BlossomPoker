@@ -23,13 +23,15 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/ai_call.h"
 #include "../inc/info.h"
 
-Action AICall::doTurn(const Info& info)
+namespace OOPoker
 {
-  return info.getCallAction();
-}
+	Action AICall::doTurn(const Info& info)
+	{
+		return info.getCallAction();
+	}
 
-
-std::string AICall::getAIName()
-{
-  return "Call";
+	std::string AICall::getAIName()
+	{
+		return "Call";
+	}
 }

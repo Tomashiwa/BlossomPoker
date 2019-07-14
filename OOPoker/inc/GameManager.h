@@ -68,11 +68,14 @@ for his/her enjoyment.
 #include "../inc/unittest.h"
 #include "../inc/util.h"
 
-class GameManager
+namespace OOPoker
 {
-    public:
-        GameManager();
-        void DoGame();
+	class GameManager
+	{
+		public:
+			GameManager();
+			void DoGame();
 
-    private:
-};
+		private:
+	};
+}

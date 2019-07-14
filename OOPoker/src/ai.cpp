@@ -22,29 +22,32 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/ai.h"
 
-void AI::onEvent(const Event& event)
+namespace OOPoker
 {
-  (void)event;
+	void AI::onEvent(const Event& event)
+	{
+		(void)event;
 
-  /*
-  Empty by default.
-  You can optionally use these events to process information in your bot. Some information
-  given through the events is given in a different format than the information in Info in doTurn.
-  There is even some information you don't get at all in doTurn, so for some AI strategies it's
-  necessary to use the events.
+		/*
+		Empty by default.
+		You can optionally use these events to process information in your bot. Some information
+		given through the events is given in a different format than the information in Info in doTurn.
+		There is even some information you don't get at all in doTurn, so for some AI strategies it's
+		necessary to use the events.
 
-  See the Event struct in event.h for more information about the events.
-  */
-}
+		See the Event struct in event.h for more information about the events.
+		*/
+	}
 
-bool AI::boastCards(const Info& info)
-{
-  (void)info;
-  return false;
-}
+	bool AI::boastCards(const Info& info)
+	{
+		(void)info;
+		return false;
+	}
 
-bool AI::wantsToLeave(const Info& info)
-{
-  (void)info;
-  return false;
+	bool AI::wantsToLeave(const Info& info)
+	{
+		(void)info;
+		return false;
+	}
 }

@@ -26,91 +26,94 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/player.h"
 #include "../inc/util.h"
 
-Table::Table()
-: dealer(0)
-, current(1)
-, round(R_PRE_FLOP)
-, turn(0)
+namespace OOPoker
 {
-}
+	Table::Table()
+		: dealer(0)
+		, current(1)
+		, round(R_PRE_FLOP)
+		, turn(0)
+	{
+	}
 
-int Table::getNumActivePlayers() const
-{
-  int result = 0;
-  for(size_t i = 0; i < players.size(); i++)
-  {
-    if(!players[i].folded) result++;
-  }
-  return result;
-}
+	int Table::getNumActivePlayers() const
+	{
+		int result = 0;
+		for (size_t i = 0; i < players.size(); i++)
+		{
+			if (!players[i].folded) result++;
+		}
+		return result;
+	}
 
-int Table::getNumDecidingPlayers() const
-{
-  return ::getNumActivePlayers(players);
-}
+	int Table::getNumDecidingPlayers() const
+	{
+		return OOPoker::getNumActivePlayers(players);
+	}
 
-int Table::getPot() const
-{
-  int result = 0;
-  for(size_t i = 0; i < players.size(); i++)
-  {
-    result += players[i].wager;
-  }
-  return result;
-}
+	int Table::getPot() const
+	{
+		int result = 0;
+		for (size_t i = 0; i < players.size(); i++)
+		{
+			result += players[i].wager;
+		}
+		return result;
+	}
 
-int Table::wrap(int index) const
-{
-  return ::wrap(index, players.size());
-}
+	int Table::wrap(int index) const
+	{
+		return Util::wrap(index, players.size());
+	}
 
-int Table::getSmallBlindIndex() const
-{
-  if(players.size() == 2)
-  {
-    return dealer;
-  }
-  else
-  {
-    return wrap(dealer + 1);
-  }
-}
+	int Table::getSmallBlindIndex() const
+	{
+		if (players.size() == 2)
+		{
+			return dealer;
+		}
+		else
+		{
+			return wrap(dealer + 1);
+		}
+	}
 
-int Table::getBigBlindIndex() const
-{
-  if(players.size() == 2)
-  {
-    return wrap(dealer + 1);
-  }
-  else
-  {
-    return wrap(dealer + 2);
-  }
-}
+	int Table::getBigBlindIndex() const
+	{
+		if (players.size() == 2)
+		{
+			return wrap(dealer + 1);
+		}
+		else
+		{
+			return wrap(dealer + 2);
+		}
+	}
 
-bool Table::hasHumanPlayer() const
-{
-  for(size_t i = 0; i < players.size(); i++) if(players[i].isHuman()) return true;
-  return false;
-}
+	bool Table::hasHumanPlayer() const
+	{
+		for (size_t i = 0; i < players.size(); i++) if (players[i].isHuman()) return true;
+		return false;
+	}
 
 
 
-int Table::getHighestWager() const
-{
-  int result = 0;
-  for(size_t i = 0; i < players.size(); i++)
-  {
-    if(players[i].wager > result) result = players[i].wager;
-  }
-  return result;
-}
+	int Table::getHighestWager() const
+	{
+		int result = 0;
+		for (size_t i = 0; i < players.size(); i++)
+		{
+			if (players[i].wager > result) result = players[i].wager;
+		}
+		return result;
+	}
 
-int Table::getCallAmount() const
-{
-  int result = getHighestWager() - players[current].wager;
+	int Table::getCallAmount() const
+	{
+		int result = getHighestWager() - players[current].wager;
 
-  if(players[current].stack < result) result = players[current].stack;
+		if (players[current].stack < result) result = players[current].stack;
 
-  return result;
+		return result;
+	}
 }

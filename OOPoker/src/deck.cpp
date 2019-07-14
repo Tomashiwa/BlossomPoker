@@ -23,34 +23,37 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/deck.h"
 #include "../inc/random.h"
 
-Deck::Deck()
-: index(0)
+namespace OOPoker
 {
-  for(size_t i = 0; i < 52; i++) cards[i].setIndex(i);
-}
+	Deck::Deck()
+		: index(0)
+	{
+		for (size_t i = 0; i < 52; i++) cards[i].setIndex(i);
+	}
 
-void Deck::shuffle()
-{
-  index = 0;
+	void Deck::shuffle()
+	{
+		index = 0;
 
-  Card old[52];
-  for(size_t i = 0; i < 52; i++) old[i] = cards[i];
+		Card old[52];
+		for (size_t i = 0; i < 52; i++) old[i] = cards[i];
 
-  //Fisher-Yates shuffle
-  for(size_t i = 0; i < 52; i++)
-  {
-    int r = (int)(getRandom() * (52 - i));
-    cards[i] = old[r];
-    std::swap(old[r], old[(52 - 1 - i)]);
+		//Fisher-Yates shuffle
+		for (size_t i = 0; i < 52; i++)
+		{
+			int r = (int)(getRandom() * (52 - i));
+			cards[i] = old[r];
+			std::swap(old[r], old[(52 - 1 - i)]);
 
-  }
-}
+		}
+	}
 
-Card Deck::next()
-{
-  if(index >= 52) return Card();
+	Card Deck::next()
+	{
+		if (index >= 52) return Card();
 
-  Card result = cards[index];
-  index++;
-  return result;
+		Card result = cards[index];
+		index++;
+		return result;
+	}
 }

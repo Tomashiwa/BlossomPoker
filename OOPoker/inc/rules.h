@@ -23,35 +23,37 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-enum Round
+namespace OOPoker
 {
-  R_PRE_FLOP,
-  R_FLOP,
-  R_TURN,
-  R_RIVER,
-  R_SHOWDOWN //not everything uses this (some things immediatly reset it to PRE_FLOP). This is reached when the river betting is settled and there are still multiple players in the game.
-};
+	enum Round
+	{
+		R_PRE_FLOP,
+		R_FLOP,
+		R_TURN,
+		R_RIVER,
+		R_SHOWDOWN //not everything uses this (some things immediatly reset it to PRE_FLOP). This is reached when the river betting is settled and there are still multiple players in the game.
+	};
 
-struct Rules
-{
-  Rules();
+	struct Rules
+	{
+		Rules();
 
-  int buyIn; //the starting stack
-  int smallBlind;
-  int bigBlind;
-  int ante;
+		int buyIn; //the starting stack
+		int smallBlind;
+		int bigBlind;
+		int ante;
 
-  /*
-  allowRebuy:
+		/*
+		allowRebuy:
 
-  If false, once someone is out, he can't play anymore. Winner is last remaining.
+		If false, once someone is out, he can't play anymore. Winner is last remaining.
 
-  If true, someone can rebuy if out. Winner is the one with the biggest total amount
-  of money after N deals or when the host stops the game.
-  */
-  bool allowRebuy;
+		If true, someone can rebuy if out. Winner is the one with the biggest total amount
+		of money after N deals or when the host stops the game.
+		*/
+		bool allowRebuy;
 
-  //only used if allowRebuy is true. Then the game ends after this many deals (if 0, it'll run forever or until the host decides to stop the game)
-  int fixedNumberOfDeals;
-};
-
+		//only used if allowRebuy is true. Then the game ends after this many deals (if 0, it'll run forever or until the host decides to stop the game)
+		int fixedNumberOfDeals;
+	};
+}

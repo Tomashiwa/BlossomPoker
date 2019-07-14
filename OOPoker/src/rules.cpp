@@ -23,11 +23,14 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/rules.h"
 
-Rules::Rules()
-: buyIn(0)
-, smallBlind(0)
-, bigBlind(0)
-, ante(0)
+namespace OOPoker
 {
-}
+	Rules::Rules()
+	: buyIn(0)
+	, smallBlind(0)
+	, bigBlind(0)
+	, ante(0)
+	{
 
+	}
+}

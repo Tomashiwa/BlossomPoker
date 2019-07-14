@@ -28,63 +28,66 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/statistics.h"
 #include "../inc/table.h"
 
-HostTerminal::HostTerminal()
-: quit(false)
-, human_detected(false)
-, dealCount(0)
+namespace OOPoker
 {
-}
+	HostTerminal::HostTerminal()
+		: quit(false)
+		, human_detected(false)
+		, dealCount(0)
+	{
+	}
 
-void HostTerminal::onFrame()
-{
-  if(getCharNonBlocking() == 'q') quit = true;
-}
+	void HostTerminal::onFrame()
+	{
+		if (getCharNonBlocking() == 'q') quit = true;
+	}
 
-void HostTerminal::onDealDone(const Info& info)
-{
-  dealCount++;
-  if(human_detected)
-  {
-    drawTable(info);
-    
-    if(pressAnyKeyOrQuit()) quit = true;
-  }
-  else
-  {
-    /*if(dealCount % 10 == 0)*/ std::cout << std::endl << "Deal " << dealCount << " done." << std::endl << std::endl;
-  }
-}
+	void HostTerminal::onDealDone(const Info& info)
+	{
+		dealCount++;
+		if (human_detected)
+		{
+			drawTable(info);
 
-void HostTerminal::onGameBegin(const Info& info)
-{
-  std::cout << std::endl;
-  drawTable(info);
-}
+			if (pressAnyKeyOrQuit()) quit = true;
+		}
+		else
+		{
+			/*if(dealCount % 10 == 0)*/ std::cout << std::endl << "Deal " << dealCount << " done." << std::endl << std::endl;
+		}
+	}
 
-void HostTerminal::onGameDone(const Info& info)
-{
-  (void)info;
+	void HostTerminal::onGameBegin(const Info& info)
+	{
+		std::cout << std::endl;
+		drawTable(info);
+	}
 
-  std::cout << std::endl << "Game finished. Press any key to show final events." << std::endl;
-  getChar();
-}
+	void HostTerminal::onGameDone(const Info& info)
+	{
+		(void)info;
 
-bool HostTerminal::wantToQuit() const
-{
-  return quit;
-}
+		std::cout << std::endl << "Game finished. Press any key to show final events." << std::endl;
+		getChar();
+	}
 
-void HostTerminal::resetWantToQuit()
-{
-  quit = false;
-}
+	bool HostTerminal::wantToQuit() const
+	{
+		return quit;
+	}
 
-void HostTerminal::setQuitSignalFromHumanPlayer()
-{
-  quit = true;
-}
+	void HostTerminal::resetWantToQuit()
+	{
+		quit = false;
+	}
 
-void HostTerminal::setHasHumanPlayer(bool has)
-{
-  human_detected = has;
+	void HostTerminal::setQuitSignalFromHumanPlayer()
+	{
+		quit = true;
+	}
+
+	void HostTerminal::setHasHumanPlayer(bool has)
+	{
+		human_detected = has;
+	}
 }

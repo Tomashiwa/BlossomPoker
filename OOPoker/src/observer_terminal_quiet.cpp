@@ -25,27 +25,29 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/event.h"
 #include "../inc/io_terminal.h"
 
-
-void ObserverTerminalQuiet::onEvent(const Event& event)
+namespace OOPoker
 {
-  bool show_event = false;
+	void ObserverTerminalQuiet::onEvent(const Event& event)
+	{
+		bool show_event = false;
 
-  if(event.type == E_NEW_DEAL) show_event = true;
-  if(event.type == E_JOIN) show_event = true;
-  if(event.type == E_QUIT) show_event = true;
-  if(event.type == E_LOG_MESSAGE) show_event = true;
-  if(event.type == E_DEBUG_MESSAGE) show_event = true;
-  if(event.type == E_PLAYER_SHOWDOWN) show_event = true;
-  if(event.type == E_BOAST) show_event = true;
-  if(event.type == E_FLOP) show_event = true;
-  if(event.type == E_TURN) show_event = true;
-  if(event.type == E_RIVER) show_event = true;
-  if(event.type == E_WIN) show_event = true;
-  if(event.type == E_TOURNAMENT_RANK) show_event = true;
-  if(event.type == E_REVEAL_AI) show_event = true;
+		if (event.type == E_NEW_DEAL) show_event = true;
+		if (event.type == E_JOIN) show_event = true;
+		if (event.type == E_QUIT) show_event = true;
+		if (event.type == E_LOG_MESSAGE) show_event = true;
+		if (event.type == E_DEBUG_MESSAGE) show_event = true;
+		if (event.type == E_PLAYER_SHOWDOWN) show_event = true;
+		if (event.type == E_BOAST) show_event = true;
+		if (event.type == E_FLOP) show_event = true;
+		if (event.type == E_TURN) show_event = true;
+		if (event.type == E_RIVER) show_event = true;
+		if (event.type == E_WIN) show_event = true;
+		if (event.type == E_TOURNAMENT_RANK) show_event = true;
+		if (event.type == E_REVEAL_AI) show_event = true;
 
 
-  if(show_event) std::cout << "> " << eventToStringVerbose(event) << std::endl;
+		if (show_event) std::cout << "> " << eventToStringVerbose(event) << std::endl;
 
-  //sleepMS(options.sleepMS);
+		//sleepMS(options.sleepMS);
+	}
 }

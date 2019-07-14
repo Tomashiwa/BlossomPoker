@@ -24,13 +24,16 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/ai.h"
 
-//Naive AI, not fun to play against. This AI will often raise.
-class AIRaise : public AI
+namespace OOPoker
 {
+	//Naive AI, not fun to play against. This AI will often raise.
+	class AIRaise : public AI
+	{
 
-  public:
+	public:
 
-    virtual Action doTurn(const Info& info);
+		virtual Action doTurn(const Info& info);
 
-    virtual std::string getAIName();
-};
+		virtual std::string getAIName();
+	};
+}

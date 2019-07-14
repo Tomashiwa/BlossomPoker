@@ -25,19 +25,21 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/observer.h"
 #include "../inc/statistics.h"
 
-
-/*
-Observer that calculates statistics of players using a StatKeeper.
-*/
-class ObserverStatKeeper : public Observer
+namespace OOPoker
 {
-  private:
+	/*
+	Observer that calculates statistics of players using a StatKeeper.
+	*/
+	class ObserverStatKeeper : public Observer
+	{
+	private:
 
-    StatKeeper keeper;
+		StatKeeper keeper;
 
-  public:
+	public:
 
-    virtual void onEvent(const Event& event);
+		virtual void onEvent(const Event& event);
 
-    StatKeeper& getStatKeeper();
-};
+		StatKeeper& getStatKeeper();
+	};
+}

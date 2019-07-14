@@ -25,10 +25,12 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/event.h"
 #include "../inc/io_terminal.h"
 
-
-void ObserverTerminal::onEvent(const Event& event)
+namespace OOPoker
 {
-  std::cout << "> " << eventToStringVerbose(event) << std::endl;
+	void ObserverTerminal::onEvent(const Event& event)
+	{
+		std::cout << "> " << eventToStringVerbose(event) << std::endl;
 
-  //sleepMS(options.sleepMS);
+		//sleepMS(options.sleepMS);
+	}
 }

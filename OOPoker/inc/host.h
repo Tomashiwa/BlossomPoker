@@ -22,21 +22,24 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-struct Info;
-
-/*
-The Host is someone who runs a Game. The Host can stop the game, and receive events from the game.
-*/
-class Host
+namespace OOPoker
 {
-  public:
-    virtual ~Host(){}
-   
-    virtual void onFrame() = 0; //called between every player decision
-    virtual void onGameBegin(const Info& info) = 0; //called after all players are sitting at the table, right before the first deal starts
-    virtual void onDealDone(const Info& info) = 0;
-    virtual void onGameDone(const Info& info) = 0; //when the whole tournament is done
+	struct Info;
 
-    virtual bool wantToQuit() const = 0;
-    virtual void resetWantToQuit() = 0;
-};
+	/*
+	The Host is someone who runs a Game. The Host can stop the game, and receive events from the game.
+	*/
+	class Host
+	{
+	public:
+		virtual ~Host() {}
+
+		virtual void onFrame() = 0; //called between every player decision
+		virtual void onGameBegin(const Info& info) = 0; //called after all players are sitting at the table, right before the first deal starts
+		virtual void onDealDone(const Info& info) = 0;
+		virtual void onGameDone(const Info& info) = 0; //when the whole tournament is done
+
+		virtual bool wantToQuit() const = 0;
+		virtual void resetWantToQuit() = 0;
+	};
+}

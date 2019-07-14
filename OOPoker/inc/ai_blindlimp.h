@@ -20,18 +20,19 @@ You should have received a copy of the GNU General Public License
 along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #pragma once
-
 #include "../inc/ai.h"
 
-//Naive AI, not fun to play against. This AI will never put more chips than the value of the big blind on the table
-class AIBlindLimp: public AI
+namespace OOPoker
 {
+	//Naive AI, not fun to play against. This AI will never put more chips than the value of the big blind on the table
+	class AIBlindLimp : public AI
+	{
 
-  public:
+	public:
 
-    virtual Action doTurn(const Info& info);
+		virtual Action doTurn(const Info& info);
 
-    virtual std::string getAIName();
-};
+		virtual std::string getAIName();
+	};
+}

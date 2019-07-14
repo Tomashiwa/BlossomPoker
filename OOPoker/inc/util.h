@@ -21,46 +21,51 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
-
 #include <sstream>
 
-
-//this can be used to get the correct index of previous and next players compared to you or the dealer
-template<typename T, typename U>
-T wrap(T a, U high) //wraps in range [0,high[, high NOT included!
+namespace OOPoker
 {
-  if(high == 0) return 0;
 
-  if(a < 0) a += ((long)((-a) / (T)high) + 1) * ((T)high);
-  if(a >= (T)high) a -= ((long)((a - high) / (T)high) + 1) * ((T)high);
+	namespace Util
+	{
+		//this can be used to get the correct index of previous and next players compared to you or the dealer
+		template<typename T, typename U>
+		T wrap(T a, U high) //wraps in range [0,high[, high NOT included!
+		{
+			if (high == 0) return 0;
 
-  return a;
+			if (a < 0) a += ((long)((-a) / (T)high) + 1) * ((T)high);
+			if (a >= (T)high) a -= ((long)((a - high) / (T)high) + 1) * ((T)high);
+
+			return a;
+		}
+
+		//convert any variable to a string
+		//usage: std::string str = valtostr(25454.91654654f);
+		template<typename T>
+		std::string valtostr(const T& val)
+		{
+			std::ostringstream sstream;
+			sstream << val;
+			return sstream.str();
+		}
+
+		//convert string to a variable of type T
+		template<typename T>
+		T strtoval(const std::string& s)
+		{
+			std::istringstream sstream(s);
+			T val;
+			sstream >> val;
+			return val;
+		}
+
+		/*
+		getNearestRoundNumber: returns a number near the input, but it'll be a nice round value.
+		The result will always be smaller than or equal to the input. If the input is non-zero, the
+		number will never be zero.
+		It can return values such as 0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, ...
+		*/
+		int getNearestRoundNumber(int i);
+	}
 }
-
-//convert any variable to a string
-//usage: std::string str = valtostr(25454.91654654f);
-template<typename T>
-std::string valtostr(const T& val)
-{
-  std::ostringstream sstream;
-  sstream << val;
-  return sstream.str();
-}
-
-//convert string to a variable of type T
-template<typename T>
-T strtoval(const std::string& s)
-{
-  std::istringstream sstream(s);
-  T val;
-  sstream >> val;
-  return val;
-}
-
-/*
-getNearestRoundNumber: returns a number near the input, but it'll be a nice round value.
-The result will always be smaller than or equal to the input. If the input is non-zero, the
-number will never be zero.
-It can return values such as 0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, ...
-*/
-int getNearestRoundNumber(int i);

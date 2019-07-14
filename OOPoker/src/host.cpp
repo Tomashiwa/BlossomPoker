@@ -21,3 +21,8 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "../inc/host.h" 
+
+namespace OOPoker
+{
+
+}

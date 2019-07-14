@@ -22,18 +22,22 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-struct Event;
-
-/*
-An observer can get events about the game, but does not participate on its own.
-There are implementations of this that the various things like writing a log file
-to disk, getting player statistics, or letting a human watch AIs battle in the terminal.
-*/
-class Observer
+namespace OOPoker
 {
-  public:
+	struct Event;
 
-    virtual ~Observer(){}
+	/*
+	An observer can get events about the game, but does not participate on its own.
+	There are implementations of this that the various things like writing a log file
+	to disk, getting player statistics, or letting a human watch AIs battle in the terminal.
+	*/
+	class Observer
+	{
+	public:
 
-    virtual void onEvent(const Event& event) = 0;
-};
+		virtual ~Observer() {}
+
+		virtual void onEvent(const Event& event) = 0;
+	};
+
+}

@@ -21,15 +21,17 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #pragma once
-
 #include "../inc/ai.h"
 
-//Naive AI, not fun to play against. This AI will always call.
-class AICall : public AI
+namespace OOPoker
 {
-  public:
+	//Naive AI, not fun to play against. This AI will always call.
+	class AICall : public AI
+	{
+	public:
 
-    virtual Action doTurn(const Info& info);
+		virtual Action doTurn(const Info& info);
 
-    virtual std::string getAIName();
-};
+		virtual std::string getAIName();
+	};
+}

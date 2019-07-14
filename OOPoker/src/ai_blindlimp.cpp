@@ -23,19 +23,22 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/ai_blindlimp.h"
 #include "../inc/info.h"
 
-Action AIBlindLimp::doTurn(const Info& info)
+namespace OOPoker
 {
-  (void)info;
+	Action AIBlindLimp::doTurn(const Info& info)
+	{
+		(void)info;
 
-  int highest = info.getHighestWager();
-  int blind = info.rules.bigBlind;
+		int highest = info.getHighestWager();
+		int blind = info.rules.bigBlind;
 
-  if(highest > blind) return Action(A_FOLD, 0);
+		if (highest > blind) return Action(A_FOLD, 0);
 
-  return info.amountToAction(highest - info.getYou().wager);
-}
+		return info.amountToAction(highest - info.getYou().wager);
+	}
 
-std::string AIBlindLimp::getAIName()
-{
-  return "BlindLimp";
+	std::string AIBlindLimp::getAIName()
+	{
+		return "BlindLimp";
+	}
 }

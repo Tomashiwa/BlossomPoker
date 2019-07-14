@@ -22,37 +22,43 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/util.h"
 
-int getNearestRoundNumber(int i)
+namespace OOPoker
 {
-  if(i == 0) return 0;
-  else if(i < 2) return 1;
-  else if(i < 5) return 2;
-  else if(i < 10) return 5;
-  else if(i < 20) return 10;
-  else if(i < 50) return 20;
-  else if(i < 100) return 50;
-  else if(i < 200) return 100;
-  else if(i < 500) return 200;
-  else if(i < 1000) return 500;
-  else if(i < 2000) return 1000;
-  else if(i < 5000) return 2000;
-  else if(i < 10000) return 5000;
-  else if(i < 20000) return 10000;
-  else if(i < 50000) return 20000;
-  else if(i < 100000) return 50000;
-  else if(i < 200000) return 100000;
-  else if(i < 500000) return 200000;
-  else if(i < 1000000) return 500000;
-  else if(i < 2000000) return 1000000;
-  else if(i < 5000000) return 2000000;
-  else if(i < 10000000) return 5000000;
-  else if(i < 20000000) return 10000000;
-  else if(i < 50000000) return 20000000;
-  else if(i < 100000000) return 50000000;
-  else if(i < 200000000) return 100000000;
-  else if(i < 500000000) return 200000000;
-  else if(i < 1000000000) return 500000000;
-  else if(i < 2000000000) return 1000000000;
-  else return 2000000000;
-  //32-bit integers can't be bigger than that.
+	namespace Util
+	{
+		int getNearestRoundNumber(int i)
+		{
+			if (i == 0) return 0;
+			else if (i < 2) return 1;
+			else if (i < 5) return 2;
+			else if (i < 10) return 5;
+			else if (i < 20) return 10;
+			else if (i < 50) return 20;
+			else if (i < 100) return 50;
+			else if (i < 200) return 100;
+			else if (i < 500) return 200;
+			else if (i < 1000) return 500;
+			else if (i < 2000) return 1000;
+			else if (i < 5000) return 2000;
+			else if (i < 10000) return 5000;
+			else if (i < 20000) return 10000;
+			else if (i < 50000) return 20000;
+			else if (i < 100000) return 50000;
+			else if (i < 200000) return 100000;
+			else if (i < 500000) return 200000;
+			else if (i < 1000000) return 500000;
+			else if (i < 2000000) return 1000000;
+			else if (i < 5000000) return 2000000;
+			else if (i < 10000000) return 5000000;
+			else if (i < 20000000) return 10000000;
+			else if (i < 50000000) return 20000000;
+			else if (i < 100000000) return 50000000;
+			else if (i < 200000000) return 100000000;
+			else if (i < 500000000) return 200000000;
+			else if (i < 1000000000) return 500000000;
+			else if (i < 2000000000) return 1000000000;
+			else return 2000000000;
+			//32-bit integers can't be bigger than that.
+		}
+	}
 }

@@ -24,12 +24,15 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/observer.h"
 
-/*
-Observer that can be used to watch AIs battle when not playing
-as human player.
-*/
-class ObserverTerminal : public Observer
+namespace OOPoker
 {
-  public:
-    virtual void onEvent(const Event& event);
-};
+	/*
+	Observer that can be used to watch AIs battle when not playing
+	as human player.
+	*/
+	class ObserverTerminal : public Observer
+	{
+	public:
+		virtual void onEvent(const Event& event);
+	};
+}

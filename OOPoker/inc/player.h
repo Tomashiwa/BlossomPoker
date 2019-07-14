@@ -27,62 +27,64 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/action.h"
 #include "../inc/event.h"
 
-class AI;
-struct Info;
-
-/*
-A Player is what joins the table and plays the game. Each player must have an AI,
-which can be either a human or a bot.
-
-For the rest, he has chips and a certain game status.
-
-This class is used for running the Game, the AI's shouldn't use this class, they
-get this information in the form of an Info struct instead.
-*/
-struct Player
+namespace OOPoker
 {
-  AI* ai; //the AI for the player
+	class AI;
+	struct Info;
 
-  int stack; //chips in his stack
-  int wager; //how much chips this person currently has in the pot on the table (note: the "int stack" variable does NOT include these chips anymore, they're moved from stack to pot)
+	/*
+	A Player is what joins the table and plays the game. Each player must have an AI,
+	which can be either a human or a bot.
 
-  int buyInTotal; //for how much money did this player buy in (used if rebuys are allowed to calculate score at end)
+	For the rest, he has chips and a certain game status.
 
-  Card holeCard1;
-  Card holeCard2;
+	This class is used for running the Game, the AI's shouldn't use this class, they
+	get this information in the form of an Info struct instead.
+	*/
+	struct Player
+	{
+		AI* ai; //the AI for the player
 
-  bool folded;
-  bool showdown; //this player (has to or wants to) show their cards
+		int stack; //chips in his stack
+		int wager; //how much chips this person currently has in the pot on the table (note: the "int stack" variable does NOT include these chips anymore, they're moved from stack to pot)
 
-  std::string name;
+		int buyInTotal; //for how much money did this player buy in (used if rebuys are allowed to calculate score at end)
 
-  Action lastAction; //used for filling it in the Info
+		Card holeCard1;
+		Card holeCard2;
 
-  Player(AI* ai, const std::string& name);
+		bool folded;
+		bool showdown; //this player (has to or wants to) show their cards
 
-  void setCards(Card card1, Card card2);
+		std::string name;
 
-  /*
-  Rules about this name:
-  -must have at least one character
-  -max 12 characters, otherwise the ascii art is screwed up
-  -spaces and dots are allowed
-  -semicolons and commas are not allowed. This because semicolons are often used in logs and such, allowing parsers to know they're not part of a name.
-  */
-  std::string getName() const; //min 1 letter,
-  std::string getAIName() const;
+		OOPoker::Action lastAction; //used for filling it in the Info
 
-  Action doTurn(const Info& info);
-  void onEvent(const Event& event);
+		Player(AI* ai, const std::string& name);
 
-  bool isAllIn() const;
-  bool isOut() const; //can't play anymore, has no more money
-  bool isFolded() const;
+		void setCards(Card card1, Card card2);
 
-  bool isHuman() const;
+		/*
+		Rules about this name:
+		-must have at least one character
+		-max 12 characters, otherwise the ascii art is screwed up
+		-spaces and dots are allowed
+		-semicolons and commas are not allowed. This because semicolons are often used in logs and such, allowing parsers to know they're not part of a name.
+		*/
+		std::string getName() const; //min 1 letter,
+		std::string getAIName() const;
 
-  bool canDecide() const; //returns true if stack > 0 and not folded
-};
+		Action doTurn(const Info& info);
+		void onEvent(const Event& event);
 
+		bool isAllIn() const;
+		bool isOut() const; //can't play anymore, has no more money
+		bool isFolded() const;
 
-std::string getRandomName();
+		bool isHuman() const;
+
+		bool canDecide() const; //returns true if stack > 0 and not folded
+	};
+
+	std::string getRandomName();
+}

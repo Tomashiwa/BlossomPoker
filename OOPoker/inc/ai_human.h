@@ -25,24 +25,26 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/ai.h"
 #include "../inc/player.h"
 
-class HostTerminal;
-
-/*
-This is an AI for a terminal game where there is only a single human.
-*/
-class AIHuman : public AI
+namespace OOPoker
 {
-  private:
-    HostTerminal* host;
+	class HostTerminal;
 
-  public:
+	/*
+	This is an AI for a terminal game where there is only a single human.
+	*/
+	class AIHuman : public AI
+	{
+	private:
+		HostTerminal* host;
 
-    AIHuman(HostTerminal* host);
+	public:
 
-    virtual Action doTurn(const Info& info);
-    virtual void onEvent(const Event& event);
-    virtual bool boastCards(const Info& info);
+		AIHuman(HostTerminal* host);
 
-    virtual std::string getAIName();
-};
+		virtual Action doTurn(const Info& info);
+		virtual void onEvent(const Event& event);
+		virtual bool boastCards(const Info& info);
 
+		virtual std::string getAIName();
+	};
+}

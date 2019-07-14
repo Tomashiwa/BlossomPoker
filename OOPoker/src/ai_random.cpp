@@ -24,38 +24,41 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include "../inc/info.h"
 #include "../inc/random.h"
 
-Action AIRandom::doTurn(const Info& info)
+namespace OOPoker
 {
-  (void)info;
+	Action AIRandom::doTurn(const Info& info)
+	{
+		(void)info;
 
-  int r = (int)(getRandom() * 100);
+		int r = (int)(getRandom() * 100);
 
-  if(r < 25) //check or fold
-  {
-    return info.amountToAction(0);
-  }
-  else if(r < 26) //all-in
-  {
-    return info.getAllInAction();
-  }
-  else if(r < 70) //call
-  {
-    return info.getCallAction();
-  }
-  else /*if(r == 2)*/ //raise
-  {
-    if(info.turn > 0) return info.getCallAction(); //avoid infinite raises
-    return info.getRaiseAction(info.getMinChipsToRaise());
-  }
-}
+		if (r < 25) //check or fold
+		{
+			return info.amountToAction(0);
+		}
+		else if (r < 26) //all-in
+		{
+			return info.getAllInAction();
+		}
+		else if (r < 70) //call
+		{
+			return info.getCallAction();
+		}
+		else /*if(r == 2)*/ //raise
+		{
+			if (info.turn > 0) return info.getCallAction(); //avoid infinite raises
+			return info.getRaiseAction(info.getMinChipsToRaise());
+		}
+	}
 
-bool AIRandom::boastCards(const Info& info)
-{
-  (void)info;
-  return getRandom() < 0.5;
-}
+	bool AIRandom::boastCards(const Info& info)
+	{
+		(void)info;
+		return getRandom() < 0.5;
+	}
 
-std::string AIRandom::getAIName()
-{
-  return "Random";
+	std::string AIRandom::getAIName()
+	{
+		return "Random";
+	}
 }

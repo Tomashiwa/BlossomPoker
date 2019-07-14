@@ -27,19 +27,22 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 #include <iostream>
 #include <fstream>
 
-/*
-Observer that writes all events to a log file on disk.
-*/
-class ObserverLog : public Observer
+namespace OOPoker
 {
-  private:
+	/*
+	Observer that writes all events to a log file on disk.
+	*/
+	class ObserverLog : public Observer
+	{
+	private:
 
-    std::ofstream logfile;
-    std::string s;
+		std::ofstream logfile;
+		std::string s;
 
 
-  public:
-    ObserverLog(const std::string& logFileName);
-    virtual ~ObserverLog();
-    virtual void onEvent(const Event& event);
-};
+	public:
+		ObserverLog(const std::string& logFileName);
+		virtual ~ObserverLog();
+		virtual void onEvent(const Event& event);
+	};
+}

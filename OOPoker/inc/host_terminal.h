@@ -25,32 +25,34 @@ along with OOPoker.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "../inc/host.h"
 
-/*
-Implementation of Host that uses the terminal.
-*/
-class HostTerminal : public Host
+namespace OOPoker
 {
-  private:
-    bool quit;
+	/*
+	Implementation of Host that uses the terminal.
+	*/
+	class HostTerminal : public Host
+	{
+	private:
+		bool quit;
 
-    bool human_detected; //is used to print messages in certain way if the human player is out.
-    
-    int dealCount;
+		bool human_detected; //is used to print messages in certain way if the human player is out.
 
-  public:
+		int dealCount;
 
-    HostTerminal();
+	public:
 
-    virtual void onFrame(); //called between every player decision
-    virtual void onGameBegin(const Info& info); //called after all players are sitting at the table, right before the first deal starts
-    virtual void onDealDone(const Info& info);
-    virtual void onGameDone(const Info& info); //when the whole tournament is done
+		HostTerminal();
 
-    virtual bool wantToQuit() const;
-    virtual void resetWantToQuit();
+		virtual void onFrame(); //called between every player decision
+		virtual void onGameBegin(const Info& info); //called after all players are sitting at the table, right before the first deal starts
+		virtual void onDealDone(const Info& info);
+		virtual void onGameDone(const Info& info); //when the whole tournament is done
 
-    //not part of the Host interface, additial communication for the terminal-based Human AI and/or Observer
-    void setQuitSignalFromHumanPlayer(); //command given by AIHuman to HostTerminal
-    void setHasHumanPlayer(bool has);
-};
+		virtual bool wantToQuit() const;
+		virtual void resetWantToQuit();
 
+		//not part of the Host interface, additial communication for the terminal-based Human AI and/or Observer
+		void setQuitSignalFromHumanPlayer(); //command given by AIHuman to HostTerminal
+		void setHasHumanPlayer(bool has);
+	};
+}
