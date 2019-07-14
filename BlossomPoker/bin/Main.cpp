@@ -17,7 +17,7 @@ int main()
 	Model.ChildPopulationRatio = 1.0f;
 
 	Model.PopulationSize = 500; 
-	Model.GenerationLimit = 100;
+	Model.GenerationLimit = 1000;
 	Model.TournamentsPerGen = 9;
 
 	Model.HasElite = false;

@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XPokerEval.CactusKev.Perfec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XPokerEval.TwoPlusTwo", "XPokerEval.TwoPlusTwo\XPokerEval.TwoPlusTwo.vcxproj", "{5F41BD64-6026-4281-BA18-82D03C031AF0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOPoker", "OOPoker\OOPoker.vcxproj", "{CB354FDE-CBB8-4097-91DA-5DC236B4957A}"
+EndProject
 Global
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
@@ -48,6 +50,14 @@ Global
 		{5F41BD64-6026-4281-BA18-82D03C031AF0}.Release|x64.ActiveCfg = Release|Win32
 		{5F41BD64-6026-4281-BA18-82D03C031AF0}.Release|x86.ActiveCfg = Release|Win32
 		{5F41BD64-6026-4281-BA18-82D03C031AF0}.Release|x86.Build.0 = Release|Win32
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Debug|x64.ActiveCfg = Debug|x64
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Debug|x64.Build.0 = Debug|x64
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Debug|x86.ActiveCfg = Debug|Win32
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Debug|x86.Build.0 = Debug|Win32
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Release|x64.ActiveCfg = Release|x64
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Release|x64.Build.0 = Release|x64
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Release|x86.ActiveCfg = Release|Win32
+		{CB354FDE-CBB8-4097-91DA-5DC236B4957A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
