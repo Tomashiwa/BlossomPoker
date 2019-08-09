@@ -2,12 +2,17 @@
 #include <string>
 #include <memory>
 
+#include "GameManager.h"
+
 #include "../bin/Tools/inc/GeneticTrainer.h"
 #include "../bin/Tools/inc/Scheduler.h"
 
 int main()
 {
-	std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
+	OOPoker::GameManager Manager;
+	Manager.DoGame();
+
+	/*std::unique_ptr<Scheduler> Schedule = std::make_unique<Scheduler>();
 
 	TrainingModel Model;
 	
@@ -40,8 +45,8 @@ int main()
 
 	Schedule->Add(Model, FeedbackLayer);
 
-	Schedule->Run(false);
-	system("pause");
+	Schedule->Run(false);*/
 
+	system("pause");
 	return 0;
 }
