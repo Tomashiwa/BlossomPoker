@@ -37,26 +37,6 @@ namespace OOPoker
 
 	Action AIBlossom::doTurn(const Info& info)
 	{
-		/*
-		The "Smart" AI tries to win by playing with good cards and folding with bad cards.
-
-		This AI is called smart because it's smart compared to the Naive demo AI's. However, it
-		isn't that smart at all! It wins without problems against ai_random. But are you able
-		to make an AI that beats AIBlossom?
-
-		Some hints for better AI's:
-		-use pot equity / odds
-		-have a memory, to enable strategies that take multiple turns, such as check-raise
-		-use Harrington zones
-		-use position compared to the dealer
-		-take the amount of opponents into account
-		-try to keep track of playing style of other players, recognise individual players
-		-change strategy every now and then to try not to be too predictable
-		-detect when an opponent is weak and can be outbluffed
-		-isolate a certain opponent
-		-...
-		*/
-
 		double raiseChance = 0.0;
 		double allInChance = 0.0;
 		int maxWager = 0; //for calling

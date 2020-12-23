@@ -1,0 +1,3709 @@
+
+
+======================OOPoker Log=======================
+
+Date: 2019/08/09 21:10:46
+
+The game begins. The AI's of the players are: 
+Blossom: Blossom
+Chaborli: Smart
+Bame: Smart
+Potik: Smart
+Bubee: Smart
+Joteem: Smart
+Chobof: Smart
+Rihoda: Smart
+Higumi: Smart
+Goehi: Smart
+
+Joins: Blossom, chips: 1000
+Joins: Chaborli, chips: 1000
+Joins: Bame, chips: 1000
+Joins: Potik, chips: 1000
+Joins: Bubee, chips: 1000
+Joins: Joteem, chips: 1000
+Joins: Chobof, chips: 1000
+Joins: Rihoda, chips: 1000
+Joins: Higumi, chips: 1000
+Joins: Goehi, chips: 1000
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Bame
+Calls: Potik
+Calls: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Calls: Higumi
+Calls: Goehi
+Folds: Blossom
+Checks: Chaborli
+Flop: 6c 9c 3h
+Checks: Chaborli
+Checks: Bame
+Checks: Potik
+Checks: Bubee
+Checks: Higumi
+Checks: Goehi
+Turn: 7c
+Checks: Chaborli
+Checks: Bame
+Checks: Potik
+Checks: Bubee
+Checks: Higumi
+Checks: Goehi
+River: Jc
+Checks: Chaborli
+Checks: Bame
+Checks: Potik
+Checks: Bubee
+Checks: Higumi
+Checks: Goehi
+Pot size: 65
+Showdown Reached
+Shows: Chaborli, 8d Ts
+Combination: Chaborli, Straight ( Jc Ts 9c 8d 7c )
+Shows: Bame, 5c 4s
+Combination: Bame, Flush ( Jc 9c 7c 6c 5c )
+Shows: Potik, 5s 3s
+Combination: Potik, Pair ( 3s 3h Jc 9c 7c )
+Shows: Bubee, 9s As
+Combination: Bubee, Pair ( 9s 9c As Jc 7c )
+Shows: Higumi, Td Qs
+Combination: Higumi, High Card ( Qs Jc Td 9c 7c )
+Shows: Goehi, Jh Ks
+Combination: Goehi, Pair ( Jh Jc Ks 9c 7c )
+Wins: Bame, chips: 65
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Bame, chips: 10
+Calls: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Calls: Higumi
+Calls: Goehi
+Raises: Blossom, chips: 10
+Folds: Chaborli
+Calls: Bame
+Folds: Potik
+Folds: Higumi
+Calls: Goehi
+Flop: 7s 4d Th
+Checks: Bame
+Checks: Goehi
+Checks: Blossom
+Turn: 4s
+Checks: Bame
+Checks: Goehi
+Raises: Blossom, chips: 10
+Folds: Bame
+Calls: Goehi
+River: 7d
+Checks: Goehi
+Checks: Blossom
+Pot size: 105
+Showdown Reached
+Shows: Blossom, Js Jc
+Combination: Blossom, Two Pair ( Js Jc 7s 7d Th )
+Shows: Goehi, Kc Jd
+Combination: Goehi, Two Pair ( 7s 7d 4d 4s Kc )
+Wins: Blossom, chips: 105
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Bame, chips: 5
+Big Blind: Potik, chips: 10
+Calls: Bubee
+Calls: Joteem
+Calls: Chobof
+Calls: Rihoda
+Folds: Higumi
+Raises: Goehi, chips: 10
+Folds: Blossom
+Calls: Chaborli
+Calls: Bame
+Folds: Potik
+Folds: Bubee
+Raises: Joteem, chips: 20
+Calls: Chobof
+Folds: Rihoda
+Raises: Goehi, chips: 30
+Folds: Chaborli
+Raises: Bame, chips: 100
+Calls: Joteem
+Raises: Chobof, chips: 230
+Calls: Goehi
+Calls: Bame
+Calls: Joteem
+Flop: Kc Td 8c
+Checks: Bame
+Checks: Joteem
+Checks: Chobof
+Checks: Goehi
+Turn: 7h
+Checks: Bame
+Checks: Joteem
+Checks: Chobof
+Checks: Goehi
+River: Kd
+Checks: Bame
+Checks: Joteem
+Checks: Chobof
+Raises: Goehi, chips: 340
+Folds: Bame
+Folds: Joteem
+Raises: Chobof, chips: 260
+Calls: Goehi
+Pot size: 2810
+Showdown Reached
+Shows: Chobof, Jd Js
+Combination: Chobof, Two Pair ( Kc Kd Jd Js Td )
+Shows: Goehi, Ad Kh
+Combination: Goehi, Three Of A Kind ( Kh Kc Kd Ad Td )
+Wins: Chobof, chips: 40
+Wins: Goehi, chips: 2770
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bame
+Small Blind: Potik, chips: 5
+Big Blind: Bubee, chips: 10
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Calls: Higumi
+Calls: Goehi
+Raises: Blossom, chips: 10
+Folds: Chaborli
+Calls: Bame
+Folds: Potik
+Folds: Bubee
+Calls: Chobof
+Folds: Higumi
+Folds: Goehi
+Flop: 5h Tc Qs
+Checks: Chobof
+Raises: Blossom, chips: 10
+Raises: Bame, chips: 10
+Folds: Chobof
+Calls: Blossom
+Turn: 4h
+Checks: Blossom
+Raises: Bame, chips: 10
+Calls: Blossom
+River: 8s
+Checks: Blossom
+Checks: Bame
+Pot size: 155
+Showdown Reached
+Shows: Blossom, Kd Ac
+Combination: Blossom, High Card ( Ac Kd Qs Tc 8s )
+Shows: Bame, Ts Kh
+Combination: Bame, Pair ( Ts Tc Kh Qs 8s )
+Wins: Bame, chips: 155
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Potik
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Chobof
+Calls: Rihoda
+Calls: Higumi
+Calls: Goehi
+Calls: Blossom
+Folds: Chaborli
+Folds: Bame
+Raises: Potik, chips: 10
+Folds: Bubee
+Folds: Joteem
+Calls: Rihoda
+Calls: Higumi
+Calls: Goehi
+Folds: Blossom
+Flop: 8d Tc 4d
+Checks: Rihoda
+Checks: Higumi
+Checks: Goehi
+Checks: Potik
+Turn: 8s
+Checks: Rihoda
+Checks: Higumi
+Checks: Goehi
+Checks: Potik
+River: 6c
+Checks: Rihoda
+Checks: Higumi
+Checks: Goehi
+Checks: Potik
+Pot size: 105
+Showdown Reached
+Shows: Potik, 9d 9h
+Combination: Potik, Two Pair ( 9d 9h 8d 8s Tc )
+Shows: Rihoda, Kd Ah
+Combination: Rihoda, Pair ( 8d 8s Ah Kd Tc )
+Shows: Higumi, Qs Jd
+Combination: Higumi, Pair ( 8d 8s Qs Jd Tc )
+Shows: Goehi, 9s As
+Combination: Goehi, Pair ( 8d 8s As Tc 9s )
+Wins: Potik, chips: 105
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Folds: Rihoda
+Calls: Higumi
+Calls: Goehi
+Folds: Blossom
+Folds: Chaborli
+Raises: Bame, chips: 730
+Folds: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Higumi
+Folds: Goehi
+Pot size: 775
+Wins: Bame, chips: 775
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Higumi
+Raises: Goehi, chips: 10
+Folds: Blossom
+Folds: Chaborli
+Folds: Bame
+Calls: Potik
+Calls: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Flop: Ah 8h 6s
+Checks: Goehi
+Checks: Potik
+Checks: Bubee
+Turn: 3s
+Checks: Goehi
+Checks: Potik
+Checks: Bubee
+River: 7s
+Checks: Goehi
+Checks: Potik
+Checks: Bubee
+Pot size: 75
+Showdown Reached
+Shows: Potik, Kh Td
+Combination: Potik, High Card ( Ah Kh Td 8h 7s )
+Shows: Bubee, 8c Jc
+Combination: Bubee, Pair ( 8c 8h Ah Jc 7s )
+Shows: Goehi, Ad 2d
+Combination: Goehi, Pair ( Ad Ah 8h 7s 6s )
+Wins: Goehi, chips: 75
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Higumi, chips: 10
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Bame
+Calls: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Checks: Higumi
+Flop: 6d 3s As
+Checks: Higumi
+Checks: Bame
+Checks: Potik
+Turn: Tc
+Checks: Higumi
+Raises: Bame, chips: 10
+Folds: Potik
+Raises: Higumi, chips: 10
+Calls: Bame
+River: Ts
+Raises: Higumi, chips: 910
+Folds: Bame
+Pot size: 985
+Wins: Higumi, chips: 985
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Higumi, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Folds: Chaborli
+Folds: Bame
+Folds: Potik
+Calls: Bubee
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Folds: Higumi
+Checks: Goehi
+Flop: 5d Kc 6c
+Checks: Goehi
+Checks: Bubee
+Turn: Qh
+Checks: Goehi
+Checks: Bubee
+River: 8c
+Raises: Goehi, chips: 10
+Folds: Bubee
+Pot size: 40
+Showdown Reached
+Shows: Chobof, 2c Ac
+Combination: Chobof, Flush ( Ac Kc 8c 6c 2c )
+Shows: Goehi, 8d Qs
+Combination: Goehi, Two Pair ( Qs Qh 8d 8c Kc )
+Wins: Chobof, chips: 20
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Higumi
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Chaborli
+Folds: Bame
+Folds: Potik
+Calls: Bubee
+Raises: Joteem, chips: 10
+Folds: Chobof
+Raises: Rihoda, chips: 20
+Folds: Higumi
+Folds: Goehi
+Folds: Blossom
+Folds: Bubee
+Calls: Joteem
+Flop: 4d Th 2d
+Raises: Joteem, chips: 20
+Calls: Rihoda
+Turn: Kd
+Raises: Joteem, chips: 525
+Raises: Rihoda, chips: 370
+River: Jc
+Pot size: 1565
+Showdown Reached
+Shows: Joteem, Tc Td
+Combination: Joteem, Three Of A Kind ( Tc Td Th Kd Jc )
+Shows: Rihoda, Qd Kh
+Combination: Rihoda, Pair ( Kh Kd Qd Jc Th )
+Wins: Joteem, chips: 1195
+Wins: Rihoda, chips: 370
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Bame
+Folds: Potik
+Folds: Bubee
+Calls: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Higumi
+Raises: Goehi, chips: 10
+Calls: Blossom
+Raises: Chaborli, chips: 20
+Raises: Bame, chips: 20
+Folds: Joteem
+Raises: Goehi, chips: 70
+Folds: Blossom
+Calls: Chaborli
+Raises: Bame, chips: 615
+Raises: Goehi, chips: 165
+Raises: Chaborli, chips: 55
+Raises: Goehi, chips: 265
+Flop: 5s Tc 3d
+Turn: 3s
+River: Kd
+Pot size: 2970
+Showdown Reached
+Shows: Chaborli, Kh As
+Combination: Chaborli, Two Pair ( Kh Kd 3d 3s As )
+Shows: Bame, Qs Js
+Combination: Bame, Pair ( 3d 3s Kd Qs Js )
+Shows: Goehi, Jh Ac
+Combination: Goehi, Pair ( 3d 3s Ac Kd Jh )
+Wins: Chaborli, chips: 2705
+Wins: Goehi, chips: 265
+Quits: Bame, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Potik, chips: 10
+Folds: Bubee
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Calls: Higumi
+Calls: Goehi
+Calls: Blossom
+Folds: Chaborli
+Raises: Potik, chips: 10
+Calls: Chobof
+Calls: Higumi
+Calls: Goehi
+Folds: Blossom
+Flop: 7d 8s Jc
+Checks: Potik
+Checks: Higumi
+Checks: Goehi
+Turn: Ks
+Checks: Potik
+Checks: Higumi
+Checks: Goehi
+River: 5c
+Checks: Potik
+Checks: Higumi
+Checks: Goehi
+Pot size: 95
+Showdown Reached
+Shows: Potik, 6c 6s
+Combination: Potik, Pair ( 6c 6s Ks Jc 8s )
+Shows: Chobof, 8h 6h
+Combination: Chobof, Pair ( 8h 8s Ks Jc 7d )
+Shows: Higumi, 5s 4s
+Combination: Higumi, Pair ( 5s 5c Ks Jc 8s )
+Shows: Goehi, Qh Tc
+Combination: Goehi, High Card ( Ks Qh Jc Tc 8s )
+Wins: Chobof, chips: 95
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Potik, chips: 5
+Big Blind: Bubee, chips: 10
+Raises: Joteem, chips: 20
+Folds: Chobof
+Calls: Rihoda
+Calls: Higumi
+Folds: Goehi
+Raises: Blossom, chips: 20
+Folds: Chaborli
+Folds: Potik
+Folds: Bubee
+Raises: Joteem, chips: 50
+Folds: Rihoda
+Folds: Higumi
+Folds: Blossom
+Pot size: 225
+Wins: Joteem, chips: 225
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Potik
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Chobof
+Calls: Rihoda
+Folds: Higumi
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Potik
+Folds: Bubee
+Checks: Joteem
+Flop: Ad Js 7h
+Checks: Joteem
+Raises: Rihoda, chips: 330
+Calls: Joteem
+Turn: 4c
+River: Kc
+Pot size: 685
+Showdown Reached
+Shows: Joteem, 6h 7d
+Combination: Joteem, Pair ( 7d 7h Ad Kc Js )
+Shows: Rihoda, Ac 3c
+Combination: Rihoda, Pair ( Ac Ad Kc Js 7h )
+Wins: Rihoda, chips: 685
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Calls: Rihoda
+Calls: Higumi
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Calls: Potik
+Calls: Bubee
+Folds: Joteem
+Raises: Chobof, chips: 10
+Folds: Rihoda
+Folds: Higumi
+Calls: Blossom
+Folds: Potik
+Calls: Bubee
+Flop: Tc 4s 3h
+Checks: Chobof
+Checks: Blossom
+Checks: Bubee
+Turn: 4c
+Checks: Chobof
+Checks: Blossom
+Checks: Bubee
+River: Ks
+Checks: Chobof
+Raises: Blossom, chips: 10
+Folds: Bubee
+Calls: Chobof
+Pot size: 115
+Showdown Reached
+Shows: Blossom, Ts Ac
+Combination: Blossom, Two Pair ( Ts Tc 4s 4c Ac )
+Shows: Chobof, 9d 9c
+Combination: Chobof, Two Pair ( 9d 9c 4s 4c Ks )
+Wins: Blossom, chips: 115
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Higumi
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Potik
+Folds: Bubee
+Calls: Joteem
+Folds: Chobof
+Checks: Rihoda
+Flop: 9h 6d 8d
+Raises: Rihoda, chips: 10
+Calls: Joteem
+Turn: 9c
+Raises: Rihoda, chips: 10
+Calls: Joteem
+River: 3c
+Raises: Rihoda, chips: 645
+Folds: Joteem
+Pot size: 710
+Wins: Rihoda, chips: 710
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Higumi, chips: 10
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Calls: Rihoda
+Checks: Higumi
+Flop: 5d 2c 6h
+Checks: Rihoda
+Checks: Higumi
+Checks: Potik
+Turn: Kd
+Checks: Rihoda
+Checks: Higumi
+Checks: Potik
+River: Qs
+Checks: Rihoda
+Checks: Higumi
+Checks: Potik
+Pot size: 30
+Showdown Reached
+Shows: Potik, 6d 7d
+Combination: Potik, Pair ( 6d 6h Kd Qs 7d )
+Shows: Rihoda, 9d Jc
+Combination: Rihoda, High Card ( Kd Qs Jc 9d 6h )
+Shows: Higumi, 4s 8c
+Combination: Higumi, High Card ( Kd Qs 8c 6h 5d )
+Wins: Potik, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Higumi, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Calls: Chaborli
+Calls: Potik
+Folds: Bubee
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Calls: Higumi
+Checks: Goehi
+Flop: 4d Ac 2s
+Checks: Higumi
+Checks: Goehi
+Checks: Chaborli
+Checks: Potik
+Checks: Chobof
+Turn: 3h
+Checks: Higumi
+Checks: Goehi
+Checks: Chaborli
+Raises: Potik, chips: 10
+Folds: Chobof
+Folds: Higumi
+Folds: Goehi
+Folds: Chaborli
+Pot size: 60
+Wins: Potik, chips: 60
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Higumi
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Chaborli
+Folds: Potik
+Calls: Bubee
+Calls: Joteem
+Folds: Chobof
+Calls: Rihoda
+Folds: Higumi
+Calls: Goehi
+Checks: Blossom
+Flop: 2c Qc 6d
+Checks: Goehi
+Checks: Blossom
+Checks: Bubee
+Checks: Joteem
+Checks: Rihoda
+Turn: Js
+Checks: Goehi
+Checks: Blossom
+Checks: Bubee
+Checks: Joteem
+Checks: Rihoda
+River: 6s
+Checks: Goehi
+Checks: Blossom
+Checks: Bubee
+Checks: Joteem
+Checks: Rihoda
+Pot size: 50
+Showdown Reached
+Shows: Blossom, 2s 5c
+Combination: Blossom, Two Pair ( 6d 6s 2s 2c Qc )
+Shows: Bubee, Ad Tc
+Combination: Bubee, Pair ( 6d 6s Ad Qc Js )
+Shows: Joteem, 5d Kd
+Combination: Joteem, Pair ( 6d 6s Kd Qc Js )
+Shows: Rihoda, Th 8h
+Combination: Rihoda, Pair ( 6d 6s Qc Js Th )
+Shows: Goehi, Qs 9c
+Combination: Goehi, Two Pair ( Qs Qc 6d 6s Js )
+Wins: Goehi, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Potik
+Calls: Bubee
+Calls: Joteem
+Raises: Chobof, chips: 20
+Folds: Rihoda
+Folds: Higumi
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Raises: Bubee, chips: 20
+Folds: Joteem
+Calls: Chobof
+Flop: 8c Th Ad
+Turn: 9s
+River: Qh
+Pot size: 125
+Showdown Reached
+Shows: Bubee, 6d 6s
+Combination: Bubee, Pair ( 6d 6s Ad Qh Th )
+Shows: Chobof, Ac Jc
+Combination: Chobof, Straight ( Qh Jc Th 9s 8c )
+Wins: Chobof, chips: 125
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Potik, chips: 10
+Folds: Bubee
+Calls: Joteem
+Folds: Chobof
+Calls: Rihoda
+Raises: Higumi, chips: 20
+Folds: Goehi
+Calls: Blossom
+Calls: Chaborli
+Folds: Potik
+Folds: Joteem
+Raises: Rihoda, chips: 20
+Raises: Higumi, chips: 30
+Raises: Blossom, chips: 50
+Folds: Chaborli
+Raises: Rihoda, chips: 100
+Raises: Higumi, chips: 150
+Raises: Blossom, chips: 610
+Calls: Rihoda
+Calls: Higumi
+Flop: 9h 5d Qh
+Turn: Kc
+River: 4c
+Pot size: 2630
+Showdown Reached
+Shows: Blossom, Tc Ts
+Combination: Blossom, Pair ( Tc Ts Kc Qh 9h )
+Shows: Rihoda, Ac Ah
+Combination: Rihoda, Pair ( Ac Ah Kc Qh 9h )
+Shows: Higumi, Ad Jh
+Combination: Higumi, High Card ( Ad Kc Qh Jh 9h )
+Wins: Blossom, chips: 510
+Wins: Rihoda, chips: 2120
+Quits: Higumi, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Potik, chips: 5
+Big Blind: Bubee, chips: 10
+Folds: Joteem
+Calls: Chobof
+Raises: Rihoda, chips: 10
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Potik
+Folds: Bubee
+Folds: Chobof
+Pot size: 45
+Wins: Rihoda, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Potik
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Chobof
+Calls: Rihoda
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Potik
+Folds: Bubee
+Checks: Joteem
+Flop: 7d 4h 8s
+Checks: Joteem
+Raises: Rihoda, chips: 10
+Folds: Potik
+Folds: Joteem
+Pot size: 45
+Wins: Rihoda, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Folds: Rihoda
+Folds: Goehi
+Folds: Blossom
+Calls: Chaborli
+Calls: Potik
+Raises: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Folds: Chaborli
+Calls: Potik
+Flop: Th Td 4h
+Checks: Potik
+Raises: Bubee, chips: 10
+Calls: Potik
+Turn: 8c
+Checks: Potik
+Checks: Bubee
+River: 7s
+Checks: Potik
+Checks: Bubee
+Pot size: 85
+Showdown Reached
+Shows: Potik, Ac Qc
+Combination: Potik, Pair ( Th Td Ac Qc 8c )
+Shows: Bubee, Jh Qh
+Combination: Bubee, Pair ( Th Td Qh Jh 8c )
+Wins: Potik, chips: 85
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Folds: Potik
+Raises: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Raises: Rihoda, chips: 10
+Folds: Blossom
+Raises: Bubee, chips: 10
+Calls: Rihoda
+Flop: 4s Ah 4c
+Checks: Rihoda
+Checks: Bubee
+Turn: 6s
+Checks: Rihoda
+Checks: Bubee
+River: 9d
+Raises: Rihoda, chips: 10
+Calls: Bubee
+Pot size: 115
+Showdown Reached
+Shows: Bubee, Qs 9s
+Combination: Bubee, Two Pair ( 9s 9d 4s 4c Ah )
+Shows: Rihoda, Qh 9h
+Combination: Rihoda, Two Pair ( 9h 9d 4s 4c Ah )
+Wins: Bubee, chips: 58
+Wins: Rihoda, chips: 57
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Calls: Chaborli
+Folds: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Raises: Goehi, chips: 10
+Folds: Chaborli
+Pot size: 35
+Wins: Goehi, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Chaborli
+Calls: Potik
+Calls: Bubee
+Calls: Joteem
+Folds: Chobof
+Calls: Rihoda
+Folds: Goehi
+Checks: Blossom
+Flop: 2d 9c 7s
+Checks: Blossom
+Checks: Potik
+Checks: Bubee
+Checks: Joteem
+Checks: Rihoda
+Turn: 3h
+Checks: Blossom
+Checks: Potik
+Checks: Bubee
+Checks: Joteem
+Checks: Rihoda
+River: As
+Checks: Blossom
+Checks: Potik
+Checks: Bubee
+Checks: Joteem
+Checks: Rihoda
+Pot size: 55
+Showdown Reached
+Shows: Blossom, Ad 4d
+Combination: Blossom, Pair ( Ad As 9c 7s 4d )
+Shows: Potik, Kh 9h
+Combination: Potik, Pair ( 9h 9c As Kh 7s )
+Shows: Bubee, 5d 5c
+Combination: Bubee, Pair ( 5d 5c As 9c 7s )
+Shows: Joteem, Qc Tc
+Combination: Joteem, High Card ( As Qc Tc 9c 7s )
+Shows: Rihoda, Qd Kd
+Combination: Rihoda, High Card ( As Kd Qd 9c 7s )
+Wins: Blossom, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Potik
+Folds: Bubee
+Calls: Joteem
+Calls: Chobof
+Folds: Rihoda
+Folds: Goehi
+Calls: Blossom
+Checks: Chaborli
+Flop: Js Qh Tc
+Raises: Blossom, chips: 10
+Folds: Chaborli
+Calls: Joteem
+Folds: Chobof
+Turn: As
+Raises: Blossom, chips: 10
+Raises: Joteem, chips: 10
+Raises: Blossom, chips: 20
+Raises: Joteem, chips: 20
+Raises: Blossom, chips: 50
+Raises: Joteem, chips: 90
+Raises: Blossom, chips: 325
+Folds: Joteem
+Pot size: 785
+Wins: Blossom, chips: 785
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Potik, chips: 10
+Folds: Bubee
+Calls: Joteem
+Folds: Chobof
+Raises: Rihoda, chips: 20
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Potik
+Folds: Joteem
+Pot size: 55
+Wins: Rihoda, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Potik, chips: 5
+Big Blind: Bubee, chips: 10
+Raises: Joteem, chips: 20
+Folds: Chobof
+Raises: Rihoda, chips: 30
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Folds: Potik
+Folds: Bubee
+Raises: Joteem, chips: 590
+Folds: Rihoda
+Calls: Blossom
+Flop: 3c 3h 2h
+Turn: 2s
+River: 4c
+Pot size: 1375
+Showdown Reached
+Shows: Blossom, Js Qs
+Combination: Blossom, Two Pair ( 3c 3h 2h 2s Qs )
+Shows: Joteem, Kd Qd
+Combination: Joteem, Two Pair ( 3c 3h 2h 2s Kd )
+Wins: Joteem, chips: 1375
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Potik
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Chobof
+Calls: Rihoda
+Calls: Goehi
+Folds: Blossom
+Calls: Chaborli
+Folds: Potik
+Folds: Bubee
+Checks: Joteem
+Flop: Ts Qd 7d
+Checks: Joteem
+Checks: Rihoda
+Checks: Goehi
+Checks: Chaborli
+Turn: 9s
+Checks: Joteem
+Checks: Rihoda
+Raises: Goehi, chips: 1825
+Folds: Chaborli
+Folds: Joteem
+Raises: Rihoda, chips: 292
+River: Ks
+Pot size: 3987
+Showdown Reached
+Shows: Rihoda, 8s Jc
+Combination: Rihoda, Straight ( Ks Qd Jc Ts 9s )
+Shows: Goehi, Kc Jd
+Combination: Goehi, Straight ( Kc Qd Jd Ts 9s )
+Wins: Rihoda, chips: 2139
+Wins: Goehi, chips: 1848
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Folds: Rihoda
+Folds: Goehi
+Folds: Blossom
+Calls: Chaborli
+Raises: Potik, chips: 10
+Folds: Bubee
+Folds: Joteem
+Calls: Chobof
+Raises: Chaborli, chips: 20
+Calls: Potik
+Calls: Chobof
+Flop: 9h 9d 5h
+Checks: Chobof
+Checks: Chaborli
+Checks: Potik
+Turn: 7h
+Checks: Chobof
+Checks: Chaborli
+Checks: Potik
+River: 2s
+Checks: Chobof
+Checks: Chaborli
+Checks: Potik
+Pot size: 125
+Showdown Reached
+Shows: Chaborli, 8d 7d
+Combination: Chaborli, Two Pair ( 9h 9d 7d 7h 8d )
+Shows: Potik, Ah Jc
+Combination: Potik, Pair ( 9h 9d Ah Jc 7h )
+Shows: Chobof, Js Qd
+Combination: Chobof, Pair ( 9h 9d Qd Js 7h )
+Wins: Chaborli, chips: 125
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Folds: Potik
+Calls: Bubee
+Folds: Joteem
+Calls: Chobof
+Checks: Rihoda
+Flop: 8s 8c 2c
+Checks: Chobof
+Checks: Rihoda
+Checks: Blossom
+Checks: Bubee
+Turn: Ts
+Checks: Chobof
+Checks: Rihoda
+Checks: Blossom
+Checks: Bubee
+River: Kh
+Checks: Chobof
+Checks: Rihoda
+Checks: Blossom
+Checks: Bubee
+Pot size: 40
+Showdown Reached
+Shows: Blossom, Kc 6c
+Combination: Blossom, Two Pair ( Kc Kh 8s 8c Ts )
+Shows: Bubee, 4h 4c
+Combination: Bubee, Two Pair ( 8s 8c 4h 4c Kh )
+Shows: Chobof, 9s 9h
+Combination: Chobof, Two Pair ( 9s 9h 8s 8c Kh )
+Shows: Rihoda, 7h Qh
+Combination: Rihoda, Pair ( 8s 8c Kh Qh Ts )
+Wins: Blossom, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Raises: Chaborli, chips: 10
+Calls: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Raises: Goehi, chips: 20
+Raises: Chaborli, chips: 50
+Folds: Potik
+Folds: Goehi
+Pot size: 155
+Wins: Chaborli, chips: 155
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Chaborli
+Folds: Potik
+Calls: Bubee
+Calls: Joteem
+Calls: Chobof
+Folds: Rihoda
+Folds: Goehi
+Checks: Blossom
+Flop: 6s Ah 2h
+Checks: Blossom
+Raises: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Folds: Blossom
+Pot size: 55
+Wins: Bubee, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Potik
+Folds: Bubee
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Calls: Goehi
+Folds: Blossom
+Checks: Chaborli
+Flop: 4d 4h Th
+Checks: Chaborli
+Checks: Potik
+Raises: Chobof, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Folds: Potik
+Pot size: 55
+Wins: Chobof, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Potik, chips: 10
+Calls: Bubee
+Folds: Joteem
+Raises: Chobof, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Potik
+Folds: Bubee
+Flop: 7c 4h 5h
+Checks: Potik
+Raises: Chobof, chips: 10
+Folds: Rihoda
+Folds: Potik
+Pot size: 85
+Wins: Chobof, chips: 85
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Potik, chips: 5
+Big Blind: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Goehi
+Folds: Blossom
+Calls: Chaborli
+Folds: Potik
+Checks: Bubee
+Flop: Qs 3c Tc
+Checks: Bubee
+Checks: Chaborli
+Turn: 4s
+Checks: Bubee
+Checks: Chaborli
+River: 6h
+Checks: Bubee
+Checks: Chaborli
+Pot size: 25
+Showdown Reached
+Shows: Chaborli, 9s 8d
+Combination: Chaborli, High Card ( Qs Tc 9s 8d 6h )
+Shows: Bubee, 5d Jh
+Combination: Bubee, High Card ( Qs Jh Tc 6h 5d )
+Wins: Bubee, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Potik
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Raises: Chobof, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Folds: Blossom
+Raises: Chaborli, chips: 10
+Folds: Potik
+Calls: Bubee
+Folds: Joteem
+Calls: Chobof
+Raises: Rihoda, chips: 10
+Calls: Chaborli
+Raises: Bubee, chips: 10
+Folds: Chobof
+Raises: Rihoda, chips: 10
+Folds: Chaborli
+Raises: Bubee, chips: 20
+Raises: Rihoda, chips: 30
+Raises: Bubee, chips: 50
+Raises: Rihoda, chips: 50
+Raises: Bubee, chips: 90
+Calls: Rihoda
+Flop: Ts Kh 2d
+Checks: Bubee
+Checks: Rihoda
+Turn: 9h
+Raises: Bubee, chips: 498
+Raises: Rihoda, chips: 562
+River: Ah
+Pot size: 2238
+Showdown Reached
+Shows: Bubee, 9s 9c
+Combination: Bubee, Three Of A Kind ( 9s 9c 9h Ah Kh )
+Shows: Rihoda, Kd Ad
+Combination: Rihoda, Two Pair ( Ad Ah Kd Kh Ts )
+Wins: Bubee, chips: 1676
+Wins: Rihoda, chips: 562
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Folds: Rihoda
+Raises: Goehi, chips: 20
+Folds: Blossom
+Folds: Chaborli
+Raises: Potik, chips: 40
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Calls: Goehi
+Flop: 9s Jh 2s
+Raises: Goehi, chips: 50
+Calls: Potik
+Turn: 9d
+Checks: Goehi
+Raises: Potik, chips: 70
+Calls: Goehi
+River: 2d
+Checks: Goehi
+Checks: Potik
+Pot size: 395
+Showdown Reached
+Shows: Potik, Tc Td
+Combination: Potik, Two Pair ( Tc Td 9s 9d Jh )
+Shows: Goehi, As Qc
+Combination: Goehi, Two Pair ( 9s 9d 2s 2d As )
+Wins: Potik, chips: 395
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Raises: Potik, chips: 20
+Folds: Bubee
+Calls: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Blossom
+Flop: Qs Td Ah
+Raises: Potik, chips: 30
+Calls: Joteem
+Turn: 2h
+Raises: Potik, chips: 50
+Calls: Joteem
+River: Qh
+Raises: Potik, chips: 90
+Calls: Joteem
+Pot size: 425
+Showdown Reached
+Shows: Potik, Ad As
+Combination: Potik, Full House ( Ad As Ah Qs Qh )
+Shows: Joteem, 5s 5c
+Combination: Joteem, Two Pair ( Qs Qh 5s 5c Ah )
+Wins: Potik, chips: 425
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Calls: Chaborli
+Calls: Potik
+Folds: Bubee
+Calls: Joteem
+Raises: Chobof, chips: 20
+Calls: Rihoda
+Folds: Goehi
+Calls: Chaborli
+Calls: Potik
+Raises: Joteem, chips: 30
+Folds: Chobof
+Folds: Rihoda
+Folds: Chaborli
+Folds: Potik
+Pot size: 190
+Wins: Joteem, chips: 190
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Chaborli
+Folds: Potik
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Goehi
+Pot size: 15
+Wins: Blossom, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Potik
+Raises: Bubee, chips: 1666
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Potik
+Pot size: 1701
+Wins: Bubee, chips: 1701
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Potik, chips: 10
+Raises: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Raises: Rihoda, chips: 20
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Potik
+Calls: Bubee
+Flop: Ks Kd Jh
+Checks: Bubee
+Checks: Rihoda
+Turn: Ts
+Raises: Bubee, chips: 1661
+Folds: Rihoda
+Pot size: 1756
+Wins: Bubee, chips: 1756
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Potik, chips: 5
+Big Blind: Bubee, chips: 10
+Calls: Joteem
+Calls: Chobof
+Folds: Rihoda
+Folds: Goehi
+Folds: Blossom
+Calls: Chaborli
+Calls: Potik
+Checks: Bubee
+Flop: 5h Kh Tc
+Checks: Potik
+Raises: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Folds: Chaborli
+Calls: Potik
+Turn: 9c
+Checks: Potik
+Raises: Bubee, chips: 10
+Calls: Potik
+River: Ts
+Raises: Potik, chips: 1305
+Calls: Bubee
+Pot size: 2700
+Showdown Reached
+Shows: Potik, Th 8d
+Combination: Potik, Three Of A Kind ( Th Tc Ts Kh 9c )
+Shows: Bubee, 5d Td
+Combination: Bubee, Full House ( Td Tc Ts 5d 5h )
+Wins: Bubee, chips: 2700
+Quits: Potik, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Folds: Rihoda
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Folds: Bubee
+Raises: Joteem, chips: 15
+Calls: Chobof
+Calls: Blossom
+Flop: 7h 3h Jh
+Checks: Joteem
+Checks: Chobof
+Checks: Blossom
+Turn: As
+Raises: Joteem, chips: 20
+Calls: Chobof
+Folds: Blossom
+River: 6h
+Pot size: 105
+Showdown Reached
+Shows: Joteem, 9d 9h
+Combination: Joteem, Flush ( Jh 9h 7h 6h 3h )
+Shows: Chobof, Qh Ah
+Combination: Chobof, Flush ( Ah Qh Jh 7h 6h )
+Wins: Joteem, chips: 10
+Wins: Chobof, chips: 95
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Folds: Blossom
+Raises: Chaborli, chips: 10
+Calls: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Flop: Ac 4d 8d
+Checks: Chaborli
+Checks: Bubee
+Turn: 9h
+Checks: Chaborli
+Raises: Bubee, chips: 10
+Calls: Chaborli
+River: Ts
+Checks: Chaborli
+Checks: Bubee
+Pot size: 75
+Showdown Reached
+Shows: Chaborli, Jc Td
+Combination: Chaborli, Pair ( Td Ts Ac Jc 9h )
+Shows: Bubee, 9c 8c
+Combination: Bubee, Two Pair ( 9c 9h 8c 8d Ac )
+Wins: Bubee, chips: 75
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Raises: Chaborli, chips: 20
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Goehi
+Pot size: 45
+Wins: Chaborli, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Folds: Chaborli
+Folds: Bubee
+Calls: Joteem
+Calls: Chobof
+Calls: Rihoda
+Folds: Goehi
+Checks: Blossom
+Flop: 6c 9d 4c
+Checks: Blossom
+Checks: Joteem
+Checks: Chobof
+Checks: Rihoda
+Turn: 5c
+Checks: Blossom
+Checks: Joteem
+Raises: Chobof, chips: 80
+Folds: Rihoda
+Folds: Blossom
+Folds: Joteem
+Pot size: 125
+Wins: Chobof, chips: 125
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Bubee
+Calls: Joteem
+Calls: Chobof
+Raises: Rihoda, chips: 10
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Bubee
+Raises: Joteem, chips: 10
+Calls: Chobof
+Raises: Rihoda, chips: 20
+Folds: Bubee
+Raises: Joteem, chips: 40
+Folds: Chobof
+Calls: Rihoda
+Flop: Ts 4s Tc
+Checks: Joteem
+Raises: Rihoda, chips: 60
+Folds: Joteem
+Pot size: 305
+Wins: Rihoda, chips: 305
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Bubee, chips: 10
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Goehi
+Calls: Blossom
+Folds: Chaborli
+Checks: Bubee
+Flop: Qs 2c 4d
+Checks: Bubee
+Checks: Blossom
+Turn: 4c
+Raises: Bubee, chips: 10
+Folds: Blossom
+Pot size: 35
+Wins: Bubee, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Chobof
+Raises: Rihoda, chips: 10
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Folds: Bubee
+Folds: Joteem
+Folds: Chobof
+Pot size: 45
+Wins: Rihoda, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Chobof, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Bubee
+Folds: Joteem
+Raises: Chobof, chips: 10
+Folds: Rihoda
+Folds: Bubee
+Pot size: 45
+Wins: Chobof, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Chobof, chips: 5
+Big Blind: Rihoda, chips: 10
+Calls: Goehi
+Folds: Blossom
+Folds: Chaborli
+Calls: Bubee
+Calls: Joteem
+Calls: Chobof
+Raises: Rihoda, chips: 10
+Calls: Goehi
+Calls: Bubee
+Calls: Joteem
+Folds: Chobof
+Flop: 8d 8c Kh
+Checks: Rihoda
+Raises: Goehi, chips: 10
+Folds: Bubee
+Calls: Joteem
+Folds: Rihoda
+Turn: As
+Raises: Goehi, chips: 10
+Calls: Joteem
+River: 8h
+Raises: Goehi, chips: 1533
+Folds: Joteem
+Pot size: 1663
+Wins: Goehi, chips: 1663
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chobof
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Blossom
+Calls: Chaborli
+Calls: Bubee
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Checks: Goehi
+Flop: Tc Qs Ac
+Checks: Goehi
+Checks: Chaborli
+Checks: Bubee
+Checks: Chobof
+Turn: 6h
+Checks: Goehi
+Checks: Chaborli
+Checks: Bubee
+Checks: Chobof
+River: 3h
+Checks: Goehi
+Checks: Chaborli
+Raises: Bubee, chips: 10
+Folds: Chobof
+Folds: Goehi
+Folds: Chaborli
+Pot size: 55
+Wins: Bubee, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Chaborli
+Raises: Bubee, chips: 20
+Folds: Joteem
+Folds: Chobof
+Folds: Rihoda
+Calls: Goehi
+Folds: Blossom
+Raises: Chaborli, chips: 40
+Raises: Bubee, chips: 90
+Folds: Goehi
+Folds: Chaborli
+Pot size: 270
+Wins: Bubee, chips: 270
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Bubee
+Calls: Joteem
+Folds: Chobof
+Folds: Rihoda
+Folds: Goehi
+Calls: Blossom
+Raises: Chaborli, chips: 10
+Raises: Bubee, chips: 3251
+Folds: Joteem
+Folds: Blossom
+Calls: Chaborli
+Flop: 5s Kh 2s
+Turn: 5d
+River: Qd
+Pot size: 5816
+Showdown Reached
+Shows: Chaborli, Ah Qc
+Combination: Chaborli, Two Pair ( Qc Qd 5s 5d Ah )
+Shows: Bubee, Jc Ad
+Combination: Bubee, Pair ( 5s 5d Ad Kh Qd )
+Wins: Chaborli, chips: 5070
+Wins: Bubee, chips: 746
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Bubee, chips: 10
+Folds: Joteem
+Calls: Chobof
+Folds: Rihoda
+Calls: Goehi
+Folds: Blossom
+Folds: Chaborli
+Checks: Bubee
+Flop: 7c Td Ks
+Checks: Bubee
+Checks: Chobof
+Raises: Goehi, chips: 10
+Folds: Bubee
+Calls: Chobof
+Turn: 3h
+Raises: Chobof, chips: 10
+Raises: Goehi, chips: 10
+Raises: Chobof, chips: 50
+Raises: Goehi, chips: 1533
+River: 6c
+Pot size: 1728
+Showdown Reached
+Shows: Chobof, 9d Kc
+Combination: Chobof, Pair ( Kc Ks Td 9d 7c )
+Shows: Goehi, Ts Kh
+Combination: Goehi, Two Pair ( Kh Ks Ts Td 7c )
+Wins: Goehi, chips: 1728
+Quits: Chobof, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Calls: Blossom
+Calls: Chaborli
+Folds: Bubee
+Checks: Joteem
+Flop: 6h Ah 2d
+Checks: Joteem
+Checks: Rihoda
+Checks: Blossom
+Raises: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Folds: Blossom
+Pot size: 55
+Wins: Chaborli, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Calls: Goehi
+Folds: Blossom
+Calls: Chaborli
+Calls: Bubee
+Calls: Joteem
+Checks: Rihoda
+Flop: Td Jc Jd
+Checks: Joteem
+Checks: Rihoda
+Checks: Goehi
+Checks: Chaborli
+Checks: Bubee
+Turn: 8s
+Checks: Joteem
+Checks: Rihoda
+Checks: Goehi
+Checks: Chaborli
+Checks: Bubee
+River: 8c
+Checks: Joteem
+Checks: Rihoda
+Checks: Goehi
+Checks: Chaborli
+Checks: Bubee
+Pot size: 50
+Showdown Reached
+Shows: Chaborli, 2c Kc
+Combination: Chaborli, Two Pair ( Jc Jd 8s 8c Kc )
+Shows: Bubee, 7c 6s
+Combination: Bubee, Two Pair ( Jc Jd 8s 8c Td )
+Shows: Joteem, 4s 4c
+Combination: Joteem, Two Pair ( Jc Jd 8s 8c Td )
+Shows: Rihoda, 5s 5c
+Combination: Rihoda, Two Pair ( Jc Jd 8s 8c Td )
+Shows: Goehi, Tc As
+Combination: Goehi, Two Pair ( Jc Jd Tc Td As )
+Wins: Goehi, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Raises: Blossom, chips: 10
+Raises: Chaborli, chips: 5070
+Folds: Bubee
+Folds: Joteem
+Folds: Rihoda
+Folds: Goehi
+Folds: Blossom
+Pot size: 5125
+Wins: Chaborli, chips: 5125
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Blossom, chips: 10
+Calls: Chaborli
+Folds: Bubee
+Calls: Joteem
+Folds: Rihoda
+Folds: Goehi
+Checks: Blossom
+Flop: 7h 5d 8d
+Checks: Blossom
+Checks: Chaborli
+Checks: Joteem
+Turn: 2h
+Checks: Blossom
+Checks: Chaborli
+Checks: Joteem
+River: Tc
+Raises: Blossom, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Pot size: 45
+Wins: Blossom, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Blossom, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Bubee
+Folds: Joteem
+Calls: Rihoda
+Calls: Goehi
+Raises: Blossom, chips: 15
+Folds: Chaborli
+Raises: Rihoda, chips: 15
+Folds: Goehi
+Raises: Blossom, chips: 15
+Raises: Rihoda, chips: 25
+Folds: Blossom
+Pot size: 155
+Wins: Rihoda, chips: 155
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Blossom
+Small Blind: Chaborli, chips: 5
+Big Blind: Bubee, chips: 10
+Folds: Joteem
+Calls: Rihoda
+Calls: Goehi
+Calls: Blossom
+Folds: Chaborli
+Checks: Bubee
+Flop: 5c Ad Jd
+Checks: Bubee
+Checks: Rihoda
+Checks: Goehi
+Turn: 3h
+Checks: Bubee
+Checks: Rihoda
+Checks: Goehi
+River: 3d
+Checks: Bubee
+Raises: Rihoda, chips: 10
+Calls: Goehi
+Folds: Bubee
+Pot size: 65
+Showdown Reached
+Shows: Blossom, 2s 2d
+Combination: Blossom, Two Pair ( 3h 3d 2s 2d Ad )
+Shows: Rihoda, 8d Kd
+Combination: Rihoda, Flush ( Ad Kd Jd 8d 3d )
+Shows: Goehi, As 9d
+Combination: Goehi, Two Pair ( As Ad 3h 3d Jd )
+Wins: Rihoda, chips: 65
+Quits: Blossom, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Bubee, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Rihoda
+Raises: Goehi, chips: 10
+Calls: Chaborli
+Folds: Bubee
+Folds: Joteem
+Flop: Th Js 7s
+Checks: Goehi
+Checks: Chaborli
+Turn: 2d
+Checks: Goehi
+Checks: Chaborli
+River: 3h
+Checks: Goehi
+Checks: Chaborli
+Pot size: 55
+Showdown Reached
+Shows: Chaborli, Ac 9c
+Combination: Chaborli, High Card ( Ac Js Th 9c 7s )
+Shows: Goehi, Ad Qc
+Combination: Goehi, High Card ( Ad Qc Js Th 7s )
+Wins: Goehi, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Bubee
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Calls: Goehi
+Calls: Chaborli
+Folds: Bubee
+Raises: Joteem, chips: 15
+Folds: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Pot size: 55
+Wins: Joteem, chips: 55
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Calls: Bubee
+Folds: Joteem
+Folds: Rihoda
+Checks: Goehi
+Flop: 4s 2s 4c
+Checks: Goehi
+Checks: Bubee
+Turn: Td
+Checks: Goehi
+Checks: Bubee
+River: Ac
+Raises: Goehi, chips: 1738
+Calls: Bubee
+Pot size: 2459
+Showdown Reached
+Shows: Bubee, Jh Ad
+Combination: Bubee, Two Pair ( Ad Ac 4s 4c Jh )
+Shows: Goehi, 5h 3s
+Combination: Goehi, Straight ( 5h 4s 3s 2s Ac )
+Wins: Goehi, chips: 2459
+Quits: Bubee, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Raises: Joteem, chips: 20
+Folds: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Pot size: 45
+Wins: Joteem, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Raises: Joteem, chips: 10
+Raises: Rihoda, chips: 20
+Raises: Joteem, chips: 1020
+Folds: Rihoda
+Pot size: 1105
+Wins: Joteem, chips: 1105
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Raises: Joteem, chips: 15
+Folds: Rihoda
+Pot size: 35
+Wins: Joteem, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Calls: Rihoda
+Checks: Goehi
+Flop: 3d 5h 7c
+Checks: Rihoda
+Checks: Goehi
+Turn: 8h
+Checks: Rihoda
+Checks: Goehi
+River: 2c
+Checks: Rihoda
+Checks: Goehi
+Pot size: 20
+Showdown Reached
+Shows: Rihoda, Th 9c
+Combination: Rihoda, High Card ( Th 9c 8h 7c 5h )
+Shows: Goehi, Js 6c
+Combination: Goehi, High Card ( Js 8h 7c 6c 5h )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Folds: Goehi
+Pot size: 15
+Wins: Chaborli, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Raises: Rihoda, chips: 10
+Folds: Goehi
+Calls: Chaborli
+Calls: Joteem
+Flop: 2s Th 6c
+Checks: Chaborli
+Checks: Joteem
+Checks: Rihoda
+Turn: Ts
+Checks: Chaborli
+Checks: Joteem
+Raises: Rihoda, chips: 10
+Folds: Chaborli
+Raises: Joteem, chips: 20
+Raises: Rihoda, chips: 20
+Calls: Joteem
+River: 5s
+Raises: Joteem, chips: 20
+Calls: Rihoda
+Pot size: 200
+Showdown Reached
+Shows: Joteem, Ah 6h
+Combination: Joteem, Two Pair ( Th Ts 6h 6c Ah )
+Shows: Rihoda, Ac Tc
+Combination: Rihoda, Three Of A Kind ( Tc Th Ts Ac 6c )
+Wins: Rihoda, chips: 200
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Calls: Goehi
+Raises: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Calls: Goehi
+Flop: Qc 7s 9s
+Raises: Goehi, chips: 2439
+Folds: Chaborli
+Pot size: 2494
+Wins: Goehi, chips: 2494
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Folds: Rihoda
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Raises: Rihoda, chips: 20
+Folds: Goehi
+Calls: Chaborli
+Flop: 2d 7s Qs
+Checks: Chaborli
+Checks: Rihoda
+Turn: Kh
+Checks: Chaborli
+Checks: Rihoda
+River: 2s
+Checks: Chaborli
+Checks: Rihoda
+Pot size: 65
+Showdown Reached
+Shows: Chaborli, Th Jc
+Combination: Chaborli, Pair ( 2d 2s Kh Qs Jc )
+Shows: Rihoda, 8d 6d
+Combination: Rihoda, Pair ( 2d 2s Kh Qs 8d )
+Wins: Chaborli, chips: 65
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Rihoda
+Folds: Goehi
+Calls: Chaborli
+Checks: Joteem
+Flop: Ah 7h 2s
+Checks: Chaborli
+Checks: Joteem
+Turn: 4c
+Checks: Chaborli
+Checks: Joteem
+River: 7c
+Checks: Chaborli
+Raises: Joteem, chips: 10
+Raises: Chaborli, chips: 20
+Calls: Joteem
+Pot size: 80
+Showdown Reached
+Shows: Chaborli, Ks Kd
+Combination: Chaborli, Two Pair ( Ks Kd 7h 7c Ah )
+Shows: Joteem, 4h 6s
+Combination: Joteem, Two Pair ( 7h 7c 4h 4c Ah )
+Wins: Chaborli, chips: 80
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Raises: Chaborli, chips: 20
+Folds: Joteem
+Folds: Rihoda
+Pot size: 45
+Wins: Chaborli, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Calls: Joteem
+Folds: Rihoda
+Checks: Goehi
+Flop: 2s 3h Tc
+Checks: Goehi
+Checks: Chaborli
+Checks: Joteem
+Turn: 7d
+Checks: Goehi
+Checks: Chaborli
+Raises: Joteem, chips: 965
+Folds: Goehi
+Folds: Chaborli
+Pot size: 1000
+Wins: Joteem, chips: 1000
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Calls: Rihoda
+Folds: Goehi
+Checks: Chaborli
+Flop: 5s 6c Ts
+Checks: Chaborli
+Checks: Rihoda
+Turn: Td
+Checks: Chaborli
+Checks: Rihoda
+River: Kd
+Raises: Chaborli, chips: 5090
+Folds: Rihoda
+Pot size: 5115
+Wins: Chaborli, chips: 5115
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Calls: Chaborli
+Folds: Joteem
+Checks: Rihoda
+Flop: Ad 9h Qd
+Checks: Rihoda
+Checks: Chaborli
+Turn: 6c
+Checks: Rihoda
+Checks: Chaborli
+River: 8h
+Checks: Rihoda
+Checks: Chaborli
+Pot size: 25
+Showdown Reached
+Shows: Chaborli, 2s 2d
+Combination: Chaborli, Pair ( 2s 2d Ad Qd 9h )
+Shows: Rihoda, 8s 7h
+Combination: Rihoda, Pair ( 8s 8h Ad Qd 9h )
+Wins: Rihoda, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Folds: Rihoda
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Calls: Goehi
+Checks: Chaborli
+Flop: 2d 7c Kh
+Checks: Goehi
+Raises: Chaborli, chips: 10
+Folds: Goehi
+Pot size: 30
+Wins: Chaborli, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Rihoda
+Calls: Goehi
+Calls: Chaborli
+Checks: Joteem
+Flop: Tc 4c 5d
+Checks: Chaborli
+Checks: Joteem
+Checks: Goehi
+Turn: 9c
+Checks: Chaborli
+Checks: Joteem
+Checks: Goehi
+River: 2c
+Checks: Chaborli
+Checks: Joteem
+Checks: Goehi
+Pot size: 30
+Showdown Reached
+Shows: Chaborli, Ts Jd
+Combination: Chaborli, Pair ( Ts Tc Jd 9c 5d )
+Shows: Joteem, 7d Qd
+Combination: Joteem, High Card ( Qd Tc 9c 7d 5d )
+Shows: Goehi, Td 8d
+Combination: Goehi, Pair ( Td Tc 9c 8d 5d )
+Wins: Chaborli, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Folds: Joteem
+Pot size: 15
+Wins: Rihoda, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Folds: Joteem
+Folds: Rihoda
+Checks: Goehi
+Flop: 4c Ad 2d
+Raises: Goehi, chips: 2454
+Folds: Chaborli
+Pot size: 2479
+Wins: Goehi, chips: 2479
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Raises: Joteem, chips: 10
+Folds: Rihoda
+Raises: Goehi, chips: 25
+Folds: Chaborli
+Raises: Joteem, chips: 35
+Raises: Goehi, chips: 55
+Raises: Joteem, chips: 55
+Raises: Goehi, chips: 145
+Calls: Joteem
+Flop: 2s Jd 3d
+Checks: Goehi
+Checks: Joteem
+Turn: 7s
+Raises: Goehi, chips: 240
+Raises: Joteem, chips: 410
+Folds: Goehi
+Pot size: 1570
+Wins: Joteem, chips: 1570
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Rihoda
+Folds: Goehi
+Calls: Chaborli
+Checks: Joteem
+Flop: 7s 3d 7c
+Raises: Chaborli, chips: 10
+Folds: Joteem
+Pot size: 30
+Wins: Chaborli, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Calls: Goehi
+Folds: Chaborli
+Raises: Joteem, chips: 15
+Folds: Rihoda
+Raises: Goehi, chips: 15
+Raises: Joteem, chips: 25
+Folds: Goehi
+Pot size: 115
+Wins: Joteem, chips: 115
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Folds: Rihoda
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Joteem
+Folds: Rihoda
+Calls: Goehi
+Checks: Chaborli
+Flop: Ac 2h Td
+Checks: Goehi
+Checks: Chaborli
+Checks: Joteem
+Turn: Ks
+Raises: Goehi, chips: 1859
+Folds: Chaborli
+Folds: Joteem
+Pot size: 1889
+Wins: Goehi, chips: 1889
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Calls: Chaborli
+Checks: Joteem
+Flop: 3s 5s 7c
+Checks: Chaborli
+Checks: Joteem
+Checks: Rihoda
+Turn: 3d
+Raises: Chaborli, chips: 5100
+Folds: Joteem
+Folds: Rihoda
+Pot size: 5130
+Wins: Chaborli, chips: 5130
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Folds: Joteem
+Pot size: 15
+Wins: Rihoda, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Calls: Joteem
+Folds: Rihoda
+Checks: Goehi
+Flop: 4d Kd Ac
+Checks: Goehi
+Raises: Joteem, chips: 10
+Folds: Goehi
+Pot size: 35
+Wins: Joteem, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Raises: Joteem, chips: 20
+Folds: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Pot size: 45
+Wins: Joteem, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Checks: Joteem
+Flop: 2d Tc 3c
+Checks: Joteem
+Checks: Rihoda
+Turn: 2s
+Checks: Joteem
+Checks: Rihoda
+River: 7s
+Checks: Joteem
+Checks: Rihoda
+Pot size: 25
+Showdown Reached
+Shows: Joteem, 8s 6d
+Combination: Joteem, Pair ( 2d 2s Tc 8s 7s )
+Shows: Rihoda, 8h Td
+Combination: Rihoda, Two Pair ( Td Tc 2d 2s 8h )
+Wins: Rihoda, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Calls: Goehi
+Raises: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Folds: Goehi
+Pot size: 45
+Wins: Chaborli, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Raises: Chaborli, chips: 10
+Calls: Joteem
+Folds: Rihoda
+Folds: Goehi
+Flop: 5c Ks Kh
+Checks: Chaborli
+Checks: Joteem
+Turn: 6h
+Raises: Chaborli, chips: 10
+Raises: Joteem, chips: 1570
+Calls: Chaborli
+River: 3s
+Pot size: 3215
+Showdown Reached
+Shows: Chaborli, Jc As
+Combination: Chaborli, Pair ( Ks Kh As Jc 6h )
+Shows: Joteem, 8s 8h
+Combination: Joteem, Two Pair ( Ks Kh 8s 8h 6h )
+Wins: Joteem, chips: 3215
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Raises: Goehi, chips: 15
+Calls: Chaborli
+Flop: Qh 9h Kd
+Raises: Goehi, chips: 20
+Calls: Chaborli
+Turn: 7c
+Raises: Goehi, chips: 1809
+Folds: Chaborli
+Pot size: 1899
+Wins: Goehi, chips: 1899
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Rihoda
+Raises: Goehi, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Pot size: 35
+Wins: Goehi, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Rihoda, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Folds: Joteem
+Pot size: 15
+Wins: Rihoda, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Rihoda, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Raises: Joteem, chips: 20
+Folds: Rihoda
+Folds: Goehi
+Calls: Chaborli
+Flop: 9c 2h Qd
+Checks: Chaborli
+Raises: Joteem, chips: 3170
+Folds: Chaborli
+Pot size: 3245
+Wins: Joteem, chips: 3245
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Rihoda
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Folds: Rihoda
+Calls: Goehi
+Checks: Chaborli
+Flop: Ts 7c As
+Checks: Goehi
+Checks: Chaborli
+Turn: 9d
+Checks: Goehi
+Checks: Chaborli
+River: Qh
+Checks: Goehi
+Checks: Chaborli
+Pot size: 20
+Showdown Reached
+Shows: Chaborli, 3h Jd
+Combination: Chaborli, High Card ( As Qh Jd Ts 9d )
+Shows: Goehi, 7s 8c
+Combination: Goehi, Pair ( 7s 7c As Qh Ts )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Rihoda
+Folds: Goehi
+Folds: Chaborli
+Checks: Joteem
+Flop: Th 7s 8s
+Raises: Joteem, chips: 10
+Calls: Rihoda
+Turn: Ks
+Raises: Joteem, chips: 10
+Raises: Rihoda, chips: 1361
+Calls: Joteem
+River: 5d
+Pot size: 2787
+Showdown Reached
+Shows: Joteem, Js 6s
+Combination: Joteem, Flush ( Ks Js 8s 7s 6s )
+Shows: Rihoda, Jc 9d
+Combination: Rihoda, Straight ( Jc Th 9d 8s 7s )
+Wins: Joteem, chips: 2787
+Quits: Rihoda, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Calls: Joteem
+Checks: Goehi
+Flop: Kd Jd 4h
+Checks: Joteem
+Checks: Goehi
+Checks: Chaborli
+Turn: Ad
+Checks: Joteem
+Checks: Goehi
+Checks: Chaborli
+River: 4s
+Raises: Joteem, chips: 10
+Calls: Goehi
+Folds: Chaborli
+Pot size: 50
+Showdown Reached
+Shows: Joteem, 3s As
+Combination: Joteem, Two Pair ( As Ad 4h 4s Kd )
+Shows: Goehi, 9h 4c
+Combination: Goehi, Three Of A Kind ( 4c 4h 4s Ad Kd )
+Wins: Goehi, chips: 50
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Folds: Goehi
+Pot size: 15
+Wins: Chaborli, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Folds: Joteem
+Checks: Goehi
+Flop: 8d Kd As
+Checks: Goehi
+Checks: Chaborli
+Turn: Ac
+Checks: Goehi
+Checks: Chaborli
+River: 2c
+Checks: Goehi
+Checks: Chaborli
+Pot size: 25
+Showdown Reached
+Shows: Chaborli, Qs Jd
+Combination: Chaborli, Pair ( As Ac Kd Qs Jd )
+Shows: Goehi, 9c 5h
+Combination: Goehi, Pair ( As Ac Kd 9c 8d )
+Wins: Chaborli, chips: 25
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Calls: Goehi
+Checks: Chaborli
+Flop: 7d 6c 8d
+Checks: Goehi
+Checks: Chaborli
+Turn: 2c
+Checks: Goehi
+Checks: Chaborli
+River: Kd
+Checks: Goehi
+Checks: Chaborli
+Pot size: 20
+Showdown Reached
+Shows: Chaborli, 4h 9c
+Combination: Chaborli, High Card ( Kd 9c 8d 7d 6c )
+Shows: Goehi, Qs Jd
+Combination: Goehi, High Card ( Kd Qs Jd 8d 7d )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Calls: Joteem
+Checks: Goehi
+Flop: 3s 5d 7d
+Checks: Joteem
+Checks: Goehi
+Turn: Ac
+Checks: Joteem
+Checks: Goehi
+River: Jc
+Checks: Joteem
+Checks: Goehi
+Pot size: 20
+Showdown Reached
+Shows: Joteem, 4h 5c
+Combination: Joteem, Pair ( 5c 5d Ac Jc 7d )
+Shows: Goehi, 2s 5s
+Combination: Goehi, Pair ( 5s 5d Ac Jc 7d )
+Wins: Joteem, chips: 10
+Wins: Goehi, chips: 10
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Joteem
+Calls: Goehi
+Checks: Chaborli
+Flop: Qs 7d Ks
+Checks: Goehi
+Checks: Chaborli
+Checks: Joteem
+Turn: Td
+Checks: Goehi
+Checks: Chaborli
+Checks: Joteem
+River: 8c
+Checks: Goehi
+Checks: Chaborli
+Raises: Joteem, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Pot size: 40
+Wins: Joteem, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Folds: Chaborli
+Checks: Joteem
+Flop: 7h Kc 7s
+Checks: Joteem
+Checks: Goehi
+Turn: Tc
+Checks: Joteem
+Raises: Goehi, chips: 10
+Calls: Joteem
+River: 2d
+Checks: Joteem
+Checks: Goehi
+Pot size: 45
+Showdown Reached
+Shows: Joteem, Jh Ts
+Combination: Joteem, Two Pair ( Ts Tc 7h 7s Kc )
+Shows: Goehi, Ad Jd
+Combination: Goehi, Pair ( 7h 7s Ad Kc Jd )
+Wins: Joteem, chips: 45
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Calls: Joteem
+Checks: Goehi
+Flop: Kd Td 9d
+Checks: Joteem
+Checks: Goehi
+Turn: Th
+Checks: Joteem
+Checks: Goehi
+River: 8c
+Checks: Joteem
+Checks: Goehi
+Pot size: 20
+Showdown Reached
+Shows: Joteem, 7c Ac
+Combination: Joteem, Pair ( Td Th Ac Kd 9d )
+Shows: Goehi, 7s 4c
+Combination: Goehi, Pair ( Td Th Kd 9d 8c )
+Wins: Joteem, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Folds: Goehi
+Pot size: 15
+Wins: Chaborli, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Folds: Chaborli
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Joteem
+Folds: Goehi
+Checks: Chaborli
+Flop: 8h 4s Qh
+Checks: Chaborli
+Raises: Joteem, chips: 10
+Folds: Chaborli
+Pot size: 35
+Wins: Joteem, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Folds: Chaborli
+Raises: Joteem, chips: 10
+Folds: Goehi
+Pot size: 35
+Wins: Joteem, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Folds: Joteem
+Checks: Goehi
+Flop: Td Th Ac
+Raises: Goehi, chips: 10
+Folds: Chaborli
+Pot size: 35
+Wins: Goehi, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Calls: Joteem
+Folds: Goehi
+Checks: Chaborli
+Flop: 6c As 4c
+Checks: Chaborli
+Checks: Joteem
+Turn: Ac
+Checks: Chaborli
+Checks: Joteem
+River: 4d
+Checks: Chaborli
+Raises: Joteem, chips: 10
+Folds: Chaborli
+Pot size: 35
+Wins: Joteem, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Calls: Chaborli
+Checks: Joteem
+Flop: 9h 5d Td
+Checks: Chaborli
+Checks: Joteem
+Turn: Qd
+Raises: Chaborli, chips: 10
+Folds: Joteem
+Pot size: 30
+Wins: Chaborli, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Chaborli
+Folds: Joteem
+Checks: Goehi
+Flop: 8s Kh Ah
+Checks: Goehi
+Checks: Chaborli
+Turn: 3c
+Checks: Goehi
+Raises: Chaborli, chips: 10
+Folds: Goehi
+Pot size: 35
+Wins: Chaborli, chips: 35
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Folds: Joteem
+Calls: Goehi
+Checks: Chaborli
+Flop: Kh 4c 6h
+Checks: Goehi
+Checks: Chaborli
+Turn: Tc
+Checks: Goehi
+Checks: Chaborli
+River: Jh
+Checks: Goehi
+Checks: Chaborli
+Pot size: 20
+Showdown Reached
+Shows: Chaborli, 3d 6c
+Combination: Chaborli, Pair ( 6c 6h Kh Jh Tc )
+Shows: Goehi, 4s As
+Combination: Goehi, Pair ( 4s 4c As Kh Jh )
+Wins: Chaborli, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Chaborli, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Calls: Chaborli
+Raises: Joteem, chips: 10
+Folds: Chaborli
+Pot size: 30
+Wins: Joteem, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Chaborli
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Chaborli
+Calls: Joteem
+Checks: Goehi
+Flop: 4h 6h 9h
+Checks: Joteem
+Checks: Goehi
+Turn: Ah
+Checks: Joteem
+Checks: Goehi
+River: 2h
+Checks: Joteem
+Checks: Goehi
+Pot size: 20
+Showdown Reached
+Shows: Joteem, Kc 4c
+Combination: Joteem, Flush ( Ah 9h 6h 4h 2h )
+Shows: Goehi, 2d Js
+Combination: Goehi, Flush ( Ah 9h 6h 4h 2h )
+Wins: Joteem, chips: 10
+Wins: Goehi, chips: 10
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Goehi, chips: 5
+Big Blind: Chaborli, chips: 10
+Raises: Joteem, chips: 10
+Folds: Goehi
+Raises: Chaborli, chips: 3390
+Raises: Joteem, chips: 1306
+Flop: Jd Ac Qs
+Turn: 2d
+River: 9s
+Pot size: 8131
+Showdown Reached
+Shows: Chaborli, Qc Kc
+Combination: Chaborli, Pair ( Qc Qs Ac Kc Jd )
+Shows: Joteem, Jh As
+Combination: Joteem, Two Pair ( As Ac Jh Jd Qs )
+Wins: Joteem, chips: 8131
+Quits: Chaborli, chips: 0
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: Kh Ks 6d
+Checks: Goehi
+Raises: Joteem, chips: 10
+Calls: Goehi
+Turn: Ac
+Checks: Goehi
+Raises: Joteem, chips: 10
+Calls: Goehi
+River: Jc
+Checks: Goehi
+Raises: Joteem, chips: 10
+Calls: Goehi
+Pot size: 80
+Showdown Reached
+Shows: Joteem, Kc Ad
+Combination: Joteem, Full House ( Kc Kh Ks Ad Ac )
+Shows: Goehi, 2h Qc
+Combination: Goehi, Pair ( Kh Ks Ac Qc Jc )
+Wins: Joteem, chips: 80
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: Ad 8s Ks
+Checks: Joteem
+Checks: Goehi
+Turn: 3d
+Checks: Joteem
+Raises: Goehi, chips: 10
+Folds: Joteem
+Pot size: 30
+Wins: Goehi, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: Qh Js Ks
+Raises: Joteem, chips: 10
+Raises: Goehi, chips: 20
+Calls: Joteem
+Turn: 7h
+Checks: Joteem
+Checks: Goehi
+River: Th
+Checks: Joteem
+Raises: Goehi, chips: 20
+Folds: Joteem
+Pot size: 100
+Wins: Goehi, chips: 100
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: 8h 2h 7d
+Checks: Goehi
+Checks: Joteem
+Turn: Td
+Checks: Goehi
+Checks: Joteem
+River: 3s
+Checks: Goehi
+Checks: Joteem
+Pot size: 20
+Showdown Reached
+Shows: Joteem, As 5s
+Combination: Joteem, High Card ( As Td 8h 7d 5s )
+Shows: Goehi, 3h Ad
+Combination: Goehi, Pair ( 3h 3s Ad Td 8h )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Raises: Goehi, chips: 15
+Calls: Joteem
+Flop: 7c Ac Kd
+Checks: Joteem
+Checks: Goehi
+Turn: 4d
+Raises: Joteem, chips: 20
+Calls: Goehi
+River: Qh
+Raises: Joteem, chips: 8066
+Folds: Goehi
+Pot size: 8156
+Wins: Joteem, chips: 8156
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: Ts Jd 3d
+Checks: Goehi
+Raises: Joteem, chips: 8146
+Folds: Goehi
+Pot size: 8166
+Wins: Joteem, chips: 8166
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: Ac 7s 6d
+Checks: Joteem
+Checks: Goehi
+Turn: Kd
+Checks: Joteem
+Checks: Goehi
+River: Ks
+Raises: Joteem, chips: 10
+Folds: Goehi
+Pot size: 30
+Wins: Joteem, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: Kd 5s As
+Checks: Goehi
+Checks: Joteem
+Turn: 8h
+Checks: Goehi
+Checks: Joteem
+River: Jd
+Checks: Goehi
+Checks: Joteem
+Pot size: 20
+Showdown Reached
+Shows: Joteem, 3h 3c
+Combination: Joteem, Pair ( 3h 3c As Kd Jd )
+Shows: Goehi, 2h 2s
+Combination: Goehi, Pair ( 2h 2s As Kd Jd )
+Wins: Joteem, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: 6d 3h Qc
+Checks: Joteem
+Checks: Goehi
+Turn: 9s
+Checks: Joteem
+Checks: Goehi
+River: 3d
+Checks: Joteem
+Raises: Goehi, chips: 10
+Folds: Joteem
+Pot size: 30
+Wins: Goehi, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: 5s 3d 3s
+Checks: Joteem
+Checks: Goehi
+Turn: Kh
+Checks: Joteem
+Checks: Goehi
+River: Qs
+Checks: Joteem
+Checks: Goehi
+Pot size: 20
+Showdown Reached
+Shows: Joteem, 7h 9d
+Combination: Joteem, Pair ( 3d 3s Kh Qs 9d )
+Shows: Goehi, 9s 9c
+Combination: Goehi, Two Pair ( 9s 9c 3d 3s Kh )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: Kh 4d 8h
+Checks: Goehi
+Checks: Joteem
+Turn: Qs
+Checks: Goehi
+Raises: Joteem, chips: 10
+Folds: Goehi
+Pot size: 30
+Wins: Joteem, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: 5c 7d 9c
+Checks: Joteem
+Checks: Goehi
+Turn: Td
+Checks: Joteem
+Checks: Goehi
+River: 8c
+Checks: Joteem
+Raises: Goehi, chips: 10
+Raises: Joteem, chips: 10
+Calls: Goehi
+Pot size: 60
+Showdown Reached
+Shows: Joteem, 8s 5h
+Combination: Joteem, Two Pair ( 8s 8c 5h 5c Td )
+Shows: Goehi, Jd Kh
+Combination: Goehi, Straight ( Jd Td 9c 8c 7d )
+Wins: Goehi, chips: 60
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: 3d 8c Kd
+Raises: Goehi, chips: 10
+Calls: Joteem
+Turn: Jc
+Checks: Goehi
+Checks: Joteem
+River: 8s
+Checks: Goehi
+Checks: Joteem
+Pot size: 40
+Showdown Reached
+Shows: Joteem, 9s 9c
+Combination: Joteem, Two Pair ( 9s 9c 8c 8s Kd )
+Shows: Goehi, 5c 5h
+Combination: Goehi, Two Pair ( 8c 8s 5c 5h Kd )
+Wins: Joteem, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: 7d 9h Kc
+Checks: Joteem
+Checks: Goehi
+Turn: 3c
+Checks: Joteem
+Checks: Goehi
+River: 8d
+Checks: Joteem
+Raises: Goehi, chips: 10
+Folds: Joteem
+Pot size: 30
+Wins: Goehi, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: Qh Ad 5d
+Raises: Joteem, chips: 8136
+Folds: Goehi
+Pot size: 8156
+Wins: Joteem, chips: 8156
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: 9d 5c 3d
+Checks: Goehi
+Checks: Joteem
+Turn: 3h
+Checks: Goehi
+Checks: Joteem
+River: Qs
+Checks: Goehi
+Checks: Joteem
+Pot size: 20
+Showdown Reached
+Shows: Joteem, Ad Js
+Combination: Joteem, Pair ( 3d 3h Ad Qs Js )
+Shows: Goehi, 6c 5d
+Combination: Goehi, Two Pair ( 5d 5c 3d 3h Qs )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: Td 9h Th
+Checks: Joteem
+Checks: Goehi
+Turn: 2c
+Checks: Joteem
+Checks: Goehi
+River: Qs
+Checks: Joteem
+Checks: Goehi
+Pot size: 20
+Showdown Reached
+Shows: Joteem, 9s 4c
+Combination: Joteem, Two Pair ( Td Th 9s 9h Qs )
+Shows: Goehi, 5h 4d
+Combination: Goehi, Pair ( Td Th Qs 9h 5h )
+Wins: Joteem, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: Kd 3h 9s
+Checks: Goehi
+Checks: Joteem
+Turn: 7s
+Checks: Goehi
+Raises: Joteem, chips: 10
+Calls: Goehi
+River: Js
+Checks: Goehi
+Checks: Joteem
+Pot size: 40
+Showdown Reached
+Shows: Joteem, Ad Qh
+Combination: Joteem, High Card ( Ad Kd Qh Js 9s )
+Shows: Goehi, 5d 5c
+Combination: Goehi, Pair ( 5d 5c Kd Js 9s )
+Wins: Goehi, chips: 40
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: Qd 7h Tc
+Raises: Joteem, chips: 10
+Folds: Goehi
+Pot size: 30
+Wins: Joteem, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: 6s 2s 2d
+Checks: Goehi
+Checks: Joteem
+Turn: 8d
+Checks: Goehi
+Checks: Joteem
+River: 9d
+Checks: Goehi
+Checks: Joteem
+Pot size: 20
+Showdown Reached
+Shows: Joteem, Tc Jd
+Combination: Joteem, Pair ( 2s 2d Jd Tc 9d )
+Shows: Goehi, 4d 8s
+Combination: Goehi, Two Pair ( 8s 8d 2s 2d 9d )
+Wins: Goehi, chips: 20
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: 7d Jc Ah
+Raises: Goehi, chips: 10
+Folds: Joteem
+Pot size: 30
+Wins: Goehi, chips: 30
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Calls: Goehi
+Checks: Joteem
+Flop: 7d 6s 9c
+Checks: Joteem
+Checks: Goehi
+Turn: 2s
+Checks: Joteem
+Checks: Goehi
+River: 2c
+Checks: Joteem
+Raises: Goehi, chips: 10
+Raises: Joteem, chips: 20
+Raises: Goehi, chips: 20
+Calls: Joteem
+Pot size: 120
+Showdown Reached
+Shows: Joteem, 8d 6c
+Combination: Joteem, Two Pair ( 6c 6s 2s 2c 9c )
+Shows: Goehi, Js As
+Combination: Goehi, Pair ( 2s 2c As Js 9c )
+Wins: Joteem, chips: 120
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Folds: Joteem
+Pot size: 15
+Wins: Goehi, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Goehi
+Small Blind: Goehi, chips: 5
+Big Blind: Joteem, chips: 10
+Folds: Goehi
+Pot size: 15
+Wins: Joteem, chips: 15
+New deal. SB: 5 BB: 10 Ante: 0
+Dealer: Joteem
+Small Blind: Joteem, chips: 5
+Big Blind: Goehi, chips: 10
+Calls: Joteem
+Checks: Goehi
+Flop: 9h 7d 9d
+Checks: Goehi
+Raises: Joteem, chips: 10
+Calls: Goehi
+Turn: 4c
+Raises: Goehi, chips: 10
+Raises: Joteem, chips: 10
+Calls: Goehi
+River: 2s
+Raises: Goehi, chips: 10
+Raises: Joteem, chips: 10
+Raises: Goehi, chips: 20
+Raises: Joteem, chips: 8111
+Calls: Goehi
+Pot size: 10000
+Showdown Reached
+Shows: Joteem, 9c Kh
+Combination: Joteem, Three Of A Kind ( 9c 9h 9d Kh 7d )
+Shows: Goehi, 6d 7s
+Combination: Goehi, Two Pair ( 9h 9d 7s 7d 6d )
+Wins: Joteem, chips: 10000
+Quits: Goehi, chips: 0
+Ranking: Joteem, Place: 1, Score: 9000
+Reveal AI: Joteem, AI: Smart
+Ranking: Goehi, Place: 2, Score: -1000
+Reveal AI: Goehi, AI: Smart
+Ranking: Chaborli, Place: 3, Score: -1000
+Reveal AI: Chaborli, AI: Smart
+Ranking: Rihoda, Place: 4, Score: -1000
+Reveal AI: Rihoda, AI: Smart
+Ranking: Bubee, Place: 5, Score: -1000
+Reveal AI: Bubee, AI: Smart
+Ranking: Blossom, Place: 6, Score: -1000
+Reveal AI: Blossom, AI: Blossom
+Ranking: Chobof, Place: 7, Score: -1000
+Reveal AI: Chobof, AI: Smart
+Ranking: Potik, Place: 8, Score: -1000
+Reveal AI: Potik, AI: Smart
+Ranking: Higumi, Place: 9, Score: -1000
+Reveal AI: Higumi, AI: Smart
+Ranking: Bame, Place: 10, Score: -1000
+Reveal AI: Bame, AI: Smart
+
+Player Stats for Bame, AI: Smart
+General: deals: 11, actions: 32, preflop actions: 15
+Rounds Seen: flops: 108, turns: 90, rivers: 75, showdowns: 61
+Wins: total: 3, showdown: 2, bluff: 1
+Chips: won: 995, lost: 1995, bought: 1000, forced bets: 15
+Pre-Flop Stats: VP$IP: 0.636364, PFR: 0.272727, 3Bet: 0.272727
+Post-Flop Stats: AF: 3, WSD: 0.564815, WSDW: 0.0327869
+
+
+Player Stats for Blossom, AI: Blossom
+General: deals: 65, actions: 118, preflop actions: 79
+Rounds Seen: flops: 78, turns: 64, rivers: 51, showdowns: 42
+Wins: total: 8, showdown: 5, bluff: 3
+Chips: won: 1670, lost: 2670, bought: 1000, forced bets: 125
+Pre-Flop Stats: VP$IP: 0.307692, PFR: 0.0923077, 3Bet: 0.0923077
+Post-Flop Stats: AF: 4.5, WSD: 0.538462, WSDW: 0.119048
+
+
+Player Stats for Bubee, AI: Smart
+General: deals: 68, actions: 144, preflop actions: 85
+Rounds Seen: flops: 84, turns: 69, rivers: 58, showdowns: 46
+Wins: total: 12, showdown: 6, bluff: 6
+Chips: won: 9152, lost: 11194, bought: 1000, forced bets: 130
+Pre-Flop Stats: VP$IP: 0.382353, PFR: 0.117647, 3Bet: 0.117647
+Post-Flop Stats: AF: 3, WSD: 0.547619, WSDW: 0.130435
+
+
+Player Stats for Chaborli, AI: Smart
+General: deals: 129, actions: 247, preflop actions: 144
+Rounds Seen: flops: 67, turns: 52, rivers: 41, showdowns: 30
+Wins: total: 23, showdown: 8, bluff: 15
+Chips: won: 24005, lost: 25751, bought: 1000, forced bets: 400
+Pre-Flop Stats: VP$IP: 0.356589, PFR: 0.108527, 3Bet: 0.100775
+Post-Flop Stats: AF: 3, WSD: 0.447761, WSDW: 0.266667
+
+
+Player Stats for Chobof, AI: Smart
+General: deals: 59, actions: 107, preflop actions: 73
+Rounds Seen: flops: 84, turns: 65, rivers: 54, showdowns: 44
+Wins: total: 9, showdown: 5, bluff: 4
+Chips: won: 685, lost: 1700, bought: 1000, forced bets: 105
+Pre-Flop Stats: VP$IP: 0.423729, PFR: 0.118644, 3Bet: 0.0847458
+Post-Flop Stats: AF: 2, WSD: 0.52381, WSDW: 0.113636
+
+
+Player Stats for Goehi, AI: Smart
+General: deals: 191, actions: 376, preflop actions: 190
+Rounds Seen: flops: 65, turns: 55, rivers: 47, showdowns: 39
+Wins: total: 59, showdown: 22, bluff: 37
+Chips: won: 20739, lost: 28161, bought: 1000, forced bets: 855
+Pre-Flop Stats: VP$IP: 0.26178, PFR: 0.0628272, 3Bet: 0.0575916
+Post-Flop Stats: AF: 2.28571, WSD: 0.6, WSDW: 0.564103
+
+
+Player Stats for Higumi, AI: Smart
+General: deals: 21, actions: 50, preflop actions: 31
+Rounds Seen: flops: 100, turns: 82, rivers: 68, showdowns: 56
+Wins: total: 1, showdown: 0, bluff: 1
+Chips: won: 985, lost: 2075, bought: 1000, forced bets: 30
+Pre-Flop Stats: VP$IP: 0.47619, PFR: 0.047619, 3Bet: 0.047619
+Post-Flop Stats: AF: inf, WSD: 0.56, WSDW: 0
+
+
+Player Stats for Joteem, AI: Smart
+General: deals: 191, actions: 363, preflop actions: 189
+Rounds Seen: flops: 66, turns: 53, rivers: 43, showdowns: 32
+Wins: total: 62, showdown: 16, bluff: 46
+Chips: won: 59831, lost: 50831, bought: 1000, forced bets: 845
+Pre-Flop Stats: VP$IP: 0.303665, PFR: 0.0942408, 3Bet: 0.0837696
+Post-Flop Stats: AF: 2.375, WSD: 0.484848, WSDW: 0.5
+
+
+Player Stats for Potik, AI: Smart
+General: deals: 46, actions: 99, preflop actions: 54
+Rounds Seen: flops: 91, turns: 74, rivers: 61, showdowns: 50
+Wins: total: 6, showdown: 5, bluff: 1
+Chips: won: 1100, lost: 2100, bought: 1000, forced bets: 90
+Pre-Flop Stats: VP$IP: 0.456522, PFR: 0.108696, 3Bet: 0.0869565
+Post-Flop Stats: AF: 1.5, WSD: 0.549451, WSDW: 0.1
+
+
+Player Stats for Rihoda, AI: Smart
+General: deals: 106, actions: 194, preflop actions: 125
+Rounds Seen: flops: 67, turns: 56, rivers: 49, showdowns: 40
+Wins: total: 20, showdown: 10, bluff: 10
+Chips: won: 7653, lost: 8953, bought: 1000, forced bets: 270
+Pre-Flop Stats: VP$IP: 0.339623, PFR: 0.141509, 3Bet: 0.132075
+Post-Flop Stats: AF: 4.66667, WSD: 0.597015, WSDW: 0.25
+
+
